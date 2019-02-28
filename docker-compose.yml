@@ -1,0 +1,62 @@
+version: '3'
+services:
+  db:
+    image: postgres:11.2
+    hostname: db
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:5.0.3-alpine
+    hostname: redis
+    volumes:
+      - redis_data:/data
+
+  service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    command: ["./wait-for-it.sh", "db:5432", "--", "./docker-entrypoint.sh"]
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+      - redis
+
+#  celery:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    command: celery -A justwork worker -l info
+#    volumes:
+#      - .:/code
+#    depends_on:
+#      - db
+#      - redis
+#
+#  celery-beat:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    command: celery -A justwork beat -l info
+#    volumes:
+#      - .:/code
+#    depends_on:
+#      - db
+#      - redis
+#
+#  autotests:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.tests
+#    command: ["./wait-for-it.sh", "db:5432", "--", "python", "manage.py", "test", "-v2"]
+#    volumes:
+#      - .:/code
+#    depends_on:
+#      - db
+
+volumes:
+    postgresql_data:
+    redis_data:

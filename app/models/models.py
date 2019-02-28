@@ -1,0 +1,86 @@
+from sqlalchemy import (
+    UniqueConstraint,
+    BigInteger,
+    Boolean,
+    Enum,
+    Column,
+    TIMESTAMP,
+    func,
+    Integer,
+    Numeric,
+    CHAR,
+    Text,
+)
+
+
+from .meta import Base
+
+
+class Chat(Base):
+    __tablename__ = 'chats'
+
+    id = Column(BigInteger, primary_key=True)
+    is_subscribed = Column(Boolean, nullable=False, server_default='true')
+    is_console_mode = Column(Boolean, nullable=False, server_default='true')
+    created = Column(TIMESTAMP, server_default=func.now(), nullable=False)
+    updated = Column(TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp(), nullable=False)
+
+
+class ChatRate(Base):
+    __tablename__ = 'chat_rates'
+    __table_args__ = (UniqueConstraint('chat_id', 'currencies'),)
+
+    id = Column(Integer, primary_key=True)
+    chat_id = Column(BigInteger, nullable=False, index=True)
+    currencies = Column(Text, nullable=False)
+    cnt = Column(Integer, server_default='0', index=True, nullable=False)
+    updated = Column(TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp(), nullable=False)
+
+
+class Event(Base):
+    __tablename__ = 'events'
+    # __table_args__ = (UniqueConstraint('chat_id', 'event', name='chat_id_events'),)
+
+    id = Column(Integer, primary_key=True)
+    chat_id = Column(BigInteger, nullable=False, index=True)
+    event = Column(Text, nullable=False, index=True)
+    created = Column(TIMESTAMP, server_default=func.now(), nullable=False)
+
+
+class Log(Base):
+    __tablename__ = 'messages'
+
+    id = Column(Integer, primary_key=True)
+    chat_id = Column(BigInteger, nullable=False, index=True)
+    user_id = Column(BigInteger, nullable=False, index=True)
+    message = Column(Text)
+    tag = Column(Text)
+    created = Column(TIMESTAMP, server_default=func.now(), index=True, nullable=False)
+
+
+class Notification(Base):
+    __tablename__ = 'notifications'
+    # __table_args__ = (UniqueConstraint('chat_id', 'currencies', 'clause'),)
+
+    id = Column(Integer, primary_key=True)
+    chat_id = Column(BigInteger, nullable=False, index=True)
+    currencies = Column(Text, nullable=False)
+    clause = Column(Enum('more', 'less', 'diff', 'percent', name='notification_clause'), nullable=False)
+    value = Column(Numeric(14, 6), nullable=False)
+    last_rate = Column(Numeric(14, 6), nullable=False)
+    is_active = Column(Boolean(), default=True, nullable=False)
+    created = Column(TIMESTAMP, server_default=func.now(), nullable=False)
+    updated = Column(TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp(), nullable=False)
+
+
+class Rate(Base):
+    __tablename__ = 'rates'
+
+    currency = Column(CHAR(3), primary_key=True)
+    rate_open = Column(Numeric(14, 6), nullable=False)
+    rate = Column(Numeric(14, 6), nullable=False)
+    source = Column(Text, nullable=False)
+    weight = Column(Integer, server_default='0', index=True, nullable=False)
+    last_trade_at = Column(TIMESTAMP, nullable=False)
+    created = Column(TIMESTAMP, server_default=func.now(), nullable=False)
+    updated = Column(TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp(), nullable=False)

@@ -1,0 +1,20 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+alembic = "==1.0.7"
+celery = {version = "==4.2.1",extras = ["redis"]}
+psycopg2-binary = "==2.7.7"
+python-telegram-bot = "==11.1.0"
+sqlalchemy = "==1.2.18"
+click = "*"
+
+[requires]
+python_version = "3.7"
+
+[scripts]
+manage = "./manage.py"
