@@ -7,10 +7,11 @@ from alembic import command
 from alembic.config import Config
 from alembic.util.exc import CommandError
 
-import settings
+from suite.conf import settings
 
-alembic_ini_path = os.path.join(settings.BASE_DIR, 'alembic.ini')
+alembic_ini_path = os.path.join(settings.BASE_DIR, '..', 'alembic.ini')
 alembic_cfg = Config(alembic_ini_path)
+alembic_cfg.set_main_option('sqlalchemy.url', settings.SQLALCHEMY['url'])
 
 
 def get_migration_name_timestamp():

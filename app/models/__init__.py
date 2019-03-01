@@ -1,7 +1,7 @@
-from sqlalchemy import engine_from_config
+from sqlalchemy import create_engine
 from sqlalchemy.orm import configure_mappers
 
-from .. import config
+from suite.conf import settings
 
 # import or define all models here to ensure they are attached to the
 # Base.metadata prior to any initialization routines
@@ -14,6 +14,6 @@ from .meta import Base, db_session
 # all relationships can be setup
 configure_mappers()
 
-engine = engine_from_config(config['app'])
+engine = create_engine(settings.SQLALCHEMY['url'])
 db_session.configure(bind=engine)
 Base.metadata.bind = engine
