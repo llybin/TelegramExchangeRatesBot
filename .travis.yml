@@ -8,4 +8,4 @@ env:
 
 script:
   - docker-compose build
-  - docker-compose run service python -m unittest -v2
+  - docker-compose run service python -m unittest -v
