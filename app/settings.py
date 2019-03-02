@@ -8,6 +8,12 @@ DATABASE = {
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 
+LANGUAGES = (
+    'en_US',
+)
+
+LANGUAGE_CODE = 'en_US'
+
 LOGGING = {
     'version': 1,
     'formatters': {
