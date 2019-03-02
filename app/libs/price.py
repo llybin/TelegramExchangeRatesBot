@@ -25,3 +25,8 @@ def price_pattern() -> str:
 
 
 PRICE_PATTERN = re.compile(price_pattern(), re.IGNORECASE)
+
+
+def get_amount_currency():
+    # TODO: income tuple 4, outcome nameddict right_left_mode us_eu_format + test
+    pass
