@@ -4,9 +4,6 @@ from suite.conf import settings
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
-
 logger = logging.getLogger(__name__)
 
 
@@ -22,6 +19,7 @@ def help(bot, update):
 
 def echo(bot, update):
     """Echo the user message."""
+    logging.info(update.message.text)
     bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
 
 
