@@ -13,4 +13,4 @@ COPY wait-for-it.sh ./
 
 COPY . .
 
-CMD [ "python main.py" ]
+CMD [ "python manage.py runapp" ]

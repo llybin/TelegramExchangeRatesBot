@@ -13,10 +13,10 @@ from sqlalchemy import (
 )
 
 
-from .meta import Base
+from .db import db
 
 
-class Chat(Base):
+class Chat(db):
     __tablename__ = 'chats'
 
     id = Column(BigInteger, primary_key=True)
@@ -26,7 +26,7 @@ class Chat(Base):
     updated = Column(TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp(), nullable=False)
 
 
-class ChatRate(Base):
+class ChatRate(db):
     __tablename__ = 'chat_rates'
     __table_args__ = (UniqueConstraint('chat_id', 'currencies'),)
 
@@ -37,7 +37,7 @@ class ChatRate(Base):
     updated = Column(TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp(), nullable=False)
 
 
-class Event(Base):
+class Event(db):
     __tablename__ = 'events'
     # __table_args__ = (UniqueConstraint('chat_id', 'event', name='chat_id_events'),)
 
@@ -47,7 +47,7 @@ class Event(Base):
     created = Column(TIMESTAMP, server_default=func.now(), nullable=False)
 
 
-class Log(Base):
+class Log(db):
     __tablename__ = 'messages'
 
     id = Column(Integer, primary_key=True)
@@ -58,7 +58,7 @@ class Log(Base):
     created = Column(TIMESTAMP, server_default=func.now(), index=True, nullable=False)
 
 
-class Notification(Base):
+class Notification(db):
     __tablename__ = 'notifications'
     # __table_args__ = (UniqueConstraint('chat_id', 'currencies', 'clause'),)
 
@@ -73,7 +73,7 @@ class Notification(Base):
     updated = Column(TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp(), nullable=False)
 
 
-class Rate(Base):
+class Rate(db):
     __tablename__ = 'rates'
 
     currency = Column(CHAR(3), primary_key=True)

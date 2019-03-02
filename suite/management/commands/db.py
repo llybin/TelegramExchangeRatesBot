@@ -14,6 +14,11 @@ alembic_cfg = Config(alembic_ini_path)
 alembic_cfg.set_main_option('sqlalchemy.url', settings.SQLALCHEMY['url'])
 
 
+@click.group(help="Subcommands to work with database")
+def db():
+    pass
+
+
 def get_migration_name_timestamp():
     return datetime.datetime.now().strftime("%Y%m%d_%H%M")
 
@@ -107,3 +112,11 @@ def heads(resolve_dependencies, verbose):
     """Show latest revisions."""
 
     command.heads(alembic_cfg, resolve_dependencies, verbose)
+
+
+db.add_command(current)
+db.add_command(heads)
+db.add_command(makemigrations)
+db.add_command(merge)
+db.add_command(migrate)
+db.add_command(showmigrations)
