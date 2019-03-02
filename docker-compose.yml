@@ -21,8 +21,8 @@ services:
     command: ["./wait-for-it.sh", "db:5432", "--", "./docker-entrypoint.sh"]
     volumes:
       - .:/code
-    environment:
-      SETTINGS_MODULE: "app.settings"
+    env_file:
+      - .env
     depends_on:
       - db
       - redis
@@ -60,5 +60,5 @@ services:
 #      - db
 
 volumes:
-    postgresql_data:
-    redis_data:
+  postgresql_data:
+  redis_data:

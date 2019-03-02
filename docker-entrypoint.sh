@@ -10,4 +10,4 @@
 #python manage.py loaddata initial_data
 
 echo "Starting server"
-python manage.py runapp
+python manage.py start

@@ -5,8 +5,8 @@ from sqlalchemy.orm import (
     sessionmaker,
     configure_mappers,
 )
-
 from suite.conf import settings
+
 
 db_session = scoped_session(sessionmaker())
 db = declarative_base()
@@ -15,6 +15,6 @@ db = declarative_base()
 # all relationships can be setup
 configure_mappers()
 
-engine = create_engine(settings.SQLALCHEMY['url'])
+engine = create_engine(settings.DATABASE['url'])
 db_session.configure(bind=engine)
 db.metadata.bind = engine

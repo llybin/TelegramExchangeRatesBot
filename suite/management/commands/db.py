@@ -11,7 +11,7 @@ from suite.conf import settings
 
 alembic_ini_path = os.path.join(settings.BASE_DIR, '..', 'alembic.ini')
 alembic_cfg = Config(alembic_ini_path)
-alembic_cfg.set_main_option('sqlalchemy.url', settings.SQLALCHEMY['url'])
+alembic_cfg.set_main_option('sqlalchemy.url', settings.DATABASE['url'])
 
 
 @click.group(help="Subcommands to work with database")
