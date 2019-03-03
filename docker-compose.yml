@@ -3,6 +3,8 @@ services:
   db:
     image: postgres:11.2
     hostname: db
+#    ports:
+#      - "5432:5432"
     volumes:
       - postgresql_data:/var/lib/postgresql/data
 

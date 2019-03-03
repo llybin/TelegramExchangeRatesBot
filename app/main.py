@@ -3,10 +3,10 @@ import time
 
 from suite.conf import settings
 from telegram import ChatAction
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
 from telegram.ext.dispatcher import run_async
 
-from app.libs.price import PRICE_PATTERN
+from app.libs.price import parse_price_text, WrongFormatException, UnknownCurrencyException
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ def start(bot, update):
         text='Here how to use information')
 
 
-def help(bot, update):
+def help_command(bot, update):
     bot.send_message(
         chat_id=update.message.chat_id,
         disable_web_page_preview=True,
@@ -72,31 +72,51 @@ ALL OTHER - https://openexchangerates.org - 60min''')
 def disclaimers(bot, update):
     bot.send_message(
         chat_id=update.message.chat_id,
-        text='''Data is provided by financial exchanges and may be delayed as specified 
- by financial exchanges or our data providers.Bot does not verify any data
- and disclaims any obligation to do so. Bot cannot guarantee the accuracy
- of the exchange rates displayed. You should confirm current rates before
- making any transactions that could be affected by changes in the exchange rates.''')
+        text='Data is provided by financial exchanges and may be delayed '
+             'as specified by financial exchanges or our data providers. '
+             'Bot does not verify any data and disclaims any obligation '
+             'to do so. Bot cannot guarantee the accuracy of the exchange '
+             'rates displayed. You should confirm current rates before making '
+             'any transactions that could be affected by changes in '
+             'the exchange rates.')
+
+
+def price_request(bot, update, text):
+    if text:
+        try:
+            result = parse_price_text(text)
+        except WrongFormatException:
+            result = 'Wrong request format. See /help'
+        except UnknownCurrencyException:
+            result = 'Unknown currency. See /help'
+    else:
+        result = 'Request must contain arguments. See /help'
+
+    logging.info(f'{result}')
+
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text=f'{result}')
 
 
 def price(bot, update, args):
-    obj = PRICE_PATTERN.match(''.join(args))
-    if obj:
-        param = obj.groups()
-    else:
-        param = '-><-'
-    logging.info(f'{param}')
+    logging.info(args)
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=f'{param}')
+    text = ''.join(args)
+
+    price_request(bot, update, text)
 
 
-def echo(bot, update):
+def message(bot, update):
     logging.info(update.message.text)
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=update.message.text)
+
+    price_request(bot, update, update.message.text)
+
+
+def empty_command(bot, update):
+    logging.info(update.message.text)
+
+    price_request(bot, update, update.message.text[1:])
 
 
 def error(bot, update):
@@ -111,14 +131,15 @@ def main():
 
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("disclaimers", disclaimers))
-    dp.add_handler(CommandHandler("help", help))
+    dp.add_handler(CommandHandler("help", help_command))
     dp.add_handler(CommandHandler("price", price, pass_args=True))
     dp.add_handler(CommandHandler("p", price, pass_args=True))
     dp.add_handler(CommandHandler("sources", sources))
     dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(RegexHandler(r"^/", empty_command))
 
     # on noncommand i.e message - echo the message on Telegram
-    dp.add_handler(MessageHandler(Filters.text, echo))
+    dp.add_handler(MessageHandler(Filters.text, message))
 
     # log all errors
     dp.add_error_handler(error)

@@ -1,9 +1,15 @@
 import unittest
 
-from app.libs.price import PRICE_PATTERN
+from app.libs.price import (
+    PRICE_REQUEST_PATTERN,
+    PRICE_REQUEST_LEFT_AMOUNT,
+    PRICE_REQUEST_LEFT_CURRENCY,
+    PRICE_REQUEST_RIGHT_CURRENCY,
+    PRICE_REQUEST_RIGHT_AMOUNT,
+)
 
 
-class PricePatternTest(unittest.TestCase):
+class PriceRequestPatternTest(unittest.TestCase):
     def test_good(self):
         cases = [
             ('usd', None, 'usd', None, None),
@@ -52,19 +58,15 @@ class PricePatternTest(unittest.TestCase):
             (f'abcdeabcde111{",000" * 3}.{"1" * 8}', None, None, 'abcdeabcde', '111,000,000,000.11111111'),
         ]
         for case, la, lc, rc, ra in cases:
-            obj = PRICE_PATTERN.match(case)
+            obj = PRICE_REQUEST_PATTERN.match(case)
             self.assertIsNotNone(obj, case)
 
             g = obj.groups()
 
-            # left amount
-            self.assertEqual(g[1], la)
-            # left currencies
-            self.assertEqual(g[10], lc)
-            # right currencies
-            self.assertEqual(g[13], rc)
-            # right amount
-            self.assertEqual(g[16], ra)
+            self.assertEqual(g[PRICE_REQUEST_LEFT_AMOUNT], la)
+            self.assertEqual(g[PRICE_REQUEST_LEFT_CURRENCY], lc)
+            self.assertEqual(g[PRICE_REQUEST_RIGHT_CURRENCY], rc)
+            self.assertEqual(g[PRICE_REQUEST_RIGHT_AMOUNT], ra)
 
     def test_bad(self):
         cases = [
@@ -102,5 +104,5 @@ class PricePatternTest(unittest.TestCase):
             f'abcdeabcde{"1" * 13}.{"1" * 8}'
         ]
         for case in cases:
-            obj = PRICE_PATTERN.match(case)
+            obj = PRICE_REQUEST_PATTERN.match(case)
             self.assertIsNone(obj, case)
