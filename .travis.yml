@@ -9,4 +9,4 @@ env:
 script:
   - cp .env.default .env
   - docker-compose build
-  - docker-compose run service pipenv run test
+  - docker-compose run service python -m unittest -v
