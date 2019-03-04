@@ -1,7 +1,7 @@
 import re
 import unittest
 
-from app.libs.price import MONEY_PATTERN_EU, MONEY_PATTERN_US, MONEY_PATTERN
+from app.parsers.number_format import NUMBER_PATTERN_EU, NUMBER_PATTERN_US, NUMBER_PATTERN_ALL
 
 
 US_GOOD_CASES = [
@@ -124,8 +124,8 @@ EU_BAD_CASES = BOTH_BAD_CASES + [
 ]
 
 
-class MoneyPatternUSTest(unittest.TestCase):
-    mpt = f'^({MONEY_PATTERN_US})$'
+class NumberPatternUSTest(unittest.TestCase):
+    mpt = f'^({NUMBER_PATTERN_US})$'
 
     def test_good(self):
         for case in US_GOOD_CASES:
@@ -138,8 +138,8 @@ class MoneyPatternUSTest(unittest.TestCase):
             self.assertFalse(re.match(self.mpt, case))
 
 
-class MoneyPatternEUTest(unittest.TestCase):
-    mpt = f'^({MONEY_PATTERN_EU})$'
+class NumberPatternEUTest(unittest.TestCase):
+    mpt = f'^({NUMBER_PATTERN_EU})$'
 
     def test_good(self):
         for case in EU_GOOD_CASES:
@@ -152,8 +152,8 @@ class MoneyPatternEUTest(unittest.TestCase):
             self.assertFalse(re.match(self.mpt, case))
 
 
-class MoneyPatternTest(unittest.TestCase):
-    mpt = f'^({MONEY_PATTERN})$'
+class NumberPatternTest(unittest.TestCase):
+    mpt = f'^({NUMBER_PATTERN_ALL})$'
 
     def test_good(self):
         for case in US_GOOD_CASES + EU_GOOD_CASES:

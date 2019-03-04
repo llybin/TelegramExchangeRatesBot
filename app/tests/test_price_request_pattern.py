@@ -1,6 +1,6 @@
 import unittest
 
-from app.libs.price import (
+from app.parsers.regex_parser import (
     PRICE_REQUEST_PATTERN,
     PRICE_REQUEST_LEFT_AMOUNT,
     PRICE_REQUEST_LEFT_CURRENCY,

@@ -6,7 +6,9 @@ from telegram import ChatAction
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
 from telegram.ext.dispatcher import run_async
 
-from app.libs.price import parse_price_text, WrongFormatException, UnknownCurrencyException
+from app.parsers.exceptions import WrongFormatException, UnknownCurrencyException
+from app.parsers.simple_parser import SimpleParser
+
 
 logger = logging.getLogger(__name__)
 
@@ -84,7 +86,7 @@ def disclaimers(bot, update):
 def price_request(bot, update, text):
     if text:
         try:
-            result = parse_price_text(text)
+            result = SimpleParser(text).parse()
         except WrongFormatException:
             result = 'Wrong request format. See /help'
         except UnknownCurrencyException:
