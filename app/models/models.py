@@ -20,8 +20,11 @@ class Chat(db):
     __tablename__ = 'chats'
 
     id = Column(BigInteger, primary_key=True)
-    is_subscribed = Column(Boolean, nullable=False, server_default='true')
-    is_console_mode = Column(Boolean, nullable=False, server_default='true')
+    first_name = Column(Text, nullable=True)
+    username = Column(Text, nullable=True)
+    locale = Column(Text, nullable=False, default='en_US')
+    is_subscribed = Column(Boolean, nullable=False, server_default='1')
+    is_console_mode = Column(Boolean, nullable=False, server_default='1')
     created = Column(TIMESTAMP, server_default=func.now(), nullable=False)
     updated = Column(TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp(), nullable=False)
 

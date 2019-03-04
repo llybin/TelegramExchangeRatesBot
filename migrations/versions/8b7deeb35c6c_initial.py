@@ -1,8 +1,8 @@
 """initial
 
-Revision ID: 092703cdb64e
+Revision ID: 8b7deeb35c6c
 Revises: 
-Create Date: 2019-02-28 19:11:32.614608
+Create Date: 2019-03-04 13:12:25.061234
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '092703cdb64e'
+revision = '8b7deeb35c6c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,8 +31,11 @@ def upgrade():
     op.create_index(op.f('ix_chat_rates_cnt'), 'chat_rates', ['cnt'], unique=False)
     op.create_table('chats',
     sa.Column('id', sa.BigInteger(), nullable=False),
-    sa.Column('is_subscribed', sa.Boolean(), server_default='true', nullable=False),
-    sa.Column('is_console_mode', sa.Boolean(), server_default='true', nullable=False),
+    sa.Column('first_name', sa.Text(), nullable=True),
+    sa.Column('username', sa.Text(), nullable=True),
+    sa.Column('locale', sa.Text(), nullable=False),
+    sa.Column('is_subscribed', sa.Boolean(), server_default='1', nullable=False),
+    sa.Column('is_console_mode', sa.Boolean(), server_default='1', nullable=False),
     sa.Column('created', sa.TIMESTAMP(), server_default=sa.text('now()'), nullable=False),
     sa.Column('updated', sa.TIMESTAMP(), server_default=sa.text('now()'), nullable=False),
     sa.PrimaryKeyConstraint('id')
