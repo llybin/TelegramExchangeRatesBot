@@ -7,12 +7,12 @@
 # https://github.com/kserhii/money-parser
 # https://github.com/carlospalol/money
 
-NUMBER_PATTERN_DOT_SIMPLE = r'\d{1,12}(.\d{1,8})?'  # TODO: tests
-NUMBER_PATTERN_EU = r'((\d{1,3}(\.\d{3}){1,3}|\d{1,12})(,\d{1,8})?)'  # TODO: get rid from wrapping brackets?
+NUMBER_PATTERN_DOT_SIMPLE = r'(\d{1,12}(\.\d{1,8})?)'
+NUMBER_PATTERN_EU = r'((\d{1,3}(\.\d{3}){1,3}|\d{1,12})(,\d{1,8})?)'
 # NUMBER_PATTERN_RU = r'((\d{1,3}(\s\d{3}){1,3}|\d{1,12})(,\d{1,8})?)'
 NUMBER_PATTERN_US = r'((\d{1,3}(,\d{3}){1,3}|\d{1,12})(\.\d{1,8})?)'
 
-NUMBER_PATTERN_ALL = f'{NUMBER_PATTERN_EU}|{NUMBER_PATTERN_US}'
+NUMBER_PATTERN_ALL = f'({NUMBER_PATTERN_EU}|{NUMBER_PATTERN_US})'
 
 
 class NumberFormat(object):

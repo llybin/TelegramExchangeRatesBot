@@ -19,12 +19,12 @@ CURRENCY_SEPARATORS_PATTERN = re.compile(f'({CURRENCY_SEPARATORS_STR})')
 
 def price_request_pattern() -> str:
     # left to right, 12USDEUR, 12USD, USDEUR, EUR, ...
-    #       (12)?  ?(          USD((  )?          EUR)?)
-    l2r = r'(%s)?\s?([a-zA-Z]{3,5}((%s)?[a-zA-Z]{3,5})?)' % (NUMBER_PATTERN_ALL, CURRENCY_SEPARATORS_STR)
+    #       ()?  ?(          USD((  )?          EUR)?)
+    l2r = r'%s?\s?([a-zA-Z]{3,5}((%s)?[a-zA-Z]{3,5})?)' % (NUMBER_PATTERN_ALL, CURRENCY_SEPARATORS_STR)
 
     # right to left, EURUSD12, USD12, EURUSD, EUR, ...
-    #       ((          EUR(  )?)?          USD)  ?(12)?
-    r2l = r'(([a-zA-Z]{3,5}(%s)?)?[a-zA-Z]{3,5})\s?(%s)?' % (CURRENCY_SEPARATORS_STR, NUMBER_PATTERN_ALL)
+    #       ((          EUR(  )?)?          USD)  ?()?
+    r2l = r'(([a-zA-Z]{3,5}(%s)?)?[a-zA-Z]{3,5})\s?%s?' % (CURRENCY_SEPARATORS_STR, NUMBER_PATTERN_ALL)
 
     return f'({l2r}|{r2l})$'
 
