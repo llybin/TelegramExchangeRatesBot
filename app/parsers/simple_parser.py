@@ -17,7 +17,7 @@ from .exceptions import WrongFormatException, UnknownCurrencyException
 
 
 def price_request_pattern() -> str:
-    return r'((%s)\s)?([a-zA-Z]{3,5}\s[a-zA-Z]{3,5})' % NUMBER_PATTERN_DOT_SIMPLE
+    return r'(%s\s)?([a-zA-Z]{3,5}\s[a-zA-Z]{3,5})' % NUMBER_PATTERN_DOT_SIMPLE
 
 
 PRICE_REQUEST_PATTERN = re.compile(price_request_pattern(), re.IGNORECASE)

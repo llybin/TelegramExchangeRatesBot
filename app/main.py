@@ -1,3 +1,4 @@
+import importlib
 import logging
 import time
 
@@ -6,8 +7,7 @@ from telegram import ChatAction
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
 from telegram.ext.dispatcher import run_async
 
-from app.parsers.exceptions import WrongFormatException, UnknownCurrencyException
-from app.parsers.simple_parser import SimpleParser
+from app.parsers.exceptions import ValidationException
 
 
 logger = logging.getLogger(__name__)
@@ -83,14 +83,26 @@ def disclaimers(bot, update):
              'the exchange rates.')
 
 
+def import_parser(name):
+    components = name.rsplit('.', 1)
+    return getattr(importlib.import_module(components[0]), components[1])
+
+
+def start_parse(text):
+    for parser_path in settings.BOT_PARSERS:
+        parser = import_parser(parser_path)
+        try:
+            return parser(text).parse()
+        except ValidationException:
+            pass
+
+    # TODO:
+    return 'see /help'
+
+
 def price_request(bot, update, text):
     if text:
-        try:
-            result = SimpleParser(text).parse()
-        except WrongFormatException:
-            result = 'Wrong request format. See /help'
-        except UnknownCurrencyException:
-            result = 'Unknown currency. See /help'
+        result = start_parse(text)
     else:
         result = 'Request must contain arguments. See /help'
 

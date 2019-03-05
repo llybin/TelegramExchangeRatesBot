@@ -30,8 +30,12 @@ CURRENCIES = [
     'MVR', 'KYD', 'SEK', 'CHF', 'LSL', 'NZD', 'MZN', 'HKD',
     'KZT', 'GNF', 'BBD', 'NOK', 'TRY', 'DKK', 'SRD', 'SLL',
     'XAF', 'SHP', 'GIP', 'HUF', 'LTC', 'BYN', 'ETH', 'DGB',
-    'DATA', 'BURST']
+    'DATA', 'BURST',
+]
 
+BOT_PARSERS = [
+    'app.parsers.simple_parser.SimpleParser',
+]
 
 LANGUAGES = (
     'en_US',
