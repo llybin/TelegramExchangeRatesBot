@@ -17,6 +17,6 @@ NUMBER_PATTERN_ALL = f'({NUMBER_PATTERN_EU}|{NUMBER_PATTERN_US})'
 
 class NumberFormat(object):
     UNKNOWN = None
-    EU = {',', '.'}  # 1,000,000,00
-    # RU = {' ', ','}  # 1 000 000,00
-    US = {',', '.'}  # 1,000,000.00
+    EU = (',', '.')  # 1,000,000,00
+    # RU = (' ', ',')  # 1 000 000,00
+    US = (',', '.')  # 1,000,000.00

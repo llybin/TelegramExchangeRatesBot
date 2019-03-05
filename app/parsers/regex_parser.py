@@ -26,7 +26,7 @@ def price_request_pattern() -> str:
     #       ((          EUR(  )?)?          USD)  ?()?
     r2l = r'(([a-zA-Z]{3,5}(%s)?)?[a-zA-Z]{3,5})\s?%s?' % (CURRENCY_SEPARATORS_STR, NUMBER_PATTERN_ALL)
 
-    return f'({l2r}|{r2l})$'
+    return f'^({l2r}|{r2l})$'
 
 
 PRICE_REQUEST_PATTERN = re.compile(price_request_pattern(), re.IGNORECASE)
@@ -43,14 +43,13 @@ class RegexParser(Parser):
     def parse(self) -> PriceRequest:
         text = self.text
 
-        obj = PRICE_REQUEST_PATTERN.match(''.join(text))
+        obj = PRICE_REQUEST_PATTERN.match(text)
         if not obj:
             raise WrongFormatException
 
         groups = obj.groups()
-        # print(groups)
 
-        amount = groups[PRICE_REQUEST_LEFT_AMOUNT] or groups[PRICE_REQUEST_RIGHT_AMOUNT] or None
+        amount = groups[PRICE_REQUEST_LEFT_AMOUNT] or groups[PRICE_REQUEST_RIGHT_AMOUNT]
         text = groups[PRICE_REQUEST_LEFT_CURRENCY] or groups[PRICE_REQUEST_RIGHT_CURRENCY]
 
         direction_writing = DirectionWriting.UNKNOWN
