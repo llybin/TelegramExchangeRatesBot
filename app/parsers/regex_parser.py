@@ -92,18 +92,18 @@ class RegexParser(Parser):
         text = CURRENCY_SEPARATORS_PATTERN.sub('', text)
 
         text = text.upper()
-        first_currency = second_currency = None
+        currency = to_currency = None
 
         if len(text) < 6:
-            first_currency = text
-            if first_currency not in settings.CURRENCIES:
+            currency = text
+            if currency not in settings.CURRENCIES:
                 raise UnknownCurrencyException
 
         elif len(text) == 6:
-            first_currency = text[0:3]
-            second_currency = text[3:]
+            currency = text[0:3]
+            to_currency = text[3:]
 
-            if first_currency not in settings.CURRENCIES or second_currency not in settings.CURRENCIES:
+            if currency not in settings.CURRENCIES or to_currency not in settings.CURRENCIES:
                 raise UnknownCurrencyException
 
         else:
@@ -111,18 +111,18 @@ class RegexParser(Parser):
             for x in settings.CURRENCIES:
                 if text.startswith(x):
                     if text[len(x):] in settings.CURRENCIES:
-                        first_currency = x
-                        second_currency = text[len(x):]
+                        currency = x
+                        to_currency = text[len(x):]
                     else:
                         continue
 
-            if not first_currency and not second_currency:
+            if not currency and not to_currency:
                 raise UnknownCurrencyException
 
         return PriceRequest(
             amount=amount,
-            first_currency=first_currency,
-            second_currency=second_currency,
+            currency=currency,
+            to_currency=to_currency,
             direction_writing=direction_writing,
             number_format=number_format,
         )

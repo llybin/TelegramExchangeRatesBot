@@ -3,9 +3,7 @@
 # https://en.wikipedia.org/wiki/Decimal_separator
 # https://docs.oracle.com/cd/E19455-01/806-0169/overview-9/index.html
 # https://docs.microsoft.com/en-us/globalization/locale/number-formatting
-# https://github.com/tammoippen/iso4217parse
-# https://github.com/kserhii/money-parser
-# https://github.com/carlospalol/money
+
 
 NUMBER_PATTERN_DOT_SIMPLE = r'(\d{1,12}(\.\d{1,8})?)'
 NUMBER_PATTERN_EU = r'((\d{1,3}(\.\d{3}){1,3}|\d{1,12})(,\d{1,8})?)'

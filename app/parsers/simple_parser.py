@@ -52,15 +52,15 @@ class SimpleParser(Parser):
                 number_format = NumberFormat.US
 
         text = text.upper()
-        first_currency, second_currency = text.split()
+        currency, to_currency = text.split()
 
-        if first_currency not in settings.CURRENCIES or second_currency not in settings.CURRENCIES:
+        if currency not in settings.CURRENCIES or to_currency not in settings.CURRENCIES:
             raise UnknownCurrencyException
 
         return PriceRequest(
             amount=amount,
-            first_currency=first_currency,
-            second_currency=second_currency,
+            currency=currency,
+            to_currency=to_currency,
             direction_writing=direction_writing,
             number_format=number_format,
         )

@@ -13,8 +13,8 @@ class DirectionWriting(object):
 
 class PriceRequest(NamedTuple):
     amount: Decimal or None
-    first_currency: str
-    second_currency: str or None
+    currency: str
+    to_currency: str or None
     direction_writing: DirectionWriting = DirectionWriting.UNKNOWN
     number_format: NumberFormat = NumberFormat.UNKNOWN
 
