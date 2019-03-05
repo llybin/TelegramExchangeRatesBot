@@ -10,6 +10,3 @@ script:
   - cp .env.default .env
   - docker-compose build
   - docker-compose run service python -m unittest -v
-
-after_success:
-  - docker-compose run service codecov

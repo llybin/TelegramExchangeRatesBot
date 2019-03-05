@@ -7,7 +7,7 @@ WORKDIR /code
 
 RUN pip install pipenv
 COPY Pipfile Pipfile.lock ./
-RUN pipenv install --system --deploy --dev
+RUN pipenv install --system
 
 COPY wait-for-it.sh ./
 

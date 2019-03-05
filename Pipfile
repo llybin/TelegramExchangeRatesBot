@@ -4,8 +4,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-coverage = "*"
-codecov = "*"
 
 [packages]
 alembic = "==1.0.7"
