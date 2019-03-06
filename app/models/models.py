@@ -10,8 +10,9 @@ from sqlalchemy import (
     Numeric,
     CHAR,
     Text,
+    ForeignKey,
 )
-
+from sqlalchemy.orm import relationship
 
 from .db import db
 
@@ -25,19 +26,31 @@ class Chat(db):
     locale = Column(Text, default='en_US')
     is_subscribed = Column(Boolean, server_default='true')
     is_console_mode = Column(Boolean, server_default='true')
-    created = Column(TIMESTAMP, server_default=func.now())
-    updated = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
+    created_at = Column(TIMESTAMP, server_default=func.now())
+    modified_at = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
+
+    requests = relationship('ChatRequests', backref='chat')
+    requests_log = relationship('RequestsLog', backref='chat')
 
 
-class ChatRate(db):
-    __tablename__ = 'chat_rates'
-    # __table_args__ = (UniqueConstraint('chat_id', 'currencies'),)
+class ChatRequests(db):
+    __tablename__ = 'chat_requests'
 
     id = Column(Integer, primary_key=True)
-    chat_id = Column(BigInteger)
+    chat_id = Column(BigInteger, ForeignKey('chats.id'))
     currencies = Column(Text)
     cnt = Column(Integer, server_default='0')
-    updated = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
+    modified_at = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
+
+
+class RequestsLog(db):
+    __tablename__ = 'requests_log'
+
+    id = Column(Integer, primary_key=True)
+    chat_id = Column(BigInteger, ForeignKey('chats.id'))
+    message = Column(Text)
+    tag = Column(Text)
+    created_at = Column(TIMESTAMP, server_default=func.now())
 
 
 # class Event(db):
@@ -48,17 +61,6 @@ class ChatRate(db):
 #     chat_id = Column(BigInteger, nullable=False, index=True)
 #     event = Column(Text, nullable=False, index=True)
 #     created = Column(TIMESTAMP, server_default=func.now(), nullable=False)
-
-
-class Log(db):
-    __tablename__ = 'messages'
-
-    id = Column(Integer, primary_key=True)
-    chat_id = Column(BigInteger)
-    user_id = Column(BigInteger)
-    message = Column(Text)
-    tag = Column(Text)
-    created = Column(TIMESTAMP, server_default=func.now())
 
 
 # class Notification(db):
