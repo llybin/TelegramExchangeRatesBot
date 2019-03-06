@@ -8,6 +8,7 @@ DATABASE = {
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 
+# TODO: get rid, duplicate
 CURRENCIES = [
     'NIO', 'AFN', 'UYU', 'NPR', 'GYD', 'CAD', 'LYD', 'BZD',
     'FJD', 'SOS', 'BWP', 'ETB', 'MAD', 'JOD', 'BMD', 'RUB',
@@ -30,7 +31,7 @@ CURRENCIES = [
     'MVR', 'KYD', 'SEK', 'CHF', 'LSL', 'NZD', 'MZN', 'HKD',
     'KZT', 'GNF', 'BBD', 'NOK', 'TRY', 'DKK', 'SRD', 'SLL',
     'XAF', 'SHP', 'GIP', 'HUF', 'LTC', 'BYN', 'ETH', 'DGB',
-    'DATA', 'BURST',
+    'BURST', 'XMR', 'ZEC', 'CUC', 'ZMK', 'GGP', 'JEP', 'IMP',
 ]
 
 BOT_PARSERS = [

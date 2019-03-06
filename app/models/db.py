@@ -9,7 +9,7 @@ from suite.conf import settings
 
 
 db_session = scoped_session(sessionmaker())
-db = declarative_base()
+Base = declarative_base()
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup
@@ -17,4 +17,4 @@ configure_mappers()
 
 engine = create_engine(settings.DATABASE['url'])
 db_session.configure(bind=engine)
-db.metadata.bind = engine
+Base.metadata.bind = engine

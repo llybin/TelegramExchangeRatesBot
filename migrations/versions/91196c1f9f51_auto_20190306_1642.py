@@ -6,16 +6,48 @@ Create Date: 2019-03-06 16:42:36.594307
 
 """
 from alembic import op
+import sqlalchemy as sa
 from sqlalchemy.orm.session import Session
-
-from app.models.models import ChatRequests, RequestsLog
-
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
 
 # revision identifiers, used by Alembic.
 revision = '91196c1f9f51'
 down_revision = '792be0f338f8'
 branch_labels = None
 depends_on = None
+
+
+Base = declarative_base()
+
+
+class Chat(Base):
+    __tablename__ = 'chats'
+
+    id = sa.Column(sa.BigInteger, primary_key=True)
+
+    requests = relationship('ChatRequests', backref='chat')
+    requests_log = relationship('RequestsLog', backref='chat')
+
+
+class ChatRequests(Base):
+    __tablename__ = 'chat_requests'
+
+    id = sa.Column(sa.Integer, primary_key=True)
+    chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'))
+    currencies = sa.Column(sa.Text)
+    cnt = sa.Column(sa.Integer, server_default='0')
+    modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now())
+
+
+class RequestsLog(Base):
+    __tablename__ = 'requests_log'
+
+    id = sa.Column(sa.Integer, primary_key=True)
+    chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'))
+    message = sa.Column(sa.Text)
+    tag = sa.Column(sa.Text)
+    created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now())
 
 
 def upgrade():
