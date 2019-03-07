@@ -19,6 +19,4 @@ Configure your .env:
 
 BOT_TOKEN - set up
 
-`docker-compose up service`
-
-`docker-compose run service python manage.py db migrate`
+`docker-compose up`
