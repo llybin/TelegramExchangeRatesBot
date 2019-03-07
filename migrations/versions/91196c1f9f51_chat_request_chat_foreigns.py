@@ -1,4 +1,4 @@
-"""auto_20190306_1642
+"""chat_request_chat_foreigns
 
 Revision ID: 91196c1f9f51
 Revises: 792be0f338f8
@@ -17,7 +17,6 @@ down_revision = '792be0f338f8'
 branch_labels = None
 depends_on = None
 
-
 Base = declarative_base()
 
 
@@ -34,20 +33,20 @@ class ChatRequests(Base):
     __tablename__ = 'chat_requests'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'))
-    currencies = sa.Column(sa.Text)
-    cnt = sa.Column(sa.Integer, server_default='0')
-    modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now())
+    chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
+    currencies = sa.Column(sa.Text, nullable=False)
+    cnt = sa.Column(sa.Integer, server_default='0', nullable=False)
+    modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
 
 class RequestsLog(Base):
     __tablename__ = 'requests_log'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'))
-    message = sa.Column(sa.Text)
-    tag = sa.Column(sa.Text)
-    created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now())
+    chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
+    message = sa.Column(sa.Text, nullable=False)
+    tag = sa.Column(sa.Text, nullable=False)
+    created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
 
 
 def upgrade():

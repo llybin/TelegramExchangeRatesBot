@@ -1,7 +1,9 @@
 import sqlalchemy as sa
 from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
 
-from .db import Base
+
+Base = declarative_base()
 
 
 class Chat(Base):
@@ -10,32 +12,40 @@ class Chat(Base):
     id = sa.Column(sa.BigInteger, primary_key=True)
     first_name = sa.Column(sa.Text, nullable=True)
     username = sa.Column(sa.Text, nullable=True)
-    locale = sa.Column(sa.Text, default='en_US')
-    is_subscribed = sa.Column(sa.Boolean, server_default='true')
-    is_console_mode = sa.Column(sa.Boolean, server_default='true')
-    created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now())
-    modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now())
+    locale = sa.Column(sa.Text, default='en_US', nullable=False)
+    is_subscribed = sa.Column(sa.Boolean, server_default='true', nullable=False)
+    is_console_mode = sa.Column(sa.Boolean, server_default='true', nullable=False)
+    created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
+    modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
     requests = relationship('ChatRequests', backref='chat')
     requests_log = relationship('RequestsLog', backref='chat')
 
 
 class Currency(Base):
+    """
+    https://en.wikipedia.org/wiki/ISO_4217
+
+    See: migrations/versions/79fd60fe1187_currencies_chat_request_foreigns.py
+    """
     __tablename__ = 'currencies'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    name = sa.Column(sa.Text, unique=True)
+    code = sa.Column(sa.Text, unique=True, nullable=False)
+    name = sa.Column(sa.Text, nullable=False)
+    is_active = sa.Column(sa.Boolean, index=True, nullable=False)
+    is_crypto = sa.Column(sa.Boolean, index=True, nullable=False)
 
 
 class ChatRequests(Base):
     __tablename__ = 'chat_requests'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'))
-    first_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'))
-    second_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'))
-    times = sa.Column(sa.Integer, server_default='0')
-    modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now())
+    chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
+    first_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
+    second_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
+    times = sa.Column(sa.Integer, server_default='0', nullable=False)
+    modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
     first_currency = relationship('Currency', foreign_keys=[first_currency_id])
     second_currency = relationship('Currency', foreign_keys=[second_currency_id])
@@ -45,10 +55,10 @@ class RequestsLog(Base):
     __tablename__ = 'requests_log'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'))
-    message = sa.Column(sa.Text)
-    tag = sa.Column(sa.Text)
-    created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now())
+    chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
+    message = sa.Column(sa.Text, nullable=False)
+    tag = sa.Column(sa.Text, nullable=True)
+    created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
 
 
 # class Event(db):

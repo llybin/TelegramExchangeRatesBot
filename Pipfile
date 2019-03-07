@@ -10,8 +10,10 @@ alembic = "==1.0.7"
 babel = "==2.6.0"
 celery = {version = "==4.2.1",extras = ["redis"]}
 click = "==7.0"
+iso4217 = "==1.5.20180829"
 psycopg2-binary = "==2.7.7"
 python-telegram-bot = "==11.1.0"
+requests = "==2.21.0"
 sqlalchemy = "==1.2.18"
 
 [requires]
