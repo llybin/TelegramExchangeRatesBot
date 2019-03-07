@@ -8,8 +8,8 @@ from app.parsers.number_format import NumberFormat
 from app.parsers.simple_parser import SimpleParser
 
 
-@patch('app.parsers.simple_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
 class SimpleParserTest(unittest.TestCase):
+    @patch('app.parsers.simple_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_good(self, m):
         cases = [
             ('usd rub', PriceRequest(
@@ -62,6 +62,7 @@ class SimpleParserTest(unittest.TestCase):
                 result,
             )
 
+    @patch('app.parsers.simple_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_bad(self, m):
         cases = [
             '',
@@ -74,6 +75,7 @@ class SimpleParserTest(unittest.TestCase):
             '0,1 usd rub',
             '-100 usd rub',
             '+100 usd rub',
+            'BTC USD',
         ]
 
         for text in cases:
