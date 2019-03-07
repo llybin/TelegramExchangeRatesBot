@@ -133,8 +133,8 @@ def empty_command(bot, update):
     price_request(bot, update, update.message.text[1:])
 
 
-def error(bot, update):
-    logger.warning('Update "%s" caused error "%s"', bot, update.error)
+def error(bot, update, err):
+    logger.warning(f'Update "{bot}" caused error "{err}"')
 
 
 def main():

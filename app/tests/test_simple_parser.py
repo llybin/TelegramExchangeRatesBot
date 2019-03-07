@@ -1,7 +1,6 @@
 from decimal import Decimal
 import unittest
 
-
 from app.parsers.base import PriceRequest, DirectionWriting
 from app.parsers.exceptions import ValidationException
 from app.parsers.number_format import NumberFormat

@@ -7,8 +7,6 @@ ONLY FORMAT: "USD EUR" or "1000.00 USD EUR", required spaces
 import re
 from decimal import Decimal
 
-from suite.conf import settings
-
 from .base import (
     DirectionWriting,
     PriceRequest,
@@ -16,8 +14,10 @@ from .base import (
 )
 from .number_format import NUMBER_PATTERN_DOT_SIMPLE, NumberFormat
 from .exceptions import WrongFormatException, UnknownCurrencyException
+from ..models.logic import get_all_currencies
 
 
+# TODO: 2 symbols crypto currencies
 REQUEST_PATTERN = r'^(%s\s)?([a-zA-Z]{3,5}\s[a-zA-Z]{3,5})$' % NUMBER_PATTERN_DOT_SIMPLE
 REQUEST_PATTERN_COMPILED = re.compile(REQUEST_PATTERN, re.IGNORECASE)
 
@@ -54,7 +54,8 @@ class SimpleParser(Parser):
         text = text.upper()
         currency, to_currency = text.split()
 
-        if currency not in settings.CURRENCIES or to_currency not in settings.CURRENCIES:
+        all_currencies = get_all_currencies()
+        if currency not in all_currencies or to_currency not in all_currencies:
             raise UnknownCurrencyException
 
         return PriceRequest(

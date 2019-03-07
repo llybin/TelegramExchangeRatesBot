@@ -1,8 +1,6 @@
 import re
 from decimal import Decimal
 
-from suite.conf import settings
-
 from .base import (
     DirectionWriting,
     PriceRequest,
@@ -10,6 +8,7 @@ from .base import (
 )
 from .number_format import NUMBER_PATTERN_ALL, NumberFormat
 from .exceptions import WrongFormatException, UnknownCurrencyException
+from ..models.logic import get_all_currencies
 
 
 CURRENCY_SEPARATORS_LIST = (' to ', ' in ', '=', ' = ', r'\s')
@@ -18,6 +17,7 @@ CURRENCY_SEPARATORS_PATTERN = re.compile(f'({CURRENCY_SEPARATORS_STR})')
 
 
 def price_request_pattern() -> str:
+    # TODO: 2 symbols crypto currencies
     # left to right, 12USDEUR, 12USD, USDEUR, EUR, ...
     #       ()?  ?(          USD((  )?          EUR)?)
     l2r = r'%s?\s?([a-zA-Z]{3,5}((%s)?[a-zA-Z]{3,5})?)' % (NUMBER_PATTERN_ALL, CURRENCY_SEPARATORS_STR)
@@ -94,23 +94,25 @@ class RegexParser(Parser):
         text = text.upper()
         currency = to_currency = None
 
+        all_currencies = get_all_currencies()
+
         if len(text) < 6:
             currency = text
-            if currency not in settings.CURRENCIES:
+            if currency not in all_currencies:
                 raise UnknownCurrencyException
 
         elif len(text) == 6:
             currency = text[0:3]
             to_currency = text[3:]
 
-            if currency not in settings.CURRENCIES or to_currency not in settings.CURRENCIES:
+            if currency not in all_currencies or to_currency not in all_currencies:
                 raise UnknownCurrencyException
 
         else:
             # TODO: USD EUR BTC first
-            for x in settings.CURRENCIES:
+            for x in all_currencies:
                 if text.startswith(x):
-                    if text[len(x):] in settings.CURRENCIES:
+                    if text[len(x):] in all_currencies:
                         currency = x
                         to_currency = text[len(x):]
                     else:
