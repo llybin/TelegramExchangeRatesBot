@@ -1,5 +1,6 @@
-from decimal import Decimal
 import unittest
+from decimal import Decimal
+from unittest.mock import patch
 
 from app.parsers.base import PriceRequest, DirectionWriting
 from app.parsers.exceptions import ValidationException
@@ -7,13 +8,28 @@ from app.parsers.number_format import NumberFormat
 from app.parsers.simple_parser import SimpleParser
 
 
+@patch('app.parsers.simple_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
 class SimpleParserTest(unittest.TestCase):
-    def test_good(self):
+    def test_good(self, m):
         cases = [
             ('usd rub', PriceRequest(
                 amount=None,
                 currency='USD',
                 to_currency='RUB',
+                direction_writing=DirectionWriting.UNKNOWN,
+                number_format=NumberFormat.UNKNOWN,
+            )),
+            ('sc burst', PriceRequest(
+                amount=None,
+                currency='SC',
+                to_currency='BURST',
+                direction_writing=DirectionWriting.UNKNOWN,
+                number_format=NumberFormat.UNKNOWN,
+            )),
+            ('burst sc', PriceRequest(
+                amount=None,
+                currency='BURST',
+                to_currency='SC',
                 direction_writing=DirectionWriting.UNKNOWN,
                 number_format=NumberFormat.UNKNOWN,
             )),
@@ -43,10 +59,10 @@ class SimpleParserTest(unittest.TestCase):
         for text, result, in cases:
             self.assertEqual(
                 SimpleParser(text).parse(),
-                result
+                result,
             )
 
-    def test_bad(self):
+    def test_bad(self, m):
         cases = [
             '',
             ' ',

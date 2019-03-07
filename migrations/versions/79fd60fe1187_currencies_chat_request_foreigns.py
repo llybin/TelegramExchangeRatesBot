@@ -135,7 +135,7 @@ X_CURRENCIES = [
 # rj = filter(lambda x: x['IsActive'] and not x['IsRestricted'], rj)
 # [{'code': c['Currency'], 'name': c['CurrencyLong']} for c in rj]
 CRYPTO_CURRENCIES = [
-    {'code': '1ST', 'name': 'Firstblood'}, {'code': '2GIVE', 'name': '2GIVE'},
+    # {'code': '1ST', 'name': 'Firstblood'}, {'code': '2GIVE', 'name': '2GIVE'},  # digits contain
     {'code': 'ABY', 'name': 'ArtByte'}, {'code': 'ADT', 'name': 'adToken'},
     {'code': 'ADX', 'name': 'AdEx'}, {'code': 'AEON', 'name': 'Aeon'},
     {'code': 'AID', 'name': 'AidCoin'}, {'code': 'AMP', 'name': 'SynereoAmp'},
@@ -150,7 +150,7 @@ CRYPTO_CURRENCIES = [
     {'code': 'BLT', 'name': 'Bloom'}, {'code': 'BNT', 'name': 'Bancor'},
     {'code': 'BOXX', 'name': 'Blockparty'}, {'code': 'BRK', 'name': 'Breakout'},
     {'code': 'BRX', 'name': 'Breakout Stake'},
-    # {'code': 'BSD', 'name': 'BitSend'}, conflict
+    # {'code': 'BSD', 'name': 'BitSend'}  # conflict
     {'code': 'BSV', 'name': 'Bitcoin SV'}, {'code': 'BTC', 'name': 'Bitcoin'},
     {'code': 'BTM', 'name': 'Bytom'}, {'code': 'BTS', 'name': 'BitShares'},
     {'code': 'BURST', 'name': 'BURST'}, {'code': 'BYC', 'name': 'Bytecent'},
@@ -219,7 +219,7 @@ CRYPTO_CURRENCIES = [
     {'code': 'RFR', 'name': 'Refereum'}, {'code': 'RISE', 'name': 'Rise'},
     {'code': 'RLC', 'name': 'iEx.ec'}, {'code': 'RVN', 'name': 'RavenCoin'},
     {'code': 'RVR', 'name': 'RevolutionVR'}, {'code': 'SALT', 'name': 'Salt'},
-    # {'code': 'SBD', 'name': 'SteemDollars'}, conflict
+    # {'code': 'SBD', 'name': 'SteemDollars'}  # conflict
     {'code': 'SC', 'name': 'Siacoin'},
     {'code': 'SEQ', 'name': 'Sequence'}, {'code': 'SHIFT', 'name': 'Shift'},
     {'code': 'SIB', 'name': 'Sibcoin'}, {'code': 'SLR', 'name': 'SolarCoin'},
@@ -236,7 +236,7 @@ CRYPTO_CURRENCIES = [
     {'code': 'TUSD', 'name': 'TrueUSD'}, {'code': 'TX', 'name': 'TransferCoin'},
     {'code': 'UBQ', 'name': 'Ubiq'}, {'code': 'UKG', 'name': 'UnikoinGold'},
     {'code': 'UP', 'name': 'UpToken'}, {'code': 'UPP', 'name': 'Sentinel Protocol'},
-    # {'code': 'USD', 'name': 'US Dollar'}, duplicate
+    # {'code': 'USD', 'name': 'US Dollar'}  # duplicate
     {'code': 'USDS', 'name': 'StableUSD'}, {'code': 'USDT', 'name': 'Tether'},
     {'code': 'VEE', 'name': 'BLOCKv'}, {'code': 'VIA', 'name': 'ViaCoin'},
     {'code': 'VIB', 'name': 'Viberate'}, {'code': 'VRC', 'name': 'VeriCoin'},
