@@ -61,6 +61,30 @@ class RequestsLog(Base):
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
 
 
+class Exchange(Base):
+    __tablename__ = 'exchanges'
+
+    id = sa.Column(sa.Integer, primary_key=True)
+    name = sa.Column(sa.Text, nullable=False)
+    is_active = sa.Column(sa.Boolean, index=True, nullable=False)
+
+    rates = relationship('Rate', backref='exchange')
+
+
+class Rate(Base):
+    __tablename__ = 'rates'
+
+    id = sa.Column(sa.Integer, primary_key=True)
+    exchange_id = sa.Column(sa.Integer, sa.ForeignKey('exchanges.id'), nullable=False)
+    first_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
+    second_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
+    rate_open = sa.Column(sa.Numeric(12, 8), nullable=False)
+    rate = sa.Column(sa.Numeric(12, 8), nullable=False)
+    last_trade_at = sa.Column(sa.TIMESTAMP, nullable=False)
+    created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
+    modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
+
+
 # class Event(db):
 #     __tablename__ = 'events'
 #     # __table_args__ = (UniqueConstraint('chat_id', 'event', name='chat_id_events'),)
@@ -69,8 +93,7 @@ class RequestsLog(Base):
 #     chat_id = sa.Column(sa.BigInteger, nullable=False, index=True)
 #     event = sa.Column(sa.Text, nullable=False, index=True)
 #     created = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
-
-
+#
 # class Notification(db):
 #     __tablename__ = 'notifications'
 #     # __table_args__ = (UniqueConstraint('chat_id', 'currencies', 'clause'),)
@@ -83,17 +106,4 @@ class RequestsLog(Base):
 #     last_rate = sa.Column(sa.Numeric(14, 6), nullable=False)
 #     is_active = sa.Column(sa.Boolean(), default=True, nullable=False)
 #     created = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
-#     updated = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.current_timestamp(), nullable=False)
-#
-#
-# class Rate(db):
-#     __tablename__ = 'rates'
-#
-#     currency = sa.Column(sa.CHAR(3), primary_key=True)
-#     rate_open = sa.Column(sa.Numeric(14, 6), nullable=False)
-#     rate = sa.Column(sa.Numeric(14, 6), nullable=False)
-#     source = sa.Column(sa.Text, nullable=False)
-#     weight = sa.Column(sa.Integer, server_default='0', index=True, nullable=False)
-#     last_trade_at = sa.Column(sa.TIMESTAMP, nullable=False)
-#     created = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
-#     updated = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.current_timestamp(), nullable=False)
+#     updated = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)

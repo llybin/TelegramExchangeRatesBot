@@ -29,37 +29,31 @@ services:
       - db
       - redis
 
-#  celery:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    command: celery -A justwork worker -l info
-#    volumes:
-#      - .:/code
-#    depends_on:
-#      - db
-#      - redis
-#
-#  celery-beat:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    command: celery -A justwork beat -l info
-#    volumes:
-#      - .:/code
-#    depends_on:
-#      - db
-#      - redis
-#
-#  autotests:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile.tests
-#    command: ["./wait-for-it.sh", "db:5432", "--", "python", "manage.py", "test", "-v2"]
-#    volumes:
-#      - .:/code
-#    depends_on:
-#      - db
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["celery", "-A", "app.celery", "worker", "-l", "info"]
+    volumes:
+      - .:/code
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["celery", "-A", "app.celery", "beat", "-l", "info"]
+    volumes:
+      - .:/code
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
 
 volumes:
   postgresql_data:
