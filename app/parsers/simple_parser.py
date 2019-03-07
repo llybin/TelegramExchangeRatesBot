@@ -14,7 +14,7 @@ from .base import (
 )
 from .number_format import NUMBER_PATTERN_DOT_SIMPLE, NumberFormat
 from .exceptions import WrongFormatException, UnknownCurrencyException
-from ..models.logic import get_all_currencies
+from ..logic import get_all_currencies
 
 
 REQUEST_PATTERN = r'^(%s\s)?([a-zA-Z]{2,6}\s[a-zA-Z]{2,6})$' % NUMBER_PATTERN_DOT_SIMPLE
