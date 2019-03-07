@@ -213,6 +213,7 @@ X_CURRENCIES = [
     {'code': 'XPT', 'name': 'Platinum'},
 ]
 
+# TODO:
 # https://api.bittrex.com/api/v1.1/public/getcurrencies
 # rj = requests.get('https://api.bittrex.com/api/v1.1/public/getcurrencies').json()['result']
 # rj = filter(lambda x: x['IsActive'] and not x['IsRestricted'], rj)
