@@ -9,5 +9,5 @@ env:
 script:
   - cp .env.default .env
   - docker-compose build
-  - docker-compose start db
+  - docker-compose up -d db
   - docker-compose run service ./manage.py test
