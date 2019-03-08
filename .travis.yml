@@ -9,4 +9,5 @@ env:
 script:
   - cp .env.default .env
   - docker-compose build
-  - docker-compose run service ./wait-for-it.sh db:5432 ./manage.py test
+  - docker-compose up db
+  - docker-compose run service ./manage.py test
