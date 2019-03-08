@@ -9,7 +9,7 @@ COPY wait-for-it.sh ./
 
 RUN pip install pipenv
 COPY Pipfile Pipfile.lock ./
-RUN pipenv install --system
+RUN pipenv install --system --dev
 
 COPY . .
 

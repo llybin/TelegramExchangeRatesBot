@@ -47,6 +47,10 @@ def catch_alembic_error(func):
     return wrapper
 
 
+def command_migrate(migration_name):
+    command.upgrade(alembic_cfg, migration_name)
+
+
 @click.command(help="Updates database schema. Manages both apps with migrations and those without.")
 @click.option("--migration_name",
               default="head",
@@ -55,7 +59,7 @@ def catch_alembic_error(func):
 def migrate(migration_name):
     """Upgrade to a later version."""
 
-    command.upgrade(alembic_cfg, migration_name)
+    command_migrate(migration_name)
 
 
 @click.command(help="Creates new migration(s) for apps.")

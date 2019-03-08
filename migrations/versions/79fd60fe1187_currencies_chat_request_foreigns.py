@@ -449,6 +449,14 @@ CRYPTO_CURRENCIES = [
     {'code': 'ZRX', 'name': '0x Protocol'},
 ]
 
+# TODO:
+# r = requests.request("GET", "https://api.bitfinex.com/v1/symbols").json()
+# {x[:3].upper() for x in r} | {x[3:].upper() for x in r}
+# ['ABS', 'AGI', 'AIO', 'ATM', 'AUC', 'AVT', 'BAB', 'BBN', 'BCI', 'BOX', 'BTG', 'BTT', 'CBT', 'CND', 'CNN', 'CSX', 'CTX', 'DAD', 'DAI', 'DAT', 'DGX', 'DRN', 'DSH', 'DTH', 'EDO', 'ELF', 'EOS', 'ESS', 'ETP', 'EUT', 'FSN', 'GOT', 'GSD', 'HOT', 'INT', 'IOS', 'IOT', 'IQX', 'KNC', 'LYM', 'MAN', 'MGO', 'MIT', 'MKR', 'MNA', 'MTN', 'NCA', 'ODE', 'OMN', 'ONL', 'ORS', 'PAI', 'PAS', 'PNK', 'POA', 'POY', 'QSH', 'QTM', 'RBT', 'RDN', 'REQ', 'RIF', 'RRT', 'RTE', 'SAN', 'SEE', 'SEN', 'SNG', 'SPK', 'STJ', 'TKN', 'TNB', 'TSD', 'UDC', 'UST', 'UTK', 'UTN', 'VET', 'VLD', 'VSY', 'WLO', 'WPR', 'WTC', 'XRA', 'XTZ', 'YGG', 'YYW', 'ZCN', 'ZIL']
+# ['ABS', 'AGI', 'AID', 'AIO', 'ANT', 'ATM', 'AUC', 'AVT', 'BAB', 'BAT', 'BBN', 'BCI', 'BFT', 'BNT', 'BOX', 'BSV', 'BTC', 'BTG', 'BTT', 'CBT', 'CND', 'CNN', 'CSX', 'CTX', 'DAD', 'DAI', 'DAT', 'DGB', 'DGX', 'DRN', 'DSH', 'DTA', 'DTH', 'EDO', 'ELF', 'ENJ', 'EOS', 'ESS', 'ETC', 'ETH', 'ETP', 'EUR', 'EUT', 'FSN', 'FUN', 'GBP', 'GNT', 'GOT', 'GSD', 'HOT', 'INT', 'IOS', 'IOT', 'IQX', 'JPY', 'KNC', 'LRC', 'LTC', 'LYM', 'MAN', 'MGO', 'MIT', 'MKR', 'MLN', 'MNA', 'MTN', 'NCA', 'NEO', 'NIO', 'ODE', 'OMG', 'OMN', 'ONL', 'ORS', 'PAI', 'PAS', 'PAX', 'PNK', 'POA', 'POY', 'QSH', 'QTM', 'RBT', 'RCN', 'RDN', 'REP', 'REQ', 'RIF', 'RLC', 'RRT', 'RTE', 'SAN', 'SEE', 'SEN', 'SNG', 'SNT', 'SPK', 'STJ', 'TKN', 'TNB', 'TRX', 'TSD', 'UDC', 'USD', 'UST', 'UTK', 'UTN', 'VEE', 'VET', 'VLD', 'VSY', 'WAX', 'WLO', 'WPR', 'WTC', 'XLM', 'XMR', 'XRA', 'XRP', 'XTZ', 'XVG', 'YGG', 'YYW', 'ZCN', 'ZEC', 'ZIL', 'ZRX']
+
+# TODO: binance
+
 
 class Chat(Base):
     __tablename__ = 'chats'

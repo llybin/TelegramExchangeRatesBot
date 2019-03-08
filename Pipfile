@@ -4,18 +4,22 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+vcrpy = "*"
 
 [packages]
 alembic = "==1.0.7"
 babel = "==2.6.0"
+cached-property = "==1.5.1"
 celery = {version = "==4.2.1",extras = ["redis"]}
 click = "==7.0"
 "dogpile.cache" = "==0.7.1"
 iso4217 = "==1.5.20180829"
+jsonschema = "==3.0.1"
 psycopg2-binary = "==2.7.7"
 python-telegram-bot = "==11.1.0"
 requests = "==2.21.0"
 sqlalchemy = "==1.2.18"
+sqlalchemy-utils = "==0.33.11"
 
 [requires]
 python_version = "3.7"

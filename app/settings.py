@@ -50,6 +50,8 @@ BOT_PARSERS = [
     'app.parsers.simple_parser.SimpleParser',
 ]
 
+OPENEXCHANGERATES_TOKEN = os.environ.get('OPENEXCHANGERATES_TOKEN')
+
 LANGUAGES = (
     'en_US',
 )
