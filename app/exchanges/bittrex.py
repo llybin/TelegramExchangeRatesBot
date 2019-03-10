@@ -71,7 +71,8 @@ class BittrexExchange(Exchange):
 
         result = {}
         for x in data['result']:
-            from_currency, to_currency = x['MarketName'].upper().split('-')
+            # reverse
+            to_currency, from_currency = x['MarketName'].upper().split('-')
             del x['MarketName']
             result[Pair(Currency(from_currency), Currency(to_currency))] = x
 

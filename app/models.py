@@ -2,6 +2,8 @@ import sqlalchemy as sa
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
+from .constants import decimal_precision, decimal_scale
+
 
 Base = declarative_base()
 
@@ -78,8 +80,8 @@ class Rate(Base):
     exchange_id = sa.Column(sa.Integer, sa.ForeignKey('exchanges.id'), nullable=False)
     from_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
     to_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
-    rate_open = sa.Column(sa.DECIMAL(24, 12), nullable=False)
-    rate = sa.Column(sa.DECIMAL(24, 12), nullable=False)
+    rate_open = sa.Column(sa.DECIMAL(decimal_precision, decimal_scale), nullable=False)
+    rate = sa.Column(sa.DECIMAL(decimal_precision, decimal_scale), nullable=False)
     last_trade_at = sa.Column(sa.TIMESTAMP, nullable=False)
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)

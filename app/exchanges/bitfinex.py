@@ -47,8 +47,7 @@ class BitfinexExchange(Exchange):
         for x in self._get_pairs:
             x = x.upper()
 
-            # reverse
-            to_currency, from_currency = x[:3], x[3:]
+            from_currency, to_currency = x[:3], x[3:]
 
             if len(to_currency) != 3:
                 raise APIChangedException('Not only 3-symbol currency')
@@ -71,8 +70,7 @@ class BitfinexExchange(Exchange):
         if not self.is_pair_exists(pair):
             raise PairNotExistsException(pair)
 
-        # reverse
-        request_pair = f'{pair.to_currency}{pair.from_currency}'.lower()
+        request_pair = f'{pair.from_currency}{pair.to_currency}'.lower()
 
         try:
             response = requests.get(f'https://api.bitfinex.com/v1/pubticker/{request_pair}')

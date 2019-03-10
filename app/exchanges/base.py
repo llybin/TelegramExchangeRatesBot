@@ -26,6 +26,30 @@ class PairData(NamedTuple):
     volume24h: Decimal or None = None
 
 
+# TODO: cover tests
+def reverse_pair(pair: Pair):
+    return Pair(pair.to_currency, pair.from_currency)
+
+
+def reverse_amount(rate: Decimal):
+    if not rate:
+        return rate
+
+    return Decimal('1') / rate
+
+
+def reverse_pair_date(pair_data: PairData):
+    return PairData(
+        pair=reverse_pair(pair_data.pair),
+        rate=reverse_amount(pair_data.rate),
+        last_trade_at=pair_data.last_trade_at,
+        rate_open=reverse_amount(pair_data.rate_open),
+        low24h=reverse_amount(pair_data.low24h),
+        high24h=reverse_amount(pair_data.high24h),
+        volume24h=pair_data.volume24h,
+    )
+
+
 class Exchange(ABC):
     @property
     @abstractmethod
@@ -47,10 +71,6 @@ class Exchange(ABC):
 
     def is_currency_exists(self, currency: Currency) -> bool:
         return currency in self.list_currencies
-
-    @staticmethod
-    def reverse_pair(pair: Pair):
-        return Pair(pair.to_currency, pair.from_currency)
 
     @abstractmethod
     def get_pair_info(self, pair: Pair) -> PairData:
