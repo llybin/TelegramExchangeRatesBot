@@ -2,10 +2,10 @@ import unittest
 from decimal import Decimal
 from unittest.mock import patch
 
-from app.parsers.base import PriceRequest, DirectionWriting
-from app.parsers.exceptions import ValidationException
-from app.parsers.number_format import NumberFormat
-from app.parsers.simple_parser import SimpleParser
+from ..base import PriceRequest, DirectionWriting
+from ..exceptions import ValidationException
+from ..number_format import NumberFormat
+from ..simple_parser import SimpleParser
 
 
 class SimpleParserTest(unittest.TestCase):

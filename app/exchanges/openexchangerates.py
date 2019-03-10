@@ -1,23 +1,26 @@
 from datetime import datetime
 from decimal import Decimal
+from typing import Tuple
 
 import requests
 from cached_property import cached_property
 from jsonschema import validate, ValidationError
 from suite.conf import settings
 
-from .base import Exchange, PairData
+from .base import Exchange, PairData, Pair, Currency
 from .exceptions import PairNotExistsException, APIErrorException, NoTokenException
 
 
 class OpenExchangeRatesExchange(Exchange):
     """
     https://openexchangerates.org/
+
+    Free Plan provides hourly updates up to 1,000 requests/month.
     """
     db_id = 2
 
     @cached_property
-    def _get_data(self):
+    def _get_data(self) -> dict:
         if not settings.OPENEXCHANGERATES_TOKEN:
             raise NoTokenException
 
@@ -56,27 +59,25 @@ class OpenExchangeRatesExchange(Exchange):
         return data
 
     @cached_property
-    def list_pairs(self) -> tuple:
+    def list_pairs(self) -> Tuple[Pair]:
         currencies = self._get_data['rates'].keys()
-        base_currency = self._get_data['base']
+        base_currency = self._get_data['base'].upper()
 
-        return tuple(f'{base_currency}{x}'.upper() for x in currencies)
+        return tuple(Pair(Currency(base_currency), Currency(x.upper())) for x in currencies)
 
     @cached_property
-    def list_currencies(self) -> tuple:
+    def list_currencies(self) -> Tuple[Currency]:
         currencies = self._get_data['rates'].keys()
-        base_currency = self._get_data['base']
+        base_currency = self._get_data['base'].upper()
 
-        return tuple(currencies) + (base_currency,)
+        return (Currency(base_currency),) + tuple(Currency(x.upper()) for x in currencies)
 
-    def get_pair_info(self, first_currency: str, second_currency: str) -> PairData:
-        if not self.is_currency_exists(second_currency) or first_currency != self._get_data['base']:
-            raise PairNotExistsException(f'{first_currency}{second_currency}')
+    def get_pair_info(self, pair: Pair) -> PairData:
+        if not self.is_pair_exists(pair):
+            raise PairNotExistsException(pair)
 
         return PairData(
-            first_currency=first_currency,
-            second_currency=second_currency,
-            rate=Decimal(str(self._get_data['rates'][second_currency])),
-            rate_open=None,
+            pair=pair,
+            rate=Decimal(str(self._get_data['rates'][pair.to_currency.code])),
             last_trade_at=datetime.fromtimestamp(self._get_data['timestamp'])
         )

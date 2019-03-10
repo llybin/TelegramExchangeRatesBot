@@ -40,19 +40,17 @@ def test():
     # reload alembic
     alembic_cfg.set_main_option('sqlalchemy.url', settings.DATABASE['url'])
 
-    if not database_exists(engine.url):
-        create_database(engine.url)
-    else:
+    if database_exists(engine.url):
         drop_database(engine.url)
-        create_database(engine.url)
 
-    click.echo("Migrating DB...")
-    command_migrate('head')
+    create_database(engine.url)
 
-    click.echo("Running DB...")
     try:
+        click.echo("Migrating DB...")
+        command_migrate('head')
+
+        click.echo("Running tests...")
         test_runner.run(tests)
     finally:
         click.echo("Deleting DB...")
-        if database_exists(engine.url):
-            drop_database(engine.url)
+        drop_database(engine.url)

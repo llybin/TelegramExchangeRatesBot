@@ -485,8 +485,8 @@ class ChatRequests(Base):
     times = sa.Column(sa.Integer, server_default='0', nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
-    first_currency = relationship('Currency', foreign_keys=[first_currency_id])
-    second_currency = relationship('Currency', foreign_keys=[second_currency_id])
+    from_currency = relationship('Currency', foreign_keys=[first_currency_id])
+    to_currency = relationship('Currency', foreign_keys=[second_currency_id])
 
 
 def upgrade():
@@ -552,10 +552,10 @@ def upgrade():
         second_currency_code = replace_cur(x.currencies[3:])
 
         try:
-            first_currency = session.query(Currency).filter_by(code=first_currency_code).one()
-            second_currency = session.query(Currency).filter_by(code=second_currency_code).one()
-            x.first_currency = first_currency
-            x.second_currency = second_currency
+            from_currency = session.query(Currency).filter_by(code=first_currency_code).one()
+            to_currency = session.query(Currency).filter_by(code=second_currency_code).one()
+            x.from_currency = from_currency
+            x.to_currency = to_currency
             session.add(x)
 
             i += 1

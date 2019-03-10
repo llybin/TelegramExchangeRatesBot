@@ -47,8 +47,8 @@ class ChatRequests(Base):
     times = sa.Column(sa.Integer, server_default='0', nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
-    first_currency = relationship('Currency', foreign_keys=[first_currency_id])
-    second_currency = relationship('Currency', foreign_keys=[second_currency_id])
+    from_currency = relationship('Currency', foreign_keys=[first_currency_id])
+    to_currency = relationship('Currency', foreign_keys=[second_currency_id])
 
 
 class RequestsLog(Base):
