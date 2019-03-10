@@ -1,9 +1,12 @@
 # import gettext
+from decimal import getcontext
 from logging.config import dictConfig
 
 from suite.conf import settings
 
 dictConfig(settings.LOGGING)
+
+getcontext().prec = 24
 
 # translations = dict()
 # for l in settings.LANGUAGES:

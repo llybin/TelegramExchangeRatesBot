@@ -479,14 +479,14 @@ class ChatRequests(Base):
 
     id = sa.Column(sa.Integer, primary_key=True)
     chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
-    first_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=True)
-    second_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=True)
+    from_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=True)
+    to_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=True)
     currencies = sa.Column(sa.Text, nullable=False)
     times = sa.Column(sa.Integer, server_default='0', nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
-    from_currency = relationship('Currency', foreign_keys=[first_currency_id])
-    to_currency = relationship('Currency', foreign_keys=[second_currency_id])
+    from_currency = relationship('Currency', foreign_keys=[from_currency_id])
+    to_currency = relationship('Currency', foreign_keys=[to_currency_id])
 
 
 def upgrade():
@@ -502,11 +502,11 @@ def upgrade():
                     )
     op.create_index(op.f('ix_currencies_is_active'), 'currencies', ['is_active'], unique=False)
     op.create_index(op.f('ix_currencies_is_crypto'), 'currencies', ['is_crypto'], unique=False)
-    op.add_column('chat_requests', sa.Column('first_currency_id', sa.Integer(), nullable=True))
-    op.add_column('chat_requests', sa.Column('second_currency_id', sa.Integer(), nullable=True))
+    op.add_column('chat_requests', sa.Column('from_currency_id', sa.Integer(), nullable=True))
+    op.add_column('chat_requests', sa.Column('to_currency_id', sa.Integer(), nullable=True))
     op.alter_column('chat_requests', 'cnt', new_column_name='times')
-    op.create_foreign_key(None, 'chat_requests', 'currencies', ['second_currency_id'], ['id'])
-    op.create_foreign_key(None, 'chat_requests', 'currencies', ['first_currency_id'], ['id'])
+    op.create_foreign_key(None, 'chat_requests', 'currencies', ['to_currency_id'], ['id'])
+    op.create_foreign_key(None, 'chat_requests', 'currencies', ['from_currency_id'], ['id'])
     # ### end Alembic commands ###
 
     # fill iso currencies
@@ -566,8 +566,8 @@ def upgrade():
             session.delete(x)
 
     op.drop_column('chat_requests', 'currencies')
-    op.alter_column('chat_requests', sa.Column('first_currency_id', sa.Integer(), nullable=False))
-    op.alter_column('chat_requests', sa.Column('second_currency_id', sa.Integer(), nullable=False))
+    op.alter_column('chat_requests', sa.Column('from_currency_id', sa.Integer(), nullable=False))
+    op.alter_column('chat_requests', sa.Column('to_currency_id', sa.Integer(), nullable=False))
 
 
 def downgrade():

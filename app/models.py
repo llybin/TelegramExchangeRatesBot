@@ -42,13 +42,13 @@ class ChatRequests(Base):
 
     id = sa.Column(sa.Integer, primary_key=True)
     chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
-    first_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
-    second_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
+    from_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
+    to_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
     times = sa.Column(sa.Integer, server_default='0', nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
-    from_currency = relationship('Currency', foreign_keys=[first_currency_id])
-    to_currency = relationship('Currency', foreign_keys=[second_currency_id])
+    from_currency = relationship('Currency', foreign_keys=[from_currency_id])
+    to_currency = relationship('Currency', foreign_keys=[to_currency_id])
 
 
 class RequestsLog(Base):
@@ -76,13 +76,16 @@ class Rate(Base):
 
     id = sa.Column(sa.Integer, primary_key=True)
     exchange_id = sa.Column(sa.Integer, sa.ForeignKey('exchanges.id'), nullable=False)
-    first_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
-    second_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
+    from_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
+    to_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
     rate_open = sa.Column(sa.DECIMAL(24, 12), nullable=False)
     rate = sa.Column(sa.DECIMAL(24, 12), nullable=False)
     last_trade_at = sa.Column(sa.TIMESTAMP, nullable=False)
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
+
+    from_currency = relationship('Currency', foreign_keys=[from_currency_id])
+    to_currency = relationship('Currency', foreign_keys=[to_currency_id])
 
 
 # class Event(db):
