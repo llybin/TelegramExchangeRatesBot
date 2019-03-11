@@ -449,6 +449,7 @@ CRYPTO_CURRENCIES = [
     {'code': 'ZRX', 'name': '0x Protocol'},
 ]
 
+
 # TODO:
 # r = requests.request("GET", "https://api.bitfinex.com/v1/symbols").json()
 # {x[:3].upper() for x in r} | {x[3:].upper() for x in r}
@@ -516,7 +517,8 @@ def upgrade():
     session.flush()
 
     # fill excluded iso currencies
-    currencies = [Currency(code=c['code'], name=c['name'], is_active=False, is_crypto=False) for c in EXCLUDED_ISO_CURRENCIES]  # NOQA
+    currencies = [Currency(code=c['code'], name=c['name'], is_active=False, is_crypto=False) for c in
+                  EXCLUDED_ISO_CURRENCIES]  # NOQA
     session = Session(bind=op.get_bind())
     session.add_all(currencies)
     session.flush()
@@ -566,8 +568,12 @@ def upgrade():
             session.delete(x)
 
     op.drop_column('chat_requests', 'currencies')
-    op.alter_column('chat_requests', sa.Column('from_currency_id', sa.Integer(), nullable=False))
-    op.alter_column('chat_requests', sa.Column('to_currency_id', sa.Integer(), nullable=False))
+    op.alter_column('chat_requests', 'from_currency_id',
+                    existing_type=sa.INTEGER(),
+                    nullable=False)
+    op.alter_column('chat_requests', 'to_currency_id',
+                    existing_type=sa.INTEGER(),
+                    nullable=False)
 
 
 def downgrade():

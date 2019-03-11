@@ -59,7 +59,7 @@ def upgrade():
 
     session = Session(bind=op.get_bind())
 
-    print('checking relations chat_requests on chats')
+    # checking relations chat_requests on chats
     for x in session.query(ChatRequests).yield_per(1000):
         if not x.chat:
             print(f'delete bad data from chat_requests {x}')
@@ -67,7 +67,7 @@ def upgrade():
 
     op.create_foreign_key(None, 'chat_requests', 'chats', ['chat_id'], ['id'])
 
-    print('checking relations requests_log on chats')
+    # checking relations requests_log on chats
     for x in session.query(RequestsLog).yield_per(1000):
         if not x.chat:
             print(f'delete bad data from requests_log: {x}')

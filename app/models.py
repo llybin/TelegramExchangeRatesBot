@@ -75,6 +75,7 @@ class Exchange(Base):
 
 class Rate(Base):
     __tablename__ = 'rates'
+    __table_args__ = (sa.UniqueConstraint('exchange_id', 'from_currency_id', 'to_currency_id'),)
 
     id = sa.Column(sa.Integer, primary_key=True)
     exchange_id = sa.Column(sa.Integer, sa.ForeignKey('exchanges.id'), nullable=False)

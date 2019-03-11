@@ -76,13 +76,13 @@ CELERYBEAT_SCHEDULE = {
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 
 BOT_PARSERS = [
-    'app.parsers.simple_parser.SimpleParser',
+    'app.parsers.SimpleParser',
 ]
 
 BOT_EXCHANGES = [
-    'app.exchanges.bitfinex.BitfinexExchange',
-    'app.exchanges.bittrex.BittrexExchange',
-    # 'app.exchanges.openexchangerates.OpenExchangeRatesExchange',
+    'app.exchanges.BitfinexExchange',
+    'app.exchanges.BittrexExchange',
+    'app.exchanges.OpenExchangeRatesExchange',
 ]
 
 OPENEXCHANGERATES_TOKEN = os.environ.get('OPENEXCHANGERATES_TOKEN')
