@@ -1,7 +1,7 @@
 import logging
 
 from .celery import celery_app
-from .exchanges.base import reverse_pair_date
+from .exchanges.base import reverse_pair_data
 from .exchanges.bitfinex import BitfinexExchange
 from .exchanges.bittrex import BittrexExchange
 # from .exchanges.openexchangerates import OpenExchangeRatesExchange
@@ -31,7 +31,7 @@ def rate_updater():
             # logging.info(f'Currency: {currency} is not supported by app, skip.')
 
             pair_data = exchange.get_pair_info(pair)
-            reversed_pair_data = reverse_pair_date(pair_data)
+            reversed_pair_data = reverse_pair_data(pair_data)
             # TODO:
             # update or create two pair
             # Rate equal model PairData

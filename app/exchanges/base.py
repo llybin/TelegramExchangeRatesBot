@@ -26,19 +26,18 @@ class PairData(NamedTuple):
     volume24h: Decimal or None = None
 
 
-# TODO: cover tests
-def reverse_pair(pair: Pair):
+def reverse_pair(pair: Pair) -> Pair:
     return Pair(pair.to_currency, pair.from_currency)
 
 
-def reverse_amount(rate: Decimal):
+def reverse_amount(rate: Decimal) -> Decimal or None:
     if not rate:
         return rate
 
     return Decimal('1') / rate
 
 
-def reverse_pair_date(pair_data: PairData):
+def reverse_pair_data(pair_data: PairData) -> PairData:
     return PairData(
         pair=reverse_pair(pair_data.pair),
         rate=reverse_amount(pair_data.rate),
