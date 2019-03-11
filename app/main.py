@@ -8,6 +8,7 @@ from telegram.ext.dispatcher import run_async
 
 from .helpers import import_module
 from .parsers.exceptions import ValidationException
+from .converter.converter import convert
 
 
 logger = logging.getLogger(__name__)
@@ -91,41 +92,44 @@ def start_parse(text):
         except ValidationException:
             pass
 
-    # TODO:
-    return 'see /help'
+    raise ValidationException
 
 
-def price_request(bot, update, text):
-    if text:
-        result = start_parse(text)
-    else:
-        result = 'Request must contain arguments. See /help'
+def price_requester(bot, update, text):
+    if not text:
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text='Request must contain arguments. See /help')
+        return
 
-    logging.info(f'{result}')
+    try:
+        price_request = start_parse(text)
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=f'{result}')
+        logging.info(f'price_request: {text} -> {price_request}')
+
+        result = convert(price_request)
+
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text=f'{result}')
+
+    except ValidationException:
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text='Wrong format or unknown currency. See /help')
 
 
 def price(bot, update, args):
-    logging.info(args)
-
     text = ''.join(args)
-
-    price_request(bot, update, text)
+    price_requester(bot, update, text)
 
 
 def message(bot, update):
-    logging.info(update.message.text)
-
-    price_request(bot, update, update.message.text)
+    price_requester(bot, update, update.message.text)
 
 
 def empty_command(bot, update):
-    logging.info(update.message.text)
-
-    price_request(bot, update, update.message.text[1:])
+    price_requester(bot, update, update.message.text[1:])
 
 
 def error(bot, update, err):

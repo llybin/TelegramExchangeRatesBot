@@ -31,7 +31,7 @@ def exchange_updater(exchange_class: str) -> None:
             db_session.query(Currency).filter_by(is_active=True, code=pair.from_currency).one()
             db_session.query(Currency).filter_by(is_active=True, code=pair.to_currency).one()
         except NoResultFound:
-            logging.info(f'Pair: {pair} is not active or not supported, skip.')
+            logging.info(f'Exchange: {exchange.name}, pair: {pair} is not active or not supported, skip.')
             continue
 
         pair_data = exchange.get_pair_info(pair)
