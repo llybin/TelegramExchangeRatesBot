@@ -65,9 +65,20 @@ CELERY_QUEUES = (
 # }
 
 CELERYBEAT_SCHEDULE = {
-    'scheduled_updater': {
-        'task': 'app.tasks.scheduled_updater',
+    'exchange_updater_BitfinexExchange': {
+        'task': 'app.tasks.exchange_updater',
         'schedule': crontab(minute='*/10'),
+        'args': ('app.exchanges.BitfinexExchange',)
+    },
+    'exchange_updater_BittrexExchange': {
+        'task': 'app.tasks.exchange_updater',
+        'schedule': crontab(minute='*/1'),
+        'args': ('app.exchanges.BittrexExchange',)
+    },
+    'exchange_updater_OpenExchangeRatesExchange': {
+        'task': 'app.tasks.exchange_updater',
+        'schedule': crontab(minute=0, hour='*/1'),
+        'args': ('app.exchanges.OpenExchangeRatesExchange',)
     },
 }
 
@@ -75,12 +86,6 @@ BOT_TOKEN = os.environ.get('BOT_TOKEN')
 
 BOT_PARSERS = [
     'app.parsers.SimpleParser',
-]
-
-BOT_EXCHANGES = [
-    'app.exchanges.BitfinexExchange',
-    'app.exchanges.BittrexExchange',
-    'app.exchanges.OpenExchangeRatesExchange',
 ]
 
 OPENEXCHANGERATES_TOKEN = os.environ.get('OPENEXCHANGERATES_TOKEN')

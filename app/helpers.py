@@ -31,3 +31,15 @@ def rate_from_pair_data(pair_data: PairData, exchange_id: int) -> Rate:
         high24h=pair_data.high24h,
         last_trade_at=pair_data.last_trade_at,
     )
+
+
+def fill_rate_open(new_rate: Rate, current_rate: Rate or None) -> Rate:
+    if new_rate.rate_open:
+        return new_rate
+
+    # if new day starts and we still not update rate_open yet or it's first create this rate at midnight
+    if new_rate.last_trade_at.hour == 0:
+        if not current_rate or new_rate.last_trade_at.date() != current_rate.last_trade_at.date():
+            new_rate.rate_open = new_rate.rate
+
+    return new_rate
