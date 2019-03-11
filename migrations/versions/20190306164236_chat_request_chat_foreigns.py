@@ -1,7 +1,7 @@
 """chat_request_chat_foreigns
 
-Revision ID: 91196c1f9f51
-Revises: 792be0f338f8
+Revision ID: 20190306164236
+Revises: 20190306162241
 Create Date: 2019-03-06 16:42:36.594307
 
 """
@@ -12,8 +12,8 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 # revision identifiers, used by Alembic.
-revision = '91196c1f9f51'
-down_revision = '792be0f338f8'
+revision = '20190306164236'
+down_revision = '20190306162241'
 branch_labels = None
 depends_on = None
 

@@ -1,15 +1,15 @@
 """rename_tables
 
-Revision ID: 792be0f338f8
-Revises: 8b7deeb35c6c
+Revision ID: 20190306162241
+Revises: 20190306160951
 Create Date: 2019-03-06 16:22:41.721964
 
 """
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = '792be0f338f8'
-down_revision = '8b7deeb35c6c'
+revision = '20190306162241'
+down_revision = '20190306160951'
 branch_labels = None
 depends_on = None
 

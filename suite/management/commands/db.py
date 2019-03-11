@@ -19,18 +19,6 @@ def db():
     pass
 
 
-def get_migration_name_timestamp():
-    return datetime.datetime.now().strftime("%Y%m%d_%H%M")
-
-
-def get_auto_migration_name():
-    return f"auto_{get_migration_name_timestamp()}"
-
-
-def get_merge_migration_name():
-    return f"merge_{get_migration_name_timestamp()}"
-
-
 def catch_alembic_error(func):
 
     @wraps(func)
@@ -63,7 +51,7 @@ def migrate(migration_name):
 
 
 @click.command(help="Creates new migration(s) for apps.")
-@click.option("-m", "--message", default=get_auto_migration_name, help="Apply a message to the revision")
+@click.option("-m", "--message", default="auto", help="Apply a message to the revision")
 @click.option("--empty", is_flag=True, help="Create an empty migration.")
 @catch_alembic_error
 def makemigrations(message, empty):
@@ -79,7 +67,7 @@ def makemigrations(message, empty):
 
 @click.command(help="Creates merge revision.")
 @click.argument('revisions', nargs=-1, required=True)
-@click.option("-m", "--message", default=get_merge_migration_name, help="Apply a message to the revision")
+@click.option("-m", "--message", default="merge", help="Apply a message to the revision")
 @catch_alembic_error
 def merge(revisions, message):
     """Create merge revision."""

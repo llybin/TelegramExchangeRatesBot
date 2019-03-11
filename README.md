@@ -21,12 +21,12 @@ BOT_TOKEN - set up
 
 `docker-compose up`
 
-## Development
+# Development
 
-### See manage commands
+## See manage commands
 
 `docker-compose run service ./manage.py`
 
-### How to run tests
+## How to run tests
 
 `docker-compose run service ./manage.py test`

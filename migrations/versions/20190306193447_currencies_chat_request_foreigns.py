@@ -1,7 +1,7 @@
 """currencies_chat_request_foreigns
 
-Revision ID: 79fd60fe1187
-Revises: 91196c1f9f51
+Revision ID: 20190306193447
+Revises: 20190306164236
 Create Date: 2019-03-06 19:34:47.031946
 
 """
@@ -13,8 +13,8 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.ext.declarative import declarative_base
 
 # revision identifiers, used by Alembic.
-revision = '79fd60fe1187'
-down_revision = '91196c1f9f51'
+revision = '20190306193447'
+down_revision = '20190306164236'
 branch_labels = None
 depends_on = None
 
