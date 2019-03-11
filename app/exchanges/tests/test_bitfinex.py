@@ -64,7 +64,6 @@ class BitfinexTest(SimpleTestCase):
                 rate_open=None,
                 low24h=Decimal('3850.0'),
                 high24h=Decimal('4021.0'),
-                volume24h=Decimal('9567.9947337399999735'),
                 last_trade_at=datetime.datetime(2019, 3, 9, 11, 21, 12, 996645),
             )
         )

@@ -24,7 +24,6 @@ class ReverseFunctionsTest(SimpleTestCase):
             rate_open=Decimal('1') / Decimal('2'),
             low24h=Decimal('1') / Decimal('4'),
             high24h=Decimal('1') / Decimal('8'),
-            volume24h=Decimal('11'),
         )
 
         pair_data_reversed = PairData(
@@ -34,7 +33,6 @@ class ReverseFunctionsTest(SimpleTestCase):
             rate_open=Decimal('2'),
             low24h=Decimal('4'),
             high24h=Decimal('8'),
-            volume24h=Decimal('11'),
         )
 
         self.assertEqual(reverse_pair_data(pair_data), pair_data_reversed)

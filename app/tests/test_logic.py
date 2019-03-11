@@ -4,5 +4,5 @@ from ..logic import get_all_currencies
 
 
 class LogicTest(SimpleTestCase):
-    def test_example(self):
+    def test_get_all_currencies(self):
         self.assertEqual(len(get_all_currencies()), 394)

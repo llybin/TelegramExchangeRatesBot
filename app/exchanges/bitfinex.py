@@ -5,6 +5,7 @@ from typing import Tuple
 import requests
 from cached_property import cached_property
 from jsonschema import validate, ValidationError
+from ratelimit import limits, sleep_and_retry
 
 from .base import Exchange, PairData, Pair, Currency
 from .exceptions import PairNotExistsException, APIErrorException, APIChangedException
@@ -66,6 +67,8 @@ class BitfinexExchange(Exchange):
 
         return tuple(currencies)
 
+    @sleep_and_retry
+    @limits(calls=10, period=60)
     def get_pair_info(self, pair: Pair) -> PairData:
         if not self.is_pair_exists(pair):
             raise PairNotExistsException(pair)
@@ -86,11 +89,12 @@ class BitfinexExchange(Exchange):
                     "mid": {"type": "string"},
                     "low": {"type": "string"},
                     "high": {"type": "string"},
-                    "volume": {"type": "string"},
                     "timestamp": {"type": "string"},
                 },
                 "required": [
                     "mid",
+                    "low",
+                    "high",
                     "timestamp",
                 ]
             }
@@ -102,7 +106,6 @@ class BitfinexExchange(Exchange):
             rate = Decimal(data['mid'])
             low = Decimal(data['low'])
             high = Decimal(data['high'])
-            volume = Decimal(data['volume'])
             last_trade_at = float(data['timestamp'])
         except (DecimalException, ValueError) as e:
             raise APIErrorException(e)
@@ -112,6 +115,5 @@ class BitfinexExchange(Exchange):
             rate=rate,
             low24h=low,
             high24h=high,
-            volume24h=volume,
             last_trade_at=datetime.fromtimestamp(last_trade_at)
         )

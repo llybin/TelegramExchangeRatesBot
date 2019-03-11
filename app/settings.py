@@ -33,8 +33,6 @@ CELERY_TASK_SERIALIZER = "json"
 CELERY_ACCEPT_CONTENT = ['application/json']
 
 CELERY_DEFAULT_QUEUE = 'default'
-CELERY_DEFAULT_EXCHANGE_TYPE = 'default'
-CELERY_DEFAULT_ROUTING_KEY = 'default'
 
 CELERY_QUEUES = (
     Queue('default'),
@@ -69,7 +67,7 @@ CELERY_QUEUES = (
 CELERYBEAT_SCHEDULE = {
     'scheduled_updater': {
         'task': 'app.tasks.scheduled_updater',
-        'schedule': crontab(minute='*/5'),
+        'schedule': crontab(minute='*/10'),
     },
 }
 

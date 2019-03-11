@@ -41,7 +41,6 @@ class BittrexExchange(Exchange):
                                 "MarketName": {"type": "string"},
                                 "High": {"type": "number"},
                                 "Low": {"type": "number"},
-                                "Volume": {"type": "number"},
                                 "TimeStamp": {"type": "string"},
                                 "Bid": {"type": "number"},
                                 "Ask": {"type": "number"},
@@ -51,7 +50,6 @@ class BittrexExchange(Exchange):
                                 "MarketName",
                                 "High",
                                 "Low",
-                                "Volume",
                                 "TimeStamp",
                                 "Bid",
                                 "Ask",
@@ -111,6 +109,5 @@ class BittrexExchange(Exchange):
             rate_open=Decimal(str(pair_data['PrevDay'])),
             low24h=Decimal(str(pair_data['Low'])),
             high24h=Decimal(str(pair_data['High'])),
-            volume24h=Decimal(str(pair_data['Volume'])),
             last_trade_at=last_trade_at,
         )

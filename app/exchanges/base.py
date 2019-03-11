@@ -23,7 +23,6 @@ class PairData(NamedTuple):
     rate_open: Decimal or None = None
     low24h: Decimal or None = None
     high24h: Decimal or None = None
-    volume24h: Decimal or None = None
 
 
 def reverse_pair(pair: Pair) -> Pair:
@@ -45,7 +44,6 @@ def reverse_pair_data(pair_data: PairData) -> PairData:
         rate_open=reverse_amount(pair_data.rate_open),
         low24h=reverse_amount(pair_data.low24h),
         high24h=reverse_amount(pair_data.high24h),
-        volume24h=pair_data.volume24h,
     )
 
 
