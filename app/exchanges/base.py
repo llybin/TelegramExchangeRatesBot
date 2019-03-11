@@ -52,7 +52,7 @@ def reverse_pair_data(pair_data: PairData) -> PairData:
 class Exchange(ABC):
     @property
     @abstractmethod
-    def db_id(self) -> int:
+    def name(self) -> str:
         pass
 
     @property

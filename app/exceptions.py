@@ -1,0 +1,2 @@
+class CurrencyNotSupportedException(Exception):
+    pass

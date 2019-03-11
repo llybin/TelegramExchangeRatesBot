@@ -17,7 +17,7 @@ class BittrexExchange(Exchange):
     Maximum of 60 API calls per minute.
     Calls after the limit will fail, with the limit resetting at the start of the next minute.
     """
-    db_id = 3
+    name = 'bittrex'
 
     @cached_property
     def _get_data(self) -> dict:

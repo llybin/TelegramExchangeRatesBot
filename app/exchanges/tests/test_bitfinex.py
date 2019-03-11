@@ -18,6 +18,9 @@ my_vcr = vcr.VCR(
 
 class BitfinexTest(SimpleTestCase):
 
+    def test_name(self):
+        self.assertEqual(BitfinexExchange.name, 'bitfinex')
+
     @my_vcr.use_cassette('symbols_200')
     def test_list_currencies(self):
         currencies = BitfinexExchange().list_currencies

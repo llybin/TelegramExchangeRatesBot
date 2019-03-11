@@ -67,8 +67,8 @@ class Exchange(Base):
     __tablename__ = 'exchanges'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    name = sa.Column(sa.Text, nullable=False)
-    is_active = sa.Column(sa.Boolean, index=True, nullable=False)
+    name = sa.Column(sa.Text, nullable=False, index=True)
+    is_active = sa.Column(sa.Boolean, nullable=False)
 
     rates = relationship('Rate', backref='exchange')
 
@@ -80,8 +80,11 @@ class Rate(Base):
     exchange_id = sa.Column(sa.Integer, sa.ForeignKey('exchanges.id'), nullable=False)
     from_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
     to_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
-    rate_open = sa.Column(sa.DECIMAL(decimal_precision, decimal_scale), nullable=False)
-    rate = sa.Column(sa.DECIMAL(decimal_precision, decimal_scale), nullable=False)
+    rate = sa.Column(sa.Numeric(decimal_precision, decimal_scale), nullable=False)
+    rate_open = sa.Column(sa.Numeric(decimal_precision, decimal_scale), nullable=False)
+    low24h = sa.Column(sa.Numeric(decimal_precision, decimal_scale), nullable=True)
+    high24h = sa.Column(sa.Numeric(decimal_precision, decimal_scale), nullable=True)
+    volume24h = sa.Column(sa.Numeric(decimal_precision, decimal_scale), nullable=True)
     last_trade_at = sa.Column(sa.TIMESTAMP, nullable=False)
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)

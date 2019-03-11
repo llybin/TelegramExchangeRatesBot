@@ -18,7 +18,7 @@ class BitfinexExchange(Exchange):
     to a specific REST API endpoint e.g., /ticker, the requesting IP address will be blocked
     for 10-60 seconds on that endpoint and the JSON response {"error": "ERR_RATE_LIMIT"} will be returned.
     """
-    db_id = 1
+    name = 'bitfinex'
 
     @cached_property
     def _get_pairs(self) -> tuple:

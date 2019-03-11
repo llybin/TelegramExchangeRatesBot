@@ -22,7 +22,6 @@ CELERY_IMPORTS = (
 
 CELERY_TIMEZONE = 'UTC'
 CELERY_REDIRECT_STDOUTS = False
-CELERY_DEFAULT_QUEUE = 'default'
 
 CELERY_ALWAYS_EAGER = False
 
@@ -33,14 +32,44 @@ CELERY_TASK_RESULT_EXPIRES = 600
 CELERY_TASK_SERIALIZER = "json"
 CELERY_ACCEPT_CONTENT = ['application/json']
 
+CELERY_DEFAULT_QUEUE = 'default'
+CELERY_DEFAULT_EXCHANGE_TYPE = 'default'
+CELERY_DEFAULT_ROUTING_KEY = 'default'
+
 CELERY_QUEUES = (
     Queue('default'),
 )
 
+# CELERY_QUEUES = (
+#     Queue('default', Exchange('default'), routing_key='default'),
+#     Queue('rate_update', Exchange('rate_update'), routing_key='rate_update'),
+#     Queue('low', Exchange('low'), routing_key='low'),
+# )
+# CELERY_DEFAULT_QUEUE = 'default'
+# CELERY_DEFAULT_EXCHANGE_TYPE = 'default'
+# CELERY_DEFAULT_ROUTING_KEY = 'default'
+#
+# CELERY_ROUTES = {
+#     'telegrambotexchangerates.rate_updater.bitfinex': {'queue': 'rate_update'},
+#     'telegrambotexchangerates.rate_updater.main_currency': {'queue': 'rate_update'},
+#     'telegrambotexchangerates.rate_updater.sp_today': {'queue': 'rate_update'},
+#     'telegrambotexchangerates.rate_updater.yahoo': {'queue': 'rate_update'},
+#     'telegrambotexchangerates.rate_updater.cryptonator': {'queue': 'rate_update'},
+#     'telegrambotexchangerates.rate_updater.openexchangerates': {'queue': 'rate_update'},
+#
+#     'telegrambotexchangerates.tasks.check': {'queue': 'rate_update'},
+#
+#     'telegrambotexchangerates.tasks.send_notification': {'queue': 'low'},
+#     'telegrambotexchangerates.tasks.send_feedback': {'queue': 'low'},
+#     'telegrambotexchangerates.tasks.send_track': {'queue': 'low'},
+#     'telegrambotexchangerates.tasks.to_log': {'queue': 'low'},
+#     'telegrambotexchangerates.tasks.update_chat_info': {'queue': 'low'},
+# }
+
 CELERYBEAT_SCHEDULE = {
-    'example': {
-        'task': 'app.tasks.example',
-        'schedule': crontab(minute='*/1'),
+    'scheduled_updater': {
+        'task': 'app.tasks.scheduled_updater',
+        'schedule': crontab(minute='*/5'),
     },
 }
 
@@ -48,6 +77,12 @@ BOT_TOKEN = os.environ.get('BOT_TOKEN')
 
 BOT_PARSERS = [
     'app.parsers.simple_parser.SimpleParser',
+]
+
+BOT_EXCHANGES = [
+    'app.exchanges.bitfinex.BitfinexExchange',
+    'app.exchanges.bittrex.BittrexExchange',
+    # 'app.exchanges.openexchangerates.OpenExchangeRatesExchange',
 ]
 
 OPENEXCHANGERATES_TOKEN = os.environ.get('OPENEXCHANGERATES_TOKEN')

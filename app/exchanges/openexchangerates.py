@@ -17,7 +17,7 @@ class OpenExchangeRatesExchange(Exchange):
 
     Free Plan provides hourly updates up to 1,000 requests/month.
     """
-    db_id = 2
+    name = 'openexchangerates.org'
 
     @cached_property
     def _get_data(self) -> dict:
