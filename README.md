@@ -9,7 +9,7 @@ Available from 01-07-2015.
 
 https://telegram.me/ExchangeRatesBot
 
-In the process of refactoring.
+**In the process of refactoring. This repository is not in production.**
 
 # How to run
 
@@ -20,3 +20,13 @@ Configure your .env:
 BOT_TOKEN - set up
 
 `docker-compose up`
+
+## Development
+
+### See manage commands
+
+`docker-compose run service ./manage.py`
+
+### How to run tests
+
+`docker-compose run service ./manage.py test`
