@@ -84,9 +84,11 @@ def disclaimers(bot, update):
              'the exchange rates.')
 
 
+PARSERS = {import_module(parser_path) for parser_path in settings.BOT_PARSERS}
+
+
 def start_parse(text):
-    for parser_path in settings.BOT_PARSERS:
-        parser = import_module(parser_path)
+    for parser in PARSERS:
         try:
             return parser(text).parse()
         except ValidationException:
@@ -111,6 +113,7 @@ def price_requester(bot, update, text):
 
         bot.send_message(
             chat_id=update.message.chat_id,
+            parse_mode='Markdown',
             text=f'{result}')
 
     except ValidationException:

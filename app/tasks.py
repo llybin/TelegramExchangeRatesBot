@@ -10,10 +10,8 @@ from .models import Exchange, Currency, Rate
 
 logging = logging.getLogger(__name__)
 
-# TODO: hard limits
 
-
-@celery_app.task
+@celery_app.task(queue='exchanges')
 def exchange_updater(exchange_class: str) -> None:
     exchange = import_module(exchange_class)()
     try:
@@ -27,10 +25,10 @@ def exchange_updater(exchange_class: str) -> None:
 
     # TODO: transactions
     for pair in exchange.list_pairs:
-        try:
-            db_session.query(Currency).filter_by(is_active=True, code=pair.from_currency).one()
-            db_session.query(Currency).filter_by(is_active=True, code=pair.to_currency).one()
-        except NoResultFound:
+        from_currency = db_session.query(Currency).filter_by(is_active=True, code=pair.from_currency).scalar()
+        to_currency = db_session.query(Currency).filter_by(is_active=True, code=pair.to_currency).scalar()
+
+        if not from_currency or not to_currency:
             logging.info(f'Exchange: {exchange.name}, pair: {pair} is not active or not supported, skip.')
             continue
 
