@@ -15,6 +15,9 @@ class Pair(NamedTuple):
     from_currency: Currency
     to_currency: Currency
 
+    def __str__(self):
+        return f'{self.from_currency}-{self.to_currency}'
+
 
 class PairData(NamedTuple):
     pair: Pair

@@ -68,7 +68,7 @@ class BitfinexExchange(Exchange):
         return tuple(currencies)
 
     @sleep_and_retry
-    @limits(calls=10, period=60)
+    @limits(calls=1, period=5)
     def get_pair_info(self, pair: Pair) -> PairData:
         if not self.is_pair_exists(pair):
             raise PairNotExistsException(pair)

@@ -99,7 +99,8 @@ class BittrexExchange(Exchange):
         mid = (Decimal(str(pair_data['Bid'])) + Decimal(str(pair_data['Ask']))) / Decimal('2')
 
         try:
-            last_trade_at = datetime.strptime(pair_data['TimeStamp'], "%Y-%m-%dT%H:%M:%S.%f")
+            ts_without_ms = pair_data['TimeStamp'].split('.')[0]
+            last_trade_at = datetime.strptime(ts_without_ms, "%Y-%m-%dT%H:%M:%S")
         except ValueError:
             raise APIChangedException('TimeStamp format.')
 

@@ -64,7 +64,7 @@ class BittrexTest(SimpleTestCase):
                 rate_open=Decimal('3879.0'),
                 low24h=Decimal('3773.806'),
                 high24h=Decimal('3923.994'),
-                last_trade_at=datetime.datetime(2019, 3, 9, 13, 47, 19, 167000),
+                last_trade_at=datetime.datetime(2019, 3, 9, 13, 47, 19, 0),
             )
         )
 
