@@ -26,18 +26,20 @@ def exchange_updater(exchange_class: str) -> None:
         logging.warning(f'Exchange: {exchange.name} is not configured, skip.')
         return
 
+    logging.info(f'Exchange: {exchange.name} in process.')
+
     for pair in exchange.list_pairs:
         from_currency = db_session.query(Currency).filter_by(is_active=True, code=pair.from_currency).scalar()
         to_currency = db_session.query(Currency).filter_by(is_active=True, code=pair.to_currency).scalar()
 
         if not from_currency or not to_currency:
-            logging.info(f'Exchange: {exchange.name}, pair: {pair} is not active or not supported, skip.')
+            logging.debug(f'Exchange: {exchange.name}, pair: {pair} is not active or not supported, skip.')
             continue
 
         pair_data = exchange.get_pair_info(pair)
         reversed_pair_data = reverse_pair_data(pair_data)
 
-        def save_rate(the_pair_data):
+        def save_rate(the_pair_data: PairData) -> None:
             new_rate = rate_from_pair_data(the_pair_data, exchange_obj.id)
 
             current_rate = db_session.query(Rate).filter_by(

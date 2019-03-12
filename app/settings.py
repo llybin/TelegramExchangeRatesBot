@@ -88,5 +88,5 @@ LOGGING = {
     'root': {
         'level': 'INFO',
         'handlers': ['console']
-    }
+    },
 }
