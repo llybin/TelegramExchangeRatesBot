@@ -16,7 +16,6 @@ from .number_format import NUMBER_PATTERN_DOT_SIMPLE, NumberFormat
 from .exceptions import WrongFormatException, UnknownCurrencyException
 from ..logic import get_all_currencies
 
-
 REQUEST_PATTERN = r'^(%s\s)?([a-zA-Z]{2,6}\s[a-zA-Z]{2,6})$' % NUMBER_PATTERN_DOT_SIMPLE
 REQUEST_PATTERN_COMPILED = re.compile(REQUEST_PATTERN, re.IGNORECASE)
 

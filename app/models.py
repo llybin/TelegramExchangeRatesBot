@@ -1,14 +1,11 @@
+from pyramid_sqlalchemy import BaseObject
 import sqlalchemy as sa
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import orm
 
 from .constants import decimal_precision, decimal_scale
 
 
-Base = declarative_base()
-
-
-class Chat(Base):
+class Chat(BaseObject):
     __tablename__ = 'chats'
 
     id = sa.Column(sa.BigInteger, primary_key=True)
@@ -20,11 +17,11 @@ class Chat(Base):
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
-    requests = relationship('ChatRequests', backref='chat')
-    requests_log = relationship('RequestsLog', backref='chat')
+    requests = orm.relationship('ChatRequests', backref='chat')
+    requests_log = orm.relationship('RequestsLog', backref='chat')
 
 
-class Currency(Base):
+class Currency(BaseObject):
     """
     https://en.wikipedia.org/wiki/ISO_4217
 
@@ -39,7 +36,7 @@ class Currency(Base):
     is_crypto = sa.Column(sa.Boolean, index=True, nullable=False)
 
 
-class ChatRequests(Base):
+class ChatRequests(BaseObject):
     __tablename__ = 'chat_requests'
 
     id = sa.Column(sa.Integer, primary_key=True)
@@ -49,11 +46,11 @@ class ChatRequests(Base):
     times = sa.Column(sa.Integer, server_default='0', nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
-    from_currency = relationship('Currency', foreign_keys=[from_currency_id])
-    to_currency = relationship('Currency', foreign_keys=[to_currency_id])
+    from_currency = orm.relationship('Currency', foreign_keys=[from_currency_id])
+    to_currency = orm.relationship('Currency', foreign_keys=[to_currency_id])
 
 
-class RequestsLog(Base):
+class RequestsLog(BaseObject):
     __tablename__ = 'requests_log'
 
     id = sa.Column(sa.Integer, primary_key=True)
@@ -63,17 +60,17 @@ class RequestsLog(Base):
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
 
 
-class Exchange(Base):
+class Exchange(BaseObject):
     __tablename__ = 'exchanges'
 
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.Text, nullable=False, index=True)
     is_active = sa.Column(sa.Boolean, nullable=False)
 
-    rates = relationship('Rate', backref='exchange')
+    rates = orm.relationship('Rate', backref='exchange')
 
 
-class Rate(Base):
+class Rate(BaseObject):
     __tablename__ = 'rates'
     __table_args__ = (sa.UniqueConstraint('exchange_id', 'from_currency_id', 'to_currency_id'),)
 
@@ -89,9 +86,8 @@ class Rate(Base):
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
-    from_currency = relationship('Currency', foreign_keys=[from_currency_id])
-    to_currency = relationship('Currency', foreign_keys=[to_currency_id])
-
+    from_currency = orm.relationship('Currency', foreign_keys=[from_currency_id])
+    to_currency = orm.relationship('Currency', foreign_keys=[to_currency_id])
 
 # class Event(db):
 #     __tablename__ = 'events'

@@ -1,15 +1,16 @@
 import logging
 import time
 
-from suite.conf import settings
+from pyramid_sqlalchemy import init_sqlalchemy
 from telegram import ChatAction
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
 from telegram.ext.dispatcher import run_async
+from sqlalchemy import create_engine
+from suite.conf import settings
 
 from .helpers import import_module
 from .parsers.exceptions import ValidationException
 from .converter.converter import convert
-
 
 logger = logging.getLogger(__name__)
 
@@ -140,6 +141,9 @@ def error(bot, update, err):
 
 
 def main():
+    db_engine = create_engine(settings.DATABASE['url'])
+    init_sqlalchemy(db_engine)
+
     updater = Updater(token=settings.BOT_TOKEN)
 
     # Get the dispatcher to register handlers
