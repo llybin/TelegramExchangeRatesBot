@@ -17,8 +17,8 @@ class Chat(BaseObject):
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
-    requests = orm.relationship('ChatRequests', backref='chat')
-    requests_log = orm.relationship('RequestsLog', backref='chat')
+    requests = orm.relationship('ChatRequests')
+    requests_log = orm.relationship('RequestsLog')
 
 
 class Currency(BaseObject):
@@ -46,6 +46,7 @@ class ChatRequests(BaseObject):
     times = sa.Column(sa.Integer, server_default='0', nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
+    chat = orm.relationship('Chat')
     from_currency = orm.relationship('Currency', foreign_keys=[from_currency_id])
     to_currency = orm.relationship('Currency', foreign_keys=[to_currency_id])
 
@@ -59,15 +60,18 @@ class RequestsLog(BaseObject):
     tag = sa.Column(sa.Text, nullable=True)
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
 
+    chat = orm.relationship('Chat')
+
 
 class Exchange(BaseObject):
     __tablename__ = 'exchanges'
 
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.Text, nullable=False, index=True)
+    weight = sa.Column(sa.Integer, nullable=False)
     is_active = sa.Column(sa.Boolean, nullable=False)
 
-    rates = orm.relationship('Rate', backref='exchange')
+    rates = orm.relationship('Rate')
 
 
 class Rate(BaseObject):
@@ -86,6 +90,7 @@ class Rate(BaseObject):
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
+    exchange = orm.relationship('Exchange')
     from_currency = orm.relationship('Currency', foreign_keys=[from_currency_id])
     to_currency = orm.relationship('Currency', foreign_keys=[to_currency_id])
 

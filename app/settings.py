@@ -89,4 +89,10 @@ LOGGING = {
         'level': 'INFO',
         'handlers': ['console']
     },
+    'loggers': {
+        'sqlalchemy.engine': {
+            'level': 'WARNING',
+            'handlers': ['console']
+        },
+    }
 }

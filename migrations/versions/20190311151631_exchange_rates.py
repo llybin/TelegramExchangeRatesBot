@@ -26,6 +26,7 @@ class Exchange(Base):
 
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.Text, nullable=False, index=True)
+    weight = sa.Column(sa.Integer, nullable=False)
     is_active = sa.Column(sa.Boolean, nullable=False)
 
 
@@ -34,6 +35,7 @@ def upgrade():
     op.create_table('exchanges',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('name', sa.Text(), nullable=False),
+                    sa.Column('weight', sa.Integer(), nullable=False),
                     sa.Column('is_active', sa.Boolean(), nullable=False),
                     sa.PrimaryKeyConstraint('id')
                     )
@@ -59,9 +61,9 @@ def upgrade():
     # ### end Alembic commands ###
 
     exchanges = [
-        Exchange(name=BitfinexExchange.name, is_active=True),
-        Exchange(name=BittrexExchange.name, is_active=True),
-        Exchange(name=OpenExchangeRatesExchange.name, is_active=False)
+        Exchange(name=BitfinexExchange.name, is_active=True, weight=30),
+        Exchange(name=BittrexExchange.name, is_active=True, weight=20),
+        Exchange(name=OpenExchangeRatesExchange.name, is_active=False, weight=10)
     ]
     session = Session(bind=op.get_bind())
     session.add_all(exchanges)
