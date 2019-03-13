@@ -28,7 +28,7 @@ def convert(price_request: PriceRequest) -> PriceRequestResult:
             exchanges=['Baba Vanga'],
             rate=Decimal('1'),
             rate_open=Decimal('1'),
-            last_trade_at=datetime.now(),
+            last_trade_at=datetime(1996, 8, 11),
             low24h=Decimal('1'),
             high24h=Decimal('1'),
         )
@@ -39,7 +39,7 @@ def convert(price_request: PriceRequest) -> PriceRequestResult:
             exchanges=['Baba Vanga'],
             rate=Decimal('0'),
             rate_open=Decimal('0'),
-            last_trade_at=datetime.now(),
+            last_trade_at=datetime(1996, 8, 11),
             low24h=Decimal('0'),
             high24h=Decimal('0'),
         )

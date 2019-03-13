@@ -32,7 +32,12 @@ def format_price_request_result(prr: PriceRequestResult) -> str:
             mess += f'\n*Low*: {prr.low24h:,.2f} *High*: {prr.high24h:,.2f}'
 
     mess += f'\n_[{" + ".join(prr.exchanges)}]_'
-    mess += f'\n_{prr.last_trade_at:%B %d, %H:%M} UTC_'
+
+    # Baba Vanga
+    if prr.last_trade_at.year == 1996:
+        mess += f'\n_{prr.last_trade_at:%d %B %Y}_'
+    else:
+        mess += f'\n_{prr.last_trade_at:%d %B, %H:%M} UTC_'
 
     return mess
 
