@@ -1,4 +1,5 @@
 from decimal import Decimal
+import math
 
 from .. import constants
 from .converter import PriceRequestResult
@@ -78,18 +79,24 @@ def nice_round(number: Decimal, ndigits: int, ndigits2: int = 2) -> Decimal:
     Round a number to a given ndigits precision in decimal digits
     If a number is too small, to round a number with dynamic precision with a last ndigits2 non-zero digits
     """
-    number_parts = f'{number:.{constants.decimal_scale}f}'.split('.')
-
-    if len(number_parts) == 1:
+    # if no fraction
+    if number == int(number):
         return number
-    else:
-        str_fract = number_parts[1]
 
-    k = ndigits
-    if str_fract[0] == '0':
-        for i in range(1, len(str_fract)):
-            if str_fract[i - 1] == '0' and str_fract[i] != '0':
-                k = i + ndigits2
-                break
+    # split on integer and fraction parts
+    str_number_parts = f'{number:f}'.split('.')
+
+    str_fraction = str_number_parts[1]
+
+    k = round(math.log10(Decimal(f'0.{int(str_fraction)}') / (number - int(number))))
+
+    # if fraction is too small
+    if k >= constants.decimal_scale:
+        return Decimal(str_number_parts[0])
+
+    if k < ndigits - 1:
+        k = ndigits
+    else:
+        k += ndigits2
 
     return round(number, k)
