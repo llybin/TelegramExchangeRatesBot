@@ -9,8 +9,6 @@ from .exchanges.base import reverse_pair_data, PairData
 from .helpers import import_module, rate_from_pair_data, fill_rate_open
 from .models import Exchange, Currency, Rate
 
-logging = logging.getLogger(__name__)
-
 
 @celery_app.task(queue='exchanges')
 def exchange_updater(exchange_class: str) -> None:
@@ -23,7 +21,7 @@ def exchange_updater(exchange_class: str) -> None:
             logging.info(f'Exchange: {exchange.name} is not active, skip.')
             return
     except NoResultFound:
-        logging.warning(f'Exchange: {exchange.name} is not configured, skip.')
+        logging.error(f'Exchange: {exchange.name} is not configured, skip.')
         return
 
     logging.info(f'Exchange: {exchange.name} in process.')

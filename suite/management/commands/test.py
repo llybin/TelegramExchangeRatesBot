@@ -15,6 +15,8 @@ def test():
     tests = loader.discover('.')
     test_runner = unittest.TextTestRunner(verbosity=2)
 
+    settings.SENTRY_URL = None
+
     db_url, db_name = settings.DATABASE['url'].rsplit('/', 1)
     settings.DATABASE['url'] = f"{db_url}/test_{db_name}"
 

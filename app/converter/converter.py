@@ -20,6 +20,7 @@ def convert(price_request: PriceRequest) -> str:
     # if from_currency == to_currency return 1
     # check amount zero overflow
     # bitfinex is slow, may be sort by last_trade? not updated old data exclude or delete?
+    # enabled exchanges only
 
     rate_obj = db_session.query(Rate).filter_by(
         from_currency=from_currency,

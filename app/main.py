@@ -1,6 +1,8 @@
 import logging
 import time
 
+import sentry_sdk
+from sentry_sdk.integrations.logging import LoggingIntegration
 from pyramid_sqlalchemy import init_sqlalchemy
 from telegram import ChatAction
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
@@ -11,8 +13,6 @@ from suite.conf import settings
 from .helpers import import_module
 from .parsers.exceptions import ValidationException
 from .converter.converter import convert
-
-logger = logging.getLogger(__name__)
 
 
 @run_async
@@ -137,10 +137,24 @@ def empty_command(bot, update):
 
 
 def error(bot, update, err):
-    logger.warning(f'Update "{bot}" caused error "{err}"')
+    logging.error(f'Telegram bot error handler', extra=dict(
+        bot=bot, update=update, err=err
+    ))
 
 
 def main():
+    if settings.SENTRY_URL:
+        sentry_logging = LoggingIntegration(
+            level=logging.INFO,  # Capture info and above as breadcrumbs
+            event_level=logging.ERROR  # Send errors as events
+        )
+        sentry_sdk.init(
+            dsn=settings.SENTRY_URL,
+            integrations=[sentry_logging]
+        )
+
+    # move to __init__ ? all
+    #  - decorator - reraise original how made
     db_engine = create_engine(settings.DATABASE['url'])
     init_sqlalchemy(db_engine)
 

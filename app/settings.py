@@ -66,6 +66,8 @@ BOT_PARSERS = [
 
 OPENEXCHANGERATES_TOKEN = os.environ.get('OPENEXCHANGERATES_TOKEN')
 
+SENTRY_URL = os.environ.get('SENTRY_URL')
+
 LANGUAGES = (
     'en_US',
 )
