@@ -22,10 +22,6 @@ class PriceRequestResult(NamedTuple):
 
 
 def convert(price_request: PriceRequest) -> PriceRequestResult:
-    db_session = Session()
-    from_currency = db_session.query(Currency).filter_by(code=price_request.currency).one()
-    to_currency = db_session.query(Currency).filter_by(code=price_request.to_currency).one()
-
     if price_request.currency == price_request.to_currency:
         return PriceRequestResult(
             price_request=price_request,
@@ -49,6 +45,10 @@ def convert(price_request: PriceRequest) -> PriceRequestResult:
         )
 
     # bitfinex is slow, may be sort by last_trade? not updated old data exclude or delete?
+
+    db_session = Session()
+    from_currency = db_session.query(Currency).filter_by(code=price_request.currency).one()
+    to_currency = db_session.query(Currency).filter_by(code=price_request.to_currency).one()
 
     rate_obj = db_session.query(Rate).filter_by(
         from_currency=from_currency,
