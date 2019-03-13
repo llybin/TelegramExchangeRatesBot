@@ -1,6 +1,7 @@
-from pyramid_sqlalchemy import BaseObject
 import sqlalchemy as sa
+from pyramid_sqlalchemy import BaseObject
 from sqlalchemy import orm
+from suite.conf import settings
 
 from .constants import decimal_precision, decimal_scale
 
@@ -11,7 +12,7 @@ class Chat(BaseObject):
     id = sa.Column(sa.BigInteger, primary_key=True)
     first_name = sa.Column(sa.Text, nullable=True)
     username = sa.Column(sa.Text, nullable=True)
-    locale = sa.Column(sa.Text, default='en_US', nullable=False)
+    locale = sa.Column(sa.Text, default=settings.LANGUAGE_CODE, nullable=False)
     is_subscribed = sa.Column(sa.Boolean, server_default='true', nullable=False)
     is_console_mode = sa.Column(sa.Boolean, server_default='true', nullable=False)
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)

@@ -10,4 +10,5 @@ script:
   - cp .env.default .env
   - docker-compose build
   - docker-compose up -d db
+  - docker-compose run service pybabel compile -d locale
   - docker-compose run service ./manage.py test

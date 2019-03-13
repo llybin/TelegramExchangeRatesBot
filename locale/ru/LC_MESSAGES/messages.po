@@ -1,0 +1,90 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2019 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-03-14 03:03+0700\n"
+"PO-Revision-Date: 2019-03-14 01:20+0700\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: app/main.py:23
+msgid "I am bot. I will help you to know a current exchange rates."
+msgstr ""
+
+#: app/main.py:28
+msgid ""
+"Send me a message like this:\n"
+"    *BTC USD* - to see the current exchange rate for pair\n"
+"    *100 USD EUR* - to convert the amount from 100 USD to EUR"
+msgstr ""
+
+#: app/main.py:34
+msgid "Just text me message in private chat."
+msgstr ""
+
+#: app/main.py:38
+msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
+msgstr ""
+
+#: app/main.py:42
+msgid "Also look here 👉 /help"
+msgstr ""
+
+#: app/main.py:48
+msgid "humans"
+msgstr ""
+
+#: app/main.py:52
+#, python-format
+msgid "Hello, %(name)s!"
+msgstr "Привет, %(name)s!"
+
+#: app/main.py:63
+msgid "Have any question how to talk with me? 👉 /tutorial"
+msgstr ""
+
+#: app/main.py:80
+msgid "You're unsubscribed."
+msgstr ""
+
+#: app/main.py:80
+msgid "You can subscribe again /start"
+msgstr ""
+
+#: app/main.py:91
+msgid ""
+"*Commands*\n"
+"\n"
+"/start - Start to enslave mankind\n"
+"/tutorial - Tutorial, how to talk with me\n"
+"/currencies - All currencies that I support.\n"
+"/cancel - Cancel the current operation\n"
+"/feedback - If you have suggestions, text me\n"
+"/consolemodetoggle - Hide/show a custom keyboard\n"
+"/p - Command for group chats, get exchange rate\n"
+"/sources - Currency rates sources\n"
+"/disclaimers - Disclaimers\n"
+"/stop - Unsubscribe\n"
+msgstr ""
+
+#: app/main.py:124
+msgid ""
+"Data is provided by financial exchanges and may be delayed as specified "
+"by financial exchanges or our data providers. Bot does not verify any "
+"data and disclaims any obligation to do so. Bot cannot guarantee the "
+"accuracy of the exchange rates displayed. You should confirm current "
+"rates before making any transactions that could be affected by changes in"
+" the exchange rates."
+msgstr ""

@@ -69,10 +69,10 @@ OPENEXCHANGERATES_TOKEN = os.environ.get('OPENEXCHANGERATES_TOKEN')
 SENTRY_URL = os.environ.get('SENTRY_URL')
 
 LANGUAGES = (
-    'en_US',
+    'ru',
 )
 
-LANGUAGE_CODE = 'en_US'
+LANGUAGE_CODE = 'en'
 
 LOGGING = {
     'version': 1,
