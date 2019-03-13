@@ -20,6 +20,7 @@ python-telegram-bot = "==11.1.0"
 pyramid-sqlalchemy = "==1.6"
 ratelimit = "==2.2.1"
 requests = "==2.21.0"
+sentry-sdk = "==0.7.6"
 sqlalchemy = "==1.2.18"
 sqlalchemy-utils = "==0.33.11"
 
