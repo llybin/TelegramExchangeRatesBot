@@ -10,13 +10,13 @@ def format_price_request_result(prr: PriceRequestResult) -> str:
         amount = prr.price_request.amount
         res = amount * prr.rate
 
-        mess = f'{money_format(amount)} *{prr.price_request.currency}* = {money_format(res)} *{prr.price_request.to_currency}*'
+        mess = f'{nice_amount(amount)} *{prr.price_request.currency}* = {nice_amount(res)} *{prr.price_request.to_currency}*'
 
     else:
         mess = '*{} {} {}*'.format(
             prr.price_request.currency,
             prr.price_request.to_currency,
-            money_format(prr.rate),
+            nice_round(prr.rate, 4)
         )
 
         if prr.rate and prr.rate_open:
@@ -26,10 +26,10 @@ def format_price_request_result(prr: PriceRequestResult) -> str:
             arrow = get_arrow(percent)
 
             mess += f' {arrow}'
-            mess += f'\n{sign}{diff:,.4f} ({sign}{percent:,.2f}%)'
+            mess += f'\n{sign}{nice_amount(diff)} ({sign}{nice_percent(percent)}%)'
 
         if prr.low24h and prr.high24h:
-            mess += f'\n*Low*: {prr.low24h:,.2f} *High*: {prr.high24h:,.2f}'
+            mess += f'\n*Low*: {nice_amount(prr.low24h)} *High*: {nice_amount(prr.high24h)}'
 
     mess += f'\n_[{" + ".join(prr.exchanges)}]_'
 
@@ -65,5 +65,31 @@ def rate_percent(rate0: Decimal, rate1: Decimal) -> Decimal:
     return diff / rate0 * 100
 
 
-def money_format(money: Decimal) -> str:
-    return '{:,.4f}'.format(money)
+def nice_amount(number):
+    return f'{nice_round(number, 4):f}'
+
+
+def nice_percent(number):
+    return f'{nice_round(number, 2):f}'
+
+
+def nice_round(number: Decimal, ndigits: int, ndigits2: int = 2) -> Decimal:
+    """
+    Round a number to a given ndigits precision in decimal digits
+    If a number is too small, to round a number with dynamic precision with a last ndigits2 non-zero digits
+    """
+    number_parts = f'{number:.{constants.decimal_scale}f}'.split('.')
+
+    if len(number_parts) == 1:
+        return number
+    else:
+        str_fract = number_parts[1]
+
+    k = ndigits
+    if str_fract[0] == '0':
+        for i in range(1, len(str_fract)):
+            if str_fract[i - 1] == '0' and str_fract[i] != '0':
+                k = i + ndigits2
+                break
+
+    return round(number, k)
