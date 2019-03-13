@@ -153,8 +153,6 @@ def main():
             integrations=[sentry_logging]
         )
 
-    # move to __init__ ? all
-    #  - decorator - reraise original how made
     db_engine = create_engine(settings.DATABASE['url'])
     init_sqlalchemy(db_engine)
 
