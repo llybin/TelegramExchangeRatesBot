@@ -12,12 +12,14 @@ from suite.conf import settings
 
 from .helpers import import_module
 from .parsers.exceptions import ValidationException
+from .converter.exceptions import ConverterException
 from .converter.converter import convert
+from .converter.formatter import format_price_request_result
 
 
 @run_async
 def start(bot, update):
-    name = update.message.from_user.first_name if update.message.chat.type == 'private' else 'people'
+    name = update.message.from_user.first_name if update.message.chat.type == 'private' else 'humans'
     bot.send_message(
         chat_id=update.message.chat_id,
         text=f'Hello, {name}!')
@@ -107,20 +109,30 @@ def price_requester(bot, update, text):
 
     try:
         price_request = start_parse(text)
-
-        logging.info(f'price_request: {text} -> {price_request}')
-
-        result = convert(price_request)
-
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            parse_mode='Markdown',
-            text=f'{result}')
-
     except ValidationException:
         bot.send_message(
             chat_id=update.message.chat_id,
             text='Wrong format or unknown currency. See /help')
+        return
+
+    logging.info(f'price_request: {text} -> {price_request}')
+
+    try:
+        price_request_result = convert(price_request)
+    except ConverterException:
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text='No rates. See /help')
+        return
+
+    logging.info(f'price_request: {price_request_result}')
+
+    result = format_price_request_result(price_request_result)
+
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        parse_mode='Markdown',
+        text=f'{result}')
 
 
 def price(bot, update, args):
