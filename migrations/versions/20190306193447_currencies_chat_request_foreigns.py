@@ -371,12 +371,13 @@ def upgrade():
             session.delete(x)
 
     op.drop_column('chat_requests', 'currencies')
-    op.alter_column('chat_requests', 'from_currency_id',
-                    existing_type=sa.INTEGER(),
-                    nullable=False)
-    op.alter_column('chat_requests', 'to_currency_id',
-                    existing_type=sa.INTEGER(),
-                    nullable=False)
+    # TODO:
+    # op.alter_column('chat_requests', 'from_currency_id',
+    #                 existing_type=sa.INTEGER(),
+    #                 nullable=False)
+    # op.alter_column('chat_requests', 'to_currency_id',
+    #                 existing_type=sa.INTEGER(),
+    #                 nullable=False)
 
 
 def downgrade():

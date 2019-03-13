@@ -1,6 +1,8 @@
 import sqlalchemy as sa
-from pyramid_sqlalchemy import BaseObject
+from pyramid_sqlalchemy import BaseObject, Session
 from sqlalchemy import orm
+
+from .cache import region
 from suite.conf import settings
 
 from .constants import decimal_precision, decimal_scale
@@ -117,3 +119,9 @@ class Rate(BaseObject):
 #     is_active = sa.Column(sa.Boolean(), default=True, nullable=False)
 #     created = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
 #     updated = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
+
+
+# TODO: move
+@region.cache_on_arguments(expiration_time=300)
+def get_all_currencies():
+    return [x[0] for x in Session().query(Currency.code).filter_by(is_active=True)]

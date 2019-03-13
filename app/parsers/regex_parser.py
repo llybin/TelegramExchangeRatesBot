@@ -8,7 +8,7 @@ from .base import (
 )
 from .number_format import NUMBER_PATTERN_ALL, NumberFormat
 from .exceptions import WrongFormatException, UnknownCurrencyException
-from ..logic import get_all_currencies
+from app.models import get_all_currencies
 
 CURRENCY_SEPARATORS_LIST = (' to ', ' in ', '=', ' = ', r'\s')
 CURRENCY_SEPARATORS_STR = '|'.join(CURRENCY_SEPARATORS_LIST)

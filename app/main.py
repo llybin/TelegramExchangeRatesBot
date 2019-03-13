@@ -4,17 +4,15 @@ import sentry_sdk
 import transaction
 from sentry_sdk.integrations.logging import LoggingIntegration
 from pyramid_sqlalchemy import init_sqlalchemy, Session
+from telegram import ReplyKeyboardRemove
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
 from sqlalchemy import create_engine
+
+from .logic import get_keyboard, price_requester
 from suite.conf import settings
 
 from .decorators import register_update, chat_language
-from .helpers import import_module
-from .parsers.exceptions import ValidationException
-from .converter.exceptions import ConverterException
-from .converter.converter import convert
-from .converter.formatter import format_price_request_result
-from .models import Chat
+from .models import Chat, Currency
 
 
 def tutorial(bot, update, _):
@@ -39,6 +37,7 @@ def tutorial(bot, update, _):
 
     bot.send_message(
         chat_id=update.message.chat_id,
+        reply_markup=get_keyboard(update.message.chat_id),
         text=_('Also look here 👉 /help'))
 
 
@@ -60,6 +59,7 @@ def start_command(bot, update, chat_created, _):
 
         bot.send_message(
             chat_id=update.message.chat_id,
+            reply_markup=get_keyboard(update.message.chat_id),
             text=_('Have any question how to talk with me? 👉 /tutorial'))
 
 
@@ -84,23 +84,32 @@ def stop_command(bot, update, _):
 @register_update()
 @chat_language
 def help_command(bot, update, _):
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        disable_web_page_preview=True,
-        parse_mode='Markdown',
-        text=_('''*Commands*
+    text_to = _('''*Commands*
 
 /start - Start to enslave mankind
 /tutorial - Tutorial, how to talk with me
 /currencies - All currencies that I support.
 /cancel - Cancel the current operation
 /feedback - If you have suggestions, text me
-/consolemodetoggle - Hide/show a custom keyboard
+/keyboard - Hide / show a keyboard with request history
 /p - Command for group chats, get exchange rate
 /sources - Currency rates sources
 /disclaimers - Disclaimers
 /stop - Unsubscribe
-'''))
+
+[Help improve translation](%(trans_link)s)
+''' % {'trans_link': 'https://poeditor.com/join/project/LLu8AztSPb'})
+
+    text_to += '''\nSSD cloud servers in regions: New York, San Francisco, Amsterdam, Singapore, London, Frankfurt, Toronto, Bangalore.
+
+Sign up using [link](%(link)s) and receive $100. From $5 per month: 1GB / 1 CPU / 25GB SSD Disk.''' % {
+        'link': 'https://m.do.co/c/ba04a478e10d'}  # NOQA
+
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        disable_web_page_preview=True,
+        parse_mode='Markdown',
+        text=text_to)
 
 
 @register_update()
@@ -118,6 +127,46 @@ https://openexchangerates.org - 60min''')
 
 @register_update()
 @chat_language
+def keyboard_command(bot, update, _):
+    chat_id = update.message.chat_id
+
+    if chat_id > 0:
+        db_session = Session()
+        chat = db_session.query(Chat).filter_by(id=chat_id).first()
+
+        if chat.is_console_mode:
+            chat.is_console_mode = False
+            reply_markup = get_keyboard(chat_id)
+            text_to = _("Console mode is disabled.")
+        else:
+            chat.is_console_mode = True
+            reply_markup = ReplyKeyboardRemove()
+            text_to = _("Console mode is enabled.")
+
+        transaction.commit()
+    else:
+        text_to = _("The command is not available for group chats")
+        reply_markup = ReplyKeyboardRemove()
+
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        reply_markup=reply_markup,
+        text=text_to)
+
+
+@register_update()
+def currencies_command(bot, update):
+    text_to = '\n'.join([f'{code} - {name}' for code, name in Session().query(
+        Currency.code, Currency.name).filter_by(is_active=True).order_by(Currency.name)])
+
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        parse_mode='Markdown',
+        text=text_to)
+
+
+@register_update()
+@chat_language
 def disclaimers_command(bot, update, _):
     bot.send_message(
         chat_id=update.message.chat_id,
@@ -128,54 +177,6 @@ def disclaimers_command(bot, update, _):
                'rates displayed. You should confirm current rates before making '
                'any transactions that could be affected by changes in '
                'the exchange rates.'))
-
-
-PARSERS = {import_module(parser_path) for parser_path in settings.BOT_PARSERS}
-
-
-def start_parse(text):
-    for parser in PARSERS:
-        try:
-            return parser(text).parse()
-        except ValidationException:
-            pass
-
-    raise ValidationException
-
-
-def price_requester(bot, update, text):
-    if not text:
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text='Request must contain arguments. See /help')
-        return
-
-    try:
-        price_request = start_parse(text)
-    except ValidationException:
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text='Wrong format or unknown currency. See /help')
-        return
-
-    logging.info(f'price_request: {text} -> {price_request}')
-
-    try:
-        price_request_result = convert(price_request)
-    except ConverterException:
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text='No rates. See /help')
-        return
-
-    logging.info(f'price_request: {price_request_result}')
-
-    result = format_price_request_result(price_request_result)
-
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        parse_mode='Markdown',
-        text=f'{result}')
 
 
 @register_update()
@@ -223,8 +224,10 @@ def main():
     dp = updater.dispatcher
 
     # on different commands - answer in Telegram
+    dp.add_handler(CommandHandler("currencies", currencies_command))
     dp.add_handler(CommandHandler("disclaimers", disclaimers_command))
     dp.add_handler(CommandHandler("help", help_command))
+    dp.add_handler(CommandHandler("keyboard", keyboard_command))
     dp.add_handler(CommandHandler("p", price_command, pass_args=True))
     dp.add_handler(CommandHandler("sources", sources_command))
     dp.add_handler(CommandHandler("start", start_command))

@@ -6,5 +6,5 @@ pybabel compile -d locale
 echo "Apply database migrations"
 ./manage.py db migrate
 
-echo "Starting server"
+echo "Start server"
 ./manage.py start
