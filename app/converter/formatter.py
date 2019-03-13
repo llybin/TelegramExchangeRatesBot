@@ -92,7 +92,7 @@ def nice_round(number: Decimal, ndigits: int, ndigits2: int = 2) -> Decimal:
 
     # if fraction is too small
     if k >= constants.decimal_scale:
-        return Decimal(str_number_parts[0])
+        return number.quantize(1)
 
     if k < ndigits - 1:
         k = ndigits
