@@ -32,6 +32,7 @@ class NiceRoundTest(SimpleTestCase):
         self.assertEqual(nice_round(Decimal('-1.0123'), 2, 2), Decimal('-1.012'))
 
     def test_as_str(self):
+        # app.converter.formatter.strip_last_zeros
         self.skipTest("FIXME: 0.000030 - last zero, bug in python?")
         self.assertEqual(nice_round(Decimal('0.000030061495775926880000'), 2), Decimal('0.00003'))
         self.assertEqual(f'{nice_round(Decimal("0.000030061495775926880000"), 2):f}', '0.00003')

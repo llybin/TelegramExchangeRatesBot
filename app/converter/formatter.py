@@ -66,12 +66,22 @@ def rate_percent(rate0: Decimal, rate1: Decimal) -> Decimal:
     return diff / rate0 * 100
 
 
+def strip_last_zeros(res):
+    """
+    Hack, see app.converter.tests.test_formater.NiceRoundTest#test_as_str
+    """
+    res = res.rstrip('0')
+    if not res[-1].isdigit():
+        res += '0'
+    return res
+
+
 def nice_amount(number):
-    return f'{nice_round(number, 4):f}'.rstrip('0')
+    return strip_last_zeros(f'{nice_round(number, 4):f}')
 
 
 def nice_percent(number):
-    return f'{nice_round(number, 2):f}'.rstrip('0')
+    return strip_last_zeros(f'{nice_round(number, 2):f}')
 
 
 def nice_round(number: Decimal, ndigits: int, ndigits2: int = 2) -> Decimal:
