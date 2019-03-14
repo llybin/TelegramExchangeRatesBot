@@ -22,6 +22,7 @@ class Chat(BaseObject):
 
     requests = orm.relationship('ChatRequests')
     requests_log = orm.relationship('RequestsLog')
+    events = orm.relationship('Event')
 
 
 class Currency(BaseObject):
@@ -97,15 +98,19 @@ class Rate(BaseObject):
     from_currency = orm.relationship('Currency', foreign_keys=[from_currency_id])
     to_currency = orm.relationship('Currency', foreign_keys=[to_currency_id])
 
-# class Event(db):
-#     __tablename__ = 'events'
-#     # __table_args__ = (UniqueConstraint('chat_id', 'event', name='chat_id_events'),)
-#
-#     id = sa.Column(sa.Integer, primary_key=True)
-#     chat_id = sa.Column(sa.BigInteger, nullable=False, index=True)
-#     event = sa.Column(sa.Text, nullable=False, index=True)
-#     created = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
-#
+
+class Event(BaseObject):
+    __tablename__ = 'events'
+    __table_args__ = (sa.UniqueConstraint('chat_id', 'event'),)
+
+    id = sa.Column(sa.Integer, primary_key=True)
+    chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
+    event = sa.Column(sa.Text, nullable=False)
+    created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
+
+    chat = orm.relationship('Chat')
+
+
 # class Notification(db):
 #     __tablename__ = 'notifications'
 #     # __table_args__ = (UniqueConstraint('chat_id', 'currencies', 'clause'),)

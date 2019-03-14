@@ -67,11 +67,11 @@ def rate_percent(rate0: Decimal, rate1: Decimal) -> Decimal:
 
 
 def nice_amount(number):
-    return f'{nice_round(number, 4):f}'
+    return f'{nice_round(number, 4):f}'.rstrip('0')
 
 
 def nice_percent(number):
-    return f'{nice_round(number, 2):f}'
+    return f'{nice_round(number, 2):f}'.rstrip('0')
 
 
 def nice_round(number: Decimal, ndigits: int, ndigits2: int = 2) -> Decimal:
