@@ -35,6 +35,7 @@ CELERY_DEFAULT_QUEUE = 'default'
 CELERY_QUEUES = (
     Queue('default'),
     Queue('exchanges'),
+    Queue('log'),
 )
 
 CELERYBEAT_SCHEDULE = {
@@ -73,6 +74,8 @@ LANGUAGES = (
 )
 
 LANGUAGE_CODE = 'en'
+
+MAX_LEN_MSG_REQUESTS_LOG = 100
 
 LOGGING = {
     'version': 1,

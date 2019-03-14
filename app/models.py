@@ -46,7 +46,7 @@ class ChatRequests(BaseObject):
     chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
     from_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
     to_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
-    times = sa.Column(sa.Integer, server_default='0', nullable=False)
+    times = sa.Column(sa.Integer, server_default='1', nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
     chat = orm.relationship('Chat')
@@ -60,7 +60,7 @@ class RequestsLog(BaseObject):
     id = sa.Column(sa.Integer, primary_key=True)
     chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
     message = sa.Column(sa.Text, nullable=False)
-    tag = sa.Column(sa.Text, nullable=True)
+    tag = sa.Column(sa.Text, nullable=False)
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
 
     chat = orm.relationship('Chat')

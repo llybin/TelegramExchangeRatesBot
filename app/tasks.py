@@ -1,13 +1,15 @@
+from datetime import datetime
 import logging
 
 import transaction
 from pyramid_sqlalchemy import Session
 from sqlalchemy.orm.exc import NoResultFound
+from suite.conf import settings
 
 from .celery import celery_app
 from .exchanges.base import reverse_pair_data, PairData
 from .helpers import import_module, rate_from_pair_data, fill_rate_open
-from .models import Exchange, Currency, Rate
+from .models import Exchange, Currency, Rate, RequestsLog
 
 
 @celery_app.task(queue='exchanges')
@@ -55,4 +57,19 @@ def exchange_updater(exchange_class: str) -> None:
         save_rate(pair_data)
         save_rate(reversed_pair_data)
 
+    transaction.commit()
+
+
+@celery_app.task(queue='log')
+def write_request_log(chat_id: int, msg: str, created_at: datetime, tag: str = '') -> None:
+    if len(msg) > settings.MAX_LEN_MSG_REQUESTS_LOG:
+        return
+
+    db_session = Session()
+    db_session.add(RequestsLog(
+        chat_id=chat_id,
+        message=msg,
+        tag=tag,
+        created_at=created_at,
+    ))
     transaction.commit()

@@ -286,7 +286,7 @@ class ChatRequests(Base):
     from_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=True)
     to_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=True)
     currencies = sa.Column(sa.Text, nullable=False)
-    times = sa.Column(sa.Integer, server_default='0', nullable=False)
+    times = sa.Column(sa.Integer, server_default='1', nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
     from_currency = relationship('Currency', foreign_keys=[from_currency_id])

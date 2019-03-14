@@ -1,3 +1,4 @@
+from datetime import datetime
 import logging
 
 import sentry_sdk
@@ -7,12 +8,17 @@ from pyramid_sqlalchemy import init_sqlalchemy, Session
 from telegram import ReplyKeyboardRemove
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
 from sqlalchemy import create_engine
-
-from .logic import get_keyboard, price_requester
 from suite.conf import settings
 
 from .decorators import register_update, chat_language
-from .models import Chat, Currency
+from .converter.formatter import format_price_request_result
+from .converter.converter import convert
+from .converter.exceptions import ConverterException
+from .logic import get_keyboard, start_parse
+from .models import Chat, Currency, ChatRequests
+from .parsers.exceptions import ValidationException
+from .exceptions import EmptyPriceRequestException
+from .tasks import write_request_log
 
 
 def tutorial(bot, update, _):
@@ -38,7 +44,7 @@ def tutorial(bot, update, _):
     bot.send_message(
         chat_id=update.message.chat_id,
         reply_markup=get_keyboard(update.message.chat_id),
-        text=_('Also look here 👉 /help'))
+        text=_('Also take a look here 👉 /help'))
 
 
 @register_update(pass_chat_created=True)
@@ -77,30 +83,42 @@ def stop_command(bot, update, _):
 
     bot.send_message(
         chat_id=update.message.chat_id,
-        text=_("You're unsubscribed.") + " " + _("You can subscribe again /start")
+        text=_("You're unsubscribed. You always can subscribe again 👉 /start")
     )
 
 
 @register_update()
 @chat_language
 def help_command(bot, update, _):
-    text_to = _('''*Commands*
+    text_to = _('*Commands*')
 
-/start - Start to enslave mankind
-/tutorial - Tutorial, how to talk with me
-/currencies - All currencies that I support.
-/cancel - Cancel the current operation
-/feedback - If you have suggestions, text me
-/keyboard - Hide / show a keyboard with request history
-/p - Command for group chats, get exchange rate
-/sources - Currency rates sources
-/disclaimers - Disclaimers
-/stop - Unsubscribe
+    text_to += '\n\n'
+    text_to += _('/start - Start to enslave mankind')
+    text_to += '\n'
+    text_to += _('/tutorial - Tutorial, how to talk with me')
+    text_to += '\n'
+    text_to += _('/currencies - All currencies that I support')
+    # text_to += '\n'
+    # text_to += _('/cancel - Cancel the current operation')
+    # text_to += '\n'
+    # text_to += _('/feedback - If you have suggestions, text me')
+    text_to += '\n'
+    text_to += _('/keyboard - Hide / show a keyboard with request history')
+    text_to += '\n'
+    text_to += _('/p - Command for group chats, get exchange rate')
+    text_to += '\n'
+    text_to += _('/sources - Currency rates sources')
+    text_to += '\n'
+    text_to += _('/disclaimers - Disclaimers')
+    text_to += '\n'
+    text_to += _('/stop - Unsubscribe')
 
-[Help improve translation](%(trans_link)s)
-''' % {'trans_link': 'https://poeditor.com/join/project/LLu8AztSPb'})
+    text_to += '\n\n'
+    text_to += _("Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)") % {
+        'trans_link': 'https://poeditor.com/join/project/LLu8AztSPb'}
 
-    text_to += '''\nSSD cloud servers in regions: New York, San Francisco, Amsterdam, Singapore, London, Frankfurt, Toronto, Bangalore.
+    text_to += '\n\n'
+    text_to += '''SSD cloud servers in regions: New York, San Francisco, Amsterdam, Singapore, London, Frankfurt, Toronto, Bangalore.
 
 Sign up using [link](%(link)s) and receive $100. From $5 per month: 1GB / 1 CPU / 25GB SSD Disk.''' % {
         'link': 'https://m.do.co/c/ba04a478e10d'}  # NOQA
@@ -179,23 +197,97 @@ def disclaimers_command(bot, update, _):
                'the exchange rates.'))
 
 
+def price(bot, update, text, _):
+    tag = ''
+    try:
+        if not text:
+            raise EmptyPriceRequestException
+
+        price_request = start_parse(text)
+
+        tag = price_request.parser_name
+
+        logging.info(f'price_request: {text} -> {price_request}')
+
+        price_request_result = convert(price_request)
+
+        logging.info(f'price_request: {price_request_result}')
+
+        text_to = format_price_request_result(price_request_result)
+
+        db_session = Session()
+        from_currency = db_session.query(Currency).filter_by(code=price_request.currency).one()
+        to_currency = db_session.query(Currency).filter_by(code=price_request.to_currency).one()
+
+        chat_request = db_session.query(ChatRequests).filter_by(
+            chat_id=update.message.chat_id,
+            from_currency=from_currency,
+            to_currency=to_currency,
+        ).first()
+
+        if chat_request:
+            chat_request.times = ChatRequests.times + 1
+
+        else:
+            chat_request = ChatRequests(
+                chat_id=update.message.chat_id,
+                from_currency=from_currency,
+                to_currency=to_currency,
+            )
+            db_session.add(chat_request)
+
+        transaction.commit()
+
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            parse_mode='Markdown',
+            reply_markup=get_keyboard(update.message.chat_id),
+            text=text_to)
+
+    except EmptyPriceRequestException:
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text=_('The message must contain currencies or amounts 👉 /tutorial'))
+
+    except ValidationException:
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text=_("I don't understand you 😞 Take a look here 👉 /help"))
+
+    except ConverterException:
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text=_("I understood that you asked, but at the moment "
+                   "I don't have actual exchange rates for your request."
+                   " Sorry. 😭"))
+
+    finally:
+        if len(text) <= settings.MAX_LEN_MSG_REQUESTS_LOG:
+            write_request_log.delay(
+                chat_id=update.message.chat_id,
+                msg=text,
+                created_at=datetime.now(),
+                tag=tag
+            )
+
+
 @register_update()
 @chat_language
 def price_command(bot, update, args, _):
     text = ''.join(args)
-    price_requester(bot, update, text)
+    price(bot, update, text, _)
 
 
 @register_update()
 @chat_language
 def message_command(bot, update, _):
-    price_requester(bot, update, update.message.text)
+    price(bot, update, update.message.text, _)
 
 
 @register_update()
 @chat_language
 def empty_command(bot, update, _):
-    price_requester(bot, update, update.message.text[1:])
+    price(bot, update, update.message.text[1:], _)
 
 
 def error_handler(bot, update, err):

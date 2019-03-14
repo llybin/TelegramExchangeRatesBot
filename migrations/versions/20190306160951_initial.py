@@ -21,7 +21,7 @@ def upgrade():
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('chat_id', sa.BigInteger(), nullable=False),
                     sa.Column('currencies', sa.Text(), nullable=False),
-                    sa.Column('cnt', sa.Integer(), server_default='0', nullable=False),
+                    sa.Column('cnt', sa.Integer(), server_default='1', nullable=False),
                     sa.Column('updated', sa.TIMESTAMP(), server_default=sa.text('now()'), nullable=False),
                     sa.PrimaryKeyConstraint('id')
                     )

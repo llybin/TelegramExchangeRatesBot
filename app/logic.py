@@ -1,18 +1,15 @@
-import logging
 from pyramid_sqlalchemy import Session
 from telegram import ReplyKeyboardMarkup
 
 from suite.conf import settings
-from .converter.converter import convert
-from .converter.exceptions import ConverterException
-from .converter.formatter import format_price_request_result
 from .helpers import import_module
 from .keyboard import KeyboardSimpleClever
 from .models import Chat, ChatRequests
+from .parsers.base import PriceRequest
 from .parsers.exceptions import ValidationException
 
 
-def get_keyboard(chat_id):
+def get_keyboard(chat_id: int) -> ReplyKeyboardMarkup or None:
     if chat_id < 0:
         return None
 
@@ -42,7 +39,7 @@ def get_keyboard(chat_id):
 PARSERS = {import_module(parser_path) for parser_path in settings.BOT_PARSERS}
 
 
-def start_parse(text):
+def start_parse(text: str) -> PriceRequest:
     for parser in PARSERS:
         try:
             return parser(text).parse()
@@ -50,39 +47,3 @@ def start_parse(text):
             pass
 
     raise ValidationException
-
-
-def price_requester(bot, update, text):
-    if not text:
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text='Request must contain arguments. See /help')
-        return
-
-    try:
-        price_request = start_parse(text)
-    except ValidationException:
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text='Wrong format or unknown currency. See /help')
-        return
-
-    logging.info(f'price_request: {text} -> {price_request}')
-
-    try:
-        price_request_result = convert(price_request)
-    except ConverterException:
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text='No rates. See /help')
-        return
-
-    logging.info(f'price_request: {price_request_result}')
-
-    result = format_price_request_result(price_request_result)
-
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        parse_mode='Markdown',
-        reply_markup=get_keyboard(update.message.chat_id),
-        text=f'{result}')

@@ -26,6 +26,8 @@ PRICE_REQUEST_CURRENCIES = 3       # usd eur | usd eur     | usd eur
 
 
 class SimpleParser(Parser):
+    name = 'SimpleParser'
+
     def parse(self) -> PriceRequest:
         text = self.text
 
@@ -60,6 +62,7 @@ class SimpleParser(Parser):
             amount=amount,
             currency=currency,
             to_currency=to_currency,
+            parser_name=self.name,
             direction_writing=direction_writing,
             number_format=number_format,
         )
