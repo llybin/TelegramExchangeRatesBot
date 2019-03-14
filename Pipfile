@@ -11,6 +11,7 @@ alembic = "==1.0.7"
 babel = "==2.6.0"
 cached-property = "==1.5.1"
 celery = {version = "==4.2.1",extras = ["redis"]}
+celery-once = "==2.1.0"
 click = "==7.0"
 "dogpile.cache" = "==0.7.1"
 iso4217 = "==1.5.20180829"

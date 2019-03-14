@@ -44,8 +44,6 @@ def convert(price_request: PriceRequest) -> PriceRequestResult:
             high24h=Decimal('0'),
         )
 
-    # bitfinex is slow, may be sort by last_trade? not updated old data exclude or delete?
-
     db_session = Session()
     from_currency = db_session.query(Currency).filter_by(code=price_request.currency).one()
     to_currency = db_session.query(Currency).filter_by(code=price_request.to_currency).one()

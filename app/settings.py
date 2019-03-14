@@ -15,6 +15,8 @@ CACHE = {
 
 BROKER_URL = os.environ.get('BROKER_URL', 'redis://redis:6379/0')
 
+CELERY_ONCE_URL = os.environ.get('CELERY_ONCE_URL', 'redis://redis:6379/2')
+
 CELERY_IMPORTS = (
     'app.tasks',
 )

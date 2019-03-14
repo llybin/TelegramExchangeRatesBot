@@ -13,6 +13,13 @@ if settings.SENTRY_URL:
 
 celery_app = Celery()
 celery_app.config_from_object(settings)
+celery_app.conf.ONCE = {
+    'backend': 'celery_once.backends.Redis',
+    'settings': {
+        'url': settings.CELERY_ONCE_URL,
+        'default_timeout': 60 * 60
+    }
+}
 
 db_engine = create_engine(settings.DATABASE['url'])
 init_sqlalchemy(db_engine)
