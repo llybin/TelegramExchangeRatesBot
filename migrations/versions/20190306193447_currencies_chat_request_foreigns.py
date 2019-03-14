@@ -370,14 +370,15 @@ def upgrade():
             print(f'Not found: {x.currencies}, delete.')
             session.delete(x)
 
+    session.flush()
+
     op.drop_column('chat_requests', 'currencies')
-    # TODO:
-    # op.alter_column('chat_requests', 'from_currency_id',
-    #                 existing_type=sa.INTEGER(),
-    #                 nullable=False)
-    # op.alter_column('chat_requests', 'to_currency_id',
-    #                 existing_type=sa.INTEGER(),
-    #                 nullable=False)
+    op.alter_column('chat_requests', 'from_currency_id',
+                    existing_type=sa.INTEGER(),
+                    nullable=False)
+    op.alter_column('chat_requests', 'to_currency_id',
+                    existing_type=sa.INTEGER(),
+                    nullable=False)
 
 
 def downgrade():
