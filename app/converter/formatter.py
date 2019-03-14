@@ -88,7 +88,7 @@ def nice_round(number: Decimal, ndigits: int, ndigits2: int = 2) -> Decimal:
 
     str_fraction = str_number_parts[1]
 
-    k = round(math.log10(Decimal(f'0.{int(str_fraction)}') / (number - int(number))))
+    k = round(math.log10(abs(Decimal(f'0.{int(str_fraction)}') / (number - int(number)))))
 
     # if fraction is too small
     if k >= constants.decimal_scale:
