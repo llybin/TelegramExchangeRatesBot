@@ -5,11 +5,17 @@
 
 Telegram bot actual exchange rates for travel, work and daily life.
 
-Available from 01-07-2015.
+Online from 01 July 2015.
 
 https://telegram.me/ExchangeRatesBot
 
 **In the process of refactoring. This repository is not in production.**
+
+# Translations
+
+Don't have your localization? Any translation errors? Help fix it.
+
+👉 [PoEditor.com](https://poeditor.com/join/project/LLu8AztSPb)
 
 # How to run
 

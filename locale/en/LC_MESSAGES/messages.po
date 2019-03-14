@@ -1,0 +1,139 @@
+# English translations for PROJECT.
+# Copyright (C) 2019 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-03-14 20:53+0700\n"
+"PO-Revision-Date: 2019-03-14 20:52+0700\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: app/main.py:27
+msgid "I am bot. I will help you to know a current exchange rates."
+msgstr ""
+
+#: app/main.py:32
+msgid ""
+"Send me a message like this:\n"
+"    *BTC USD* - to see the current exchange rate for pair\n"
+"    *100 USD EUR* - to convert the amount from 100 USD to EUR"
+msgstr ""
+
+#: app/main.py:38
+msgid "Just text me message in private chat."
+msgstr ""
+
+#: app/main.py:42
+msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
+msgstr ""
+
+#: app/main.py:47
+msgid "Also take a look here 👉 /help"
+msgstr ""
+
+#: app/main.py:53
+msgid "humans"
+msgstr ""
+
+#: app/main.py:57
+#, python-format
+msgid "Hello, %(name)s!"
+msgstr ""
+
+#: app/main.py:69
+msgid "Have any question how to talk with me? 👉 /tutorial"
+msgstr ""
+
+#: app/main.py:86
+msgid "You're unsubscribed. You always can subscribe again 👉 /start"
+msgstr ""
+
+#: app/main.py:93
+msgid "*Commands*"
+msgstr ""
+
+#: app/main.py:96
+msgid "/start - Start to enslave mankind"
+msgstr ""
+
+#: app/main.py:98
+msgid "/tutorial - Tutorial, how to talk with me"
+msgstr ""
+
+#: app/main.py:100
+msgid "/currencies - All currencies that I support"
+msgstr ""
+
+#: app/main.py:106
+msgid "/keyboard - Hide / show a keyboard with request history"
+msgstr ""
+
+#: app/main.py:108
+msgid "/p - Command for group chats, get exchange rate"
+msgstr ""
+
+#: app/main.py:110
+msgid "/sources - Currency rates sources"
+msgstr ""
+
+#: app/main.py:112
+msgid "/disclaimers - Disclaimers"
+msgstr ""
+
+#: app/main.py:114
+msgid "/stop - Unsubscribe"
+msgstr ""
+
+#: app/main.py:117
+#, python-format
+msgid ""
+"Don't have your localization? Any translation errors? Help fix it 👉 "
+"[poeditor.com](%(trans_link)s)"
+msgstr ""
+
+#: app/main.py:158
+msgid "Console mode is disabled."
+msgstr ""
+
+#: app/main.py:162
+msgid "Console mode is enabled."
+msgstr ""
+
+#: app/main.py:166
+msgid "The command is not available for group chats"
+msgstr ""
+
+#: app/main.py:191
+msgid ""
+"Data is provided by financial exchanges and may be delayed as specified "
+"by financial exchanges or our data providers. Bot does not verify any "
+"data and disclaims any obligation to do so. Bot cannot guarantee the "
+"accuracy of the exchange rates displayed. You should confirm current "
+"rates before making any transactions that could be affected by changes in"
+" the exchange rates."
+msgstr ""
+
+#: app/main.py:250
+msgid "The message must contain currencies or amounts 👉 /tutorial"
+msgstr ""
+
+#: app/main.py:255
+msgid "I don't understand you 😞 Take a look here 👉 /help"
+msgstr ""
+
+#: app/main.py:260
+msgid ""
+"I understood that you asked, but at the moment I don't have actual "
+"exchange rates for your request. Sorry. 😭"
+msgstr ""
+
