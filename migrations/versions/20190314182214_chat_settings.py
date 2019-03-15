@@ -24,9 +24,9 @@ Base = declarative_base()
 
 class MoneyFormatEnum(enum.Enum):
     NO = None
-    US = 'us'
-    EU = 'eu'
-    IN = 'in'
+    US = 'en'
+    EU = 'de'
+    IN = 'en_IN'
     RU = 'ru'
 
 

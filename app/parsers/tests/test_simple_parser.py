@@ -53,6 +53,20 @@ class SimpleParserTest(unittest.TestCase):
                 parser_name='SimpleParser',
                 direction_writing=DirectionWriting.LEFT2RIGHT,
             )),
+            ('usd rub 100', PriceRequest(
+                amount=Decimal('100'),
+                currency='RUB',
+                to_currency='USD',
+                parser_name='SimpleParser',
+                direction_writing=DirectionWriting.RIGHT2LEFT,
+            )),
+            ('usd rub 100.20', PriceRequest(
+                amount=Decimal('100.20'),
+                currency='RUB',
+                to_currency='USD',
+                parser_name='SimpleParser',
+                direction_writing=DirectionWriting.RIGHT2LEFT,
+            )),
         ]
 
         for text, result, in cases:
@@ -68,7 +82,6 @@ class SimpleParserTest(unittest.TestCase):
             ' ',
             'usd',
             'usdrub',
-            'usd rub 100',
             '100usdrub',
             '1,000 usd rub',
             '0,1 usd rub',

@@ -1,36 +1,42 @@
 from decimal import Decimal
 import math
 
+from babel.numbers import format_decimal
+
 from .. import constants
+from ..models import Chat
+from ..parsers.base import DirectionWriting
 from .converter import PriceRequestResult
 
 
-def format_price_request_result(prr: PriceRequestResult) -> str:
+# TODO: refact
+def format_price_request_result(prr: PriceRequestResult, chat: Chat) -> str:
+    cf = ChatFormat(chat.is_colored_arrows, chat.money_format.value)
+
     # convert mode - if amount is not None
     if prr.price_request.amount is not None:
         amount = prr.price_request.amount
         res = amount * prr.rate
 
-        mess = f'{nice_amount(amount)} *{prr.price_request.currency}* = {nice_amount(res)} *{prr.price_request.to_currency}*'
+        if prr.price_request.direction_writing == DirectionWriting.RIGHT2LEFT:
+            mess = f'{cf.amount(res)} *{prr.price_request.to_currency}* = {cf.amount(amount)} *{prr.price_request.currency}*'
+        else:
+            mess = f'{cf.amount(amount)} *{prr.price_request.currency}* = {cf.amount(res)} *{prr.price_request.to_currency}*'
 
     else:
-        mess = '*{} {} {}*'.format(
-            prr.price_request.currency,
-            prr.price_request.to_currency,
-            nice_round(prr.rate, 4)
-        )
+        mess = f'*{prr.price_request.currency} {prr.price_request.to_currency} {cf.amount(prr.rate)}*'
 
         if prr.rate and prr.rate_open:
             diff = rate_difference(prr.rate, prr.rate_open)
             percent = rate_percent(prr.rate, prr.rate_open)
-            sign = get_sign(percent)
-            arrow = get_arrow(percent)
+            sign = cf.get_sign(percent)
+            arrow = cf.get_arrow(percent)
 
             mess += f' {arrow}'
-            mess += f'\n{sign}{nice_amount(diff)} ({sign}{nice_percent(percent)}%)'
+            mess += f'\n{sign}{cf.amount(diff)} ({sign}{cf.percent(percent)}%)'
 
         if prr.low24h and prr.high24h:
-            mess += f'\n*Low*: {nice_amount(prr.low24h)} *High*: {nice_amount(prr.high24h)}'
+            mess += f'\n*Low*: {cf.amount(prr.low24h)} *High*: {cf.amount(prr.high24h)}'
 
     mess += f'\n_[{" + ".join(prr.exchanges)}]_'
 
@@ -43,20 +49,6 @@ def format_price_request_result(prr: PriceRequestResult) -> str:
     return mess
 
 
-def get_sign(percent: Decimal) -> str:
-    # return nothing because if minus then amount already contain minus
-    return '+' if percent > 0 else ''
-
-
-def get_arrow(percent: Decimal) -> str:
-    if percent > 0:
-        return constants.arrows_different_color['up']
-    elif percent < 0:
-        return constants.arrows_different_color['down']
-    else:
-        return ''
-
-
 def rate_difference(rate0: Decimal, rate1: Decimal) -> Decimal:
     return rate1 - rate0
 
@@ -66,35 +58,19 @@ def rate_percent(rate0: Decimal, rate1: Decimal) -> Decimal:
     return diff / rate0 * 100
 
 
-def strip_last_zeros(res):
+def nice_round(number: Decimal, ndigits: int) -> Decimal:
     """
-    Hack, see app.converter.tests.test_formater.NiceRoundTest#test_as_str
+    Round a number with dynamic precision with a last ndigits non-zero digits for small number
     """
-    res = res.rstrip('0')
-    if not res[-1].isdigit():
-        res += '0'
-    return res
-
-
-def nice_amount(number):
-    return strip_last_zeros(f'{nice_round(number, 4):f}')
-
-
-def nice_percent(number):
-    return strip_last_zeros(f'{nice_round(number, 2):f}')
-
-
-def nice_round(number: Decimal, ndigits: int, ndigits2: int = 2) -> Decimal:
-    """
-    Round a number to a given ndigits precision in decimal digits
-    If a number is too small, to round a number with dynamic precision with a last ndigits2 non-zero digits
-    """
-    # if no fraction
-    if number == int(number):
-        return number
+    if number > 1:
+        return round(number, ndigits)
 
     # split on integer and fraction parts
     str_number_parts = f'{number:f}'.split('.')
+
+    # if no fraction
+    if len(str_number_parts) == 1:
+        return round(number, ndigits)
 
     str_fraction = str_number_parts[1]
 
@@ -107,6 +83,34 @@ def nice_round(number: Decimal, ndigits: int, ndigits2: int = 2) -> Decimal:
     if k < ndigits - 1:
         k = ndigits
     else:
-        k += ndigits2
+        k += ndigits
 
     return round(number, k)
+
+
+class ChatFormat(object):
+    is_colored_arrows: bool
+    money_format: str
+
+    def __init__(self, is_colored_arrows, money_format):
+        self.is_colored_arrows = is_colored_arrows
+        self.money_format = money_format
+
+    @staticmethod
+    def get_sign(number: Decimal) -> str:
+        # return nothing because if minus then amount already contain minus
+        return '+' if number > 0 else ''
+
+    def get_arrow(self, percent: Decimal) -> str:
+        if percent > 0:
+            return constants.arrows[self.is_colored_arrows]['up']
+        elif percent < 0:
+            return constants.arrows[self.is_colored_arrows]['down']
+        else:
+            return ''
+
+    def amount(self, number):
+        return format_decimal(nice_round(number, 4), locale=self.money_format, decimal_quantization=False)
+
+    def percent(self, number):
+        return format_decimal(nice_round(number, 2), locale=self.money_format, decimal_quantization=False)

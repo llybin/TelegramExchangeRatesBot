@@ -213,6 +213,13 @@ def price(bot, update, text, _):
         if not text:
             raise EmptyPriceRequestException
 
+        db_session = Session()
+        # TODO: move to decorator?
+        chat = db_session.query(Chat).filter_by(id=update.message.chat_id).one()
+
+        # TODO: send in parser
+        # default_currency_id
+        # default_currency_position
         price_request = start_parse(text)
 
         tag = price_request.parser_name
@@ -223,9 +230,8 @@ def price(bot, update, text, _):
 
         logging.info(f'price_request: {price_request_result}')
 
-        text_to = format_price_request_result(price_request_result)
+        text_to = format_price_request_result(price_request_result, chat)
 
-        db_session = Session()
         from_currency = db_session.query(Currency).filter_by(code=price_request.currency).one()
         to_currency = db_session.query(Currency).filter_by(code=price_request.to_currency).one()
 
