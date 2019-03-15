@@ -349,7 +349,6 @@ def upgrade():
             return cur
 
     # migrating currencies to foreignkey
-    i = 0
     for x in session.query(ChatRequests).yield_per(1000):
         first_currency_code = replace_cur(x.currencies[:3])
         second_currency_code = replace_cur(x.currencies[3:])
@@ -357,13 +356,12 @@ def upgrade():
         try:
             from_currency = session.query(Currency).filter_by(code=first_currency_code).one()
             to_currency = session.query(Currency).filter_by(code=second_currency_code).one()
-            x.from_currency = from_currency
-            x.to_currency = to_currency
-            session.add(x)
 
-            i += 1
-            if i % 100 == 0:
-                session.flush()
+            session.query(ChatRequests).filter_by(id=x.id).update({
+                'from_currency_id': from_currency.id,
+                'to_currency_id': to_currency.id,
+                'modified_at': ChatRequests.modified_at
+            })
         except NoResultFound:
             print(f'Not found: {x.currencies}, delete.')
             session.delete(x)
