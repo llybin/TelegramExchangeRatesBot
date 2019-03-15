@@ -30,8 +30,8 @@ def upgrade():
                     sa.Column('first_name', sa.Text(), nullable=True),
                     sa.Column('username', sa.Text(), nullable=True),
                     sa.Column('locale', sa.Text(), nullable=False),
-                    sa.Column('is_subscribed', sa.Boolean(), server_default='true', nullable=False),
-                    sa.Column('is_console_mode', sa.Boolean(), server_default='true', nullable=False),
+                    sa.Column('is_subscribed', sa.Boolean(), nullable=False),
+                    sa.Column('is_console_mode', sa.Boolean(), nullable=False),
                     sa.Column('created', sa.TIMESTAMP(), server_default=sa.text('now()'), nullable=False),
                     sa.Column('updated', sa.TIMESTAMP(), server_default=sa.text('now()'), nullable=False),
                     sa.PrimaryKeyConstraint('id')

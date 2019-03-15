@@ -266,6 +266,8 @@ class Chat(Base):
     __tablename__ = 'chats'
 
     id = sa.Column(sa.BigInteger, primary_key=True)
+    is_subscribed = sa.Column(sa.Boolean, default=True, nullable=False)
+    is_console_mode = sa.Column(sa.Boolean, default=True, nullable=False)
 
 
 class Currency(Base):
@@ -304,13 +306,9 @@ def upgrade():
                     sa.PrimaryKeyConstraint('id'),
                     sa.UniqueConstraint('code')
                     )
-    op.create_index(op.f('ix_currencies_is_active'), 'currencies', ['is_active'], unique=False)
-    op.create_index(op.f('ix_currencies_is_crypto'), 'currencies', ['is_crypto'], unique=False)
     op.add_column('chat_requests', sa.Column('from_currency_id', sa.Integer(), nullable=True))
     op.add_column('chat_requests', sa.Column('to_currency_id', sa.Integer(), nullable=True))
     op.alter_column('chat_requests', 'cnt', new_column_name='times')
-    op.create_foreign_key(None, 'chat_requests', 'currencies', ['to_currency_id'], ['id'])
-    op.create_foreign_key(None, 'chat_requests', 'currencies', ['from_currency_id'], ['id'])
     # ### end Alembic commands ###
 
     # fill iso currencies
@@ -379,6 +377,11 @@ def upgrade():
     op.alter_column('chat_requests', 'to_currency_id',
                     existing_type=sa.INTEGER(),
                     nullable=False)
+
+    op.create_index(op.f('ix_currencies_is_active'), 'currencies', ['is_active'], unique=False)
+    op.create_index(op.f('ix_currencies_is_crypto'), 'currencies', ['is_crypto'], unique=False)
+    op.create_foreign_key(None, 'chat_requests', 'currencies', ['to_currency_id'], ['id'])
+    op.create_foreign_key(None, 'chat_requests', 'currencies', ['from_currency_id'], ['id'])
 
 
 def downgrade():

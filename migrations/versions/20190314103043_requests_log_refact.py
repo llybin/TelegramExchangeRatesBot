@@ -7,7 +7,7 @@ Create Date: 2019-03-14 10:30:43.853502
 """
 from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.sql.expression import func, and_
+from sqlalchemy.sql.expression import func
 from sqlalchemy.orm.session import Session
 from sqlalchemy.ext.declarative import declarative_base
 

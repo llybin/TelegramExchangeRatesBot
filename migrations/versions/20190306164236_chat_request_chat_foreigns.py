@@ -24,6 +24,8 @@ class Chat(Base):
     __tablename__ = 'chats'
 
     id = sa.Column(sa.BigInteger, primary_key=True)
+    is_subscribed = sa.Column(sa.Boolean, default=True, nullable=False)
+    is_console_mode = sa.Column(sa.Boolean, default=True, nullable=False)
 
     requests = relationship('ChatRequests', backref='chat')
     requests_log = relationship('RequestsLog', backref='chat')
