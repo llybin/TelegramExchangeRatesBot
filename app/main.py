@@ -184,6 +184,16 @@ def currencies_command(bot, update):
 
 
 @register_update()
+def settings_commands(bot, update):
+    # is_colored_arrows
+    # locale
+    # money_format
+    # default_currency_id
+    # default_currency_position
+    pass
+
+
+@register_update()
 @chat_language
 def disclaimers_command(bot, update, _):
     bot.send_message(
@@ -321,9 +331,10 @@ def main():
     dp.add_handler(CommandHandler("help", help_command))
     dp.add_handler(CommandHandler("keyboard", keyboard_command))
     dp.add_handler(CommandHandler("p", price_command, pass_args=True))
-    dp.add_handler(CommandHandler("sources", sources_command))
+    dp.add_handler(CommandHandler("settings", settings_commands))
     dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("stop", stop_command))
+    dp.add_handler(CommandHandler("sources", sources_command))
     dp.add_handler(CommandHandler("tutorial", tutorial_command))
     dp.add_handler(RegexHandler(r"^/", empty_command))
 
