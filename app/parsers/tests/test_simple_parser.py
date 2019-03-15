@@ -4,7 +4,6 @@ from unittest.mock import patch
 
 from ..base import PriceRequest, DirectionWriting
 from ..exceptions import ValidationException
-from ..number_format import NumberFormat
 from ..simple_parser import SimpleParser
 
 
@@ -18,7 +17,6 @@ class SimpleParserTest(unittest.TestCase):
                 to_currency='RUB',
                 parser_name='SimpleParser',
                 direction_writing=DirectionWriting.UNKNOWN,
-                number_format=NumberFormat.UNKNOWN,
             )),
             ('sc burst', PriceRequest(
                 amount=None,
@@ -26,7 +24,6 @@ class SimpleParserTest(unittest.TestCase):
                 to_currency='BURST',
                 parser_name='SimpleParser',
                 direction_writing=DirectionWriting.UNKNOWN,
-                number_format=NumberFormat.UNKNOWN,
             )),
             ('burst sc', PriceRequest(
                 amount=None,
@@ -34,7 +31,6 @@ class SimpleParserTest(unittest.TestCase):
                 to_currency='SC',
                 parser_name='SimpleParser',
                 direction_writing=DirectionWriting.UNKNOWN,
-                number_format=NumberFormat.UNKNOWN,
             )),
             ('USD EUR', PriceRequest(
                 amount=None,
@@ -42,7 +38,6 @@ class SimpleParserTest(unittest.TestCase):
                 to_currency='EUR',
                 parser_name='SimpleParser',
                 direction_writing=DirectionWriting.UNKNOWN,
-                number_format=NumberFormat.UNKNOWN,
             )),
             ('100 usd rub', PriceRequest(
                 amount=Decimal('100'),
@@ -50,7 +45,6 @@ class SimpleParserTest(unittest.TestCase):
                 to_currency='RUB',
                 parser_name='SimpleParser',
                 direction_writing=DirectionWriting.LEFT2RIGHT,
-                number_format=NumberFormat.UNKNOWN,
             )),
             ('100.20 usd rub', PriceRequest(
                 amount=Decimal('100.20'),
@@ -58,7 +52,6 @@ class SimpleParserTest(unittest.TestCase):
                 to_currency='RUB',
                 parser_name='SimpleParser',
                 direction_writing=DirectionWriting.LEFT2RIGHT,
-                number_format=NumberFormat.US,
             )),
         ]
 

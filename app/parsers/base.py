@@ -2,8 +2,6 @@ from abc import ABC, abstractmethod
 from decimal import Decimal
 from typing import NamedTuple
 
-from .number_format import NumberFormat
-
 
 class DirectionWriting(object):
     UNKNOWN = None
@@ -17,7 +15,6 @@ class PriceRequest(NamedTuple):
     to_currency: str or None
     parser_name: str
     direction_writing: DirectionWriting = DirectionWriting.UNKNOWN
-    number_format: NumberFormat = NumberFormat.UNKNOWN
 
 
 class Parser(ABC):

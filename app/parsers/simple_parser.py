@@ -12,7 +12,7 @@ from .base import (
     PriceRequest,
     Parser,
 )
-from .number_format import NUMBER_PATTERN_DOT_SIMPLE, NumberFormat
+from .number_format import NUMBER_PATTERN_DOT_SIMPLE
 from .exceptions import WrongFormatException, UnknownCurrencyException
 from app.models import get_all_currencies
 
@@ -40,16 +40,11 @@ class SimpleParser(Parser):
         amount = groups[PRICE_REQUEST_AMOUNT]
         text = groups[PRICE_REQUEST_CURRENCIES]
 
-        number_format = NumberFormat.UNKNOWN
         direction_writing = DirectionWriting.UNKNOWN
 
         if amount:
             amount = Decimal(amount)
             direction_writing = DirectionWriting.LEFT2RIGHT
-
-            # dot in fraction, to be sure need to look at the numerator also, contains spaces or commas and etc.
-            if groups[PRICE_REQUEST_AMOUNT_FRACTION] and '.' in groups[PRICE_REQUEST_AMOUNT_FRACTION]:
-                number_format = NumberFormat.US
 
         text = text.upper()
         currency, to_currency = text.split()
@@ -64,5 +59,4 @@ class SimpleParser(Parser):
             to_currency=to_currency,
             parser_name=self.name,
             direction_writing=direction_writing,
-            number_format=number_format,
         )
