@@ -33,9 +33,9 @@ class Chat(BaseObject):
     is_subscribed = sa.Column(sa.Boolean, default=True, nullable=False)
     is_console_mode = sa.Column(sa.Boolean, default=True, nullable=False)
     is_colored_arrows = sa.Column(sa.Boolean, default=True, nullable=False)
-    money_format = sa.Column(sa.Enum(MoneyFormatEnum), default=MoneyFormatEnum.US.value, nullable=True)
+    money_format = sa.Column(sa.Enum(MoneyFormatEnum), default=MoneyFormatEnum.US, nullable=True)
     default_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
-    default_currency_position = sa.Column(sa.Enum(CurrencyPositionEnum), default=CurrencyPositionEnum.TO.value, nullable=False)
+    default_currency_position = sa.Column(sa.Enum(CurrencyPositionEnum), default=CurrencyPositionEnum.TO, nullable=False)
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 

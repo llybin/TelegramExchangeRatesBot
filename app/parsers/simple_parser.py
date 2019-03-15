@@ -1,7 +1,7 @@
 """
 Simple parser for understanding how it work.
 
-ONLY FORMAT: "USD EUR" or "1000.00 USD EUR", required spaces
+ONLY FORMAT: "USD EUR" or "1000.00 USD EUR", required spaces, DirectionWriting.LEFT2RIGHT
 """
 
 import re
@@ -12,17 +12,16 @@ from .base import (
     PriceRequest,
     Parser,
 )
-from .number_format import NUMBER_PATTERN_DOT_SIMPLE
 from .exceptions import WrongFormatException, UnknownCurrencyException
 from app.models import get_all_currencies
 
-REQUEST_PATTERN = r'^(%s\s)?([a-zA-Z]{2,6}\s[a-zA-Z]{2,6})$' % NUMBER_PATTERN_DOT_SIMPLE
+REQUEST_PATTERN = r'^(\d{1,12}(\.\d{1,12})?\s)?([a-zA-Z]{2,6}\s[a-zA-Z]{2,6})$'
 REQUEST_PATTERN_COMPILED = re.compile(REQUEST_PATTERN, re.IGNORECASE)
 
 #                                  # usd eur | 100 usd eur | 100.22 usd eur
 PRICE_REQUEST_AMOUNT = 0           # None    | 100         | 100.22
-PRICE_REQUEST_AMOUNT_FRACTION = 2  # None    | None        | .22
-PRICE_REQUEST_CURRENCIES = 3       # usd eur | usd eur     | usd eur
+PRICE_REQUEST_AMOUNT_FRACTION = 1  # None    | None        | .22
+PRICE_REQUEST_CURRENCIES = 2       # usd eur | usd eur     | usd eur
 
 
 class SimpleParser(Parser):

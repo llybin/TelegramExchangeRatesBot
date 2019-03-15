@@ -6,18 +6,8 @@ from app.parsers.number_format import (
     NUMBER_PATTERN_EU,
     NUMBER_PATTERN_US,
     NUMBER_PATTERN_ALL,
-    NUMBER_PATTERN_DOT_SIMPLE,
 )
 
-
-DOT_SIMPLE_GOOD_CASES = {
-    '1',
-    f'{"0" * 12}',
-    f'{"1" * 12}',
-    f'{"0" * 12}.{"0" * 12}',
-    f'{"0" * 12}.1',
-    f'{"1" * 12}.{"1" * 12}',
-}
 
 US_GOOD_CASES = {
     '1',
@@ -150,15 +140,6 @@ EU_BAD_CASES = BOTH_BAD_CASES | {
     f'1{",000" * 3}.{"1" * 12}',
 }
 
-DOT_SIMPLE_BAD_CASES = US_BAD_CASES | {
-    # US
-    '1,000.0001',
-    '1,000.01',
-    '1,000,000.01',
-    f'1{",000" * 3}',
-    f'1{",000" * 3}.{"1" * 12}',
-}
-
 
 class NumberPatternUSTest(unittest.TestCase):
     mpt = f'^{NUMBER_PATTERN_US}$'
@@ -185,20 +166,6 @@ class NumberPatternEUTest(unittest.TestCase):
 
     def test_bad(self):
         for case in EU_BAD_CASES:
-            self.assertFalse(re.match(self.mpt, case))
-
-
-class NumberPatternDotSimpleTest(unittest.TestCase):
-    mpt = f'^{NUMBER_PATTERN_DOT_SIMPLE}$'
-
-    def test_good(self):
-        for case in DOT_SIMPLE_GOOD_CASES:
-            r = re.match(self.mpt, case)
-            self.assertIsNotNone(r, case)
-            self.assertEqual(r.group(0), case)
-
-    def test_bad(self):
-        for case in DOT_SIMPLE_BAD_CASES:
             self.assertFalse(re.match(self.mpt, case))
 
 
