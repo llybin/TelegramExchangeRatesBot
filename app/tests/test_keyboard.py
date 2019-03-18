@@ -1,9 +1,9 @@
 import unittest
 
-from ..keyboard import KeyboardArrows
+from ..keyboard import KeyboardArrows, KeyboardSimpleClever
 
 
-class TestKeyboardArrows(unittest.TestCase):
+class KeyboardArrowsTest(unittest.TestCase):
     def setUp(self):
         self.data = list(range(1, 56))
 
@@ -184,4 +184,32 @@ class TestKeyboardArrows(unittest.TestCase):
                 [' ', ' ', ' ', ' ', ' '],
                 [' ', ' ', ' ', ' ', ' '],
                 ['◀', ' ', ' ', ' ', ' ']
+            ])
+
+
+class KeyboardSimpleCleverTest(unittest.TestCase):
+    def test_1(self):
+        self.assertEqual(
+            KeyboardSimpleClever([1]).show(),
+            [
+                [1, ' ', ' '],
+            ])
+
+    def test_4(self):
+        data = list(range(1, 5))
+        self.assertEqual(
+            KeyboardSimpleClever(data).show(),
+            [
+                [1, 2, 3],
+                [4, ' ', ' '],
+            ])
+
+    def test_9(self):
+        data = list(range(1, 10))
+        self.assertEqual(
+            KeyboardSimpleClever(data).show(),
+            [
+                [1, 2, 3],
+                [4, 5, 6],
+                [7, 8, 9],
             ])

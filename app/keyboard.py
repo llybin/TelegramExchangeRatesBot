@@ -57,16 +57,17 @@ class KeyboardArrows(object):
         return keyboard
 
 
-class KeyboardSimple(object):
-    def __init__(self, data: list, height=4, width=5):
+class KeyboardSimpleClever(object):
+    def __init__(self, data, width=3, height=None):
         self.data = data
-        self.height = height
         self.width = width
-        self.max = height * width
+        self.height = height
         self.be = ' '
 
-    def show(self) -> list:
-        for x in range(abs(len(self.data) - self.max)):
+    def show(self):
+        if not self.height:
+            self.height = int(math.ceil(len(self.data) / self.width))
+        for x in range(abs(len(self.data) - self.height * self.width)):
             self.data.append(self.be)
 
         keyboard = []
@@ -77,31 +78,5 @@ class KeyboardSimple(object):
                 _t.append(self.data[_i])
                 _i += 1
             keyboard.append(_t)
-
-        return keyboard
-
-
-class KeyboardSimpleClever(object):
-    def __init__(self, data, width=5):
-        self.data = data
-        self.width = width
-        self.be = ' '
-
-    def show(self):
-        height = int(math.ceil(len(self.data) / self.width))
-        if height > 1:
-            for x in range(abs(len(self.data) - height * self.width)):
-                self.data.append(self.be)
-
-            keyboard = []
-            _i = 0
-            for h in range(height):
-                _t = []
-                for w in range(self.width):
-                    _t.append(self.data[_i])
-                    _i += 1
-                keyboard.append(_t)
-        else:
-            keyboard = [self.data]
 
         return keyboard

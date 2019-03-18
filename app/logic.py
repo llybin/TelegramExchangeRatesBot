@@ -28,7 +28,7 @@ def get_keyboard(chat_id: int) -> ReplyKeyboardMarkup or None:
 
         if last_requests:
             last_reqs_list = [f'{x.from_currency.code} {x.to_currency.code}' for x in last_requests]
-            keyboard = KeyboardSimpleClever(last_reqs_list, width=3).show()
+            keyboard = KeyboardSimpleClever(last_reqs_list).show()
             reply_markup = ReplyKeyboardMarkup(keyboard)
         else:
             reply_markup = None
