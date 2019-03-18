@@ -19,7 +19,7 @@ my_vcr = vcr.VCR(
 class BittrexTest(SimpleTestCase):
 
     def test_name(self):
-        self.assertEqual(BittrexExchange.name, 'bittrex')
+        self.assertEqual(BittrexExchange.name, 'Bittrex')
 
     @my_vcr.use_cassette('query_200')
     def test_list_currencies(self):

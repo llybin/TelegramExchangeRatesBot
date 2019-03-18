@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-14 20:22+0700\n"
+"POT-Creation-Date: 2019-03-18 05:00+0700\n"
 "PO-Revision-Date: 2019-03-14 01:20+0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -75,46 +75,46 @@ msgstr ""
 msgid "/currencies - All currencies that I support"
 msgstr ""
 
-#: app/main.py:106
+#: app/main.py:105
 msgid "/keyboard - Hide / show a keyboard with request history"
 msgstr ""
 
-#: app/main.py:108
+#: app/main.py:107
 msgid "/p - Command for group chats, get exchange rate"
 msgstr ""
 
-#: app/main.py:110
+#: app/main.py:109
 msgid "/sources - Currency rates sources"
 msgstr ""
 
-#: app/main.py:112
+#: app/main.py:111
 msgid "/disclaimers - Disclaimers"
 msgstr ""
 
-#: app/main.py:114
+#: app/main.py:113
 msgid "/stop - Unsubscribe"
 msgstr ""
 
-#: app/main.py:117
+#: app/main.py:116
 #, python-format
 msgid ""
 "Don't have your localization? Any translation errors? Help fix it 👉 "
 "[poeditor.com](%(trans_link)s)"
 msgstr ""
 
-#: app/main.py:158
+#: app/main.py:156
 msgid "Console mode is disabled."
 msgstr ""
 
-#: app/main.py:162
+#: app/main.py:160
 msgid "Console mode is enabled."
 msgstr ""
 
-#: app/main.py:166
+#: app/main.py:164
 msgid "The command is not available for group chats"
 msgstr ""
 
-#: app/main.py:191
+#: app/main.py:197
 msgid ""
 "Data is provided by financial exchanges and may be delayed as specified "
 "by financial exchanges or our data providers. Bot does not verify any "
@@ -124,16 +124,16 @@ msgid ""
 " the exchange rates."
 msgstr ""
 
-#: app/main.py:250
+#: app/main.py:262
 msgid "The message must contain currencies or amounts 👉 /tutorial"
 msgstr ""
 
-#: app/main.py:255
+#: app/main.py:267
 msgid "I don't understand you 😞 Take a look here 👉 /help"
 msgstr ""
 
-#: app/main.py:260
+#: app/main.py:272
 msgid ""
 "I understood that you asked, but at the moment I don't have actual "
-"exchange rates for your request. Sorry. 😭"
+"exchange rates for your request. Try later. Sorry. 😭"
 msgstr ""

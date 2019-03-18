@@ -42,6 +42,7 @@ def register_update(pass_chat_created: bool = False):
 def chat_language(func):
     @wraps(func)
     def wrapper(bot, update, *args, **kwargs):
+        # TODO: get locale from DB, save locale in register_update
         language_code = update.message.from_user.language_code
 
         if language_code in translations:

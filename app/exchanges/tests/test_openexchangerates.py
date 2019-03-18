@@ -19,7 +19,7 @@ my_vcr = vcr.VCR(
 class OpenExchangeRatesTest(SimpleTestCase):
 
     def test_name(self):
-        self.assertEqual(OpenExchangeRatesExchange.name, 'openexchangerates')
+        self.assertEqual(OpenExchangeRatesExchange.name, 'OpenExchangeRates')
 
     @my_vcr.use_cassette('query_200')
     def test_list_currencies(self):

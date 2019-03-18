@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 vcrpy = "*"
+freezegun = "*"
 
 [packages]
 alembic = "==1.0.7"

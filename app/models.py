@@ -1,5 +1,3 @@
-import enum
-
 import sqlalchemy as sa
 from pyramid_sqlalchemy import BaseObject, Session
 from sqlalchemy import orm
@@ -8,19 +6,6 @@ from .cache import region
 from suite.conf import settings
 
 from .constants import decimal_precision, decimal_scale
-
-
-class MoneyFormatEnum(enum.Enum):
-    NO = None
-    US = 'en'
-    EU = 'de'
-    IN = 'en_IN'
-    RU = 'ru'
-
-
-class CurrencyPositionEnum(enum.Enum):
-    FROM = 'from'
-    TO = 'to'
 
 
 class Chat(BaseObject):
@@ -32,16 +17,13 @@ class Chat(BaseObject):
     locale = sa.Column(sa.Text, default=settings.LANGUAGE_CODE, nullable=False)
     is_subscribed = sa.Column(sa.Boolean, default=True, nullable=False)
     is_console_mode = sa.Column(sa.Boolean, default=True, nullable=False)
-    is_colored_arrows = sa.Column(sa.Boolean, default=True, nullable=False)
-    money_format = sa.Column(sa.Enum(MoneyFormatEnum), default=MoneyFormatEnum.US, nullable=True)
-    default_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
-    default_currency_position = sa.Column(sa.Enum(CurrencyPositionEnum), default=CurrencyPositionEnum.TO, nullable=False)
+    default_currency = sa.Column(sa.Text, default=settings.DEFAULT_CURRENCY, nullable=False)
+    default_currency_position = sa.Column(sa.Boolean, default=settings.DEFAULT_CURRENCY_POSITION, nullable=False)
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
     requests = orm.relationship('ChatRequests')
     requests_log = orm.relationship('RequestsLog')
-    default_currency = orm.relationship('Currency')
     events = orm.relationship('Event')
 
 

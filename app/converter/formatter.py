@@ -1,116 +1,189 @@
 from decimal import Decimal
-import math
 
-from babel.numbers import format_decimal
+from babel.numbers import format_decimal, get_decimal_quantum, NumberPattern, get_decimal_symbol
 
 from .. import constants
-from ..models import Chat
 from ..parsers.base import DirectionWriting
 from .converter import PriceRequestResult
 
 
-# TODO: refact
-def format_price_request_result(prr: PriceRequestResult, chat: Chat) -> str:
-    cf = ChatFormat(chat.is_colored_arrows, chat.money_format.value)
-
-    # convert mode - if amount is not None
-    if prr.price_request.amount is not None:
-        amount = prr.price_request.amount
-        res = amount * prr.rate
-
-        if prr.price_request.direction_writing == DirectionWriting.RIGHT2LEFT:
-            mess = f'{cf.amount(res)} *{prr.price_request.to_currency}* = {cf.amount(amount)} *{prr.price_request.currency}*'
-        else:
-            mess = f'{cf.amount(amount)} *{prr.price_request.currency}* = {cf.amount(res)} *{prr.price_request.to_currency}*'
-
-    else:
-        mess = f'*{prr.price_request.currency} {prr.price_request.to_currency} {cf.amount(prr.rate)}*'
-
-        if prr.rate and prr.rate_open:
-            diff = rate_difference(prr.rate, prr.rate_open)
-            percent = rate_percent(prr.rate, prr.rate_open)
-            sign = cf.get_sign(percent)
-            arrow = cf.get_arrow(percent)
-
-            mess += f' {arrow}'
-            mess += f'\n{sign}{cf.amount(diff)} ({sign}{cf.percent(percent)}%)'
-
-        if prr.low24h and prr.high24h:
-            mess += f'\n*Low*: {cf.amount(prr.low24h)} *High*: {cf.amount(prr.high24h)}'
-
-    mess += f'\n_[{" + ".join(prr.exchanges)}]_'
-
-    # Baba Vanga
-    if prr.last_trade_at.year == 1996:
-        mess += f'\n_{prr.last_trade_at:%d %B %Y}_'
-    else:
-        mess += f'\n_{prr.last_trade_at:%d %B, %H:%M} UTC_'
-
-    return mess
+# monkey patching fix very small values
+# https://github.com/python-babel/babel/issues/636
+def _quantize_value(self, value, locale, frac_prec):
+    quantum = get_decimal_quantum(frac_prec[1])
+    rounded = value.quantize(quantum)
+    a, sep, b = "{:f}".format(rounded).partition(".")
+    number = (self._format_int(a, self.int_prec[0],
+                               self.int_prec[1], locale) +
+              self._format_frac(b or '0', locale, frac_prec))
+    return number
 
 
-def rate_difference(rate0: Decimal, rate1: Decimal) -> Decimal:
-    return rate1 - rate0
+NumberPattern._quantize_value = _quantize_value
 
 
-def rate_percent(rate0: Decimal, rate1: Decimal) -> Decimal:
-    diff = rate_difference(rate0, rate1)
-    return diff / rate0 * 100
-
-
-def nice_round(number: Decimal, ndigits: int) -> Decimal:
+def clever_round(number: Decimal, ndigits: int) -> Decimal:
     """
     Round a number with dynamic precision with a last ndigits non-zero digits for small number
     """
     if number > 1:
-        return round(number, ndigits)
+        return number.quantize(get_decimal_quantum(ndigits))
 
     # split on integer and fraction parts
     str_number_parts = f'{number:f}'.split('.')
 
     # if no fraction
     if len(str_number_parts) == 1:
-        return round(number, ndigits)
+        return number
 
     str_fraction = str_number_parts[1]
 
-    k = round(math.log10(abs(Decimal(f'0.{int(str_fraction)}') / (number - int(number)))))
+    precision = len(str_fraction) - len(str_fraction.lstrip('0')) + 1
 
-    # if fraction is too small
-    if k >= constants.decimal_scale:
-        return number.quantize(1)
+    if precision > constants.decimal_scale:
+        return Decimal('0')
 
-    if k < ndigits - 1:
-        k = ndigits
+    elif constants.decimal_scale - precision < ndigits:
+        precision += (constants.decimal_scale - precision)
+
     else:
-        k += ndigits
+        precision += ndigits - 1
 
-    return round(number, k)
+    return number.quantize(get_decimal_quantum(precision))
 
 
-class ChatFormat(object):
-    is_colored_arrows: bool
-    money_format: str
+class FormatPriceRequestResult(object):
+    locale: str
+    prr: PriceRequestResult
 
-    def __init__(self, is_colored_arrows, money_format):
-        self.is_colored_arrows = is_colored_arrows
-        self.money_format = money_format
+    def __init__(self, prr: PriceRequestResult, locale: str):
+        self.prr = prr
+        self.locale = locale
 
-    @staticmethod
-    def get_sign(number: Decimal) -> str:
+    def is_diff_available(self):
+        return self.prr.rate and self.prr.rate_open
+
+    def is_high_low_available(self):
+        return self.prr.low24h and self.prr.high24h
+
+    def _diff_rate(self) -> Decimal or None:
+        assert self.is_diff_available()
+
+        return self.prr.rate - self.prr.rate_open
+
+    def _percent_diff_rate(self) -> Decimal or None:
+        assert self.is_diff_available()
+
+        return (self._diff_rate() / self.prr.rate_open) * Decimal('100')
+
+    def _get_sign(self) -> str or None:
+        assert self.is_diff_available()
+
         # return nothing because if minus then amount already contain minus
-        return '+' if number > 0 else ''
+        return '+' if self._diff_rate() > 0 else ''
 
-    def get_arrow(self, percent: Decimal) -> str:
-        if percent > 0:
-            return constants.arrows[self.is_colored_arrows]['up']
-        elif percent < 0:
-            return constants.arrows[self.is_colored_arrows]['down']
+    def _get_arrow(self) -> str:
+        assert self.is_diff_available()
+
+        number = self._diff_rate()
+
+        if number > 0:
+            return constants.arrows['up']
+        elif number < 0:
+            return constants.arrows['down']
         else:
             return ''
 
-    def amount(self, number):
-        return format_decimal(nice_round(number, 4), locale=self.money_format, decimal_quantization=False)
+    def is_convert_mode(self):
+        return self.prr.price_request.amount is not None
 
-    def percent(self, number):
-        return format_decimal(nice_round(number, 2), locale=self.money_format, decimal_quantization=False)
+    def format_amount(self, number: Decimal, ndigits: int = 4) -> str:
+        assert ndigits % 2 == 0
+
+        rounded_number = clever_round(number, ndigits)
+        formatted = format_decimal(rounded_number, locale=self.locale, decimal_quantization=False)
+
+        str_number_parts = formatted.partition('.')
+        if str_number_parts[2] == '':
+            # 3,995 -> 3,995.0
+            return f'{formatted}{get_decimal_symbol(self.locale)}0'
+        elif len(str_number_parts[2]) <= 2:
+            # 1.1 -> 1.1 ; 1.12 -> 1.12
+            return formatted
+        else:
+            # 1.123 -> 1.1230 ; 1.0123 -> 1.0123 ; 0.00123 -> 0.00123 ; 1.001 -> 1.0010
+            return formatted + '0' * (ndigits - len(str_number_parts[2]))
+
+    def format_last_trade_at(self) -> str:
+        if self.prr.last_trade_at.year == 1996:
+            # Baba Vanga
+            return f'_{self.prr.last_trade_at:%d %B %Y}_'
+        else:
+            return f'_{self.prr.last_trade_at:%d %B, %H:%M} UTC_'
+
+    def format_exchanges(self) -> str:
+        return f'_{" 📡 ".join(self.prr.exchanges)}_ 📡'
+
+    def format_difference(self) -> str:
+        if not self.is_diff_available():
+            return ''
+
+        diff = self.format_amount(self._diff_rate())
+        percent = self.format_amount(self._percent_diff_rate(), 2)
+        sign = self._get_sign()
+
+        return f'{sign}{diff} ({sign}{percent}%)'
+
+    def format_high_low(self) -> str:
+        if not self.is_high_low_available():
+            return ''
+
+        low24h = self.format_amount(self.prr.low24h)
+        high24h = self.format_amount(self.prr.high24h)
+
+        return f'*Low*: {low24h} *High*: {high24h}'
+
+    def format_price(self) -> str:
+        assert not self.is_convert_mode()
+
+        rate = self.format_amount(self.prr.rate)
+        from_currency = self.prr.price_request.currency
+        to_currency = self.prr.price_request.to_currency
+
+        if self.is_diff_available() and self._get_arrow():
+            return f'*{from_currency} {to_currency}* {rate} {self._get_arrow()}'
+        else:
+            return f'*{from_currency} {to_currency}* {rate}'
+
+    def format_amount_convert(self) -> str:
+        assert self.is_convert_mode()
+
+        from_amount = self.format_amount(self.prr.price_request.amount)
+        result_amount = self.format_amount(self.prr.price_request.amount * self.prr.rate)
+        from_currency = self.prr.price_request.currency
+        to_currency = self.prr.price_request.to_currency
+
+        if self.prr.price_request.direction_writing == DirectionWriting.RIGHT2LEFT:
+            return f'{result_amount} *{to_currency}* = {from_amount} *{from_currency}*'
+        else:
+            return f'{from_amount} *{from_currency}* = {result_amount} *{to_currency}*'
+
+    def get(self) -> str:
+        msg_list = []
+
+        if self.is_convert_mode():
+            msg_list.append(self.format_amount_convert())
+
+        else:
+            msg_list.append(self.format_price())
+
+            if self.is_diff_available():
+                msg_list.append(self.format_difference())
+
+            if self.is_high_low_available():
+                msg_list.append(self.format_high_low())
+
+        msg_list.append(self.format_last_trade_at())
+        msg_list.append(self.format_exchanges())
+
+        return '\n'.join(msg_list)

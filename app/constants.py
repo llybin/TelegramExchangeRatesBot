@@ -1,7 +1,4 @@
-arrows = [
-    {'up': '⬆️', 'down': '⬇️'},
-    {'up': '⬆️', 'down': '🔻'}
-]
+arrows = {'up': '⬆️', 'down': '🔻'}
 
 decimal_precision = 24
 decimal_scale = 12

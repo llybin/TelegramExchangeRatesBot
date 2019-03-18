@@ -11,7 +11,7 @@ from sqlalchemy import create_engine
 from suite.conf import settings
 
 from .decorators import register_update, chat_language
-from .converter.formatter import format_price_request_result
+from .converter.formatter import FormatPriceRequestResult
 from .converter.converter import convert
 from .converter.exceptions import ConverterException
 from .logic import get_keyboard, start_parse
@@ -98,8 +98,7 @@ def help_command(bot, update, _):
     text_to += _('/tutorial - Tutorial, how to talk with me')
     text_to += '\n'
     text_to += _('/currencies - All currencies that I support')
-    # text_to += '\n'
-    # text_to += _('/cancel - Cancel the current operation')
+    # TODO:
     # text_to += '\n'
     # text_to += _('/feedback - If you have suggestions, text me')
     text_to += '\n'
@@ -120,8 +119,7 @@ def help_command(bot, update, _):
     text_to += '\n\n'
     text_to += '''SSD cloud servers in regions: New York, San Francisco, Amsterdam, Singapore, London, Frankfurt, Toronto, Bangalore.
 
-Sign up using [link](%(link)s) and receive $100. From $5 per month: 1GB / 1 CPU / 25GB SSD Disk.''' % {
-        'link': 'https://m.do.co/c/ba04a478e10d'}  # NOQA
+Sign up using [link](%(link)s) and receive $100. From $5 per month: 1GB / 1 CPU / 25GB SSD Disk.''' % {'link': 'https://m.do.co/c/ba04a478e10d'}  # NOQA
 
     bot.send_message(
         chat_id=update.message.chat_id,
@@ -185,10 +183,8 @@ def currencies_command(bot, update):
 
 @register_update()
 def settings_commands(bot, update):
-    # is_colored_arrows
     # locale
-    # money_format
-    # default_currency_id
+    # default_currency
     # default_currency_position
     pass
 
@@ -230,7 +226,7 @@ def price(bot, update, text, _):
 
         logging.info(f'price_request: {price_request_result}')
 
-        text_to = format_price_request_result(price_request_result, chat)
+        text_to = FormatPriceRequestResult(price_request_result, chat.locale).get()
 
         from_currency = db_session.query(Currency).filter_by(code=price_request.currency).one()
         to_currency = db_session.query(Currency).filter_by(code=price_request.to_currency).one()
@@ -274,8 +270,8 @@ def price(bot, update, text, _):
         bot.send_message(
             chat_id=update.message.chat_id,
             text=_("I understood that you asked, but at the moment "
-                   "I don't have actual exchange rates for your request."
-                   " Sorry. 😭"))
+                   "I don't have actual exchange rates for your request. "
+                   "Try later. Sorry. 😭"))
 
     finally:
         if len(text) <= settings.MAX_LEN_MSG_REQUESTS_LOG:
