@@ -213,10 +213,10 @@ def price(bot, update, text, _):
         # TODO: move to decorator?
         chat = db_session.query(Chat).filter_by(id=update.message.chat_id).one()
 
-        # TODO: send in parser
-        # default_currency_id
-        # default_currency_position
-        price_request = start_parse(text)
+        price_request = start_parse(
+            text,
+            chat.default_currency,
+            chat.default_currency_position)
 
         tag = price_request.parser_name
 

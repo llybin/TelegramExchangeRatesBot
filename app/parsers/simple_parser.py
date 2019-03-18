@@ -1,7 +1,15 @@
 """
-Simple parser for understanding how it work.
+Simple parser
 
-FORMATS: "USD EUR" or "1000.00 USD EUR" or "EUR USD 1000.00", spaces are required
+FORMATS: space separator between currencies are required
+    "USD EUR"
+    "EUR"
+    "1000.00 USD EUR"
+    "1000USD"
+    "1000.00 EUR"
+    "EUR USD 1000.00"
+    "EUR 1000.00"
+    "EUR100"
 """
 
 import re
@@ -15,15 +23,15 @@ from .base import (
 from .exceptions import WrongFormatException, UnknownCurrencyException
 from app.models import get_all_currencies
 
-REQUEST_PATTERN = r'^(\d{1,12}(\.\d{1,12})?\s)?([a-zA-Z]{2,6}\s[a-zA-Z]{2,6})(\s\d{1,12}(\.\d{1,12})?)?$'
+REQUEST_PATTERN = r'^(\d{1,12}(\.\d{1,12})?)?\s?([a-zA-Z]{2,6}(\s[a-zA-Z]{2,6})?)\s?(\d{1,12}(\.\d{1,12})?)?$'
 REQUEST_PATTERN_COMPILED = re.compile(REQUEST_PATTERN, re.IGNORECASE)
 
 #                                        # usd eur | 100 usd eur | 100.22 usd eur | eur usd 100.33
 PRICE_REQUEST_LEFT_AMOUNT = 0            # None    | 100         | 100.22         | None
 PRICE_REQUEST_LEFT_AMOUNT_FRACTION = 1   # None    | None        | .22            | None
 PRICE_REQUEST_CURRENCIES = 2             # usd eur | usd eur     | usd eur        | eur usd
-PRICE_REQUEST_RIGHT_AMOUNT = 3           # None    | None        | None           | 100.33
-PRICE_REQUEST_RIGHT_AMOUNT_FRACTION = 4  # None    | None        | None           | .33
+PRICE_REQUEST_RIGHT_AMOUNT = 4           # None    | None        | None           | 100.33
+PRICE_REQUEST_RIGHT_AMOUNT_FRACTION = 5  # None    | None        | None           | .33
 
 
 class SimpleParser(Parser):
@@ -37,6 +45,7 @@ class SimpleParser(Parser):
             raise WrongFormatException
 
         groups = obj.groups()
+        # print(groups)
 
         if groups[PRICE_REQUEST_LEFT_AMOUNT] and groups[PRICE_REQUEST_RIGHT_AMOUNT]:
             raise WrongFormatException
@@ -58,7 +67,19 @@ class SimpleParser(Parser):
         text = groups[PRICE_REQUEST_CURRENCIES]
         text = text.upper()
 
-        currency, to_currency = text.split()
+        currencies = text.split()
+
+        if len(currencies) == 2:
+            currency, to_currency = currencies
+        else:
+            if self.default_currency_position:
+                currency, to_currency = currencies[0], self.default_currency
+            else:
+                currency, to_currency = self.default_currency, currencies[0]
+
+            if direction_writing == DirectionWriting.RIGHT2LEFT:
+                currency, to_currency = to_currency, currency
+
         if direction_writing == DirectionWriting.RIGHT2LEFT:
             currency, to_currency = to_currency, currency
 

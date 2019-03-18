@@ -18,9 +18,12 @@ class PriceRequest(NamedTuple):
 
 
 class Parser(ABC):
+    text: str
 
-    def __init__(self, text):
+    def __init__(self, text: str, default_currency: str, default_currency_position: bool):
         self.text = text
+        self.default_currency = default_currency
+        self.default_currency_position = default_currency_position
 
     @property
     @abstractmethod
