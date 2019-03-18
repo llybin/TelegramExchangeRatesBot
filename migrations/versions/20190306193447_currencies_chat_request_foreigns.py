@@ -256,7 +256,6 @@ CRYPTO_CURRENCIES = [
     {'code': 'ETP', 'name': 'Metaverse ETP'},
     {'code': 'REP', 'name': 'Augur'},
     {'code': 'GNT', 'name': 'Golem'},
-    {'code': 'TUSD', 'name': 'TrueUSD'},
     {'code': 'STORJ', 'name': 'STORJ'},
     {'code': 'SYS', 'name': 'SysCoin'},
 ]

@@ -1,13 +1,16 @@
 """
 Regex parser
 
-FORMATS: separator between currencies are required
+FORMATS:
     "USD EUR"
+    "USDEUR"
     "EUR"
     "1000.00 USD EUR"
+    "1000.00USDEUR"
     "1000USD"
     "1000.00 EUR"
     "EUR USD 1000.00"
+    "EURUSD1000.00"
     "EUR 1000.00"
     "EUR100"
 """
@@ -23,9 +26,8 @@ from .base import (
 from .exceptions import WrongFormatException, UnknownCurrencyException
 from app.models import get_all_currencies
 
-CURRENCY_SEPARATORS_LIST = (' to ', ' in ', '=', ' = ', r'\s')
+CURRENCY_SEPARATORS_LIST = (r'\s', ' to ', ' in ', '=', ' = ')
 CURRENCY_SEPARATORS_STR = '|'.join(CURRENCY_SEPARATORS_LIST)
-CURRENCY_SEPARATORS_PATTERN = re.compile(f'({CURRENCY_SEPARATORS_STR})')
 
 # TODO: digits with grouping
 REQUEST_PATTERN = r'^' \
@@ -33,7 +35,7 @@ REQUEST_PATTERN = r'^' \
                   r'\s?' \
                   r'(' \
                   r'[a-zA-Z]{2,6}' \
-                  r'((%(sep)s)' \
+                  r'((%(sep)s)?' \
                   r'[a-zA-Z]{2,6})' \
                   r'?)' \
                   r'\s?' \
@@ -50,6 +52,22 @@ PRICE_REQUEST_RIGHT_AMOUNT = 5           # None    | None        | None         
 
 class RegexParser(Parser):
     name = 'RegexParser'
+
+    def __init__(self, text: str, default_currency: str, default_currency_position: bool):
+        super().__init__(text, default_currency, default_currency_position)
+        self.all_currencies = get_all_currencies()
+
+    def is_currency_recognized(self, currency: str) -> bool:
+        return currency in self.all_currencies
+
+    @staticmethod
+    def split_currencies(text: str) -> list:
+        default_sep = ' '
+
+        for s in CURRENCY_SEPARATORS_LIST[1:]:
+            text = text.replace(s.upper(), default_sep)
+
+        return text.split()
 
     def parse(self) -> PriceRequest:
         text = self.text
@@ -81,12 +99,14 @@ class RegexParser(Parser):
         text = groups[PRICE_REQUEST_CURRENCIES]
         text = text.upper()
 
-        # TODO: split ' in ' -> ' ','in',' ' can be problem without separator eg: usdinr
-        currencies = CURRENCY_SEPARATORS_PATTERN.split(text)
+        currencies = self.split_currencies(text)
 
-        if len(currencies) >= 3:
-            currency, to_currency = currencies[0], currencies[-1]
-        else:
+        if len(currencies) == 2:
+            currency, to_currency = currencies[0], currencies[1]
+            if not self.is_currency_recognized(currency) or not self.is_currency_recognized(to_currency):
+                raise UnknownCurrencyException
+
+        elif len(currencies) == 1 and self.is_currency_recognized(currencies[0]):
             if self.default_currency_position:
                 currency, to_currency = currencies[0], self.default_currency
             else:
@@ -95,12 +115,17 @@ class RegexParser(Parser):
             if direction_writing == DirectionWriting.RIGHT2LEFT:
                 currency, to_currency = to_currency, currency
 
+        else:
+            currencies = currencies[0]
+            for x in range(2, len(currencies) - 1):
+                currency, to_currency = currencies[:x], currencies[x:]
+                if self.is_currency_recognized(currency) and self.is_currency_recognized(to_currency):
+                    break
+            else:
+                raise WrongFormatException
+
         if direction_writing == DirectionWriting.RIGHT2LEFT:
             currency, to_currency = to_currency, currency
-
-        all_currencies = get_all_currencies()
-        if currency not in all_currencies or to_currency not in all_currencies:
-            raise UnknownCurrencyException
 
         return PriceRequest(
             amount=amount,

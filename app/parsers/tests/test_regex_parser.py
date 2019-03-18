@@ -2,6 +2,7 @@ import unittest
 from decimal import Decimal
 from unittest.mock import patch
 
+from app.models import get_all_currencies
 from ..base import PriceRequest, DirectionWriting
 from ..exceptions import ValidationException
 from ..regex_parser import RegexParser
@@ -230,16 +231,70 @@ class RegexParserTest(unittest.TestCase):
         )
 
     @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
+    def test_no_separators(self, m):
+        self.assertEqual(
+            RegexParser('usdrub', 'USD', False).parse(),
+            PriceRequest(
+                amount=None,
+                currency='USD',
+                to_currency='RUB',
+                parser_name='RegexParser',
+                direction_writing=DirectionWriting.UNKNOWN,
+            )
+        )
+
+        self.assertEqual(
+            RegexParser('scburst', 'USD', False).parse(),
+            PriceRequest(
+                amount=None,
+                currency='SC',
+                to_currency='BURST',
+                parser_name='RegexParser',
+                direction_writing=DirectionWriting.UNKNOWN,
+            )
+        )
+
+        self.assertEqual(
+            RegexParser('burstsc', 'USD', False).parse(),
+            PriceRequest(
+                amount=None,
+                currency='BURST',
+                to_currency='SC',
+                parser_name='RegexParser',
+                direction_writing=DirectionWriting.UNKNOWN,
+            )
+        )
+
+        self.assertEqual(
+            RegexParser('scsc', 'USD', False).parse(),
+            PriceRequest(
+                amount=None,
+                currency='SC',
+                to_currency='SC',
+                parser_name='RegexParser',
+                direction_writing=DirectionWriting.UNKNOWN,
+            )
+        )
+
+        self.assertEqual(
+            RegexParser('burstburst', 'USD', False).parse(),
+            PriceRequest(
+                amount=None,
+                currency='BURST',
+                to_currency='BURST',
+                parser_name='RegexParser',
+                direction_writing=DirectionWriting.UNKNOWN,
+            )
+        )
+
+    @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_bad(self, m):
         cases = [
             '',
             ' ',
             '100',
             '100.22',
-            'usdrub',
             'usdrubeur',
-            '100usdrub',
-            'usdrub100',
             '100usd rub100',
             '1,000 usd rub',
             '0,1 usd rub',
@@ -253,15 +308,10 @@ class RegexParserTest(unittest.TestCase):
             with self.assertRaises(ValidationException, msg=text):
                 RegexParser(text, 'USD', True).parse()
 
+    def test_cross_all_currency(self):
+        for cur0 in get_all_currencies():
+            for cur1 in get_all_currencies():
+                pr = RegexParser(f'{cur0}{cur1}', 'USD', False).parse()
+                self.assertEqual(pr.currency, cur0, f'{cur0}{cur1}')
+                self.assertEqual(pr.to_currency, cur1, f'{cur0}{cur1}')
 
-# TODO:
-#     @patch('app.parsers.regex_parser.get_all_currencies', return_value=ALL_CURRENCIES)
-#     def test_cross_all_currency(self, m):
-#         for cur0 in ALL_CURRENCIES:
-#             for cur1 in ALL_CURRENCIES:
-#                 # print(f'{cur0} {cur1}')
-#                 self.assertEqual(RegexParser(f'{cur0} {cur1}').parse(),
-#                                  PriceRequest(amount=None, currency=cur0, to_currency=cur1))  # NOQA
-#                 # print(f'{cur1} {cur0}')
-#                 self.assertEqual(RegexParser(f'{cur1} {cur0}').parse(),
-#                                  PriceRequest(amount=None, currency=cur1, to_currency=cur0))  # NOQA
