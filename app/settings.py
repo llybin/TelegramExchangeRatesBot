@@ -64,7 +64,7 @@ CELERYBEAT_SCHEDULE = {
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 
 BOT_PARSERS = [
-    'app.parsers.SimpleParser',
+    'app.parsers.RegexParser',
 ]
 
 OPENEXCHANGERATES_TOKEN = os.environ.get('OPENEXCHANGERATES_TOKEN')

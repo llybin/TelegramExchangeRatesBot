@@ -1,3 +1,3 @@
-from .simple_parser import SimpleParser
+from .regex_parser import RegexParser
 
-__all__ = [SimpleParser]
+__all__ = [RegexParser]
