@@ -6,7 +6,14 @@ import transaction
 from sentry_sdk.integrations.logging import LoggingIntegration
 from pyramid_sqlalchemy import init_sqlalchemy, Session
 from telegram import ReplyKeyboardRemove
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
+from telegram.ext import (
+    Updater,
+    CommandHandler,
+    MessageHandler,
+    Filters,
+    RegexHandler,
+    ConversationHandler,
+)
 from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
 from suite.conf import settings
@@ -19,31 +26,26 @@ from .logic import get_keyboard, start_parse
 from .models import Chat, Currency, ChatRequests
 from .parsers.exceptions import ValidationException
 from .exceptions import EmptyPriceRequestException
-from .tasks import write_request_log
+from .tasks import write_request_log, send_feedback
 
 
 def tutorial(bot, update, _):
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         text=_('I am bot. I will help you to know a current exchange rates.'))
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         parse_mode='Markdown',
         text=_('''Send me a message like this:
     *BTC USD* - to see the current exchange rate for pair
     *100 USD EUR* - to convert the amount from 100 USD to EUR'''))
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         text=_('Just text me message in private chat.'))
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         text=_('In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR'))
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         reply_markup=get_keyboard(update.message.chat_id),
         text=_('Also take a look here 👉 /help'))
 
@@ -56,9 +58,7 @@ def start_command(bot, update, chat_info, _):
     else:
         name = _('humans')
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=_('Hello, %(name)s!') % {'name': name})
+    update.message.reply_text(text=_('Hello, %(name)s!') % {'name': name})
 
     if chat_info['created']:
         tutorial(bot, update, _)
@@ -69,8 +69,7 @@ def start_command(bot, update, chat_info, _):
         ).update({'is_subscribed': True})
         transaction.commit()
 
-        bot.send_message(
-            chat_id=update.message.chat_id,
+        update.message.reply_text(
             reply_markup=get_keyboard(update.message.chat_id),
             text=_('Have any question how to talk with me? 👉 /tutorial'))
 
@@ -90,8 +89,7 @@ def stop_command(bot, update, chat_info, _):
         ).update({'is_subscribed': False})
         transaction.commit()
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         text=_("You're unsubscribed. You always can subscribe again 👉 /start")
     )
 
@@ -107,9 +105,8 @@ def help_command(bot, update, chat_info, _):
     text_to += _('/tutorial - Tutorial, how to talk with me')
     text_to += '\n'
     text_to += _('/currencies - All currencies that I support')
-    # TODO:
-    # text_to += '\n'
-    # text_to += _('/feedback - If you have suggestions, text me')
+    text_to += '\n'
+    text_to += _('/feedback - If you have suggestions, text me')
     text_to += '\n'
     text_to += _('/keyboard - Hide / show a keyboard with request history')
     text_to += '\n'
@@ -130,8 +127,7 @@ def help_command(bot, update, chat_info, _):
 
 Sign up using [link](%(link)s) and receive $100. From $5 per month: 1GB / 1 CPU / 25GB SSD Disk.''' % {'link': 'https://m.do.co/c/ba04a478e10d'}  # NOQA
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         disable_web_page_preview=True,
         parse_mode='Markdown',
         text=text_to)
@@ -139,8 +135,7 @@ Sign up using [link](%(link)s) and receive $100. From $5 per month: 1GB / 1 CPU 
 
 @register_update
 def sources_command(bot, update, chat_info):
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         disable_web_page_preview=True,
         parse_mode='Markdown',
         text='''*Sources*
@@ -162,21 +157,68 @@ def keyboard_command(bot, update, chat_info, _):
         if chat.is_console_mode:
             chat.is_console_mode = False
             reply_markup = get_keyboard(chat_id)
-            text_to = _("Console mode is disabled.")
+            text_to = _('Keyboard is shown.')
         else:
             chat.is_console_mode = True
             reply_markup = ReplyKeyboardRemove()
-            text_to = _("Console mode is enabled.")
+            text_to = _('Keyboard is hidden.')
 
         transaction.commit()
     else:
-        text_to = _("The command is not available for group chats")
+        text_to = _('The command is not available for group chats')
         reply_markup = ReplyKeyboardRemove()
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         reply_markup=reply_markup,
         text=text_to)
+
+
+@register_update
+@chat_language
+def feedback_command(bot, update, chat_info, _):
+    chat_id = update.message.chat_id
+
+    if chat_id < 0:
+        text_to = _("The command is not available for group chats")
+        reply_markup = None
+    else:
+        text_to = _('What do you want to tell? Or nothing?') + ' /nothing'
+        reply_markup = ReplyKeyboardRemove()
+
+    update.message.reply_text(
+        reply_markup=reply_markup,
+        text=text_to)
+
+    return 1
+
+
+@register_update
+@chat_language
+def send_feedback_command(bot, update, chat_info, _):
+    text_to = _('Message sent, thank you.')
+
+    update.message.reply_text(
+        reply_markup=get_keyboard(update.message.chat_id),
+        text=text_to)
+
+    send_feedback(
+        update.message.chat.id,
+        update.message.from_user.first_name,
+        update.message.from_user.username,
+        update.message.text
+    )
+
+    return ConversationHandler.END
+
+
+@register_update
+@chat_language
+def cancel_command(bot, update, chat_info, _):
+    update.message.reply_text(
+        reply_markup=get_keyboard(update.message.chat_id),
+        text='👌')
+
+    return ConversationHandler.END
 
 
 @register_update
@@ -184,25 +226,25 @@ def currencies_command(bot, update, chat_info):
     text_to = '\n'.join([f'{code} - {name}' for code, name in Session().query(
         Currency.code, Currency.name).filter_by(is_active=True).order_by(Currency.name)])
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         parse_mode='Markdown',
         text=text_to)
 
 
 @register_update
-def settings_commands(bot, update, chat_info):
+@chat_language
+def settings_commands(bot, update, chat_info, _):
     # locale
     # default_currency
     # default_currency_position
-    pass
+    update.message.reply_text(
+        text='https://github.com/llybin/TelegramExchangeRatesBot/issues/11')
 
 
 @register_update
 @chat_language
 def disclaimers_command(bot, update, chat_info, _):
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         text=_('Data is provided by financial exchanges and may be delayed '
                'as specified by financial exchanges or our data providers. '
                'Bot does not verify any data and disclaims any obligation '
@@ -264,25 +306,21 @@ def price(bot, update, text, _):
             logging.exception("Error create chat_request, chat_request exists")
             transaction.abort()
 
-        bot.send_message(
-            chat_id=update.message.chat_id,
+        update.message.reply_text(
             parse_mode='Markdown',
             reply_markup=get_keyboard(update.message.chat_id),
             text=text_to)
 
     except EmptyPriceRequestException:
-        bot.send_message(
-            chat_id=update.message.chat_id,
+        update.message.reply_text(
             text=_('The message must contain currencies or amounts 👉 /tutorial'))
 
     except ValidationException:
-        bot.send_message(
-            chat_id=update.message.chat_id,
+        update.message.reply_text(
             text=_("I don't understand you 😞 Take a look here 👉 /help"))
 
     except ConverterException:
-        bot.send_message(
-            chat_id=update.message.chat_id,
+        update.message.reply_text(
             text=_("I understood that you asked, but at the moment "
                    "I don't have actual exchange rates for your request. "
                    "Try later. Sorry. 😭"))
@@ -352,6 +390,17 @@ def main():
     dp.add_handler(CommandHandler("stop", stop_command))
     dp.add_handler(CommandHandler("sources", sources_command))
     dp.add_handler(CommandHandler("tutorial", tutorial_command))
+
+    feedback_handler = ConversationHandler(
+        entry_points=[CommandHandler("feedback", feedback_command)],
+        states={
+            1: [MessageHandler(Filters.text, send_feedback_command)]
+        },
+        fallbacks=[CommandHandler("nothing", cancel_command)]
+    )
+
+    dp.add_handler(feedback_handler)
+
     dp.add_handler(RegexHandler(r"^/", empty_command))
 
     # on noncommand i.e message - echo the message on Telegram

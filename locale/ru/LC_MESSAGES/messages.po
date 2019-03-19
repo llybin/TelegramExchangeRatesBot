@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-18 05:00+0700\n"
+"POT-Creation-Date: 2019-03-20 00:25+0700\n"
 "PO-Revision-Date: 2019-03-14 01:20+0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,102 +19,114 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: app/main.py:27
+#: app/main.py:34
 msgid "I am bot. I will help you to know a current exchange rates."
 msgstr ""
 
-#: app/main.py:32
+#: app/main.py:38
 msgid ""
 "Send me a message like this:\n"
 "    *BTC USD* - to see the current exchange rate for pair\n"
 "    *100 USD EUR* - to convert the amount from 100 USD to EUR"
 msgstr ""
 
-#: app/main.py:38
+#: app/main.py:43
 msgid "Just text me message in private chat."
 msgstr ""
 
-#: app/main.py:42
+#: app/main.py:46
 msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
 msgstr ""
 
-#: app/main.py:47
+#: app/main.py:50
 msgid "Also take a look here 👉 /help"
 msgstr ""
 
-#: app/main.py:53
+#: app/main.py:59
 msgid "humans"
 msgstr "человеки"
 
-#: app/main.py:57
+#: app/main.py:61
 #, python-format
 msgid "Hello, %(name)s!"
 msgstr "Привет, %(name)s!"
 
-#: app/main.py:69
+#: app/main.py:74
 msgid "Have any question how to talk with me? 👉 /tutorial"
 msgstr ""
 
-#: app/main.py:86
+#: app/main.py:93
 msgid "You're unsubscribed. You always can subscribe again 👉 /start"
 msgstr ""
 
-#: app/main.py:93
+#: app/main.py:100
 msgid "*Commands*"
 msgstr ""
 
-#: app/main.py:96
+#: app/main.py:103
 msgid "/start - Start to enslave mankind"
 msgstr ""
 
-#: app/main.py:98
+#: app/main.py:105
 msgid "/tutorial - Tutorial, how to talk with me"
 msgstr ""
 
-#: app/main.py:100
+#: app/main.py:107
 msgid "/currencies - All currencies that I support"
 msgstr ""
 
-#: app/main.py:105
-msgid "/keyboard - Hide / show a keyboard with request history"
-msgstr ""
-
-#: app/main.py:107
-msgid "/p - Command for group chats, get exchange rate"
-msgstr ""
-
 #: app/main.py:109
-msgid "/sources - Currency rates sources"
+msgid "/feedback - If you have suggestions, text me"
 msgstr ""
 
 #: app/main.py:111
-msgid "/disclaimers - Disclaimers"
+msgid "/keyboard - Hide / show a keyboard with request history"
 msgstr ""
 
 #: app/main.py:113
+msgid "/p - Command for group chats, get exchange rate"
+msgstr ""
+
+#: app/main.py:115
+msgid "/sources - Currency rates sources"
+msgstr ""
+
+#: app/main.py:117
+msgid "/disclaimers - Disclaimers"
+msgstr ""
+
+#: app/main.py:119
 msgid "/stop - Unsubscribe"
 msgstr ""
 
-#: app/main.py:116
+#: app/main.py:122
 #, python-format
 msgid ""
 "Don't have your localization? Any translation errors? Help fix it 👉 "
 "[poeditor.com](%(trans_link)s)"
 msgstr ""
 
-#: app/main.py:156
-msgid "Console mode is disabled."
-msgstr ""
-
 #: app/main.py:160
-msgid "Console mode is enabled."
+msgid "Keyboard is shown."
 msgstr ""
 
 #: app/main.py:164
+msgid "Keyboard is hidden."
+msgstr ""
+
+#: app/main.py:168 app/main.py:182
 msgid "The command is not available for group chats"
 msgstr ""
 
-#: app/main.py:197
+#: app/main.py:185
+msgid "What do you want to tell? Or nothing?"
+msgstr ""
+
+#: app/main.py:198
+msgid "Message sent, thank you."
+msgstr ""
+
+#: app/main.py:248
 msgid ""
 "Data is provided by financial exchanges and may be delayed as specified "
 "by financial exchanges or our data providers. Bot does not verify any "
@@ -124,15 +136,15 @@ msgid ""
 " the exchange rates."
 msgstr ""
 
-#: app/main.py:262
+#: app/main.py:316
 msgid "The message must contain currencies or amounts 👉 /tutorial"
 msgstr ""
 
-#: app/main.py:267
+#: app/main.py:320
 msgid "I don't understand you 😞 Take a look here 👉 /help"
 msgstr ""
 
-#: app/main.py:272
+#: app/main.py:324
 msgid ""
 "I understood that you asked, but at the moment I don't have actual "
 "exchange rates for your request. Try later. Sorry. 😭"

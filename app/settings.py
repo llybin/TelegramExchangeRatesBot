@@ -62,11 +62,12 @@ CELERYBEAT_SCHEDULE = {
     'delete_expired_rates': {
         'task': 'app.tasks.delete_expired_rates',
         'schedule': crontab(minute=5, hour='*/1'),
-        'options': {'time_limit': 60}
     },
 }
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
+DEVELOPER_BOT_TOKEN = os.environ.get('DEVELOPER_BOT_TOKEN')
+DEVELOPER_USER_ID = os.environ.get('DEVELOPER_USER_ID')
 
 BOT_PARSERS = [
     'app.parsers.RegexParser',

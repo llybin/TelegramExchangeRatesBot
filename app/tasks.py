@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 import logging
 
 import transaction
+from telegram import Bot
 from celery_once import QueueOnce
 from pyramid_sqlalchemy import Session
 from sqlalchemy.orm.exc import NoResultFound
@@ -61,7 +62,7 @@ def exchange_updater(exchange_class: str) -> None:
     transaction.commit()
 
 
-@celery_app.task(base=QueueOnce, queue='exchanges')
+@celery_app.task(base=QueueOnce, queue='exchanges', time_limit=60)
 def delete_expired_rates() -> None:
     db_session = Session()
     current_time = datetime.utcnow()
@@ -87,3 +88,14 @@ def write_request_log(chat_id: int, msg: str, created_at: datetime, tag: str = '
         created_at=created_at,
     ))
     transaction.commit()
+
+
+@celery_app.task(time_limit=10)
+def send_feedback(chat_id: int, first_name: str, username: str, text: str) -> None:
+    if not settings.DEVELOPER_BOT_TOKEN or not settings.DEVELOPER_USER_ID:
+        logging.warning('Developer account is not configured')
+        return
+
+    text_to = f"{chat_id}, {first_name}, @{username}: {text}"
+    bot = Bot(token=settings.DEVELOPER_BOT_TOKEN)
+    bot.send_message(settings.DEVELOPER_USER_ID, text=text_to)
