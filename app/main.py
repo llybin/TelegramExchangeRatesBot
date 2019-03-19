@@ -5,7 +5,12 @@ import sentry_sdk
 import transaction
 from sentry_sdk.integrations.logging import LoggingIntegration
 from pyramid_sqlalchemy import init_sqlalchemy, Session
-from telegram import ReplyKeyboardRemove
+from telegram import (
+    InlineQueryResultArticle,
+    InputTextMessageContent,
+    ReplyKeyboardRemove,
+    ParseMode,
+)
 from telegram.ext import (
     Updater,
     CommandHandler,
@@ -13,20 +18,21 @@ from telegram.ext import (
     Filters,
     RegexHandler,
     ConversationHandler,
+    InlineQueryHandler,
 )
 from sqlalchemy import create_engine
-from sqlalchemy.exc import IntegrityError
 from suite.conf import settings
 
 from .decorators import register_update, chat_language
-from .converter.formatter import FormatPriceRequestResult
+from .converter.formatter import FormatPriceRequestResult, InlineFormatPriceRequestResult
 from .converter.converter import convert
 from .converter.exceptions import ConverterException
 from .logic import get_keyboard, start_parse
 from .models import Chat, Currency, ChatRequests
 from .parsers.exceptions import ValidationException
 from .exceptions import EmptyPriceRequestException
-from .tasks import write_request_log, send_feedback
+from .tasks import write_request_log, send_feedback, update_chat_request
+from .parsers.base import PriceRequest
 
 
 def tutorial(bot, update, _):
@@ -34,7 +40,7 @@ def tutorial(bot, update, _):
         text=_('I am bot. I will help you to know a current exchange rates.'))
 
     update.message.reply_text(
-        parse_mode='Markdown',
+        parse_mode=ParseMode.MARKDOWN,
         text=_('''Send me a message like this:
     *BTC USD* - to see the current exchange rate for pair
     *100 USD EUR* - to convert the amount from 100 USD to EUR'''))
@@ -44,6 +50,12 @@ def tutorial(bot, update, _):
 
     update.message.reply_text(
         text=_('In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR'))
+
+    update.message.reply_text(
+        disable_web_page_preview=True,
+        parse_mode=ParseMode.MARKDOWN,
+        text=_('Inline mode is available. See how to use [here](%(link)s).') % {
+            'link': 'https://telegram.org/blog/inline-bots'})
 
     update.message.reply_text(
         reply_markup=get_keyboard(update.message.chat_id),
@@ -129,7 +141,7 @@ Sign up using [link](%(link)s) and receive $100. From $5 per month: 1GB / 1 CPU 
 
     update.message.reply_text(
         disable_web_page_preview=True,
-        parse_mode='Markdown',
+        parse_mode=ParseMode.MARKDOWN,
         text=text_to)
 
 
@@ -137,7 +149,7 @@ Sign up using [link](%(link)s) and receive $100. From $5 per month: 1GB / 1 CPU 
 def sources_command(bot, update, chat_info):
     update.message.reply_text(
         disable_web_page_preview=True,
-        parse_mode='Markdown',
+        parse_mode=ParseMode.MARKDOWN,
         text='''*Sources*
 
 https://bitfinex.com - 10min
@@ -227,7 +239,7 @@ def currencies_command(bot, update, chat_info):
         Currency.code, Currency.name).filter_by(is_active=True).order_by(Currency.name)])
 
     update.message.reply_text(
-        parse_mode='Markdown',
+        parse_mode=ParseMode.MARKDOWN,
         text=text_to)
 
 
@@ -254,20 +266,17 @@ def disclaimers_command(bot, update, chat_info, _):
                'the exchange rates.'))
 
 
-def price(bot, update, text, _):
+def price(bot, update, text, chat_info, _):
     tag = ''
     try:
         if not text:
             raise EmptyPriceRequestException
 
-        db_session = Session()
-        chat = db_session.query(Chat).filter_by(id=update.message.chat_id).one()
-
         price_request = start_parse(
             text,
-            chat.locale,
-            chat.default_currency,
-            chat.default_currency_position
+            chat_info['locale'],
+            chat_info['default_currency'],
+            chat_info['default_currency_position']
         )
 
         tag = price_request.parser_name
@@ -278,36 +287,16 @@ def price(bot, update, text, _):
 
         logging.info(f'price_request: {price_request_result}')
 
-        text_to = FormatPriceRequestResult(price_request_result, chat.locale).get()
+        text_to = FormatPriceRequestResult(price_request_result, chat_info['locale']).get()
 
-        from_currency = db_session.query(Currency).filter_by(code=price_request.currency).one()
-        to_currency = db_session.query(Currency).filter_by(code=price_request.to_currency).one()
-
-        chat_request = db_session.query(ChatRequests).filter_by(
+        update_chat_request(
             chat_id=update.message.chat_id,
-            from_currency=from_currency,
-            to_currency=to_currency,
-        ).first()
-
-        if chat_request:
-            chat_request.times = ChatRequests.times + 1
-
-        else:
-            chat_request = ChatRequests(
-                chat_id=update.message.chat_id,
-                from_currency=from_currency,
-                to_currency=to_currency,
-            )
-            db_session.add(chat_request)
-
-        try:
-            transaction.commit()
-        except IntegrityError:
-            logging.exception("Error create chat_request, chat_request exists")
-            transaction.abort()
+            currency=price_request.currency,
+            to_currency=price_request.to_currency
+        )
 
         update.message.reply_text(
-            parse_mode='Markdown',
+            parse_mode=ParseMode.MARKDOWN,
             reply_markup=get_keyboard(update.message.chat_id),
             text=text_to)
 
@@ -339,25 +328,121 @@ def price(bot, update, text, _):
 @chat_language
 def price_command(bot, update, args, chat_info, _):
     text = ''.join(args)
-    price(bot, update, text, _)
+    price(bot, update, text, chat_info, _)
 
 
 @register_update
 @chat_language
 def message_command(bot, update, chat_info, _):
-    price(bot, update, update.message.text, _)
+    price(bot, update, update.message.text, chat_info, _)
 
 
 @register_update
 @chat_language
 def empty_command(bot, update, chat_info, _):
-    price(bot, update, update.message.text[1:], _)
+    price(bot, update, update.message.text[1:], chat_info, _)
+
+
+@register_update
+def inline_query(bot, update, chat_info):
+    query = update.inline_query.query
+
+    if not query:
+        logging.info('inline_request empty query')
+
+        last_requests = Session.query(ChatRequests).filter_by(
+            chat_id=update.effective_user.id
+        ).order_by(
+            ChatRequests.times.desc()
+        ).limit(9).all()
+
+        results = []
+
+        for r in last_requests:
+            price_request_result = convert(PriceRequest(
+                amount=None,
+                currency=r.from_currency.code,
+                to_currency=r.to_currency.code,
+                parser_name='InlineQuery',
+            ))
+
+            title = InlineFormatPriceRequestResult(
+                price_request_result, chat_info['locale']).get()
+            text_to = FormatPriceRequestResult(
+                price_request_result, chat_info['locale']).get()
+
+            ident = f'{r.from_currency.code}{r.to_currency.code}' \
+                f'{price_request_result.rate}{price_request_result.last_trade_at}'
+
+            results.append(
+                InlineQueryResultArticle(
+                    id=ident,
+                    title=title,
+                    input_message_content=InputTextMessageContent(
+                        text_to,
+                        parse_mode=ParseMode.MARKDOWN
+                    )
+                )
+            )
+        # TODO: increase counter what was chosen if it possible
+    else:
+        try:
+            price_request = start_parse(
+                query,
+                chat_info['locale'],
+                chat_info['default_currency'],
+                chat_info['default_currency_position']
+            )
+
+            logging.info(f'inline_request: {query} -> {price_request}')
+
+            price_request_result = convert(price_request)
+
+            logging.info(f'inline_request: {price_request_result}')
+
+            title = InlineFormatPriceRequestResult(
+                price_request_result, chat_info['locale']).get()
+            text_to = FormatPriceRequestResult(
+                price_request_result, chat_info['locale']).get()
+
+            ident = f'{price_request.currency}{price_request.to_currency}' \
+                f'{price_request_result.rate}{price_request_result.last_trade_at}'
+
+            results = [
+                InlineQueryResultArticle(
+                    id=ident,
+                    title=title,
+                    input_message_content=InputTextMessageContent(
+                        text_to,
+                        parse_mode=ParseMode.MARKDOWN
+                    )
+                )
+            ]
+
+            update_chat_request.delay(
+                chat_id=update.effective_user.id,
+                currency=price_request.currency,
+                to_currency=price_request.to_currency
+            )
+
+        except (ValidationException, ConverterException) as e:
+            logging.info(f'inline_request unrecognized: {query}')
+            results = []
+
+        finally:
+            if len(query) <= settings.MAX_LEN_MSG_REQUESTS_LOG:
+                write_request_log.delay(
+                    chat_id=update.effective_user.id,
+                    msg=query,
+                    created_at=datetime.now(),
+                    tag='Inline'
+                )
+
+    update.inline_query.answer(results)
 
 
 def error_handler(bot, update, err):
-    logging.error(f'Telegram bot error handler', extra=dict(
-        bot=bot, update=update, err=err
-    ))
+    logging.exception(f'Telegram bot error handler: %s', err)
 
 
 def main():
@@ -403,7 +488,8 @@ def main():
 
     dp.add_handler(RegexHandler(r"^/", empty_command))
 
-    # on noncommand i.e message - echo the message on Telegram
+    dp.add_handler(InlineQueryHandler(inline_query))
+
     dp.add_handler(MessageHandler(Filters.text, message_command))
 
     # log all errors

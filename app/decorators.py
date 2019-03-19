@@ -12,7 +12,10 @@ from .models import Chat
 
 def register_update(func):
     def wrapper(bot, update, *args, **kwargs):
-        chat_id = update.effective_chat.id
+        if update.effective_chat:
+            chat_id = update.effective_chat.id
+        else:
+            chat_id = update.effective_user.id
 
         db_session = Session()
         chat = db_session.query(Chat).filter_by(id=chat_id).scalar()
@@ -39,6 +42,8 @@ def register_update(func):
             'locale': chat.locale,
             'is_subscribed': chat.is_subscribed,
             'is_console_mode': chat.is_console_mode,
+            'default_currency': chat.default_currency,
+            'default_currency_position': chat.default_currency_position,
         }
 
         return func(bot, update, *args, **kwargs)

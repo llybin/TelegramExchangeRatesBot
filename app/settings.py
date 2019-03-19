@@ -32,12 +32,12 @@ CELERY_TASK_IGNORE_RESULT = True
 
 CELERYD_TASK_TIME_LIMIT = 600
 
-CELERY_DEFAULT_QUEUE = 'default'
+CELERY_DEFAULT_QUEUE = 'low'
 
 CELERY_QUEUES = (
-    Queue('default'),
+    Queue('low'),
     Queue('exchanges'),
-    Queue('log'),
+    Queue('update_chat_request'),
 )
 
 CELERYBEAT_SCHEDULE = {
