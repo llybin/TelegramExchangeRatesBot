@@ -43,9 +43,9 @@ CELERY_QUEUES = (
 CELERYBEAT_SCHEDULE = {
     'exchange_updater_BitfinexExchange': {
         'task': 'app.tasks.exchange_updater',
-        'schedule': crontab(minute='*/10'),
+        'schedule': crontab(minute='*/15'),
         'args': ('app.exchanges.BitfinexExchange',),
-        'options': {'time_limit': 600}
+        'options': {'time_limit': 900}
     },
     'exchange_updater_BittrexExchange': {
         'task': 'app.tasks.exchange_updater',
