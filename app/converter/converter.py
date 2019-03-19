@@ -110,7 +110,7 @@ def convert(price_request: PriceRequest) -> PriceRequestResult:
 def check_overflow(prr: PriceRequestResult):
     for a in ['rate', 'rate_open', 'low24h', 'high24h']:
         value = getattr(prr, a)
-        if value and value >= BIGGEST_VALUE:
+        if value and value > BIGGEST_VALUE:
             raise OverflowException
 
 

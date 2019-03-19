@@ -82,7 +82,7 @@ class RegexParser(Parser):
         for l in locales:
             try:
                 number = parse_decimal(text, locale=l)
-                if number >= BIGGEST_VALUE:
+                if number > BIGGEST_VALUE:
                     raise WrongFormatException
                 else:
                     return number
