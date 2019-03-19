@@ -102,11 +102,14 @@ class FormatPriceRequestResult(object):
 
         rounded_number = clever_round(number, ndigits)
         formatted = format_decimal(rounded_number, locale=self.locale, decimal_quantization=False)
+        return self.normalize_amount_str(formatted, ndigits)
 
-        str_number_parts = formatted.partition('.')
+    def normalize_amount_str(self, formatted: str, ndigits: int = 4):
+        decimal_symbol = get_decimal_symbol(self.locale)
+        str_number_parts = formatted.partition(decimal_symbol)
         if str_number_parts[2] == '':
             # 3,995 -> 3,995.0
-            return f'{formatted}{get_decimal_symbol(self.locale)}0'
+            return f'{formatted}{decimal_symbol}0'
         elif len(str_number_parts[2]) <= 2:
             # 1.1 -> 1.1 ; 1.12 -> 1.12
             return formatted

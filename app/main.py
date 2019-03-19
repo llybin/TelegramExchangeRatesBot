@@ -47,16 +47,16 @@ def tutorial(bot, update, _):
         text=_('Also take a look here 👉 /help'))
 
 
-@register_update(pass_chat_created=True)
+@register_update
 @chat_language
-def start_command(bot, update, chat_created, _):
+def start_command(bot, update, chat_info, _):
     name = update.message.from_user.first_name if update.message.chat.type == 'private' else _('humans')
 
     bot.send_message(
         chat_id=update.message.chat_id,
         text=_('Hello, %(name)s!') % {'name': name})
 
-    if chat_created:
+    if chat_info['created']:
         tutorial(bot, update, _)
 
     else:
@@ -69,15 +69,15 @@ def start_command(bot, update, chat_created, _):
             text=_('Have any question how to talk with me? 👉 /tutorial'))
 
 
-@register_update()
+@register_update
 @chat_language
-def tutorial_command(bot, update, _):
+def tutorial_command(bot, update, chat_info, _):
     tutorial(bot, update, _)
 
 
-@register_update()
+@register_update
 @chat_language
-def stop_command(bot, update, _):
+def stop_command(bot, update, chat_info, _):
     Session().query(Chat).filter_by(id=update.message.chat_id).update({'is_subscribed': False})
     transaction.commit()
 
@@ -87,9 +87,9 @@ def stop_command(bot, update, _):
     )
 
 
-@register_update()
+@register_update
 @chat_language
-def help_command(bot, update, _):
+def help_command(bot, update, chat_info, _):
     text_to = _('*Commands*')
 
     text_to += '\n\n'
@@ -128,8 +128,8 @@ Sign up using [link](%(link)s) and receive $100. From $5 per month: 1GB / 1 CPU 
         text=text_to)
 
 
-@register_update()
-def sources_command(bot, update):
+@register_update
+def sources_command(bot, update, chat_info):
     bot.send_message(
         chat_id=update.message.chat_id,
         disable_web_page_preview=True,
@@ -141,9 +141,9 @@ https://bittrex.com - 1min
 https://openexchangerates.org - 60min''')
 
 
-@register_update()
+@register_update
 @chat_language
-def keyboard_command(bot, update, _):
+def keyboard_command(bot, update, chat_info, _):
     chat_id = update.message.chat_id
 
     if chat_id > 0:
@@ -170,8 +170,8 @@ def keyboard_command(bot, update, _):
         text=text_to)
 
 
-@register_update()
-def currencies_command(bot, update):
+@register_update
+def currencies_command(bot, update, chat_info):
     text_to = '\n'.join([f'{code} - {name}' for code, name in Session().query(
         Currency.code, Currency.name).filter_by(is_active=True).order_by(Currency.name)])
 
@@ -181,17 +181,17 @@ def currencies_command(bot, update):
         text=text_to)
 
 
-@register_update()
-def settings_commands(bot, update):
+@register_update
+def settings_commands(bot, update, chat_info):
     # locale
     # default_currency
     # default_currency_position
     pass
 
 
-@register_update()
+@register_update
 @chat_language
-def disclaimers_command(bot, update, _):
+def disclaimers_command(bot, update, chat_info, _):
     bot.send_message(
         chat_id=update.message.chat_id,
         text=_('Data is provided by financial exchanges and may be delayed '
@@ -285,22 +285,22 @@ def price(bot, update, text, _):
             )
 
 
-@register_update()
+@register_update
 @chat_language
-def price_command(bot, update, args, _):
+def price_command(bot, update, args, chat_info, _):
     text = ''.join(args)
     price(bot, update, text, _)
 
 
-@register_update()
+@register_update
 @chat_language
-def message_command(bot, update, _):
+def message_command(bot, update, chat_info, _):
     price(bot, update, update.message.text, _)
 
 
-@register_update()
+@register_update
 @chat_language
-def empty_command(bot, update, _):
+def empty_command(bot, update, chat_info, _):
     price(bot, update, update.message.text[1:], _)
 
 
