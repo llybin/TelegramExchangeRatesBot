@@ -13,11 +13,18 @@ FORMATS:
     "EURUSD1000.00"
     "EUR 1000.00"
     "EUR100"
+    "1,000.00 USD"
+    "1.000,00 USD"
+    "1 000,00 USD"
 """
 
 import re
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 
+from babel.core import Locale
+from babel.numbers import get_decimal_symbol, get_group_symbol
+
+from ..constants import decimal_scale
 from .base import (
     DirectionWriting,
     PriceRequest,
@@ -29,9 +36,9 @@ from app.models import get_all_currencies
 CURRENCY_SEPARATORS_LIST = (r'\s', ' to ', ' in ', '=', ' = ')
 CURRENCY_SEPARATORS_STR = '|'.join(CURRENCY_SEPARATORS_LIST)
 
-# TODO: digits with grouping
+# len("123,456,789,012.123456789012") == 28
 REQUEST_PATTERN = r'^' \
-                  r'(\d{1,12}(\.\d{1,12})?)?' \
+                  r'([\d\.,\'\s]{1,28})?' \
                   r'\s?' \
                   r'(' \
                   r'[a-zA-Z]{2,6}' \
@@ -39,26 +46,53 @@ REQUEST_PATTERN = r'^' \
                   r'[a-zA-Z]{2,6})' \
                   r'?)' \
                   r'\s?' \
-                  r'(\d{1,12}(\.\d{1,12})?)?' \
+                  r'([\d.,\'\s]{1,28})?' \
                   r'$' % {'sep': CURRENCY_SEPARATORS_STR}
 
 REQUEST_PATTERN_COMPILED = re.compile(REQUEST_PATTERN, re.IGNORECASE)
 
-#                                        # usd eur | 100 usd eur | 100.22 usd eur | eur usd 100.33
-PRICE_REQUEST_LEFT_AMOUNT = 0            # None    | 100         | 100.22         | None
-PRICE_REQUEST_CURRENCIES = 2             # usd eur | usd eur     | usd eur        | eur usd
-PRICE_REQUEST_RIGHT_AMOUNT = 5           # None    | None        | None           | 100.33
+#                               # usd eur | 100 usd eur | 100.22 usd eur | eur usd 100.33
+PRICE_REQUEST_LEFT_AMOUNT = 0   # None    | 100         | 100.22         | None
+PRICE_REQUEST_CURRENCIES = 1    # usd eur | usd eur     | usd eur        | eur usd
+PRICE_REQUEST_RIGHT_AMOUNT = 4  # None    | None        | None           | 100.33
+
+
+# https://github.com/python-babel/babel/issues/637
+def parse_decimal(string, locale):
+    locale = Locale.parse(locale)
+    decimal_symbol = get_decimal_symbol(locale)
+    group_symbol = get_group_symbol(locale)
+    group_symbol = ' ' if group_symbol == '\xa0' else group_symbol
+    return Decimal(string.replace(group_symbol, '').replace(decimal_symbol, '.'))
+
+
+BIGGEST_VALUE = Decimal(10 ** decimal_scale)
 
 
 class RegexParser(Parser):
     name = 'RegexParser'
 
-    def __init__(self, text: str, default_currency: str, default_currency_position: bool):
-        super().__init__(text, default_currency, default_currency_position)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         self.all_currencies = get_all_currencies()
 
     def is_currency_recognized(self, currency: str) -> bool:
         return currency in self.all_currencies
+
+    def parse_amount(self, text: str) -> Decimal:
+        locales = [self.locale, 'en', 'ru', 'de']
+        for l in locales:
+            try:
+                number = parse_decimal(text, locale=l)
+                if number >= BIGGEST_VALUE:
+                    raise WrongFormatException
+                else:
+                    return number
+            except InvalidOperation:
+                continue
+
+        raise WrongFormatException
 
     @staticmethod
     def split_currencies(text: str) -> list:
@@ -77,7 +111,6 @@ class RegexParser(Parser):
             raise WrongFormatException
 
         groups = obj.groups()
-        # print(groups)
 
         if groups[PRICE_REQUEST_LEFT_AMOUNT] and groups[PRICE_REQUEST_RIGHT_AMOUNT]:
             raise WrongFormatException
@@ -94,7 +127,7 @@ class RegexParser(Parser):
         amount = groups[PRICE_REQUEST_LEFT_AMOUNT] or groups[PRICE_REQUEST_RIGHT_AMOUNT]
 
         if amount:
-            amount = Decimal(amount)
+            amount = self.parse_amount(amount)
 
         text = groups[PRICE_REQUEST_CURRENCIES]
         text = text.upper()

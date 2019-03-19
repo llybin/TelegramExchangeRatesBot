@@ -13,7 +13,7 @@ class RegexParserTest(unittest.TestCase):
     def test_ok_pair_no_digits(self, m):
         # pair low case, no digits, space separator
         self.assertEqual(
-            RegexParser('usd rub', 'USD', False).parse(),
+            RegexParser('usd rub', 'en', 'USD', False).parse(),
             PriceRequest(
                 amount=None,
                 currency='USD',
@@ -24,7 +24,7 @@ class RegexParserTest(unittest.TestCase):
         )
         # pair upper case, no digits, space separator
         self.assertEqual(
-            RegexParser('USD EUR', 'USD', False).parse(),
+            RegexParser('USD EUR', 'en', 'USD', False).parse(),
             PriceRequest(
                 amount=None,
                 currency='USD',
@@ -36,7 +36,7 @@ class RegexParserTest(unittest.TestCase):
 
         # pair min and max len, no digits, space separator
         self.assertEqual(
-            RegexParser('sc burst', 'USD', False).parse(),
+            RegexParser('sc burst', 'en', 'USD', False).parse(),
             PriceRequest(
                 amount=None,
                 currency='SC',
@@ -48,7 +48,7 @@ class RegexParserTest(unittest.TestCase):
 
         # pair min and max len, no digits, space separator
         self.assertEqual(
-            RegexParser('burst sc', 'USD', False).parse(),
+            RegexParser('burst sc', 'en', 'USD', False).parse(),
             PriceRequest(
                 amount=None,
                 currency='BURST',
@@ -62,7 +62,7 @@ class RegexParserTest(unittest.TestCase):
     def test_ok_single_no_digits(self, m):
         # single to, no digits
         self.assertEqual(
-            RegexParser('rub', 'USD', False).parse(),
+            RegexParser('rub', 'en', 'USD', False).parse(),
             PriceRequest(
                 amount=None,
                 currency='USD',
@@ -74,7 +74,7 @@ class RegexParserTest(unittest.TestCase):
 
         # single from, no digits
         self.assertEqual(
-            RegexParser('rub', 'USD', True).parse(),
+            RegexParser('rub', 'en', 'USD', True).parse(),
             PriceRequest(
                 amount=None,
                 currency='RUB',
@@ -88,7 +88,7 @@ class RegexParserTest(unittest.TestCase):
     def test_ok_digits_l2r(self, m):
         # pair, space separator
         self.assertEqual(
-            RegexParser('100.20 usd rub', 'USD', True).parse(),
+            RegexParser('100.20 usd rub', 'en', 'USD', True).parse(),
             PriceRequest(
                 amount=Decimal('100.20'),
                 currency='USD',
@@ -100,7 +100,7 @@ class RegexParserTest(unittest.TestCase):
 
         # single from, space separator
         self.assertEqual(
-            RegexParser('100.20 rub', 'USD', True).parse(),
+            RegexParser('100.20 rub', 'en', 'USD', True).parse(),
             PriceRequest(
                 amount=Decimal('100.20'),
                 currency='RUB',
@@ -112,7 +112,7 @@ class RegexParserTest(unittest.TestCase):
 
         # single from, no space separator
         self.assertEqual(
-            RegexParser('100.20rub', 'USD', True).parse(),
+            RegexParser('100.20rub', 'en', 'USD', True).parse(),
             PriceRequest(
                 amount=Decimal('100.20'),
                 currency='RUB',
@@ -124,7 +124,7 @@ class RegexParserTest(unittest.TestCase):
 
         # single to, no space separator
         self.assertEqual(
-            RegexParser('100.20rub', 'USD', False).parse(),
+            RegexParser('100.20rub', 'en', 'USD', False).parse(),
             PriceRequest(
                 amount=Decimal('100.20'),
                 currency='USD',
@@ -138,7 +138,7 @@ class RegexParserTest(unittest.TestCase):
     def test_ok_digits_r2l(self, m):
         # pair, space separator
         self.assertEqual(
-            RegexParser('rub usd 100.20', 'USD', True).parse(),
+            RegexParser('rub usd 100.20', 'en', 'USD', True).parse(),
             PriceRequest(
                 amount=Decimal('100.20'),
                 currency='USD',
@@ -150,7 +150,7 @@ class RegexParserTest(unittest.TestCase):
 
         # single from, space separator
         self.assertEqual(
-            RegexParser('rub 100.20', 'USD', True).parse(),
+            RegexParser('rub 100.20', 'en', 'USD', True).parse(),
             PriceRequest(
                 amount=Decimal('100.20'),
                 currency='RUB',
@@ -162,7 +162,7 @@ class RegexParserTest(unittest.TestCase):
 
         # single from, no space separator
         self.assertEqual(
-            RegexParser('rub100.20', 'USD', True).parse(),
+            RegexParser('rub100.20', 'en', 'USD', True).parse(),
             PriceRequest(
                 amount=Decimal('100.20'),
                 currency='RUB',
@@ -174,7 +174,7 @@ class RegexParserTest(unittest.TestCase):
 
         # single to, no space separator
         self.assertEqual(
-            RegexParser('rub100.20', 'USD', False).parse(),
+            RegexParser('rub100.20', 'en', 'USD', False).parse(),
             PriceRequest(
                 amount=Decimal('100.20'),
                 currency='USD',
@@ -187,7 +187,7 @@ class RegexParserTest(unittest.TestCase):
     @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_ok_separators(self, m):
         self.assertEqual(
-            RegexParser('usd to rub', 'USD', False).parse(),
+            RegexParser('usd to rub', 'en', 'USD', False).parse(),
             PriceRequest(
                 amount=None,
                 currency='USD',
@@ -198,7 +198,7 @@ class RegexParserTest(unittest.TestCase):
         )
 
         self.assertEqual(
-            RegexParser('usd=rub', 'USD', False).parse(),
+            RegexParser('usd=rub', 'en', 'USD', False).parse(),
             PriceRequest(
                 amount=None,
                 currency='USD',
@@ -209,7 +209,7 @@ class RegexParserTest(unittest.TestCase):
         )
 
         self.assertEqual(
-            RegexParser('100.20 usd in rub', 'USD', True).parse(),
+            RegexParser('100.20 usd in rub', 'en', 'USD', True).parse(),
             PriceRequest(
                 amount=Decimal('100.20'),
                 currency='USD',
@@ -220,7 +220,7 @@ class RegexParserTest(unittest.TestCase):
         )
 
         self.assertEqual(
-            RegexParser('rub = usd 100.20', 'USD', True).parse(),
+            RegexParser('rub = usd 100.20', 'en', 'USD', True).parse(),
             PriceRequest(
                 amount=Decimal('100.20'),
                 currency='USD',
@@ -233,7 +233,7 @@ class RegexParserTest(unittest.TestCase):
     @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_no_separators(self, m):
         self.assertEqual(
-            RegexParser('usdrub', 'USD', False).parse(),
+            RegexParser('usdrub', 'en', 'USD', False).parse(),
             PriceRequest(
                 amount=None,
                 currency='USD',
@@ -244,7 +244,7 @@ class RegexParserTest(unittest.TestCase):
         )
 
         self.assertEqual(
-            RegexParser('scburst', 'USD', False).parse(),
+            RegexParser('scburst', 'en', 'USD', False).parse(),
             PriceRequest(
                 amount=None,
                 currency='SC',
@@ -255,7 +255,7 @@ class RegexParserTest(unittest.TestCase):
         )
 
         self.assertEqual(
-            RegexParser('burstsc', 'USD', False).parse(),
+            RegexParser('burstsc', 'en', 'USD', False).parse(),
             PriceRequest(
                 amount=None,
                 currency='BURST',
@@ -266,7 +266,7 @@ class RegexParserTest(unittest.TestCase):
         )
 
         self.assertEqual(
-            RegexParser('scsc', 'USD', False).parse(),
+            RegexParser('scsc', 'en', 'USD', False).parse(),
             PriceRequest(
                 amount=None,
                 currency='SC',
@@ -277,13 +277,81 @@ class RegexParserTest(unittest.TestCase):
         )
 
         self.assertEqual(
-            RegexParser('burstburst', 'USD', False).parse(),
+            RegexParser('burstburst', 'en', 'USD', False).parse(),
             PriceRequest(
                 amount=None,
                 currency='BURST',
                 to_currency='BURST',
                 parser_name='RegexParser',
                 direction_writing=DirectionWriting.UNKNOWN,
+            )
+        )
+
+    @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
+    def test_money_formats(self, m):
+        self.assertEqual(
+            RegexParser('100.20 usd rub', 'en', 'USD', True).parse(),
+            PriceRequest(
+                amount=Decimal('100.20'),
+                currency='USD',
+                to_currency='RUB',
+                parser_name='RegexParser',
+                direction_writing=DirectionWriting.LEFT2RIGHT,
+            )
+        )
+
+        self.assertEqual(
+            RegexParser('100.20 usd rub', 'de', 'USD', True).parse(),
+            PriceRequest(
+                amount=Decimal('10020'),
+                currency='USD',
+                to_currency='RUB',
+                parser_name='RegexParser',
+                direction_writing=DirectionWriting.LEFT2RIGHT,
+            )
+        )
+
+        self.assertEqual(
+            RegexParser('100,20 usd rub', 'en', 'USD', True).parse(),
+            PriceRequest(
+                amount=Decimal('10020'),
+                currency='USD',
+                to_currency='RUB',
+                parser_name='RegexParser',
+                direction_writing=DirectionWriting.LEFT2RIGHT,
+            )
+        )
+
+        self.assertEqual(
+            RegexParser('100,20 usd rub', 'de', 'USD', True).parse(),
+            PriceRequest(
+                amount=Decimal('100.20'),
+                currency='USD',
+                to_currency='RUB',
+                parser_name='RegexParser',
+                direction_writing=DirectionWriting.LEFT2RIGHT,
+            )
+        )
+
+        self.assertEqual(
+            RegexParser('100 20 usd rub', 'de', 'USD', True).parse(),
+            PriceRequest(
+                amount=Decimal('10020'),
+                currency='USD',
+                to_currency='RUB',
+                parser_name='RegexParser',
+                direction_writing=DirectionWriting.LEFT2RIGHT,
+            )
+        )
+
+        self.assertEqual(
+            RegexParser('100 20,12 usd rub', 'de', 'USD', True).parse(),
+            PriceRequest(
+                amount=Decimal('10020.12'),
+                currency='USD',
+                to_currency='RUB',
+                parser_name='RegexParser',
+                direction_writing=DirectionWriting.LEFT2RIGHT,
             )
         )
 
@@ -296,22 +364,67 @@ class RegexParserTest(unittest.TestCase):
             '100.22',
             'usdrubeur',
             '100usd rub100',
-            '1,000 usd rub',
-            '0,1 usd rub',
             '-100 usd rub',
             '+100 usd rub',
             'BTC USD',
+            'BTC',
             'BTC > USD',
+            '1234567890123 USD'
+            '100000000000 USD'
         ]
 
         for text in cases:
             with self.assertRaises(ValidationException, msg=text):
-                RegexParser(text, 'USD', True).parse()
+                RegexParser(text, 'en', 'USD', True).parse()
 
     def test_cross_all_currency(self):
         for cur0 in get_all_currencies():
             for cur1 in get_all_currencies():
-                pr = RegexParser(f'{cur0}{cur1}', 'USD', False).parse()
+                pr = RegexParser(f'{cur0}{cur1}', 'en', 'USD', False).parse()
                 self.assertEqual(pr.currency, cur0, f'{cur0}{cur1}')
                 self.assertEqual(pr.to_currency, cur1, f'{cur0}{cur1}')
 
+
+class ParseAmountTest(unittest.TestCase):
+    @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
+    def test_ok(self, m):
+        self.assertEqual(
+            RegexParser('', 'en', 'USD', True).parse_amount('99999999999.1234567890123'),
+            Decimal('99999999999.1234567890123')
+        )
+
+        self.assertEqual(
+            RegexParser('', 'en', 'USD', True).parse_amount('9'),
+            Decimal('9')
+        )
+
+        self.assertEqual(
+            RegexParser('', 'en', 'USD', True).parse_amount('9 123'),
+            Decimal('9123')
+        )
+
+        self.assertEqual(
+            RegexParser('', 'en', 'USD', True).parse_amount('9,123'),
+            Decimal('9123')
+        )
+
+        self.assertEqual(
+            RegexParser('', 'de', 'USD', True).parse_amount('9,123'),
+            Decimal('9.123')
+        )
+
+        self.assertEqual(
+            RegexParser('', 'ru', 'USD', True).parse_amount('9,123'),
+            Decimal('9.123')
+        )
+
+    @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
+    def test_bad(self, m):
+        with self.assertRaises(ValidationException):
+            RegexParser('', 'de', 'USD', True).parse_amount('99999999999.1234567890123')
+
+        with self.assertRaises(ValidationException):
+            RegexParser('', 'de', 'USD', True).parse_amount('1234567890123')
+
+        with self.assertRaises(ValidationException):
+            RegexParser('', 'de', 'USD', True).parse_amount('1000000000000')

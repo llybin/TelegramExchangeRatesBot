@@ -215,8 +215,10 @@ def price(bot, update, text, _):
 
         price_request = start_parse(
             text,
+            chat.locale,
             chat.default_currency,
-            chat.default_currency_position)
+            chat.default_currency_position
+        )
 
         tag = price_request.parser_name
 

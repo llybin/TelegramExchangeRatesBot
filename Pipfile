@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+iso4217 = "==1.5.20180829"
 vcrpy = "*"
 freezegun = "*"
 
@@ -15,7 +16,6 @@ celery = {version = "==4.2.1",extras = ["redis"]}
 celery-once = "==2.1.0"
 click = "==7.0"
 "dogpile.cache" = "==0.7.1"
-iso4217 = "==1.5.20180829"
 jsonschema = "==3.0.1"
 psycopg2-binary = "==2.7.7"
 python-telegram-bot = "==11.1.0"
