@@ -24,7 +24,7 @@ from decimal import Decimal, InvalidOperation
 from babel.core import Locale
 from babel.numbers import get_decimal_symbol, get_group_symbol
 
-from ..constants import decimal_scale
+from ..constants import BIGGEST_VALUE
 from .base import (
     DirectionWriting,
     PriceRequest,
@@ -64,9 +64,6 @@ def parse_decimal(string, locale):
     group_symbol = get_group_symbol(locale)
     group_symbol = ' ' if group_symbol == '\xa0' else group_symbol
     return Decimal(string.replace(group_symbol, '').replace(decimal_symbol, '.'))
-
-
-BIGGEST_VALUE = Decimal(10 ** decimal_scale)
 
 
 class RegexParser(Parser):

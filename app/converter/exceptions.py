@@ -4,3 +4,7 @@ class ConverterException(Exception):
 
 class NoRatesException(ConverterException):
     pass
+
+
+class OverflowException(ConverterException):
+    pass

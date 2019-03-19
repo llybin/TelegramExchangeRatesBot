@@ -6,9 +6,10 @@ from pyramid_sqlalchemy import Session
 import sqlalchemy as sa
 from sqlalchemy import orm
 
+from ..constants import BIGGEST_VALUE
 from ..models import Currency, Rate, Exchange
 from ..parsers.base import PriceRequest
-from .exceptions import NoRatesException
+from .exceptions import NoRatesException, OverflowException
 
 
 class PriceRequestResult(NamedTuple):
@@ -101,7 +102,16 @@ def convert(price_request: PriceRequest) -> PriceRequestResult:
         else:
             raise NoRatesException
 
+    check_overflow(price_request_result)
+
     return price_request_result
+
+
+def check_overflow(prr: PriceRequestResult):
+    for a in ['rate', 'rate_open', 'low24h', 'high24h']:
+        value = getattr(prr, a)
+        if value and value >= BIGGEST_VALUE:
+            raise OverflowException
 
 
 def combine_values(value0: Decimal or None, value1: Decimal or None) -> (Decimal or None):
