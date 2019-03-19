@@ -1,8 +1,10 @@
 import gettext
+import logging
 from functools import wraps
 
 import transaction
 from pyramid_sqlalchemy import Session
+from sqlalchemy.exc import IntegrityError
 
 from app import translations
 from .models import Chat
@@ -26,11 +28,17 @@ def register_update(func):
                 is_console_mode=False if chat_id > 0 else True,
             )
             db_session.add(chat)
-            transaction.commit()
+            try:
+                transaction.commit()
+            except IntegrityError:
+                logging.exception("Error create chat, chat exists")
+                transaction.abort()
 
         kwargs['chat_info'] = {
             'created': chat_created,
             'locale': chat.locale,
+            'is_subscribed': chat.is_subscribed,
+            'is_console_mode': chat.is_console_mode,
         }
 
         return func(bot, update, *args, **kwargs)

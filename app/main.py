@@ -8,6 +8,7 @@ from pyramid_sqlalchemy import init_sqlalchemy, Session
 from telegram import ReplyKeyboardRemove
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
 from sqlalchemy import create_engine
+from sqlalchemy.exc import IntegrityError
 from suite.conf import settings
 
 from .decorators import register_update, chat_language
@@ -50,7 +51,10 @@ def tutorial(bot, update, _):
 @register_update
 @chat_language
 def start_command(bot, update, chat_info, _):
-    name = update.message.from_user.first_name if update.message.chat.type == 'private' else _('humans')
+    if update.message.chat.type == 'private':
+        name = update.message.from_user.first_name
+    else:
+        name = _('humans')
 
     bot.send_message(
         chat_id=update.message.chat_id,
@@ -59,8 +63,10 @@ def start_command(bot, update, chat_info, _):
     if chat_info['created']:
         tutorial(bot, update, _)
 
-    else:
-        Session().query(Chat).filter_by(id=update.message.chat_id).update({'is_subscribed': True})
+    elif not chat_info['is_subscribed']:
+        Session().query(Chat).filter_by(
+            id=update.message.chat_id
+        ).update({'is_subscribed': True})
         transaction.commit()
 
         bot.send_message(
@@ -78,8 +84,11 @@ def tutorial_command(bot, update, chat_info, _):
 @register_update
 @chat_language
 def stop_command(bot, update, chat_info, _):
-    Session().query(Chat).filter_by(id=update.message.chat_id).update({'is_subscribed': False})
-    transaction.commit()
+    if chat_info['is_subscribed']:
+        Session().query(Chat).filter_by(
+            id=update.message.chat_id
+        ).update({'is_subscribed': False})
+        transaction.commit()
 
     bot.send_message(
         chat_id=update.message.chat_id,
@@ -210,7 +219,6 @@ def price(bot, update, text, _):
             raise EmptyPriceRequestException
 
         db_session = Session()
-        # TODO: move to decorator?
         chat = db_session.query(Chat).filter_by(id=update.message.chat_id).one()
 
         price_request = start_parse(
@@ -250,7 +258,11 @@ def price(bot, update, text, _):
             )
             db_session.add(chat_request)
 
-        transaction.commit()
+        try:
+            transaction.commit()
+        except IntegrityError:
+            logging.exception("Error create chat_request, chat_request exists")
+            transaction.abort()
 
         bot.send_message(
             chat_id=update.message.chat_id,

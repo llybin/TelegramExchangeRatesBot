@@ -23,7 +23,7 @@ Base = declarative_base()
 class Chat(Base):
     __tablename__ = 'chats'
 
-    id = sa.Column(sa.BigInteger, primary_key=True)
+    id = sa.Column(sa.BigInteger, primary_key=True, autoincrement=False)
     default_currency = sa.Column(sa.Text, default='USD', nullable=False)
     default_currency_position = sa.Column(sa.Boolean, default=True, nullable=False)
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)

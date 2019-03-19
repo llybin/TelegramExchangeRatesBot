@@ -40,7 +40,6 @@ PARSERS = {import_module(parser_path) for parser_path in settings.BOT_PARSERS}
 
 
 def start_parse(text: str, locale: str, default_currency: str, default_currency_position: bool) -> PriceRequest:
-    # TODO: optimize by caching?
     # TODO: if text is digits then convert by last request
     for parser in PARSERS:
         try:

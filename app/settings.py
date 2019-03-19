@@ -59,6 +59,11 @@ CELERYBEAT_SCHEDULE = {
         'args': ('app.exchanges.OpenExchangeRatesExchange',),
         'options': {'time_limit': 60}
     },
+    'delete_expired_rates': {
+        'task': 'app.tasks.delete_expired_rates',
+        'schedule': crontab(minute=5, hour='*/1'),
+        'options': {'time_limit': 60}
+    },
 }
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')

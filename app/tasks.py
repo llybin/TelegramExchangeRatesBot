@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 
 import transaction
@@ -58,6 +58,19 @@ def exchange_updater(exchange_class: str) -> None:
         save_rate(pair_data)
         save_rate(reversed_pair_data)
 
+    transaction.commit()
+
+
+@celery_app.task(base=QueueOnce, queue='exchanges')
+def delete_expired_rates() -> None:
+    db_session = Session()
+    current_time = datetime.utcnow()
+    day_ago = current_time - timedelta(days=1)
+    rates = db_session.query(Rate).filter(Rate.last_trade_at < day_ago)
+    for r in rates:
+        logging.warning('Rate expired exchange: %s, pair: %s-%s',
+                        r.exchange.name, r.from_currency.code, r.to_currency.code)
+        db_session.delete(r)
     transaction.commit()
 
 

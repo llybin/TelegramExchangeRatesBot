@@ -11,7 +11,7 @@ from .constants import decimal_precision, decimal_scale
 class Chat(BaseObject):
     __tablename__ = 'chats'
 
-    id = sa.Column(sa.BigInteger, primary_key=True)
+    id = sa.Column(sa.BigInteger, primary_key=True, autoincrement=False)
     first_name = sa.Column(sa.Text, nullable=True)
     username = sa.Column(sa.Text, nullable=True)
     locale = sa.Column(sa.Text, default=settings.LANGUAGE_CODE, nullable=False)
@@ -44,6 +44,7 @@ class Currency(BaseObject):
 
 class ChatRequests(BaseObject):
     __tablename__ = 'chat_requests'
+    __table_args__ = (sa.UniqueConstraint('chat_id', 'from_currency_id', 'to_currency_id'),)
 
     id = sa.Column(sa.Integer, primary_key=True)
     chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
@@ -131,4 +132,4 @@ class Event(BaseObject):
 # TODO: move
 @region.cache_on_arguments(expiration_time=300)
 def get_all_currencies():
-    return [x[0] for x in Session().query(Currency.code).filter_by(is_active=True)]
+    return [x[0] for x in Session.query(Currency.code).filter_by(is_active=True)]

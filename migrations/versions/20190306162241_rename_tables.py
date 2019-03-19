@@ -15,10 +15,12 @@ depends_on = None
 
 
 def upgrade():
+    op.execute("SELECT setval('chat_rates_id_seq', (SELECT MAX(id) from chat_rates))")
     op.rename_table('chat_rates', 'chat_requests')
     op.execute('ALTER SEQUENCE chat_rates_id_seq RENAME TO chat_requests_id_seq')
     op.execute('ALTER INDEX chat_rates_pkey RENAME TO chat_requests_pkey')
 
+    op.execute("SELECT setval('messages_id_seq', (SELECT MAX(id) from messages))")
     op.rename_table('messages', 'requests_log')
     op.execute('ALTER SEQUENCE messages_id_seq RENAME TO requests_log_id_seq')
     op.execute('ALTER INDEX messages_pkey RENAME TO requests_log_pkey')

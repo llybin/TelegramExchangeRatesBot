@@ -8,7 +8,7 @@ Create Date: 2019-03-06 16:42:36.594307
 from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.orm.session import Session
-from sqlalchemy.orm import relationship
+from sqlalchemy import orm
 from sqlalchemy.ext.declarative import declarative_base
 
 # revision identifiers, used by Alembic.
@@ -23,12 +23,7 @@ Base = declarative_base()
 class Chat(Base):
     __tablename__ = 'chats'
 
-    id = sa.Column(sa.BigInteger, primary_key=True)
-    is_subscribed = sa.Column(sa.Boolean, default=True, nullable=False)
-    is_console_mode = sa.Column(sa.Boolean, default=True, nullable=False)
-
-    requests = relationship('ChatRequests', backref='chat')
-    requests_log = relationship('RequestsLog', backref='chat')
+    id = sa.Column(sa.BigInteger, primary_key=True, autoincrement=False)
 
 
 class ChatRequests(Base):
@@ -36,9 +31,7 @@ class ChatRequests(Base):
 
     id = sa.Column(sa.Integer, primary_key=True)
     chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
-    currencies = sa.Column(sa.Text, nullable=False)
-    cnt = sa.Column(sa.Integer, server_default='0', nullable=False)
-    modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
+    chat = orm.relationship('Chat')
 
 
 class RequestsLog(Base):
@@ -46,9 +39,7 @@ class RequestsLog(Base):
 
     id = sa.Column(sa.Integer, primary_key=True)
     chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
-    message = sa.Column(sa.Text, nullable=False)
-    tag = sa.Column(sa.Text, nullable=False)
-    created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
+    chat = orm.relationship('Chat')
 
 
 def upgrade():

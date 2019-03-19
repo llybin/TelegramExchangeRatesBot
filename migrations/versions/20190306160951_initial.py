@@ -26,7 +26,7 @@ def upgrade():
                     sa.PrimaryKeyConstraint('id')
                     )
     op.create_table('chats',
-                    sa.Column('id', sa.BigInteger(), nullable=False),
+                    sa.Column('id', sa.BigInteger(), nullable=False, autoincrement=False),
                     sa.Column('first_name', sa.Text(), nullable=True),
                     sa.Column('username', sa.Text(), nullable=True),
                     sa.Column('locale', sa.Text(), nullable=False),

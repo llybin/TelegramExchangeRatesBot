@@ -45,11 +45,10 @@ def convert(price_request: PriceRequest) -> PriceRequestResult:
             high24h=Decimal('0'),
         )
 
-    db_session = Session()
-    from_currency = db_session.query(Currency).filter_by(code=price_request.currency).one()
-    to_currency = db_session.query(Currency).filter_by(code=price_request.to_currency).one()
+    from_currency = Session.query(Currency).filter_by(code=price_request.currency).one()
+    to_currency = Session.query(Currency).filter_by(code=price_request.to_currency).one()
 
-    rate_obj = db_session.query(Rate).filter_by(
+    rate_obj = Session.query(Rate).filter_by(
         from_currency=from_currency,
         to_currency=to_currency
     ).join(Exchange).filter(
@@ -73,7 +72,7 @@ def convert(price_request: PriceRequest) -> PriceRequestResult:
         Exchange0 = orm.aliased(Exchange)
         Exchange1 = orm.aliased(Exchange)
 
-        rate_obj = db_session.query(Rate0, Rate1, (Exchange0.weight + Exchange1.weight).label('w')).filter_by(
+        rate_obj = Session.query(Rate0, Rate1, (Exchange0.weight + Exchange1.weight).label('w')).filter_by(
             from_currency=from_currency
         ).join(
             Rate1, sa.and_(Rate1.from_currency_id == Rate0.to_currency_id, Rate1.to_currency == to_currency)

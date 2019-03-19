@@ -264,9 +264,7 @@ CRYPTO_CURRENCIES = [
 class Chat(Base):
     __tablename__ = 'chats'
 
-    id = sa.Column(sa.BigInteger, primary_key=True)
-    is_subscribed = sa.Column(sa.Boolean, default=True, nullable=False)
-    is_console_mode = sa.Column(sa.Boolean, default=True, nullable=False)
+    id = sa.Column(sa.BigInteger, primary_key=True, autoincrement=False)
 
 
 class Currency(Base):
@@ -281,13 +279,13 @@ class Currency(Base):
 
 class ChatRequests(Base):
     __tablename__ = 'chat_requests'
+    __table_args__ = (sa.UniqueConstraint('chat_id', 'from_currency_id', 'to_currency_id'),)
 
     id = sa.Column(sa.Integer, primary_key=True)
     chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
     from_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=True)
     to_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=True)
     currencies = sa.Column(sa.Text, nullable=False)
-    times = sa.Column(sa.Integer, server_default='1', nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
     from_currency = relationship('Currency', foreign_keys=[from_currency_id])
@@ -379,6 +377,7 @@ def upgrade():
     op.create_index(op.f('ix_currencies_is_crypto'), 'currencies', ['is_crypto'], unique=False)
     op.create_foreign_key(None, 'chat_requests', 'currencies', ['to_currency_id'], ['id'])
     op.create_foreign_key(None, 'chat_requests', 'currencies', ['from_currency_id'], ['id'])
+    op.create_unique_constraint(None, 'chat_requests', ['chat_id', 'from_currency_id', 'to_currency_id'])
 
 
 def downgrade():
