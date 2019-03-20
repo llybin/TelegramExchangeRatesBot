@@ -152,7 +152,7 @@ def sources_command(bot, update, chat_info):
         parse_mode=ParseMode.MARKDOWN,
         text='''*Sources*
 
-https://bitfinex.com - 10min
+https://bitfinex.com - 15min (API limits😭)
 https://bittrex.com - 1min
 https://openexchangerates.org - 60min''')
 
