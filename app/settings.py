@@ -90,6 +90,8 @@ LANGUAGES = (
     'pl',
     'pt_BR',
     'ru',
+    'zh_CN',
+    'zh_SG',
 )
 
 LANGUAGE_CODE = 'en'
