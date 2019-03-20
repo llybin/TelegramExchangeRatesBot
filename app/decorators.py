@@ -57,6 +57,9 @@ def chat_language(func):
     def wrapper(bot, update, *args, **kwargs):
         language_code = kwargs['chat_info']['locale']
 
+        # remove later, I'm not sure
+        language_code = language_code.lower().replace('_', '-')
+
         if language_code in translations:
             locale = language_code
             _ = translations[locale].gettext
