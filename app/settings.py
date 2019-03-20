@@ -52,18 +52,18 @@ CELERYBEAT_SCHEDULE = {
         'task': 'app.tasks.exchange_updater',
         'schedule': crontab(minute='*/1'),
         'args': ('app.exchanges.BittrexExchange',),
-        'options': {'time_limit': 60, 'once': {'timeout': 60}}
+        'options': {'time_limit': 50, 'once': {'timeout': 55}}
     },
     'exchange_updater_OpenExchangeRatesExchange': {
         'task': 'app.tasks.exchange_updater',
         'schedule': crontab(minute=0, hour='*/1'),
         'args': ('app.exchanges.OpenExchangeRatesExchange',),
-        'options': {'time_limit': 60, 'once': {'timeout': 60}}
+        'options': {'time_limit': 50, 'once': {'timeout': 55}}
     },
     'delete_expired_rates': {
         'task': 'app.tasks.delete_expired_rates',
         'schedule': crontab(minute=5, hour='*/1'),
-        'options': {'time_limit': 60, 'once': {'timeout': 60}}
+        'options': {'time_limit': 50, 'once': {'timeout': 55}}
     },
 }
 
