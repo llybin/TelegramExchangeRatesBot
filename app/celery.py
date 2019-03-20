@@ -17,7 +17,7 @@ celery_app.conf.ONCE = {
     'backend': 'celery_once.backends.Redis',
     'settings': {
         'url': settings.CELERY_ONCE_URL,
-        'default_timeout': 30 * 60
+        'default_timeout': settings.CELERY_ONCE_DEFAULT_TIMEOUT
     }
 }
 
