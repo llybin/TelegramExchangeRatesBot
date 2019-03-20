@@ -84,6 +84,7 @@ SENTRY_URL = os.environ.get('SENTRY_URL')
 
 LANGUAGES = (
     'en',
+    'es',
     'pl',
     'ru',
 )
