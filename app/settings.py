@@ -88,6 +88,7 @@ LANGUAGES = (
     'es',
     'kk',
     'pl',
+    'pt',
     'pt_BR',
     'ru',
     'zh_CN',
