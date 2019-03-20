@@ -3,7 +3,7 @@ import logging
 
 import transaction
 from telegram import Bot
-# from celery_once import QueueOnce
+from celery_once import QueueOnce
 from pyramid_sqlalchemy import Session
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import IntegrityError
@@ -15,8 +15,7 @@ from .helpers import import_module, rate_from_pair_data, fill_rate_open
 from .models import Exchange, Currency, Rate, RequestsLog, ChatRequests
 
 
-# @celery_app.task(base=QueueOnce, queue='exchanges')
-@celery_app.task(queue='exchanges')
+@celery_app.task(base=QueueOnce, queue='exchanges')
 def exchange_updater(exchange_class: str) -> None:
     db_session = Session()
 
@@ -68,8 +67,7 @@ def exchange_updater(exchange_class: str) -> None:
         transaction.abort()
 
 
-# @celery_app.task(base=QueueOnce, queue='exchanges', time_limit=60)
-@celery_app.task(queue='exchanges', time_limit=60)
+@celery_app.task(base=QueueOnce, queue='exchanges')
 def delete_expired_rates() -> None:
     db_session = Session()
     current_time = datetime.utcnow()
