@@ -13,14 +13,13 @@ def get_keyboard(chat_id: int) -> ReplyKeyboardMarkup or None:
     if chat_id < 0:
         return None
 
-    db_session = Session()
-    chat = db_session.query(Chat).filter_by(id=chat_id).first()
+    chat = Session.query(Chat).filter_by(id=chat_id).first()
 
     if chat.is_console_mode:
         return None
 
     else:
-        last_requests = db_session.query(ChatRequests).filter_by(
+        last_requests = Session.query(ChatRequests).filter_by(
             chat_id=chat_id
         ).order_by(
             ChatRequests.times.desc()
@@ -39,11 +38,10 @@ def get_keyboard(chat_id: int) -> ReplyKeyboardMarkup or None:
 PARSERS = {import_module(parser_path) for parser_path in settings.BOT_PARSERS}
 
 
-def start_parse(text: str, locale: str, default_currency: str, default_currency_position: bool) -> PriceRequest:
-    # TODO: if text is digits then convert by last request
+def start_parse(text: str, chat_id: int, locale: str, default_currency: str, default_currency_position: bool) -> PriceRequest:
     for parser in PARSERS:
         try:
-            return parser(text, locale, default_currency, default_currency_position).parse()
+            return parser(text, chat_id, locale, default_currency, default_currency_position).parse()
         except ValidationException:
             pass
 

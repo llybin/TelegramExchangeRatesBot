@@ -1,4 +1,4 @@
 from .regex_parser import RegexParser
-from .extend_regex_parser import ExtendRegexParser
+from .last_request_parser import LastRequestParser
 
-__all__ = [RegexParser, ExtendRegexParser]
+__all__ = [RegexParser, LastRequestParser]

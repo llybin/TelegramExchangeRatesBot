@@ -60,7 +60,11 @@ def exchange_updater(exchange_class: str) -> None:
         save_rate(pair_data)
         save_rate(reversed_pair_data)
 
-    transaction.commit()
+    try:
+        transaction.commit()
+    except IntegrityError:
+        logging.exception("Error to fill rate pair")
+        transaction.abort()
 
 
 @celery_app.task(base=QueueOnce, queue='exchanges', time_limit=60)

@@ -274,6 +274,7 @@ def price(bot, update, text, chat_info, _):
 
         price_request = start_parse(
             text,
+            chat_info['chat_id'],
             chat_info['locale'],
             chat_info['default_currency'],
             chat_info['default_currency_position']
@@ -389,6 +390,7 @@ def inline_query(bot, update, chat_info):
         try:
             price_request = start_parse(
                 query,
+                chat_info['chat_id'],
                 chat_info['locale'],
                 chat_info['default_currency'],
                 chat_info['default_currency_position']

@@ -37,8 +37,10 @@ CURRENCY_SEPARATORS_LIST = (r'\s', ' to ', ' in ', '=', ' = ')
 CURRENCY_SEPARATORS_STR = '|'.join(CURRENCY_SEPARATORS_LIST)
 
 # len("123,456,789,012.123456789012") == 28
+AMOUNT_PATTERN = r'[\d\.,\'\s]{1,28}'
+
 REQUEST_PATTERN = r'^' \
-                  r'([\d\.,\'\s]{1,28})?' \
+                  r'(%(amount)s)?' \
                   r'\s?' \
                   r'(' \
                   r'[a-zA-Z]{2,6}' \
@@ -46,8 +48,8 @@ REQUEST_PATTERN = r'^' \
                   r'[a-zA-Z]{2,6})' \
                   r'?)' \
                   r'\s?' \
-                  r'([\d.,\'\s]{1,28})?' \
-                  r'$' % {'sep': CURRENCY_SEPARATORS_STR}
+                  r'(%(amount)s)?' \
+                  r'$' % {'sep': CURRENCY_SEPARATORS_STR, 'amount': AMOUNT_PATTERN}
 
 REQUEST_PATTERN_COMPILED = re.compile(REQUEST_PATTERN, re.IGNORECASE)
 
@@ -66,6 +68,21 @@ def parse_decimal(string, locale):
     return Decimal(string.replace(group_symbol, '').replace(decimal_symbol, '.'))
 
 
+def parse_amount(text: str, locale: str) -> Decimal:
+    locales = [locale, 'en', 'ru', 'de']
+    for l in locales:
+        try:
+            number = parse_decimal(text, locale=l)
+            if number > BIGGEST_VALUE:
+                raise WrongFormatException
+            else:
+                return number
+        except InvalidOperation:
+            continue
+
+    raise WrongFormatException
+
+
 class RegexParser(Parser):
     name = 'RegexParser'
 
@@ -76,20 +93,6 @@ class RegexParser(Parser):
 
     def is_currency_recognized(self, currency: str) -> bool:
         return currency in self.all_currencies
-
-    def parse_amount(self, text: str) -> Decimal:
-        locales = [self.locale, 'en', 'ru', 'de']
-        for l in locales:
-            try:
-                number = parse_decimal(text, locale=l)
-                if number > BIGGEST_VALUE:
-                    raise WrongFormatException
-                else:
-                    return number
-            except InvalidOperation:
-                continue
-
-        raise WrongFormatException
 
     @staticmethod
     def split_currencies(text: str) -> list:
@@ -124,7 +127,7 @@ class RegexParser(Parser):
         amount = groups[PRICE_REQUEST_LEFT_AMOUNT] or groups[PRICE_REQUEST_RIGHT_AMOUNT]
 
         if amount:
-            amount = self.parse_amount(amount)
+            amount = parse_amount(amount, self.locale)
 
         text = groups[PRICE_REQUEST_CURRENCIES]
         text = text.upper()

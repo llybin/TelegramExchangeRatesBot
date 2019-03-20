@@ -38,6 +38,7 @@ def register_update(func):
                 transaction.abort()
 
         kwargs['chat_info'] = {
+            'chat_id': chat_id,
             'created': chat_created,
             'locale': chat.locale,
             'is_subscribed': chat.is_subscribed,
