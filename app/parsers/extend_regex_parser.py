@@ -1,4 +1,68 @@
+import re
+
 from .regex_parser import RegexParser
+
+REPLACES = (
+    ('GOLD', 'XAU'),
+    ('SILVER', 'XAG'),
+
+    ('IRAQ', 'IQD'),
+
+    ('£', 'GBP'),
+    ('$', 'USD'),
+    ('DOLLAR', 'USD'),
+    ('ДОЛЛАР', 'USD'),
+    ('ДОЛАР', 'USD'),
+    ('ДОЛЛАРОВ', 'USD'),
+    ('ДОЛАРОВ', 'USD'),
+
+    ('€', 'EUR'),
+    ('EURO', 'EUR'),
+    ('ЕВРО', 'EUR'),
+
+    ('฿', 'THB'),
+    ('BHT', 'THB'),
+    ('BAHT', 'THB'),
+    ('БАТ', 'THB'),
+    ('БАТА', 'THB'),
+    ('БАТОВ', 'THB'),
+
+    ('BITCOIN', 'BTC'),
+    ('LITECOIN', 'LTC'),
+
+    ('₽', 'RUB'),
+    ('RUR', 'RUB'),
+    ('RUS', 'RUB'),
+    ('RUBL', 'RUB'),
+    ('РУБЛЬ', 'RUB'),
+    ('РУБЛЕЙ', 'RUB'),
+    ('РУБЛЯ', 'RUB'),
+
+    ('BLR', 'BYN'),
+
+    ('SUM', 'UZS'),
+    ('SOM', 'UZS'),
+
+    ('¥', 'CNY'),
+    ('RMB', 'CNY'),
+    ('CNH', 'CNY'),
+    ('CN¥', 'CNY'),
+
+    ('₴', 'UAH'),
+    ('GRN', 'UAH'),
+    ('UKR', 'UAH'),
+    ('GRV', 'UAH'),
+    ('ГРН', 'UAH'),
+    ('HRN', 'UAH'),
+    ('GRIVNA', 'UAH'),
+    ('ГРИВНА', 'UAH'),
+    ('ГРИВЕН', 'UAH'),
+    ('HRYVNIA', 'UAH'),
+    ('HRYVNYA', 'UAH'),
+
+    ('₩', 'KRW'),
+    ('WON', 'KRW'),
+)
 
 
 class ExtendRegexParser(RegexParser):
@@ -6,67 +70,6 @@ class ExtendRegexParser(RegexParser):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # TODO: replace
-        self.text = self.text
-        """
-'GOLD', 'XAU'
-'SILVER', 'XAG'
-
-'IRAQ', 'IQD'      # iraq
-
-'£', 'GBP'         # uk
-
-'$', 'USD'         # usa
-'DOLLAR', 'USD'    # usa
-'ДОЛЛАР', 'USD'    # usa
-'ДОЛАР', 'USD'     # usa
-'ДОЛЛАРОВ', 'USD'  # usa
-'ДОЛАРОВ', 'USD'   # usa
-
-'€', 'EUR'         # europa
-'EURO', 'EUR'      # europa
-'ЕВРО', 'EUR'      # europa
-
-'฿', 'THB'         # thailand
-'BHT', 'THB'       # thailand
-'BAHT', 'THB'      # thailand
-'БАТ', 'THB'       # thailand
-'БАТА', 'THB'      # thailand
-'БАТОВ', 'THB'     # thailand
-
-'BITCOIN', 'BTC'
-'LITECOIN', 'LTC'
-
-'₽', 'RUB'         # russia
-'RUR', 'RUB'       # russia
-'RUS', 'RUB'       # russia
-'RUBL', 'RUB'      # russia
-'РУБЛЬ', 'RUB'     # russia
-'РУБЛЕЙ', 'RUB'    # russia
-'РУБЛЯ', 'RUB'     # russia
-
-'BLR', 'BYN'       # Belarus
-
-'SUM', 'UZS'       # uzbekistan
-'SOM', 'UZS'       # uzbekistan
-
-'¥', 'CNY'         # chine
-'RMB', 'CNY'       # chine
-'CNH', 'CNY'       # chine
-'CN¥', 'CNY'       # chine
-
-'₴', 'UAH'         # ukraine
-'GRN', 'UAH'       # ukraine
-'UKR', 'UAH'       # ukraine
-'GRV', 'UAH'       # ukraine
-'ГРН', 'UAH'       # ukraine
-'HRN', 'UAH'       # ukraine
-'GRIVNA', 'UAH'    # ukraine
-'ГРИВНА', 'UAH'    # ukraine
-'ГРИВЕН', 'UAH'    # ukraine
-'HRYVNIA', 'UAH'   # ukraine
-'HRYVNYA', 'UAH'   # ukraine
-
-'₩', 'KRW'         # korean won
-'WON', 'KRW'       # korean kpw - north, krw - south
-        """
+        self.text = self.text.upper()
+        for orig, correct in REPLACES:
+            self.text = self.text.replace(orig, correct)

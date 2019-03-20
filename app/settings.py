@@ -69,9 +69,11 @@ BOT_TOKEN = os.environ.get('BOT_TOKEN')
 DEVELOPER_BOT_TOKEN = os.environ.get('DEVELOPER_BOT_TOKEN')
 DEVELOPER_USER_ID = os.environ.get('DEVELOPER_USER_ID')
 
+# by order
 BOT_PARSERS = [
     'app.parsers.RegexParser',
     'app.parsers.LastRequestParser',
+    'app.parsers.ExtendRegexParser',
 ]
 
 OPENEXCHANGERATES_TOKEN = os.environ.get('OPENEXCHANGERATES_TOKEN')
