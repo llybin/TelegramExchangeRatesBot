@@ -91,6 +91,7 @@ LANGUAGES = (
     'pt',
     'pt_BR',
     'ru',
+    'uk',
     'zh_CN',
     'zh_SG',
 )
