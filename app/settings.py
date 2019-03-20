@@ -46,7 +46,7 @@ CELERYBEAT_SCHEDULE = {
         'task': 'app.tasks.exchange_updater',
         'schedule': crontab(minute='*/15'),
         'args': ('app.exchanges.BitfinexExchange',),
-        'options': {'time_limit': 900, 'once': {'timeout': 900}}
+        'options': {'time_limit': 890, 'once': {'timeout': 900}}
     },
     'exchange_updater_BittrexExchange': {
         'task': 'app.tasks.exchange_updater',
