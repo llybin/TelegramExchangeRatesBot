@@ -45,11 +45,11 @@ msgstr "您好，%(name)s！"
 
 #: app/main.py:86
 msgid "Have any question how to talk with me? 👉 /tutorial"
-msgstr "如对使用有疑问，请点击👉 /tutorial"
+msgstr "如对使用有疑问，请点击 👉 /tutorial"
 
 #: app/main.py:105
 msgid "You're unsubscribed. You always can subscribe again 👉 /start"
-msgstr "您已退订。您可点👉 /start 随时订阅"
+msgstr "您已退订。您可点 👉 /start 随时订阅"
 
 #: app/main.py:112
 msgid "*Commands*"
@@ -94,7 +94,7 @@ msgstr "/stop - 退订"
 
 #: app/main.py:134
 msgid "Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)"
-msgstr "没有您的语言？翻译错误？帮助修正👉 [poeditor.com](%(trans_link)s)"
+msgstr "没有您的语言？翻译错误？帮助修正 👉 [poeditor.com](%(trans_link)s)"
 
 #: app/main.py:172
 msgid "Keyboard is shown."
