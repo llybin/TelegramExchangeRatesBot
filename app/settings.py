@@ -89,6 +89,7 @@ LANGUAGES = (
     'en',
     'es',
     'es_AR',
+    'fr',
     'it',
     'kk',
     'ms',
