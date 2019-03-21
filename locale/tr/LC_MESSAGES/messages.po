@@ -77,7 +77,7 @@ msgstr "/keyboard - İstek listesi ile klavyeyi Göster/Gizle"
 
 #: app/main.py:125
 msgid "/p - Command for group chats, get exchange rate"
-msgstr "/p- Grup için komutlar,  Döviz kurları al"
+msgstr "/p - Grup için komutlar,  Döviz kurları al"
 
 #: app/main.py:127
 msgid "/sources - Currency rates sources"
@@ -93,7 +93,8 @@ msgstr "/stop - Abonelikten çık"
 
 #: app/main.py:134
 msgid "Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)"
-msgstr "Konumun eksik mi? Çeviri de hata mı var? Düzeltmemize yardımcı ol 👉[poeditor.com](%(trans_link)s)"
+msgstr "Konumun eksik mi? Çeviri de hata mı var? Düzeltmemize yardımcı ol 👉 \n"
+" [poeditor.com](%(trans_link)s)"
 
 #: app/main.py:172
 msgid "Keyboard is shown."
