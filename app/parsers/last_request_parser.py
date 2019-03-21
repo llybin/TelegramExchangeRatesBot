@@ -4,9 +4,11 @@ Last request parser, when user send only amount
 """
 
 import re
+from babel.core import Locale
 from pyramid_sqlalchemy import Session
 
 from .base import (
+    DirectionWriting,
     PriceRequest,
     Parser,
 )
@@ -42,10 +44,17 @@ class LastRequestParser(Parser):
         if not last_request:
             raise WrongFormatException
 
+        locale = Locale(self.locale)
+
+        if locale.character_order == 'right-to-left':
+            direction_writing = DirectionWriting.RIGHT2LEFT
+        else:
+            direction_writing = DirectionWriting.LEFT2RIGHT
+
         return PriceRequest(
             amount=amount,
             currency=last_request.from_currency.code,
             to_currency=last_request.to_currency.code,
             parser_name=self.name,
-            # direction_writing
+            direction_writing=direction_writing
         )
