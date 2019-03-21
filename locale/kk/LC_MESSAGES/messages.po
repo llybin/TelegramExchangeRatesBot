@@ -1,156 +1,133 @@
-# Kazakh translations for PROJECT.
-# Copyright (C) 2019 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-20 03:05+0700\n"
-"PO-Revision-Date: 2019-03-20 17:57+0700\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: kk\n"
-"Language-Team: kk <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Telegram Exchange Rates Bot\n"
+"Language: kk\n"
 
 #: app/main.py:40
 msgid "I am bot. I will help you to know a current exchange rates."
-msgstr ""
+msgstr "Мен ботпын. Сізге қазіргі айырбастау курсын көрсете аламын."
 
 #: app/main.py:44
-msgid ""
-"Send me a message like this:\n"
+msgid "Send me a message like this:\n"
 "    *BTC USD* - to see the current exchange rate for pair\n"
 "    *100 USD EUR* - to convert the amount from 100 USD to EUR"
-msgstr ""
+msgstr "Маған төмендегідей хат жіберіңіз:\n"
+"    *BTC USD* - осы жұптың қазіргі айырбастау курсын көру үшін\n"
+"    *100 USD EUR* - 100 долларды евроға айырбастау үшін"
 
 #: app/main.py:49
 msgid "Just text me message in private chat."
-msgstr ""
+msgstr "Жай ғана маған жеке чатқа хат жіберіңіз."
 
 #: app/main.py:52
 msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
-msgstr ""
+msgstr "Топтық чаттарда келесі командаларды жіберіңіз: 👉 /p USD EUR 👈 немесе /USDEUR"
 
 #: app/main.py:57
-#, python-format
 msgid "Inline mode is available. See how to use [here](%(link)s)."
 msgstr ""
 
 #: app/main.py:62
 msgid "Also take a look here 👉 /help"
-msgstr ""
+msgstr "Осыны да қарап шығыңыз 👉 /help"
 
 #: app/main.py:71
 msgid "humans"
-msgstr ""
+msgstr "адамдар"
 
 #: app/main.py:73
-#, python-format
 msgid "Hello, %(name)s!"
-msgstr ""
+msgstr "Сәлем, %(name)s!"
 
 #: app/main.py:86
 msgid "Have any question how to talk with me? 👉 /tutorial"
-msgstr ""
+msgstr "Менімен әңгімелесу жөнінде сұрақтар бар ма? 👉 /tutorial"
 
 #: app/main.py:105
 msgid "You're unsubscribed. You always can subscribe again 👉 /start"
-msgstr ""
+msgstr "Жазылудан бас тарттыңыз. Сіз әрқашан қайта жазыла аласыз 👉 /start"
 
 #: app/main.py:112
 msgid "*Commands*"
-msgstr ""
+msgstr "*Командалар*"
 
 #: app/main.py:115
 msgid "/start - Start to enslave mankind"
-msgstr ""
+msgstr "/start - Құлдауды бастау"
 
 #: app/main.py:117
 msgid "/tutorial - Tutorial, how to talk with me"
-msgstr ""
+msgstr "/tutorial - Нұсқаулық, менімен қалай әңгімелесу туралы"
 
 #: app/main.py:119
 msgid "/currencies - All currencies that I support"
-msgstr ""
+msgstr "/currencies - Мен қызмет көрсететін барлық валюта"
 
 #: app/main.py:121
 msgid "/feedback - If you have suggestions, text me"
-msgstr ""
+msgstr "/feedback - Ұсыныстар болса, маған жазыңыз"
 
 #: app/main.py:123
 msgid "/keyboard - Hide / show a keyboard with request history"
-msgstr ""
+msgstr "/keyboard - Сұраулар тарихы бар пернетақтаны жасыру / көрсету"
 
 #: app/main.py:125
 msgid "/p - Command for group chats, get exchange rate"
-msgstr ""
+msgstr "/p - Топтық чаттарда айырбастау курсы үшін арналған команда"
 
 #: app/main.py:127
 msgid "/sources - Currency rates sources"
-msgstr ""
+msgstr "/sources - Дереккөздер"
 
 #: app/main.py:129
 msgid "/disclaimers - Disclaimers"
-msgstr ""
+msgstr "/disclaimers - Ескертпелер"
 
 #: app/main.py:131
 msgid "/stop - Unsubscribe"
-msgstr ""
+msgstr "/stop - Жазылудан бас тарту"
 
 #: app/main.py:134
-#, python-format
-msgid ""
-"Don't have your localization? Any translation errors? Help fix it 👉 "
-"[poeditor.com](%(trans_link)s)"
-msgstr ""
+msgid "Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)"
+msgstr "Аударма қатесі бар ма? Қатені түзетуге көмектесіңіз 👉 [poeditor.com](%(trans_link)s)"
 
 #: app/main.py:172
 msgid "Keyboard is shown."
-msgstr ""
+msgstr "Пернетақта көрсетіледі."
 
 #: app/main.py:176
 msgid "Keyboard is hidden."
-msgstr ""
+msgstr "Пернетақта жасырылды."
 
 #: app/main.py:180 app/main.py:194
 msgid "The command is not available for group chats"
-msgstr ""
+msgstr "Бұл команда топтық чаттарға қолданылмайды"
 
 #: app/main.py:197
 msgid "What do you want to tell? Or nothing?"
-msgstr ""
+msgstr "Бірдеңе айтқыңыз келеді ме?"
 
 #: app/main.py:210
 msgid "Message sent, thank you."
-msgstr ""
+msgstr "Хат жіберілді, рахмет."
 
 #: app/main.py:260
-msgid ""
-"Data is provided by financial exchanges and may be delayed as specified "
-"by financial exchanges or our data providers. Bot does not verify any "
-"data and disclaims any obligation to do so. Bot cannot guarantee the "
-"accuracy of the exchange rates displayed. You should confirm current "
-"rates before making any transactions that could be affected by changes in"
-" the exchange rates."
+msgid "Data is provided by financial exchanges and may be delayed as specified by financial exchanges or our data providers. Bot does not verify any data and disclaims any obligation to do so. Bot cannot guarantee the accuracy of the exchange rates displayed. You should confirm current rates before making any transactions that could be affected by changes in the exchange rates."
 msgstr ""
 
 #: app/main.py:305
 msgid "The message must contain currencies or amounts 👉 /tutorial"
-msgstr ""
+msgstr "Хатта валюталар немесе көлемдер болу қажет 👉 /tutorial"
 
 #: app/main.py:309
 msgid "I don't understand you 😞 Take a look here 👉 /help"
-msgstr ""
+msgstr "Сізді түсінбедім 😞 Осы жерге басыңыз 👉 /help"
 
 #: app/main.py:313
-msgid ""
-"I understood that you asked, but at the moment I don't have actual "
-"exchange rates for your request. Try later. Sorry. 😭"
-msgstr ""
+msgid "I understood that you asked, but at the moment I don't have actual exchange rates for your request. Try later. Sorry. 😭"
+msgstr "Мен Сізді түсіндім, бірақ қазір менде Сіздің сұрауыңыз бойынша айырбастау курсы жоқ. Кейінірек көріңіз. Кешіріңіз. 😭"
 
