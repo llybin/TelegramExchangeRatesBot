@@ -34,12 +34,15 @@ def register_update(func):
             db_session.add(chat)
             try:
                 transaction.commit()
+                db_session.refresh(chat)
             except IntegrityError:
                 logging.exception("Error create chat, chat exists")
                 transaction.abort()
+                chat_created = False
+                chat = db_session.query(Chat).filter_by(id=chat_id).one()
 
         kwargs['chat_info'] = {
-            'chat_id': chat_id,
+            'chat_id': chat.id,
             'created': chat_created,
             'locale': chat.locale,
             'is_subscribed': chat.is_subscribed,
