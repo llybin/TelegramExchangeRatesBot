@@ -11,14 +11,13 @@ msgstr ""
 msgid "I am bot. I will help you to know a current exchange rates."
 msgstr "Я бот. Я буду допомагати тобі бути в курсі поточних курсів валют."
 
-#. 4 spaces before *
 #: app/main.py:44
 msgid "Send me a message like this:\n"
 "    *BTC USD* - to see the current exchange rate for pair\n"
 "    *100 USD EUR* - to convert the amount from 100 USD to EUR"
 msgstr "Відправ мені повідомлення, наприклад:\n"
-"    *BTC USD* - подивится поточний курс для пари\n"
-"    *100 USD EUR* - конвертувати значення з 100 USD у EUR"
+"    *BTC USD* - подивится поточний курс обміну для пари\n"
+"    *100 USD EUR* - конвертувати 100 USD у EUR"
 
 #: app/main.py:49
 msgid "Just text me message in private chat."
