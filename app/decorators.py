@@ -7,6 +7,7 @@ from pyramid_sqlalchemy import Session
 from sqlalchemy.exc import IntegrityError
 
 from app import translations
+from .helpers import convert_locale
 from .models import Chat
 
 
@@ -27,7 +28,7 @@ def register_update(func):
                 id=chat_id,
                 first_name=update.message.from_user.first_name if chat_id > 0 else None,
                 username=update.message.from_user.username if chat_id > 0 else None,
-                locale=update.message.from_user.language_code,
+                locale=convert_locale(update.message.from_user.language_code),
                 is_console_mode=False if chat_id > 0 else True,
             )
             db_session.add(chat)
@@ -55,7 +56,6 @@ def register_update(func):
 def chat_language(func):
     @wraps(func)
     def wrapper(bot, update, *args, **kwargs):
-        # pt-br, en
         language_code = kwargs['chat_info']['locale']
 
         if language_code in translations:

@@ -1,4 +1,5 @@
 import importlib
+import logging
 from typing import Type
 
 from pyramid_sqlalchemy import Session
@@ -44,3 +45,17 @@ def fill_rate_open(new_rate: Rate, current_rate: Rate or None) -> Rate:
             new_rate.rate_open = new_rate.rate
 
     return new_rate
+
+
+def convert_locale(locale: str) -> str:
+    # income en, en-us
+    if len(locale) == 2:
+        return locale
+
+    parts = locale.split('-')
+    if len(parts) == 2 and len(parts[0]) == 2 and len(parts[1]) == 2:
+        return f'{parts[0]}_{parts[1].upper()}'
+
+    else:
+        logging.error('Error converting locale: %s', locale)
+        return locale[:2]
