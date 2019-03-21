@@ -11,6 +11,7 @@ msgstr ""
 msgid "I am bot. I will help you to know a current exchange rates."
 msgstr "I am bot. I will help you to know a current exchange rates."
 
+#. 4 spaces before *
 #: app/main.py:44
 msgid "Send me a message like this:\n"
 "    *BTC USD* - to see the current exchange rate for pair\n"
