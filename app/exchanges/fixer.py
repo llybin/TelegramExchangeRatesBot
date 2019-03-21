@@ -11,22 +11,22 @@ from .base import Exchange, PairData, Pair, Currency
 from .exceptions import PairNotExistsException, APIErrorException, NoTokenException, APIChangedException
 
 
-class OpenExchangeRatesExchange(Exchange):
+class FixerExchange(Exchange):
     """
-    https://openexchangerates.org/
+    https://fixer.io
 
     Free Plan provides hourly updates up to 1,000 requests/month.
     """
-    name = 'OpenExchangeRates'
+    name = 'Fixer'
 
     @cached_property
     def _get_data(self) -> dict:
-        if not settings.OPENEXCHANGERATES_TOKEN:
+        if not settings.FIXER_TOKEN:
             raise NoTokenException
 
         try:
             response = requests.get(
-                f'http://openexchangerates.org/api/latest.json?app_id={settings.OPENEXCHANGERATES_TOKEN}')
+                f'http://data.fixer.io/api/latest?access_key={settings.FIXER_TOKEN}')
             response.raise_for_status()
             data = response.json()
         except (requests.exceptions.RequestException, ValueError) as e:
@@ -56,8 +56,8 @@ class OpenExchangeRatesExchange(Exchange):
         except ValidationError as e:
             raise APIErrorException(e)
 
-        if data['base'] != 'USD':
-            raise APIChangedException('Base currency is not USD')
+        if data['base'] != 'EUR':
+            raise APIChangedException('Base currency is not EUR')
 
         return data
 

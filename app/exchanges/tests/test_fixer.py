@@ -4,48 +4,48 @@ from decimal import Decimal
 import vcr
 
 from suite.test.testcases import SimpleTestCase
-from ..openexchangerates import OpenExchangeRatesExchange
+from ..fixer import FixerExchange
 from ..base import PairData, Pair, Currency
 from ..exceptions import PairNotExistsException
 
 
 my_vcr = vcr.VCR(
-    cassette_library_dir='app/exchanges/tests/fixtures/vcr/openexchangerates',
+    cassette_library_dir='app/exchanges/tests/fixtures/vcr/fixer',
     record_mode='once',
     decode_compressed_response=True,
-    filter_query_parameters=['app_id'],
+    filter_query_parameters=['access_key'],
 )
 
 
-class OpenExchangeRatesTest(SimpleTestCase):
+class FixerTest(SimpleTestCase):
 
     def test_name(self):
-        self.assertEqual(OpenExchangeRatesExchange.name, 'OpenExchangeRates')
+        self.assertEqual(FixerExchange.name, 'Fixer')
 
     @my_vcr.use_cassette('query_200')
     def test_list_currencies(self):
-        currencies = OpenExchangeRatesExchange().list_currencies
-        self.assertEqual(len(currencies), 172)
+        currencies = FixerExchange().list_currencies
+        self.assertEqual(len(currencies), 169)
         self.assertTrue(Currency(code='EUR') in currencies)
         self.assertTrue(Currency(code='USD') in currencies)
 
     @my_vcr.use_cassette('query_200')
     def test_list_pairs(self):
-        pairs = OpenExchangeRatesExchange().list_pairs
-        self.assertEqual(len(pairs), 171)
-        self.assertTrue(Pair(Currency('USD'), Currency('EUR')) in pairs)
+        pairs = FixerExchange().list_pairs
+        self.assertEqual(len(pairs), 168)
+        self.assertTrue(Pair(Currency('EUR'), Currency('USD')) in pairs)
 
     @my_vcr.use_cassette('query_200')
     def test_is_pair_exists(self):
-        exchange = OpenExchangeRatesExchange()
-        self.assertTrue(exchange.is_pair_exists(Pair(Currency('USD'), Currency('EUR'))))
+        exchange = FixerExchange()
+        self.assertTrue(exchange.is_pair_exists(Pair(Currency('EUR'), Currency('USD'))))
 
-        self.assertFalse(exchange.is_pair_exists(Pair(Currency('usd'), Currency('EUR'))))
-        self.assertFalse(exchange.is_pair_exists(Pair(Currency('USD'), Currency('MONEY'))))
+        self.assertFalse(exchange.is_pair_exists(Pair(Currency('eur'), Currency('USD'))))
+        self.assertFalse(exchange.is_pair_exists(Pair(Currency('eur'), Currency('MONEY'))))
 
     @my_vcr.use_cassette('query_200')
     def test_is_currency_exists(self):
-        exchange = OpenExchangeRatesExchange()
+        exchange = FixerExchange()
         self.assertTrue(exchange.is_currency_exists(Currency(code='EUR')))
         self.assertTrue(exchange.is_currency_exists(Currency(code='USD')))
 
@@ -54,19 +54,19 @@ class OpenExchangeRatesTest(SimpleTestCase):
 
     @my_vcr.use_cassette('query_200')
     def test_get_pair_info(self):
-        pair = Pair(Currency('USD'), Currency('EUR'))
+        pair = Pair(Currency('EUR'), Currency('USD'))
         self.assertEqual(
-            OpenExchangeRatesExchange().get_pair_info(pair),
+            FixerExchange().get_pair_info(pair),
             PairData(
                 pair=pair,
-                rate=Decimal('0.8792'),
+                rate=Decimal('1.137314'),
                 rate_open=None,
-                last_trade_at=datetime.datetime(2019, 3, 21, 21, 0),
+                last_trade_at=datetime.datetime(2019, 3, 21, 20, 47, 5),
             )
         )
 
     @my_vcr.use_cassette('query_200')
     def test_get_pair_info_no_pair(self):
-        pair = Pair(Currency('MONEY'), Currency('USD'))
+        pair = Pair(Currency('MONEY'), Currency('EUR'))
         with self.assertRaises(PairNotExistsException):
-            OpenExchangeRatesExchange().get_pair_info(pair)
+            FixerExchange().get_pair_info(pair)

@@ -60,6 +60,12 @@ CELERYBEAT_SCHEDULE = {
         'args': ('app.exchanges.OpenExchangeRatesExchange',),
         'options': {'time_limit': 50, 'once': {'timeout': 55}}
     },
+    'exchange_updater_FixerExchange': {
+        'task': 'app.tasks.exchange_updater',
+        'schedule': crontab(minute=0, hour='*/1'),
+        'args': ('app.exchanges.FixerExchange',),
+        'options': {'time_limit': 50, 'once': {'timeout': 55}}
+    },
     'delete_expired_rates': {
         'task': 'app.tasks.delete_expired_rates',
         'schedule': crontab(minute=5, hour='*/1'),
@@ -79,6 +85,7 @@ BOT_PARSERS = [
 ]
 
 OPENEXCHANGERATES_TOKEN = os.environ.get('OPENEXCHANGERATES_TOKEN')
+FIXER_TOKEN = os.environ.get('FIXER_TOKEN')
 
 SENTRY_URL = os.environ.get('SENTRY_URL')
 
