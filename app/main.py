@@ -36,28 +36,34 @@ from .parsers.base import PriceRequest
 
 
 def tutorial(bot, update, _):
-    update.message.reply_text(
+    bot.send_message(
+        chat_id=update.message.chat_id,
         text=_('I am bot. I will help you to know a current exchange rates.'))
 
-    update.message.reply_text(
+    bot.send_message(
+        chat_id=update.message.chat_id,
         parse_mode=ParseMode.MARKDOWN,
         text=_('''Send me a message like this:
     *BTC USD* - to see the current exchange rate for pair
     *100 USD EUR* - to convert the amount from 100 USD to EUR'''))
 
-    update.message.reply_text(
+    bot.send_message(
+        chat_id=update.message.chat_id,
         text=_('Just text me message in private chat.'))
 
-    update.message.reply_text(
+    bot.send_message(
+        chat_id=update.message.chat_id,
         text=_('In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR'))
 
-    update.message.reply_text(
+    bot.send_message(
+        chat_id=update.message.chat_id,
         disable_web_page_preview=True,
         parse_mode=ParseMode.MARKDOWN,
         text=_('Inline mode is available. See how to use [here](%(link)s).') % {
             'link': 'https://telegram.org/blog/inline-bots'})
 
-    update.message.reply_text(
+    bot.send_message(
+        chat_id=update.message.chat_id,
         reply_markup=get_keyboard(update.message.chat_id),
         text=_('Also take a look here 👉 /help'))
 
@@ -70,7 +76,9 @@ def start_command(bot, update, chat_info, _):
     else:
         name = _('humans')
 
-    update.message.reply_text(text=_('Hello, %(name)s!') % {'name': name})
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text=_('Hello, %(name)s!') % {'name': name})
 
     if chat_info['created']:
         tutorial(bot, update, _)
@@ -82,7 +90,8 @@ def start_command(bot, update, chat_info, _):
             ).update({'is_subscribed': True})
             transaction.commit()
 
-        update.message.reply_text(
+        bot.send_message(
+            chat_id=update.message.chat_id,
             reply_markup=get_keyboard(update.message.chat_id),
             text=_('Have any question how to talk with me? 👉 /tutorial'))
 
@@ -102,7 +111,8 @@ def stop_command(bot, update, chat_info, _):
         ).update({'is_subscribed': False})
         transaction.commit()
 
-    update.message.reply_text(
+    bot.send_message(
+        chat_id=update.message.chat_id,
         text=_("You're unsubscribed. You always can subscribe again 👉 /start")
     )
 
@@ -140,7 +150,8 @@ def help_command(bot, update, chat_info, _):
 
 Sign up using [link](%(link)s) and receive $100. From $5 per month: 1GB / 1 CPU / 25GB SSD Disk.''' % {'link': 'https://m.do.co/c/ba04a478e10d'}  # NOQA
 
-    update.message.reply_text(
+    bot.send_message(
+        chat_id=update.message.chat_id,
         disable_web_page_preview=True,
         parse_mode=ParseMode.MARKDOWN,
         text=text_to)
@@ -148,7 +159,8 @@ Sign up using [link](%(link)s) and receive $100. From $5 per month: 1GB / 1 CPU 
 
 @register_update
 def sources_command(bot, update, chat_info):
-    update.message.reply_text(
+    bot.send_message(
+        chat_id=update.message.chat_id,
         disable_web_page_preview=True,
         parse_mode=ParseMode.MARKDOWN,
         text='''*Sources*
@@ -163,25 +175,26 @@ https://openexchangerates.org - 60min''')
 def keyboard_command(bot, update, chat_info, _):
     chat_id = update.message.chat_id
 
-    if chat_id > 0:
-        db_session = Session()
-        chat = db_session.query(Chat).filter_by(id=chat_id).first()
+    if chat_id < 0:
+        update.message.reply_text(_('The command is not available for group chats'))
+        return
 
-        if chat.is_console_mode:
-            chat.is_console_mode = False
-            reply_markup = get_keyboard(chat_id)
-            text_to = _('Keyboard is shown.')
-        else:
-            chat.is_console_mode = True
-            reply_markup = ReplyKeyboardRemove()
-            text_to = _('Keyboard is hidden.')
+    db_session = Session()
+    chat = db_session.query(Chat).filter_by(id=chat_id).first()
 
-        transaction.commit()
+    if chat.is_console_mode:
+        chat.is_console_mode = False
+        reply_markup = get_keyboard(chat_id)
+        text_to = _('Keyboard is shown.')
     else:
-        text_to = _('The command is not available for group chats')
+        chat.is_console_mode = True
         reply_markup = ReplyKeyboardRemove()
+        text_to = _('Keyboard is hidden.')
 
-    update.message.reply_text(
+    transaction.commit()
+
+    bot.send_message(
+        chat_id=update.message.chat_id,
         reply_markup=reply_markup,
         text=text_to)
 
@@ -192,25 +205,23 @@ def feedback_command(bot, update, chat_info, _):
     chat_id = update.message.chat_id
 
     if chat_id < 0:
-        text_to = _("The command is not available for group chats")
-        reply_markup = None
-    else:
-        text_to = _('What do you want to tell? Or nothing?') + ' /nothing'
-        reply_markup = ReplyKeyboardRemove()
+        update.message.reply_text(_("The command is not available for group chats"))
+        return
 
-    update.message.reply_text(
-        reply_markup=reply_markup,
-        text=text_to)
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        reply_markup=ReplyKeyboardRemove(),
+        text=_('What do you want to tell? Or nothing?') + ' /nothing')
 
     return 1
-
 
 @register_update
 @chat_language
 def send_feedback_command(bot, update, chat_info, _):
     text_to = _('Message sent, thank you.')
 
-    update.message.reply_text(
+    bot.send_message(
+        chat_id=update.message.chat_id,
         reply_markup=get_keyboard(update.message.chat_id),
         text=text_to)
 
@@ -227,7 +238,8 @@ def send_feedback_command(bot, update, chat_info, _):
 @register_update
 @chat_language
 def cancel_command(bot, update, chat_info, _):
-    update.message.reply_text(
+    bot.send_message(
+        chat_id=update.message.chat_id,
         reply_markup=get_keyboard(update.message.chat_id),
         text='👌')
 
@@ -239,7 +251,8 @@ def currencies_command(bot, update, chat_info):
     text_to = '\n'.join([f'{code} - {name}' for code, name in Session().query(
         Currency.code, Currency.name).filter_by(is_active=True).order_by(Currency.name)])
 
-    update.message.reply_text(
+    bot.send_message(
+        chat_id=update.message.chat_id,
         parse_mode=ParseMode.MARKDOWN,
         text=text_to)
 
@@ -257,7 +270,8 @@ def settings_commands(bot, update, chat_info, _):
 @register_update
 @chat_language
 def disclaimers_command(bot, update, chat_info, _):
-    update.message.reply_text(
+    bot.send_message(
+        chat_id=update.message.chat_id,
         text=_('Data is provided by financial exchanges and may be delayed '
                'as specified by financial exchanges or our data providers. '
                'Bot does not verify any data and disclaims any obligation '
@@ -297,7 +311,8 @@ def price(bot, update, text, chat_info, _):
             to_currency=price_request.to_currency
         )
 
-        update.message.reply_text(
+        bot.send_message(
+            chat_id=update.message.chat_id,
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=get_keyboard(update.message.chat_id),
             text=text_to)
