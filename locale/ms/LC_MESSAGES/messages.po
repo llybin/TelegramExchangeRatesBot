@@ -57,8 +57,7 @@ msgstr "*Arahan*"
 
 #: app/main.py:115
 msgid "/start - Start to enslave mankind"
-msgstr "/start - Mulakan untuk memperbudak umat manusia\n"
-""
+msgstr "/start - Mulakan untuk memperbudak umat manusia"
 
 #: app/main.py:117
 msgid "/tutorial - Tutorial, how to talk with me"
@@ -94,7 +93,7 @@ msgstr "/stop - Hentikan Langganan"
 
 #: app/main.py:134
 msgid "Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)"
-msgstr "Tidak mempunyai bahasa penyetempatan anda? Sebarang kesilapan terjemahan? Membantu memperbaikinya 👉 [poeditor.com] (%(trans_link)s)"
+msgstr "Tidak mempunyai bahasa penyetempatan anda? Sebarang kesilapan terjemahan? Membantu memperbaikinya 👉 [poeditor.com](%(trans_link)s)"
 
 #: app/main.py:172
 msgid "Keyboard is shown."
