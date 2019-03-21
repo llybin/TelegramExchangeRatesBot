@@ -28,10 +28,7 @@ def convert(price_request: PriceRequest) -> PriceRequestResult:
             price_request=price_request,
             exchanges=['Baba Vanga'],
             rate=Decimal('1'),
-            rate_open=Decimal('1'),
             last_trade_at=datetime(1996, 8, 11),
-            low24h=Decimal('1'),
-            high24h=Decimal('1'),
         )
 
     if price_request.amount == 0:
@@ -39,10 +36,7 @@ def convert(price_request: PriceRequest) -> PriceRequestResult:
             price_request=price_request,
             exchanges=['Baba Vanga'],
             rate=Decimal('0'),
-            rate_open=Decimal('0'),
             last_trade_at=datetime(1996, 8, 11),
-            low24h=Decimal('0'),
-            high24h=Decimal('0'),
         )
 
     from_currency = Session.query(Currency).filter_by(code=price_request.currency).one()
