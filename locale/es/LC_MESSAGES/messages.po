@@ -29,7 +29,7 @@ msgstr "En grupos usa comandos como: 👉 /p USD EUR 👈 o simplemente /USDEUR"
 
 #: app/main.py:57
 msgid "Inline mode is available. See how to use [here](%(link)s)."
-msgstr "Modo en linea disponible. Fijate como usarlo [aquí](%(link)s)."
+msgstr "Modo en linea disponible. Consulta como usarlo [aquí](%(link)s)."
 
 #: app/main.py:62
 msgid "Also take a look here 👉 /help"
@@ -45,11 +45,11 @@ msgstr "Hola, %(name)s!"
 
 #: app/main.py:86
 msgid "Have any question how to talk with me? 👉 /tutorial"
-msgstr "Tienes dudas sobre cómo hablarme? 👉 /tutorial"
+msgstr "¿Tienes dudas sobre cómo hablarme? 👉 /tutorial"
 
 #: app/main.py:105
 msgid "You're unsubscribed. You always can subscribe again 👉 /start"
-msgstr "Te has desuscripto. Siempre puedes volver a inscribirte usando 👉 /start"
+msgstr "Te has desuscrito. Siempre puedes volver a suscribirte usando 👉 /start"
 
 #: app/main.py:112
 msgid "*Commands*"
@@ -57,7 +57,7 @@ msgstr "*Comandos*"
 
 #: app/main.py:115
 msgid "/start - Start to enslave mankind"
-msgstr "/start - Comienza la esclavitud"
+msgstr "/start - Comenzar a esclavizar la humanidad"
 
 #: app/main.py:117
 msgid "/tutorial - Tutorial, how to talk with me"
