@@ -83,7 +83,7 @@ OPENEXCHANGERATES_TOKEN = os.environ.get('OPENEXCHANGERATES_TOKEN')
 SENTRY_URL = os.environ.get('SENTRY_URL')
 
 LANGUAGES = (
-    'ar',
+    # 'ar',  # is not correct translations
     'ca',
     'de',
     'en',

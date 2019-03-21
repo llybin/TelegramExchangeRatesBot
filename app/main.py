@@ -75,11 +75,12 @@ def start_command(bot, update, chat_info, _):
     if chat_info['created']:
         tutorial(bot, update, _)
 
-    elif not chat_info['is_subscribed']:
-        Session().query(Chat).filter_by(
-            id=update.message.chat_id
-        ).update({'is_subscribed': True})
-        transaction.commit()
+    else:
+        if not chat_info['is_subscribed']:
+            Session().query(Chat).filter_by(
+                id=update.message.chat_id
+            ).update({'is_subscribed': True})
+            transaction.commit()
 
         update.message.reply_text(
             reply_markup=get_keyboard(update.message.chat_id),
