@@ -25,7 +25,7 @@ msgstr "Scrivimi un messaggio nella chat privata."
 
 #: app/main.py:52
 msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
-msgstr "In chat di gruppo usa i comandi: 👉 /p USD EUR 👈 o semplicemente /USDEUR"
+msgstr "In chat di gruppo usa il seguente comando: 👉 /p USD EUR 👈 o semplicemente /USDEUR"
 
 #: app/main.py:57
 msgid "Inline mode is available. See how to use [here](%(link)s)."
@@ -45,11 +45,11 @@ msgstr "Ciao, %(name)s!"
 
 #: app/main.py:86
 msgid "Have any question how to talk with me? 👉 /tutorial"
-msgstr "Qualsiasi domanda per comunicare con me? 👉 /tutorial"
+msgstr "Hai qualche domanda? Ecco come parlare con me 👉 /tutorial"
 
 #: app/main.py:105
 msgid "You're unsubscribed. You always can subscribe again 👉 /start"
-msgstr "Hai tolto l'iscrizione. Puoi sempre tornare ad iscriverti 👉 /start"
+msgstr "Ti sei disiscritto. Puoi sempre iscriverti ancora 👉 /start"
 
 #: app/main.py:112
 msgid "*Commands*"
@@ -57,7 +57,7 @@ msgstr "*Commands*"
 
 #: app/main.py:115
 msgid "/start - Start to enslave mankind"
-msgstr "/start - Inizia a schiavizzare la umanità"
+msgstr "/start - Inizia a schiavizzare il genere umano"
 
 #: app/main.py:117
 msgid "/tutorial - Tutorial, how to talk with me"
@@ -77,7 +77,7 @@ msgstr "/keyboard - Nascondi / mostra una tastiera con la cronologia delle richi
 
 #: app/main.py:125
 msgid "/p - Command for group chats, get exchange rate"
-msgstr "/p - Commando per chat di gruppo, ricevi tasso di cambio "
+msgstr "/p - Comando per chat di gruppo, ricevi tasso di cambio"
 
 #: app/main.py:127
 msgid "/sources - Currency rates sources"
@@ -85,15 +85,15 @@ msgstr "/sources - Fonti tassi di cambio"
 
 #: app/main.py:129
 msgid "/disclaimers - Disclaimers"
-msgstr "/disclaimers - Disclaimers "
+msgstr "/disclaimers - Disclaimers"
 
 #: app/main.py:131
 msgid "/stop - Unsubscribe"
-msgstr "/stop - Annulla iscrizione "
+msgstr "/stop - Annulla iscrizione"
 
 #: app/main.py:134
 msgid "Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)"
-msgstr "Non ho la tua localizzazione? Errori nella traduzione? Aiutami a correggerlo 👉 [poeditor.com](%(trans_link)s)"
+msgstr "Non ho la tua localizzazione? Errori nella traduzione? Aiutami a correggerli 👉 [poeditor.com](%(trans_link)s)"
 
 #: app/main.py:172
 msgid "Keyboard is shown."
@@ -117,7 +117,7 @@ msgstr "Messaggio inviato, grazie."
 
 #: app/main.py:260
 msgid "Data is provided by financial exchanges and may be delayed as specified by financial exchanges or our data providers. Bot does not verify any data and disclaims any obligation to do so. Bot cannot guarantee the accuracy of the exchange rates displayed. You should confirm current rates before making any transactions that could be affected by changes in the exchange rates."
-msgstr "I dati sono forniti dagli scambi finanziari e possono essere ritardati come specificato dagli scambi finanziari o dai nostri fornitori di dati. Il Bot non verifica alcun dato e declina ogni obbligo in tal senso. Il Bot non può garantire l'accuratezza dei tassi di cambio visualizzati. È necessario confermare le tariffe correnti prima di effettuare transazioni che potrebbero essere influenzate dalle variazioni dei tassi di cambio."
+msgstr "I dati sono forniti dagli scambi finanziari e possono essere ritardati come specificato dagli scambi finanziari o dai nostri fornitori di dati. Il Bot non verifica alcun dato e declina ogni obbligo in tal senso. Il Bot non può garantire l'accuratezza dei tassi di cambio visualizzati. È necessario verificare le tariffe correnti prima di effettuare transazioni che potrebbero essere influenzate dalle variazioni dei tassi di cambio."
 
 #: app/main.py:305
 msgid "The message must contain currencies or amounts 👉 /tutorial"
