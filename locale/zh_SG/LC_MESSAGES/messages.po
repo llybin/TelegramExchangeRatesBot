@@ -85,8 +85,7 @@ msgstr "/sources - 汇率数据源"
 
 #: app/main.py:129
 msgid "/disclaimers - Disclaimers"
-msgstr "/disclaimers - 免责声明\n"
-""
+msgstr "/disclaimers - 免责声明"
 
 #: app/main.py:131
 msgid "/stop - Unsubscribe"
