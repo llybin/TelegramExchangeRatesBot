@@ -20,9 +20,13 @@ def register_update(func):
             chat_id = update.effective_user.id
 
         if update.effective_user:
-            language_code = update.effective_user.language_code
+            if update.effective_user.language_code:
+                language_code = update.effective_user.language_code
+            else:
+                language_code = 'en'
+                logging.warning("Empty language_code, update: %r", update.__dict__)
         else:
-            logging.warning("Empty language_code, update: %r", update.__dict__)
+            logging.warning("Empty effective_user, update: %r", update.__dict__)
             language_code = 'en'
 
         db_session = Session()
