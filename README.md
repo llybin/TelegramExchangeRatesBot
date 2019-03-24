@@ -9,8 +9,6 @@ Online from 01 July 2015.
 
 https://telegram.me/ExchangeRatesBot
 
-**In the process of refactoring. This repository is not in production.**
-
 # Translations
 
 Don't have your localization? Any translation errors? Help fix it.
