@@ -107,8 +107,9 @@ LANGUAGES = (
     'ru',
     'tr',
     'uk',
-    'zh_CN',
-    'zh_SG',
+    'zh_Hans',
+    # 'zh_Hant',
+    'zh_Hans_SG',
 )
 
 LANGUAGE_CODE = 'en'

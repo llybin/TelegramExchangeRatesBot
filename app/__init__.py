@@ -11,7 +11,9 @@ getcontext().prec = decimal_precision
 
 translations = dict()
 for l in settings.LANGUAGES:
-    translations[l] = gettext.translation(
+    # zh_Hans to zh-hans
+    key = l.lower().replace('_', '-')
+    translations[key] = gettext.translation(
         'messages',
         localedir='locale',
         languages=[l]
