@@ -319,18 +319,21 @@ def price(bot, update, text, chat_info, _):
             text=text_to)
 
     except EmptyPriceRequestException:
-        update.message.reply_text(
-            text=_('The message must contain currencies or amounts 👉 /tutorial'))
+        if chat_info['chat_id'] > 0:
+            update.message.reply_text(
+                text=_('The message must contain currencies or amounts 👉 /tutorial'))
 
     except ValidationException:
-        update.message.reply_text(
-            text=_("I don't understand you 😞 Take a look here 👉 /help"))
+        if chat_info['chat_id'] > 0:
+            update.message.reply_text(
+                text=_("I don't understand you 😞 Take a look here 👉 /help"))
 
     except ConverterException:
-        update.message.reply_text(
-            text=_("I understood that you asked, but at the moment "
-                   "I don't have actual exchange rates for your request. "
-                   "Try later. Sorry. 😭"))
+        if chat_info['chat_id'] > 0:
+            update.message.reply_text(
+                text=_("I understood that you asked, but at the moment "
+                       "I don't have actual exchange rates for your request. "
+                       "Try later. Sorry. 😭"))
 
     finally:
         if len(text) <= settings.MAX_LEN_MSG_REQUESTS_LOG:
