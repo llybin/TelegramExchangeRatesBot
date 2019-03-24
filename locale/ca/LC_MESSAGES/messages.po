@@ -17,7 +17,7 @@ msgid "Send me a message like this:\n"
 "    *100 USD EUR* - to convert the amount from 100 USD to EUR"
 msgstr "Envia'm un missatge com aquest:\n"
 "    *BTC USD* - per a veure la taxa de paritat\n"
-"    *100 USD EUR\" - per a convertir la quantitat de 100 USD a EUR"
+"    *100 USD EUR* - per a convertir la quantitat de 100 USD a EUR"
 
 #: app/main.py:49
 msgid "Just text me message in private chat."
