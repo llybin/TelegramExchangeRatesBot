@@ -34,8 +34,10 @@ def upgrade():
     # I know prefer write SQL for big data, lazy :P and can migrate without downtime
     for x in session.query(Chat).yield_per(1000):
         language = x.locale.lower().replace('_', '-')
-        language = language.replace('zh-cn', 'zh-hans')
-        language = language.replace('zh', 'zh-hant')
+        if language == 'zh':
+            language = 'zh-hant'
+        if language == 'zh-cn':
+            language = 'zh-hans'
         session.query(Chat).filter_by(id=x.id).update({
             'locale': language,
             'modified_at': Chat.modified_at
