@@ -29,7 +29,7 @@ msgstr "Топтық чаттарда келесі командаларды жі
 
 #: app/main.py:57
 msgid "Inline mode is available. See how to use [here](%(link)s)."
-msgstr ""
+msgstr "Біржолды режимі бар. [here](%(сілтемені)лерді) қолдану нұсқаулығы."
 
 #: app/main.py:62
 msgid "Also take a look here 👉 /help"
@@ -117,7 +117,7 @@ msgstr "Хат жіберілді, рахмет."
 
 #: app/main.py:260
 msgid "Data is provided by financial exchanges and may be delayed as specified by financial exchanges or our data providers. Bot does not verify any data and disclaims any obligation to do so. Bot cannot guarantee the accuracy of the exchange rates displayed. You should confirm current rates before making any transactions that could be affected by changes in the exchange rates."
-msgstr ""
+msgstr "Мәліметтерді қаржы биржалары ұсынған, сондықтан қаржы биржалар немесе біздің деректер провайдер ережелеріне сәйкес кешіктірілуі мүмкін. Бота еш деректерді растай алмайды және барлық міндеттемелерден бас тартады. Бота көрсетілген айырбастау курстарының нақтылығына кепіл бола алмайды. Айырбастау курстары әсер ету мүмкін кез келген операцияларды жүргізу алдында айырбастау курстарын тексеру қажет."
 
 #: app/main.py:305
 msgid "The message must contain currencies or amounts 👉 /tutorial"
