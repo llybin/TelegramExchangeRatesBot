@@ -15,6 +15,7 @@ from .tasks import update_chat
 
 
 def register_update(func):
+    # TODO: rewrite it, fast fixes after release
     def wrapper(bot, update, *args, **kwargs):
         if not update.effective_user:
             # bots
@@ -46,8 +47,8 @@ def register_update(func):
         if not chat:
             chat = Chat(
                 id=chat_id,
-                first_name=update.message.from_user.first_name if chat_id > 0 else None,
-                username=update.message.from_user.username if chat_id > 0 else None,
+                first_name=update.effective_user.first_name if chat_id > 0 else None,
+                username=update.effective_user.username if chat_id > 0 else None,
                 locale=convert_locale(language_code),
                 is_console_mode=False if chat_id > 0 else True,
             )
