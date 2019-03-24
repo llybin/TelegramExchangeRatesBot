@@ -72,7 +72,7 @@ def register_update(func):
                 chat_id=chat.id,
                 first_name=chat.first_name,
                 username=chat.username,
-                locale=chat.locale)
+                locale=convert_locale(language_code))
 
             kwargs['chat_info'] = {
                 'chat_id': chat.id,
