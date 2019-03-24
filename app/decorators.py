@@ -9,6 +9,7 @@ from sqlalchemy.exc import IntegrityError
 from app import translations
 from .helpers import convert_locale
 from .models import Chat
+from .tasks import update_chat
 
 
 def register_update(func):
@@ -19,7 +20,7 @@ def register_update(func):
             chat_id = update.effective_user.id
 
         db_session = Session()
-        chat = db_session.query(Chat).filter_by(id=chat_id).scalar()
+        chat = db_session.query(Chat).filter_by(id=chat_id).first()
         chat_created = False
 
         if not chat:
@@ -40,11 +41,17 @@ def register_update(func):
                 transaction.abort()
                 chat_created = False
                 chat = db_session.query(Chat).filter_by(id=chat_id).one()
+        else:
+            update_chat.delay(
+                chat_id=chat.id,
+                first_name=chat.first_name,
+                username=chat.username,
+                locale=chat.locale)
 
         kwargs['chat_info'] = {
             'chat_id': chat.id,
             'created': chat_created,
-            'locale': chat.locale,
+            'locale': convert_locale(update.message.from_user.language_code),
             'is_subscribed': chat.is_subscribed,
             'is_console_mode': chat.is_console_mode,
             'default_currency': chat.default_currency,

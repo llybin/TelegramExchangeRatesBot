@@ -12,7 +12,7 @@ from suite.conf import settings
 from .celery import celery_app
 from .exchanges.base import reverse_pair_data, PairData
 from .helpers import import_module, rate_from_pair_data, fill_rate_open
-from .models import Exchange, Currency, Rate, RequestsLog, ChatRequests
+from .models import Exchange, Currency, Rate, RequestsLog, ChatRequests, Chat
 
 
 # @celery_app.task(base=QueueOnce, queue='exchanges')
@@ -68,7 +68,7 @@ def exchange_updater(exchange_class: str) -> None:
         transaction.abort()
 
 
-@celery_app.task(base=QueueOnce, queue='exchanges')
+@celery_app.task(base=QueueOnce, queue='exchanges', time_limit=60)
 def delete_expired_rates() -> None:
     db_session = Session()
     current_time = datetime.utcnow()
@@ -81,7 +81,7 @@ def delete_expired_rates() -> None:
     transaction.commit()
 
 
-@celery_app.task(queue='low')
+@celery_app.task(queue='low', time_limit=5)
 def write_request_log(chat_id: int, msg: str, created_at: datetime, tag: str = '') -> None:
     if len(msg) > settings.MAX_LEN_MSG_REQUESTS_LOG:
         return
@@ -96,7 +96,18 @@ def write_request_log(chat_id: int, msg: str, created_at: datetime, tag: str = '
     transaction.commit()
 
 
-@celery_app.task(queue='low', time_limit=10)
+@celery_app.task(base=QueueOnce, queue='low', time_limit=5, once={'graceful': True})
+def update_chat(chat_id: int, first_name: str, username: str, locale: str) -> None:
+    db_session = Session()
+
+    db_session.query(Chat).filter_by(
+        id=chat_id
+    ).update({'first_name': first_name, 'username': username, 'locale': locale})
+
+    transaction.commit()
+
+
+@celery_app.task(queue='low', time_limit=60)
 def send_feedback(chat_id: int, first_name: str, username: str, text: str) -> None:
     if not settings.DEVELOPER_BOT_TOKEN or not settings.DEVELOPER_USER_ID:
         logging.warning('Developer account is not configured')
@@ -107,8 +118,8 @@ def send_feedback(chat_id: int, first_name: str, username: str, text: str) -> No
     bot.send_message(settings.DEVELOPER_USER_ID, text=text_to)
 
 
-@celery_app.task(queue='update_chat_request', time_limit=10)
-def update_chat_request(chat_id, currency, to_currency):
+@celery_app.task(queue='update_chat_request', time_limit=5)
+def update_chat_request(chat_id: int, currency: str, to_currency: str):
     db_session = Session()
     from_currency = db_session.query(Currency).filter_by(code=currency).one()
     to_currency = db_session.query(Currency).filter_by(code=to_currency).one()
