@@ -21,15 +21,18 @@ def register_update(func):
             return
 
         if update.effective_chat:
+            # private chat id == user id
+            # group chat
             chat_id = update.effective_chat.id
         else:
+            # inline commands
             chat_id = update.effective_user.id
 
         if update.effective_user.language_code:
             language_code = update.effective_user.language_code
         else:
+            # some users don't have locale
             language_code = settings.LANGUAGE_CODE
-            logging.warning('Empty language_code, update: %r', update.__dict__)
 
         db_session = Session()
         chat = db_session.query(Chat).filter_by(id=chat_id).first()
