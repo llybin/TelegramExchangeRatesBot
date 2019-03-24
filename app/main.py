@@ -167,6 +167,7 @@ def sources_command(bot, update, chat_info):
 
 https://bitfinex.com - 15min (API limits😭)
 https://bittrex.com - 1min
+https://fixer.io - 60min
 https://openexchangerates.org - 60min''')
 
 
