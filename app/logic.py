@@ -35,7 +35,7 @@ def get_keyboard(chat_id: int) -> ReplyKeyboardMarkup or None:
         return reply_markup
 
 
-PARSERS = {import_module(parser_path) for parser_path in settings.BOT_PARSERS}
+PARSERS = [import_module(parser_path) for parser_path in settings.BOT_PARSERS]
 
 
 def start_parse(text: str, chat_id: int, locale: str, default_currency: str, default_currency_position: bool) -> PriceRequest:
