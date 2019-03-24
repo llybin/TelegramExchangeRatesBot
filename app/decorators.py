@@ -19,8 +19,9 @@ def register_update(func):
         else:
             chat_id = update.effective_user.id
 
-        language_code = update.effective_user.language_code
-        if not language_code:
+        if update.effective_user:
+            language_code = update.effective_user.language_code
+        else:
             logging.warning("Empty language_code, update: %r", update.__dict__)
             language_code = 'en'
 
