@@ -100,6 +100,7 @@ LANGUAGES = (
     'it',
     'kk',
     'ms',
+    'nl',
     'pl',
     'pt',
     'pt_BR',
