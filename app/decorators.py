@@ -16,21 +16,20 @@ from .tasks import update_chat
 
 def register_update(func):
     def wrapper(bot, update, *args, **kwargs):
+        if not update.effective_user:
+            # bots
+            return
+
         if update.effective_chat:
             chat_id = update.effective_chat.id
         else:
             chat_id = update.effective_user.id
 
-        if update.effective_user:
-            if update.effective_user.language_code:
-                language_code = update.effective_user.language_code
-            else:
-                language_code = 'en'
-                logging.warning("Empty language_code, update: %r", update.__dict__)
+        if update.effective_user.language_code:
+            language_code = update.effective_user.language_code
         else:
-            logging.warning("Empty effective_user, chat: %r, message: %r",
-                            update.effective_chat.__dict__, update.effective_message.__dict__)
-            language_code = 'en'
+            language_code = settings.LANGUAGE_CODE
+            logging.warning('Empty language_code, update: %r', update.__dict__)
 
         db_session = Session()
         chat = db_session.query(Chat).filter_by(id=chat_id).first()
