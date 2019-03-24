@@ -47,7 +47,7 @@ def fill_rate_open(new_rate: Rate, current_rate: Rate or None) -> Rate:
             logging.info('Set new rate_open for exchange: %d, pair: %d-%d',
                          new_rate.exchange_id, new_rate.from_currency.id, new_rate.to_currency.id)
     else:
-        if current_rate.rate_open and new_rate.last_trade_at.date() == current_rate.last_trade_at.date():
+        if new_rate.last_trade_at.date() == current_rate.last_trade_at.date():
             new_rate.rate_open = current_rate.rate_open
             logging.debug('Set existed rate_open for exchange: %d, pair: %d-%d',
                           new_rate.exchange_id, new_rate.from_currency.id, new_rate.to_currency.id)
@@ -56,7 +56,7 @@ def fill_rate_open(new_rate: Rate, current_rate: Rate or None) -> Rate:
             logging.info('Set new rate_open for exchange: %d, pair: %d-%d',
                          new_rate.exchange_id, new_rate.from_currency.id, new_rate.to_currency.id)
         else:
-            logging.info('Expired rate_open for exchange: %d, pair: %d-%d',
+            logging.info('Reset rate_open for exchange: %d, pair: %d-%d',
                          new_rate.exchange_id, new_rate.from_currency.id, new_rate.to_currency.id)
 
     return new_rate
