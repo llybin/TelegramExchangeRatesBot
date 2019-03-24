@@ -28,7 +28,8 @@ def register_update(func):
                 language_code = 'en'
                 logging.warning("Empty language_code, update: %r", update.__dict__)
         else:
-            logging.warning("Empty effective_user, update: %r", update.__dict__)
+            logging.warning("Empty effective_user, chat: %r, message: %r",
+                            update.effective_chat.__dict__, update.effective_message.__dict__)
             language_code = 'en'
 
         db_session = Session()

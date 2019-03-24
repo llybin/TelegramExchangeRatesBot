@@ -356,10 +356,6 @@ def price_command(bot, update, args, chat_info, _):
 @chat_language
 def message_command(bot, update, chat_info, _):
     if not update.message:
-        if update.effective_message:
-            logging.warning("Empty message, effective_message: %r", update.effective_message.__dict__)
-        else:
-            logging.warning("Empty message, update: %r", update.__dict__)
         return
 
     price(bot, update, update.message.text, chat_info, _)
