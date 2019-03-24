@@ -406,6 +406,12 @@ def inline_query(bot, update, chat_info):
                     )
                 )
             )
+        write_request_log.delay(
+            chat_id=update.effective_user.id,
+            msg='',
+            created_at=datetime.now(),
+            tag='Inline'
+        )
         # TODO: increase counter what was chosen if it possible
     else:
         try:
