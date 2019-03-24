@@ -34,6 +34,12 @@ def register_update(func):
             # some users don't have locale
             language_code = settings.LANGUAGE_CODE
 
+        if 'zh' in language_code:
+            logging.info('ZH STAT: %s', language_code)
+
+        if language_code not in translations and language_code[:2] not in translations:
+            logging.info('NO TRANSLATIONS STAT: %s', language_code)
+
         db_session = Session()
         chat = db_session.query(Chat).filter_by(id=chat_id).first()
 
