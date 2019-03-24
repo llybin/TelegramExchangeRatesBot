@@ -6,6 +6,8 @@ import transaction
 from pyramid_sqlalchemy import Session
 from sqlalchemy.exc import IntegrityError
 
+from suite.conf import settings
+
 from app import translations
 from .helpers import convert_locale
 from .models import Chat
@@ -31,10 +33,8 @@ def register_update(func):
 
         db_session = Session()
         chat = db_session.query(Chat).filter_by(id=chat_id).first()
-        chat_created = False
 
         if not chat:
-            chat_created = True
             chat = Chat(
                 id=chat_id,
                 first_name=update.message.from_user.first_name if chat_id > 0 else None,
@@ -45,12 +45,28 @@ def register_update(func):
             db_session.add(chat)
             try:
                 transaction.commit()
-                db_session.refresh(chat)
+                kwargs['chat_info'] = {
+                    'chat_id': chat_id,
+                    'created': True,
+                    'locale': convert_locale(language_code),
+                    'is_subscribed': True,
+                    'is_console_mode': False if chat_id > 0 else True,
+                    'default_currency': settings.DEFAULT_CURRENCY,
+                    'default_currency_position': settings.DEFAULT_CURRENCY_POSITION,
+                }
             except IntegrityError:
                 logging.exception("Error create chat, chat exists")
                 transaction.abort()
-                chat_created = False
                 chat = db_session.query(Chat).filter_by(id=chat_id).one()
+                kwargs['chat_info'] = {
+                    'chat_id': chat.id,
+                    'created': False,
+                    'locale': convert_locale(language_code),
+                    'is_subscribed': chat.is_subscribed,
+                    'is_console_mode': chat.is_console_mode,
+                    'default_currency': chat.default_currency,
+                    'default_currency_position': chat.default_currency_position,
+                }
         else:
             update_chat.delay(
                 chat_id=chat.id,
@@ -58,15 +74,15 @@ def register_update(func):
                 username=chat.username,
                 locale=chat.locale)
 
-        kwargs['chat_info'] = {
-            'chat_id': chat.id,
-            'created': chat_created,
-            'locale': convert_locale(language_code),
-            'is_subscribed': chat.is_subscribed,
-            'is_console_mode': chat.is_console_mode,
-            'default_currency': chat.default_currency,
-            'default_currency_position': chat.default_currency_position,
-        }
+            kwargs['chat_info'] = {
+                'chat_id': chat.id,
+                'created': False,
+                'locale': convert_locale(language_code),
+                'is_subscribed': chat.is_subscribed,
+                'is_console_mode': chat.is_console_mode,
+                'default_currency': chat.default_currency,
+                'default_currency_position': chat.default_currency_position,
+            }
 
         return func(bot, update, *args, **kwargs)
 
