@@ -5,9 +5,12 @@ from celery import Celery
 from pyramid_sqlalchemy import init_sqlalchemy
 from sqlalchemy import create_engine
 
+from . import sentry_before_send
+
 if settings.SENTRY_URL:
     sentry_sdk.init(
         dsn=settings.SENTRY_URL,
+        before_send=sentry_before_send,
         integrations=[CeleryIntegration()]
     )
 

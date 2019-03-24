@@ -3,7 +3,6 @@ import logging
 
 import sentry_sdk
 import transaction
-from sentry_sdk.integrations.logging import LoggingIntegration
 from pyramid_sqlalchemy import init_sqlalchemy, Session
 from telegram import (
     InlineQueryResultArticle,
@@ -23,6 +22,7 @@ from telegram.ext import (
 from sqlalchemy import create_engine
 from suite.conf import settings
 
+from . import sentry_before_send
 from .decorators import register_update, chat_language
 from .converter.formatter import FormatPriceRequestResult, InlineFormatPriceRequestResult
 from .converter.converter import convert
@@ -466,13 +466,9 @@ def error_handler(bot, update, err):
 
 def main():
     if settings.SENTRY_URL:
-        sentry_logging = LoggingIntegration(
-            level=logging.INFO,  # Capture info and above as breadcrumbs
-            event_level=logging.ERROR  # Send errors as events
-        )
         sentry_sdk.init(
             dsn=settings.SENTRY_URL,
-            integrations=[sentry_logging]
+            before_send=sentry_before_send
         )
 
     db_engine = create_engine(settings.DATABASE['url'])
