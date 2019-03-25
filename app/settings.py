@@ -56,13 +56,13 @@ CELERYBEAT_SCHEDULE = {
     },
     'exchange_updater_OpenExchangeRatesExchange': {
         'task': 'app.tasks.exchange_updater',
-        'schedule': crontab(minute=0, hour='*/1'),
+        'schedule': crontab(minute=1, hour='*/1'),
         'args': ('app.exchanges.OpenExchangeRatesExchange',),
         'options': {'time_limit': 60, 'once': {'timeout': 60}}
     },
     'exchange_updater_FixerExchange': {
         'task': 'app.tasks.exchange_updater',
-        'schedule': crontab(minute=0, hour='*/1'),
+        'schedule': crontab(minute=1, hour='*/1'),
         'args': ('app.exchanges.FixerExchange',),
         'options': {'time_limit': 60, 'once': {'timeout': 60}}
     },
