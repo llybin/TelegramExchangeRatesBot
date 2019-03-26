@@ -383,12 +383,18 @@ def inline_query(bot, update, chat_info):
         results = []
 
         for r in last_requests:
-            price_request_result = convert(PriceRequest(
-                amount=None,
-                currency=r.from_currency.code,
-                to_currency=r.to_currency.code,
-                parser_name='InlineQuery',
-            ))
+            if not r.from_currency.is_active or not r.to_currency.is_active:
+                continue
+
+            try:
+                price_request_result = convert(PriceRequest(
+                    amount=None,
+                    currency=r.from_currency.code,
+                    to_currency=r.to_currency.code,
+                    parser_name='InlineQuery',
+                ))
+            except ConverterException:
+                continue
 
             title = InlineFormatPriceRequestResult(
                 price_request_result, chat_info['locale']).get()
