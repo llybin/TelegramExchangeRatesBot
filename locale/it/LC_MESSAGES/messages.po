@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Telegram Exchange Rates Bot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-26 19:10+0700\n"
+"POT-Creation-Date: 2019-03-26 21:06+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: it\n"
@@ -121,6 +121,22 @@ msgid ""
 msgstr ""
 "Ho capito quello che mi hai chiesto, ma al momento non posseggo un "
 "attuale cambio di tasso per la tua richiesta. Prova più tardi. Scusa! 😭"
+
+#: app/commands/setups.py:28
+msgid "Language"
+msgstr ""
+
+#: app/commands/setups.py:29
+msgid "Default currency"
+msgstr ""
+
+#: app/commands/setups.py:30
+msgid "Default currency position"
+msgstr ""
+
+#: app/commands/setups.py:31
+msgid "Close settings"
+msgstr ""
 
 #: app/commands/setups.py:33
 msgid "What do you want to set up?"
