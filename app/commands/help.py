@@ -30,8 +30,12 @@ def help_command(bot, update, chat_info, _):
     text_to += _('/stop - Unsubscribe')
 
     text_to += '\n\n'
-    text_to += _("Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)") % {
+    text_to += _("Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)") % {  # NOQA
         'trans_link': 'https://poeditor.com/join/project/LLu8AztSPb'}
+
+    text_to += '\n\n'
+    text_to += '[ExchangeRatesBotNews](%(link)s) - subscribe to channel, stay tuned news.' % {
+        'link': 'https://t.me/ExchangeRatesBotNews'}
 
     text_to += '\n\n'
     text_to += '''SSD cloud servers in regions: New York, San Francisco, Amsterdam, Singapore, London, Frankfurt, Toronto, Bangalore.

@@ -7,6 +7,7 @@
 * added Indonesia locale, thanks :)
 * /settings command, only for private chats: language, default currency settings
 * fixes and improvements
+* [ExchangeRatesBotNews](https://t.me/ExchangeRatesBotNews) - subscribe to channel, stay tuned news.
 
 ##### 1.0
 First public release
