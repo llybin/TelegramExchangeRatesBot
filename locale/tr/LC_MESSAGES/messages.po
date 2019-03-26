@@ -1,134 +1,198 @@
+
 msgid ""
 msgstr ""
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: POEditor.com\n"
 "Project-Id-Version: Telegram Exchange Rates Bot\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-03-26 19:10+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: tr\n"
+"Language-Team: tr <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
 
-#: app/main.py:40
-msgid "I am bot. I will help you to know a current exchange rates."
-msgstr "Ben bir Bot'um. Güncel döviz kurlarını bilmenize yardımcı olacağım."
+#: app/commands/disclaimers.py:9
+msgid ""
+"Data is provided by financial exchanges and may be delayed as specified "
+"by financial exchanges or our data providers. Bot does not verify any "
+"data and disclaims any obligation to do so. Bot cannot guarantee the "
+"accuracy of the exchange rates displayed. You should confirm current "
+"rates before making any transactions that could be affected by changes in"
+" the exchange rates."
+msgstr ""
+"Veriler finansal borsalar tarafından sağlanır ve finansal borsalar veya "
+"veri sağlayıcılarımız tarafından belirtildiği şekilde ertelenebilir. Bot "
+"hiçbir veriyi doğrulamaz ve böyle bir yükümlülüğü de reddeder. Bot, "
+"görüntülenen döviz kurlarının doğruluğunu garanti edemez. Döviz "
+"kurlarındaki değişikliklerden etkilenebilecek işlemleri yapmadan önce "
+"mevcut fiyatları doğrulamanız gerekir."
 
-#: app/main.py:44
-msgid "Send me a message like this:\n"
-"    *BTC USD* - to see the current exchange rate for pair\n"
-"    *100 USD EUR* - to convert the amount from 100 USD to EUR"
-msgstr "Şöyle bir mesaj gönderin:\n"
-"    *BTC USD* - Mevcut döviz kurunu görmek için\n"
-"    *100 USD EUR* - 100 USD'yi EUR’ya çevirmek için"
-
-#: app/main.py:49
-msgid "Just text me message in private chat."
-msgstr "Bana özel mesaj at."
-
-#: app/main.py:52
-msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
-msgstr "Grup sohbetlerinde şöyle komutlar kullanın: 👉 /p USD EUR 👈  veya basitçe  /USDEUR"
-
-#: app/main.py:57
-msgid "Inline mode is available. See how to use [here](%(link)s)."
-msgstr "Inline (satıriçi) modu kullanılabilir durumda. [buradan](%(link)s) nasıl kullanılacağını görün."
-
-#: app/main.py:62
-msgid "Also take a look here 👉 /help"
-msgstr "Bir de şuraya gözat 👉 /help"
-
-#: app/main.py:71
-msgid "humans"
-msgstr "insanlar"
-
-#: app/main.py:73
-msgid "Hello, %(name)s!"
-msgstr "Merhaba, %(name)s!"
-
-#: app/main.py:86
-msgid "Have any question how to talk with me? 👉 /tutorial"
-msgstr "Benimle nasıl konuşacağınızı merak ediyorsanız 👉 /tutorial"
-
-#: app/main.py:105
-msgid "You're unsubscribed. You always can subscribe again 👉 /start"
-msgstr "Abonelikten çıktınız. Her zaman tekrardan abone olabilirsiniz 👉 /start"
-
-#: app/main.py:112
-msgid "*Commands*"
-msgstr "*Komutlar*"
-
-#: app/main.py:115
-msgid "/start - Start to enslave mankind"
-msgstr "/start - İnsanlığı köleleştirmeye başla"
-
-#: app/main.py:117
-msgid "/tutorial - Tutorial, how to talk with me"
-msgstr "/tutorial - Tanıtım, benimle nasıl konuşulur"
-
-#: app/main.py:119
-msgid "/currencies - All currencies that I support"
-msgstr "/currencies - Desteklediğim tüm para birimleri"
-
-#: app/main.py:121
-msgid "/feedback - If you have suggestions, text me"
-msgstr "/feedback - Eğer tavsiyeleriniz varsa, bana yazın"
-
-#: app/main.py:123
-msgid "/keyboard - Hide / show a keyboard with request history"
-msgstr "/keyboard - İstek listesi ile klavyeyi Göster/Gizle"
-
-#: app/main.py:125
-msgid "/p - Command for group chats, get exchange rate"
-msgstr "/p - Grup için komutlar,  Döviz kurları al"
-
-#: app/main.py:127
-msgid "/sources - Currency rates sources"
-msgstr "/sources - Kur kaynakları"
-
-#: app/main.py:129
-msgid "/disclaimers - Disclaimers"
-msgstr "/disclaimer - Sorumluluk reddi"
-
-#: app/main.py:131
-msgid "/stop - Unsubscribe"
-msgstr "/stop - Abonelikten çık"
-
-#: app/main.py:134
-msgid "Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)"
-msgstr "Konumun eksik mi? Çeviri de hata mı var? Düzeltmemize yardımcı ol 👉 \n"
-" [poeditor.com](%(trans_link)s)"
-
-#: app/main.py:172
-msgid "Keyboard is shown."
-msgstr "Klayveyi göster."
-
-#: app/main.py:176
-msgid "Keyboard is hidden."
-msgstr "Klavyeyi gizle."
-
-#: app/main.py:180 app/main.py:194
+#: app/commands/feedback.py:15 app/commands/keyboard.py:16
+#: app/commands/setups.py:42
 msgid "The command is not available for group chats"
 msgstr "Bu komut grup sohbetlerinde kullanılamaz."
 
-#: app/main.py:197
+#: app/commands/feedback.py:21
 msgid "What do you want to tell? Or nothing?"
 msgstr "Neler söylemek istersin? Ya da söylememek?"
 
-#: app/main.py:210
+#: app/commands/feedback.py:29
 msgid "Message sent, thank you."
 msgstr "Mesaj gönderildi, teşekkürler."
 
-#: app/main.py:260
-msgid "Data is provided by financial exchanges and may be delayed as specified by financial exchanges or our data providers. Bot does not verify any data and disclaims any obligation to do so. Bot cannot guarantee the accuracy of the exchange rates displayed. You should confirm current rates before making any transactions that could be affected by changes in the exchange rates."
-msgstr "Veriler finansal borsalar tarafından sağlanır ve finansal borsalar veya veri sağlayıcılarımız tarafından belirtildiği şekilde ertelenebilir. Bot hiçbir veriyi doğrulamaz ve böyle bir yükümlülüğü de reddeder. Bot, görüntülenen döviz kurlarının doğruluğunu garanti edemez. Döviz kurlarındaki değişikliklerden etkilenebilecek işlemleri yapmadan önce mevcut fiyatları doğrulamanız gerekir."
+#: app/commands/help.py:9
+msgid "*Commands*"
+msgstr "*Komutlar*"
 
-#: app/main.py:305
+#: app/commands/help.py:12
+msgid "/start - Start to enslave mankind"
+msgstr "/start - İnsanlığı köleleştirmeye başla"
+
+#: app/commands/help.py:14
+msgid "/tutorial - Tutorial, how to talk with me"
+msgstr "/tutorial - Tanıtım, benimle nasıl konuşulur"
+
+#: app/commands/help.py:16
+msgid "/currencies - All currencies that I support"
+msgstr "/currencies - Desteklediğim tüm para birimleri"
+
+#: app/commands/help.py:18
+msgid "/feedback - If you have suggestions, text me"
+msgstr "/feedback - Eğer tavsiyeleriniz varsa, bana yazın"
+
+#: app/commands/help.py:20
+msgid "/keyboard - Hide / show a keyboard with request history"
+msgstr "/keyboard - İstek listesi ile klavyeyi Göster/Gizle"
+
+#: app/commands/help.py:22
+msgid "/p - Command for group chats, get exchange rate"
+msgstr "/p - Grup için komutlar,  Döviz kurları al"
+
+#: app/commands/help.py:24
+msgid "/sources - Currency rates sources"
+msgstr "/sources - Kur kaynakları"
+
+#: app/commands/help.py:26
+msgid "/settings - Bot personal settings"
+msgstr ""
+
+#: app/commands/help.py:28
+msgid "/disclaimers - Disclaimers"
+msgstr "/disclaimer - Sorumluluk reddi"
+
+#: app/commands/help.py:30
+msgid "/stop - Unsubscribe"
+msgstr "/stop - Abonelikten çık"
+
+#: app/commands/help.py:33
+#, python-format
+msgid ""
+"Don't have your localization? Any translation errors? Help fix it 👉 "
+"[poeditor.com](%(trans_link)s)"
+msgstr ""
+"Konumun eksik mi? Çeviri de hata mı var? Düzeltmemize yardımcı ol 👉 \n"
+" [poeditor.com](%(trans_link)s)"
+
+#: app/commands/keyboard.py:25
+msgid "Keyboard is shown."
+msgstr "Klayveyi göster."
+
+#: app/commands/keyboard.py:29
+msgid "Keyboard is hidden."
+msgstr "Klavyeyi gizle."
+
+#: app/commands/price.py:60
 msgid "The message must contain currencies or amounts 👉 /tutorial"
 msgstr "Mesajınız para birimlerini ya da miktarlarını içermelidir 👉 /tutorial"
 
-#: app/main.py:309
+#: app/commands/price.py:65
 msgid "I don't understand you 😞 Take a look here 👉 /help"
 msgstr "Seni anlayamadım 😔 Lütfen şuraya bir gözat 👉 /help"
 
-#: app/main.py:313
-msgid "I understood that you asked, but at the moment I don't have actual exchange rates for your request. Try later. Sorry. 😭"
-msgstr "Sorunu anladım ancak şu anda bende talep ettiğin kur bilgisi mevcut değil. Daha sonra tekrar dene. Üzgünüm. 😭"
+#: app/commands/price.py:70
+msgid ""
+"I understood that you asked, but at the moment I don't have actual "
+"exchange rates for your request. Try later. Sorry. 😭"
+msgstr ""
+"Sorunu anladım ancak şu anda bende talep ettiğin kur bilgisi mevcut "
+"değil. Daha sonra tekrar dene. Üzgünüm. 😭"
+
+#: app/commands/setups.py:33
+msgid "What do you want to set up?"
+msgstr ""
+
+#: app/commands/setups.py:53 app/commands/setups.py:83
+#, python-format
+msgid "*%(language)s* is your language now."
+msgstr ""
+
+#: app/commands/setups.py:55 app/commands/setups.py:101
+#: app/commands/setups.py:159
+msgid "If you'd like to change send me new or /back"
+msgstr ""
+
+#: app/commands/setups.py:99 app/commands/setups.py:135
+#, python-format
+msgid "*%(default_currency)s* is your default currency."
+msgstr ""
+
+#: app/commands/setups.py:157 app/commands/setups.py:196
+#, python-format
+msgid "*%(position)s* - position where your default currency will be added."
+msgstr ""
+
+#: app/commands/start.py:16
+msgid "humans"
+msgstr "insanlar"
+
+#: app/commands/start.py:20
+#, python-format
+msgid "Hello, %(name)s!"
+msgstr "Merhaba, %(name)s!"
+
+#: app/commands/start.py:35
+msgid "Have any question how to talk with me? 👉 /tutorial"
+msgstr "Benimle nasıl konuşacağınızı merak ediyorsanız 👉 /tutorial"
+
+#: app/commands/stop.py:19
+msgid "You're unsubscribed. You always can subscribe again 👉 /start"
+msgstr "Abonelikten çıktınız. Her zaman tekrardan abone olabilirsiniz 👉 /start"
+
+#: app/commands/tutorial.py:10
+msgid "I am bot. I will help you to know a current exchange rates."
+msgstr "Ben bir Bot'um. Güncel döviz kurlarını bilmenize yardımcı olacağım."
+
+#: app/commands/tutorial.py:15
+msgid ""
+"Send me a message like this:\n"
+"    *BTC USD* - to see the current exchange rate for pair\n"
+"    *100 USD EUR* - to convert the amount from 100 USD to EUR"
+msgstr ""
+"Şöyle bir mesaj gönderin:\n"
+"    *BTC USD* - Mevcut döviz kurunu görmek için\n"
+"    *100 USD EUR* - 100 USD'yi EUR’ya çevirmek için"
+
+#: app/commands/tutorial.py:21
+msgid "Just text me message in private chat."
+msgstr "Bana özel mesaj at."
+
+#: app/commands/tutorial.py:25
+msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
+msgstr ""
+"Grup sohbetlerinde şöyle komutlar kullanın: 👉 /p USD EUR 👈  veya basitçe"
+"  /USDEUR"
+
+#: app/commands/tutorial.py:31
+#, python-format
+msgid "Inline mode is available. See how to use [here](%(link)s)."
+msgstr ""
+"Inline (satıriçi) modu kullanılabilir durumda. [buradan](%(link)s) nasıl "
+"kullanılacağını görün."
+
+#: app/commands/tutorial.py:37
+msgid "Also take a look here 👉 /help"
+msgstr "Bir de şuraya gözat 👉 /help"
 

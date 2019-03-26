@@ -1,134 +1,195 @@
+
 msgid ""
 msgstr ""
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: POEditor.com\n"
 "Project-Id-Version: Telegram Exchange Rates Bot\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-03-26 19:10+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
 
-#: app/main.py:40
-msgid "I am bot. I will help you to know a current exchange rates."
-msgstr "Я бот. Я буду помогать тебе быть в курсе текущих курсов валют."
+#: app/commands/disclaimers.py:9
+msgid ""
+"Data is provided by financial exchanges and may be delayed as specified "
+"by financial exchanges or our data providers. Bot does not verify any "
+"data and disclaims any obligation to do so. Bot cannot guarantee the "
+"accuracy of the exchange rates displayed. You should confirm current "
+"rates before making any transactions that could be affected by changes in"
+" the exchange rates."
+msgstr ""
+"Данные предоставляются финансовыми биржами и могут быть задержаны "
+"финансовыми биржами или нашими поставщиками данных. Бот не проверяет "
+"какие-либо данные и отказывается от каких-либо обязательств сделать это. "
+"Бот не может гарантировать точность отображаемых обменных курсов. Вам "
+"следует подтвердить текущие курсы, прежде чем совершать какие-либо "
+"транзакции, на которые могут повлиять изменения курсов валют."
 
-#: app/main.py:44
-msgid "Send me a message like this:\n"
-"    *BTC USD* - to see the current exchange rate for pair\n"
-"    *100 USD EUR* - to convert the amount from 100 USD to EUR"
-msgstr "Отправь мне сообщение, например:\n"
-"    *BTC USD* - посмотреть текущий курс для пары\n"
-"    *100 USD EUR* - конвертировать значение из 100 USD в EUR"
-
-#: app/main.py:49
-msgid "Just text me message in private chat."
-msgstr "Просто напиши мне в личном чате.\n"
-""
-
-#: app/main.py:52
-msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
-msgstr "В групповых чатах используй эту команду: 👉 /p USD EUR 👈 или просто /USDEUR"
-
-#: app/main.py:57
-msgid "Inline mode is available. See how to use [here](%(link)s)."
-msgstr "Доступен inline режим. Смотри как использовать [здесь](%(link)s)."
-
-#: app/main.py:62
-msgid "Also take a look here 👉 /help"
-msgstr "Также взгляни сюда 👉 /help"
-
-#: app/main.py:71
-msgid "humans"
-msgstr "человеки"
-
-#: app/main.py:73
-msgid "Hello, %(name)s!"
-msgstr "Привет, %(name)s!"
-
-#: app/main.py:86
-msgid "Have any question how to talk with me? 👉 /tutorial"
-msgstr "Есть не понимание как общаться со мной? 👉 /tutorial"
-
-#: app/main.py:105
-msgid "You're unsubscribed. You always can subscribe again 👉 /start"
-msgstr "Ты отписался. Ты всегда можешь снова подписаться 👉 /start"
-
-#: app/main.py:112
-msgid "*Commands*"
-msgstr "*Команды*"
-
-#: app/main.py:115
-msgid "/start - Start to enslave mankind"
-msgstr "/start - Начать порабощать человечество"
-
-#: app/main.py:117
-msgid "/tutorial - Tutorial, how to talk with me"
-msgstr "/tutorial - Руководство, как общаться со мной"
-
-#: app/main.py:119
-msgid "/currencies - All currencies that I support"
-msgstr "/currencies - Все валюты, которые я поддерживаю"
-
-#: app/main.py:121
-msgid "/feedback - If you have suggestions, text me"
-msgstr "/feedback - Если есть предложения, напиши мне"
-
-#: app/main.py:123
-msgid "/keyboard - Hide / show a keyboard with request history"
-msgstr "/keyboard - Скрыть / показать клавиатуру с историей запросов"
-
-#: app/main.py:125
-msgid "/p - Command for group chats, get exchange rate"
-msgstr "/p - Команда для групповых чатов, получить обменный курс"
-
-#: app/main.py:127
-msgid "/sources - Currency rates sources"
-msgstr "/sources - Источники курсов валют"
-
-#: app/main.py:129
-msgid "/disclaimers - Disclaimers"
-msgstr "/disclaimers - Отказ от ответственности"
-
-#: app/main.py:131
-msgid "/stop - Unsubscribe"
-msgstr "/stop - Отписаться"
-
-#: app/main.py:134
-msgid "Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)"
-msgstr "Нет твоей локализации? Ошибки в переводе? Помоги исправить это! 👉 [poeditor.com](%(trans_link)s)"
-
-#: app/main.py:172
-msgid "Keyboard is shown."
-msgstr "Клавиатура отображена."
-
-#: app/main.py:176
-msgid "Keyboard is hidden."
-msgstr "Клавиатура скрыта."
-
-#: app/main.py:180 app/main.py:194
+#: app/commands/feedback.py:15 app/commands/keyboard.py:16
+#: app/commands/setups.py:42
 msgid "The command is not available for group chats"
 msgstr "Команда не доступна для групповых чатов"
 
-#: app/main.py:197
+#: app/commands/feedback.py:21
 msgid "What do you want to tell? Or nothing?"
 msgstr "Что вы хотите мне сообщить? Или ничего?"
 
-#: app/main.py:210
+#: app/commands/feedback.py:29
 msgid "Message sent, thank you."
 msgstr "Сообщение отправлено, благодарю."
 
-#: app/main.py:260
-msgid "Data is provided by financial exchanges and may be delayed as specified by financial exchanges or our data providers. Bot does not verify any data and disclaims any obligation to do so. Bot cannot guarantee the accuracy of the exchange rates displayed. You should confirm current rates before making any transactions that could be affected by changes in the exchange rates."
-msgstr "Данные предоставляются финансовыми биржами и могут быть задержаны финансовыми биржами или нашими поставщиками данных. Бот не проверяет какие-либо данные и отказывается от каких-либо обязательств сделать это. Бот не может гарантировать точность отображаемых обменных курсов. Вам следует подтвердить текущие курсы, прежде чем совершать какие-либо транзакции, на которые могут повлиять изменения курсов валют."
+#: app/commands/help.py:9
+msgid "*Commands*"
+msgstr "*Команды*"
 
-#: app/main.py:305
+#: app/commands/help.py:12
+msgid "/start - Start to enslave mankind"
+msgstr "/start - Начать порабощать человечество"
+
+#: app/commands/help.py:14
+msgid "/tutorial - Tutorial, how to talk with me"
+msgstr "/tutorial - Руководство, как общаться со мной"
+
+#: app/commands/help.py:16
+msgid "/currencies - All currencies that I support"
+msgstr "/currencies - Все валюты, которые я поддерживаю"
+
+#: app/commands/help.py:18
+msgid "/feedback - If you have suggestions, text me"
+msgstr "/feedback - Если есть предложения, напиши мне"
+
+#: app/commands/help.py:20
+msgid "/keyboard - Hide / show a keyboard with request history"
+msgstr "/keyboard - Скрыть / показать клавиатуру с историей запросов"
+
+#: app/commands/help.py:22
+msgid "/p - Command for group chats, get exchange rate"
+msgstr "/p - Команда для групповых чатов, получить обменный курс"
+
+#: app/commands/help.py:24
+msgid "/sources - Currency rates sources"
+msgstr "/sources - Источники курсов валют"
+
+#: app/commands/help.py:26
+msgid "/settings - Bot personal settings"
+msgstr ""
+
+#: app/commands/help.py:28
+msgid "/disclaimers - Disclaimers"
+msgstr "/disclaimers - Отказ от ответственности"
+
+#: app/commands/help.py:30
+msgid "/stop - Unsubscribe"
+msgstr "/stop - Отписаться"
+
+#: app/commands/help.py:33
+#, python-format
+msgid ""
+"Don't have your localization? Any translation errors? Help fix it 👉 "
+"[poeditor.com](%(trans_link)s)"
+msgstr ""
+"Нет твоей локализации? Ошибки в переводе? Помоги исправить это! 👉 "
+"[poeditor.com](%(trans_link)s)"
+
+#: app/commands/keyboard.py:25
+msgid "Keyboard is shown."
+msgstr "Клавиатура отображена."
+
+#: app/commands/keyboard.py:29
+msgid "Keyboard is hidden."
+msgstr "Клавиатура скрыта."
+
+#: app/commands/price.py:60
 msgid "The message must contain currencies or amounts 👉 /tutorial"
 msgstr "Сообщение должно содержать валюты или значения 👉 /tutorial"
 
-#: app/main.py:309
+#: app/commands/price.py:65
 msgid "I don't understand you 😞 Take a look here 👉 /help"
 msgstr "Я не понимаю тебя 😞 Взгляни сюда 👉 /help"
 
-#: app/main.py:313
-msgid "I understood that you asked, but at the moment I don't have actual exchange rates for your request. Try later. Sorry. 😭"
-msgstr "Я понял, что ты спросил, но, в данный момент, у меня нет актуальных обменных курсов на твой запрос. Попробуй позже. Сорян. 😭"
+#: app/commands/price.py:70
+msgid ""
+"I understood that you asked, but at the moment I don't have actual "
+"exchange rates for your request. Try later. Sorry. 😭"
+msgstr ""
+"Я понял, что ты спросил, но, в данный момент, у меня нет актуальных "
+"обменных курсов на твой запрос. Попробуй позже. Сорян. 😭"
+
+#: app/commands/setups.py:33
+msgid "What do you want to set up?"
+msgstr ""
+
+#: app/commands/setups.py:53 app/commands/setups.py:83
+#, python-format
+msgid "*%(language)s* is your language now."
+msgstr ""
+
+#: app/commands/setups.py:55 app/commands/setups.py:101
+#: app/commands/setups.py:159
+msgid "If you'd like to change send me new or /back"
+msgstr ""
+
+#: app/commands/setups.py:99 app/commands/setups.py:135
+#, python-format
+msgid "*%(default_currency)s* is your default currency."
+msgstr ""
+
+#: app/commands/setups.py:157 app/commands/setups.py:196
+#, python-format
+msgid "*%(position)s* - position where your default currency will be added."
+msgstr ""
+
+#: app/commands/start.py:16
+msgid "humans"
+msgstr "человеки"
+
+#: app/commands/start.py:20
+#, python-format
+msgid "Hello, %(name)s!"
+msgstr "Привет, %(name)s!"
+
+#: app/commands/start.py:35
+msgid "Have any question how to talk with me? 👉 /tutorial"
+msgstr "Есть не понимание как общаться со мной? 👉 /tutorial"
+
+#: app/commands/stop.py:19
+msgid "You're unsubscribed. You always can subscribe again 👉 /start"
+msgstr "Ты отписался. Ты всегда можешь снова подписаться 👉 /start"
+
+#: app/commands/tutorial.py:10
+msgid "I am bot. I will help you to know a current exchange rates."
+msgstr "Я бот. Я буду помогать тебе быть в курсе текущих курсов валют."
+
+#: app/commands/tutorial.py:15
+msgid ""
+"Send me a message like this:\n"
+"    *BTC USD* - to see the current exchange rate for pair\n"
+"    *100 USD EUR* - to convert the amount from 100 USD to EUR"
+msgstr ""
+"Отправь мне сообщение, например:\n"
+"    *BTC USD* - посмотреть текущий курс для пары\n"
+"    *100 USD EUR* - конвертировать значение из 100 USD в EUR"
+
+#: app/commands/tutorial.py:21
+msgid "Just text me message in private chat."
+msgstr "Просто напиши мне в личном чате.\n"
+
+#: app/commands/tutorial.py:25
+msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
+msgstr "В групповых чатах используй эту команду: 👉 /p USD EUR 👈 или просто /USDEUR"
+
+#: app/commands/tutorial.py:31
+#, python-format
+msgid "Inline mode is available. See how to use [here](%(link)s)."
+msgstr "Доступен inline режим. Смотри как использовать [здесь](%(link)s)."
+
+#: app/commands/tutorial.py:37
+msgid "Also take a look here 👉 /help"
+msgstr "Также взгляни сюда 👉 /help"
 
