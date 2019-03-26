@@ -101,12 +101,15 @@ def main():
                 RegexHandler(r"^4:", cancel_command),
             ],
             SettingsSteps.language: [
+                CommandHandler('back', settings_commands),
                 MessageHandler(Filters.text, settings_language_set_commands)
             ],
             SettingsSteps.default_currency: [
+                CommandHandler('back', settings_commands),
                 MessageHandler(Filters.text, settings_default_currency_set_commands)
             ],
             SettingsSteps.default_currency_position: [
+                CommandHandler('back', settings_commands),
                 MessageHandler(Filters.text, settings_default_currency_position_set_commands)
             ],
         },

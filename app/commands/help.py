@@ -23,6 +23,8 @@ def help_command(bot, update, chat_info, _):
     text_to += '\n'
     text_to += _('/sources - Currency rates sources')
     text_to += '\n'
+    text_to += _('/settings - Bot personal settings')
+    text_to += '\n'
     text_to += _('/disclaimers - Disclaimers')
     text_to += '\n'
     text_to += _('/stop - Unsubscribe')

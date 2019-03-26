@@ -3,13 +3,11 @@ from enum import Enum
 import transaction
 from pyramid_sqlalchemy import Session
 from telegram import ReplyKeyboardMarkup, ParseMode, ReplyKeyboardRemove
-from telegram.ext import ConversationHandler
 from suite.conf import settings
 
 from .. import translations
 from app.decorators import register_update, chat_language
-from app.logic import get_keyboard
-from app.models import Chat
+from app.models import Chat, Currency
 
 
 class SettingsSteps(Enum):
@@ -20,8 +18,19 @@ class SettingsSteps(Enum):
 
 
 LANGUAGES_LIST = list(map(lambda x: [x], sorted(settings.LANGUAGES_NAME.keys())))
+LOCALE_NAME = {v: k for k, v in settings.LANGUAGES_NAME.items()}
 
-# TODO: back previous step
+
+def main_menu(bot, update, chat_info, _):
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        reply_markup=ReplyKeyboardMarkup([
+            [f'1: {_("Language")}'],
+            [f'2: {_("Default currency")}'],
+            [f'3: {_("Default currency position")}'],
+            [f'4: {_("Close settings")}']
+        ]),
+        text=_('What do you want to set up?'))
 
 
 @register_update
@@ -33,15 +42,7 @@ def settings_commands(bot, update, chat_info, _):
         update.message.reply_text(_("The command is not available for group chats"))
         return
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        reply_markup=ReplyKeyboardMarkup([
-            [f'1: {_("Language")}'],
-            [f'2: {_("Default currency")}'],
-            [f'3: {_("Default currency position")}'],
-            [f'4: {_("Close settings")}']
-        ]),
-        text=_('What do you want to set up?'))
+    main_menu(bot, update, chat_info, _)
 
     return SettingsSteps.settings
 
@@ -50,8 +51,8 @@ def settings_commands(bot, update, chat_info, _):
 @chat_language
 def settings_language_commands(bot, update, chat_info, _):
     text_to = _('*%(language)s* is your language now.') % {
-        'language': chat_info['locale']}
-    text_to += ' ' + _('If you\'d like to change send me new or /cancel')
+        'language': LOCALE_NAME[chat_info['locale']]}
+    text_to += ' ' + _('If you\'d like to change send me new or /back')
 
     bot.send_message(
         chat_id=update.message.chat_id,
@@ -65,8 +66,10 @@ def settings_language_commands(bot, update, chat_info, _):
 @register_update
 def settings_language_set_commands(bot, update, chat_info):
     if update.message.text not in settings.LANGUAGES_NAME:
-        # TODO
-        return ConversationHandler.END
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text='🧐')
+        return SettingsSteps.language
     else:
         locale = settings.LANGUAGES_NAME[update.message.text]
 
@@ -77,15 +80,17 @@ def settings_language_set_commands(bot, update, chat_info):
     transaction.commit()
 
     _ = translations[locale].gettext
-    text_to = _('*%(language)s* is your language now.') % {'language': locale}
+    text_to = _('*%(language)s* is your language now.') % {'language': LOCALE_NAME[locale]}
 
     bot.send_message(
         chat_id=update.message.chat_id,
         parse_mode=ParseMode.MARKDOWN,
-        reply_markup=get_keyboard(update.message.chat_id),
+        reply_markup=ReplyKeyboardRemove(),
         text=text_to)
 
-    return ConversationHandler.END
+    main_menu(bot, update, chat_info, _)
+
+    return SettingsSteps.settings
 
 
 @register_update
@@ -93,7 +98,7 @@ def settings_language_set_commands(bot, update, chat_info):
 def settings_default_currency_commands(bot, update, chat_info, _):
     text_to = _('*%(default_currency)s* is your default currency.') % {
         'default_currency': chat_info['default_currency']}
-    text_to += ' ' + _('If you\'d like to change send me new or /cancel')
+    text_to += ' ' + _('If you\'d like to change send me new or /back')
 
     bot.send_message(
         chat_id=update.message.chat_id,
@@ -107,25 +112,38 @@ def settings_default_currency_commands(bot, update, chat_info, _):
 @register_update
 @chat_language
 def settings_default_currency_set_commands(bot, update, chat_info, _):
-    new_default_currency = update.message.text.upper()
-    # TODO: check exists new_default_currency
+    currency_code = update.message.text.upper()
 
     db_session = Session()
+
+    currency = db_session.query(Currency).filter_by(
+        code=currency_code,
+        is_active=True
+    ).first()
+
+    if not currency:
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text='🧐')
+        return SettingsSteps.default_currency
+
     db_session.query(Chat).filter_by(
         id=update.message.chat_id
-    ).update({'default_currency': new_default_currency})
+    ).update({'default_currency': currency_code})
     transaction.commit()
 
     text_to = _('*%(default_currency)s* is your default currency.') % {
-        'default_currency': new_default_currency}
+        'default_currency': currency_code}
 
     bot.send_message(
         chat_id=update.message.chat_id,
         parse_mode=ParseMode.MARKDOWN,
-        reply_markup=get_keyboard(update.message.chat_id),
+        reply_markup=ReplyKeyboardRemove(),
         text=text_to)
 
-    return ConversationHandler.END
+    main_menu(bot, update, chat_info, _)
+
+    return SettingsSteps.settings
 
 
 @register_update
@@ -138,7 +156,7 @@ def settings_default_currency_position_commands(bot, update, chat_info, _):
 
     text_to = _('*%(position)s* - position where your default currency will be added.') % {
         'position': position}
-    text_to += ' ' + _('If you\'d like to change send me new or /cancel')
+    text_to += ' ' + _('If you\'d like to change send me new or /back')
 
     bot.send_message(
         chat_id=update.message.chat_id,
@@ -159,8 +177,10 @@ def settings_default_currency_position_set_commands(bot, update, chat_info, _):
     elif update.message.text.startswith('___'):
         default_currency_position = True
     else:
-        # TODO:
-        return ConversationHandler.END
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text='🧐')
+        return SettingsSteps.default_currency_position
 
     if default_currency_position:
         position = f'___{chat_info["default_currency"]}'
@@ -179,7 +199,9 @@ def settings_default_currency_position_set_commands(bot, update, chat_info, _):
     bot.send_message(
         chat_id=update.message.chat_id,
         parse_mode=ParseMode.MARKDOWN,
-        reply_markup=get_keyboard(update.message.chat_id),
+        reply_markup=ReplyKeyboardRemove(),
         text=text_to)
 
-    return ConversationHandler.END
+    main_menu(bot, update, chat_info, _)
+
+    return SettingsSteps.settings
