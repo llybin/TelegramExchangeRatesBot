@@ -86,8 +86,15 @@ def chat_language(func):
         language_code = kwargs['chat_info']['locale']
 
         if language_code in translations:
-            locale = language_code
-            _ = translations[locale].gettext
+            _ = translations[language_code].gettext
+
+        elif language_code[:2] in translations:
+            # en-us
+            _ = translations[language_code[:2]].gettext
+
+        elif language_code[:7] in translations:
+            # zh-hans-sg
+            _ = translations[language_code[:7]].gettext
 
         else:
             logging.info('No translations for language: %s', language_code)
