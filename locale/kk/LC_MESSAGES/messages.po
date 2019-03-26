@@ -1,47 +1,55 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version: Telegram Exchange Rates Bot\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-26 19:10+0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: kk\n"
-"Language-Team: kk <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Telegram Exchange Rates Bot\n"
+"Language: kk\n"
 
-#: app/commands/disclaimers.py:9
-msgid ""
-"Data is provided by financial exchanges and may be delayed as specified "
-"by financial exchanges or our data providers. Bot does not verify any "
-"data and disclaims any obligation to do so. Bot cannot guarantee the "
-"accuracy of the exchange rates displayed. You should confirm current "
-"rates before making any transactions that could be affected by changes in"
-" the exchange rates."
-msgstr ""
-"Мәліметтерді қаржы биржалары ұсынған, сондықтан қаржы биржалар немесе "
-"біздің деректер провайдер ережелеріне сәйкес кешіктірілуі мүмкін. Бота еш"
-" деректерді растай алмайды және барлық міндеттемелерден бас тартады. Бота"
-" көрсетілген айырбастау курстарының нақтылығына кепіл бола алмайды. "
-"Айырбастау курстары әсер ету мүмкін кез келген операцияларды жүргізу "
-"алдында айырбастау курстарын тексеру қажет."
+#: app/commands/tutorial.py:10
+msgid "I am bot. I will help you to know a current exchange rates."
+msgstr "Мен ботпын. Сізге қазіргі айырбастау курсын көрсете аламын."
 
-#: app/commands/feedback.py:15 app/commands/keyboard.py:16
-#: app/commands/setups.py:42
-msgid "The command is not available for group chats"
-msgstr "Бұл команда топтық чаттарға қолданылмайды"
+#: app/commands/tutorial.py:15
+msgid "Send me a message like this:\n"
+"    *BTC USD* - to see the current exchange rate for pair\n"
+"    *100 USD EUR* - to convert the amount from 100 USD to EUR"
+msgstr "Маған төмендегідей хат жіберіңіз:\n"
+"    *BTC USD* - осы жұптың қазіргі айырбастау курсын көру үшін\n"
+"    *100 USD EUR* - 100 долларды евроға айырбастау үшін"
 
-#: app/commands/feedback.py:21
-msgid "What do you want to tell? Or nothing?"
-msgstr "Бірдеңе айтқыңыз келеді ме?"
+#: app/commands/tutorial.py:21
+msgid "Just text me message in private chat."
+msgstr "Жай ғана маған жеке чатқа хат жіберіңіз."
 
-#: app/commands/feedback.py:29
-msgid "Message sent, thank you."
-msgstr "Хат жіберілді, рахмет."
+#: app/commands/tutorial.py:25
+msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
+msgstr "Топтық чаттарда келесі командаларды жіберіңіз: 👉 /p USD EUR 👈 немесе /USDEUR"
+
+#: app/commands/tutorial.py:31
+msgid "Inline mode is available. See how to use [here](%(link)s)."
+msgstr "Біржолды режимі бар. [сілтемені](%(link)s) қолдану нұсқаулығы."
+
+#: app/commands/tutorial.py:37
+msgid "Also take a look here 👉 /help"
+msgstr "Осыны да қарап шығыңыз 👉 /help"
+
+#: app/commands/start.py:16
+msgid "humans"
+msgstr "адамдар"
+
+#: app/commands/start.py:20
+msgid "Hello, %(name)s!"
+msgstr "Сәлем, %(name)s!"
+
+#: app/commands/start.py:35
+msgid "Have any question how to talk with me? 👉 /tutorial"
+msgstr "Менімен әңгімелесу жөнінде сұрақтар бар ма? 👉 /tutorial"
+
+#: app/commands/stop.py:19
+msgid "You're unsubscribed. You always can subscribe again 👉 /start"
+msgstr "Жазылудан бас тарттыңыз. Сіз әрқашан қайта жазыла аласыз 👉 /start"
 
 #: app/commands/help.py:9
 msgid "*Commands*"
@@ -75,10 +83,6 @@ msgstr "/p - Топтық чаттарда айырбастау курсы үш�
 msgid "/sources - Currency rates sources"
 msgstr "/sources - Дереккөздер"
 
-#: app/commands/help.py:26
-msgid "/settings - Bot personal settings"
-msgstr ""
-
 #: app/commands/help.py:28
 msgid "/disclaimers - Disclaimers"
 msgstr "/disclaimers - Ескертпелер"
@@ -88,13 +92,8 @@ msgid "/stop - Unsubscribe"
 msgstr "/stop - Жазылудан бас тарту"
 
 #: app/commands/help.py:33
-#, python-format
-msgid ""
-"Don't have your localization? Any translation errors? Help fix it 👉 "
-"[poeditor.com](%(trans_link)s)"
-msgstr ""
-"Аударма қатесі бар ма? Қатені түзетуге көмектесіңіз 👉 "
-"[poeditor.com](%(trans_link)s)"
+msgid "Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)"
+msgstr "Аударма қатесі бар ма? Қатені түзетуге көмектесіңіз 👉 [poeditor.com](%(trans_link)s)"
 
 #: app/commands/keyboard.py:25
 msgid "Keyboard is shown."
@@ -103,6 +102,23 @@ msgstr "Пернетақта көрсетіледі."
 #: app/commands/keyboard.py:29
 msgid "Keyboard is hidden."
 msgstr "Пернетақта жасырылды."
+
+#: app/commands/feedback.py:15 app/commands/keyboard.py:16
+#: app/commands/setups.py:42
+msgid "The command is not available for group chats"
+msgstr "Бұл команда топтық чаттарға қолданылмайды"
+
+#: app/commands/feedback.py:21
+msgid "What do you want to tell? Or nothing?"
+msgstr "Бірдеңе айтқыңыз келеді ме?"
+
+#: app/commands/feedback.py:29
+msgid "Message sent, thank you."
+msgstr "Хат жіберілді, рахмет."
+
+#: app/commands/disclaimers.py:9
+msgid "Data is provided by financial exchanges and may be delayed as specified by financial exchanges or our data providers. Bot does not verify any data and disclaims any obligation to do so. Bot cannot guarantee the accuracy of the exchange rates displayed. You should confirm current rates before making any transactions that could be affected by changes in the exchange rates."
+msgstr "Мәліметтерді қаржы биржалары ұсынған, сондықтан қаржы биржалар немесе біздің деректер провайдер ережелеріне сәйкес кешіктірілуі мүмкін. Бота еш деректерді растай алмайды және барлық міндеттемелерден бас тартады. Бота көрсетілген айырбастау курстарының нақтылығына кепіл бола алмайды. Айырбастау курстары әсер ету мүмкін кез келген операцияларды жүргізу алдында айырбастау курстарын тексеру қажет."
 
 #: app/commands/price.py:60
 msgid "The message must contain currencies or amounts 👉 /tutorial"
@@ -113,84 +129,31 @@ msgid "I don't understand you 😞 Take a look here 👉 /help"
 msgstr "Сізді түсінбедім 😞 Осы жерге басыңыз 👉 /help"
 
 #: app/commands/price.py:70
-msgid ""
-"I understood that you asked, but at the moment I don't have actual "
-"exchange rates for your request. Try later. Sorry. 😭"
-msgstr ""
-"Мен Сізді түсіндім, бірақ қазір менде Сіздің сұрауыңыз бойынша айырбастау"
-" курсы жоқ. Кейінірек көріңіз. Кешіріңіз. 😭"
+msgid "I understood that you asked, but at the moment I don't have actual exchange rates for your request. Try later. Sorry. 😭"
+msgstr "Мен Сізді түсіндім, бірақ қазір менде Сіздің сұрауыңыз бойынша айырбастау курсы жоқ. Кейінірек көріңіз. Кешіріңіз. 😭"
+
+#: app/commands/help.py:26
+msgid "/settings - Bot personal settings"
+msgstr "/settings - Жеке баптаулар"
 
 #: app/commands/setups.py:33
 msgid "What do you want to set up?"
-msgstr ""
+msgstr "Қандай баптаулар іздеп жатырсыз?"
 
 #: app/commands/setups.py:53 app/commands/setups.py:83
-#, python-format
 msgid "*%(language)s* is your language now."
-msgstr ""
+msgstr "Енді Сіздің тіліңіз *%(language)s*."
 
 #: app/commands/setups.py:55 app/commands/setups.py:101
 #: app/commands/setups.py:159
 msgid "If you'd like to change send me new or /back"
-msgstr ""
+msgstr "Өзгерткіңіз келсе, маған жаңасын жіберіңіз немесе /back"
 
 #: app/commands/setups.py:99 app/commands/setups.py:135
-#, python-format
 msgid "*%(default_currency)s* is your default currency."
-msgstr ""
+msgstr "*%(default_currency)s* - Сіздің стандартты валютаңыз."
 
 #: app/commands/setups.py:157 app/commands/setups.py:196
-#, python-format
 msgid "*%(position)s* - position where your default currency will be added."
-msgstr ""
-
-#: app/commands/start.py:16
-msgid "humans"
-msgstr "адамдар"
-
-#: app/commands/start.py:20
-#, python-format
-msgid "Hello, %(name)s!"
-msgstr "Сәлем, %(name)s!"
-
-#: app/commands/start.py:35
-msgid "Have any question how to talk with me? 👉 /tutorial"
-msgstr "Менімен әңгімелесу жөнінде сұрақтар бар ма? 👉 /tutorial"
-
-#: app/commands/stop.py:19
-msgid "You're unsubscribed. You always can subscribe again 👉 /start"
-msgstr "Жазылудан бас тарттыңыз. Сіз әрқашан қайта жазыла аласыз 👉 /start"
-
-#: app/commands/tutorial.py:10
-msgid "I am bot. I will help you to know a current exchange rates."
-msgstr "Мен ботпын. Сізге қазіргі айырбастау курсын көрсете аламын."
-
-#: app/commands/tutorial.py:15
-msgid ""
-"Send me a message like this:\n"
-"    *BTC USD* - to see the current exchange rate for pair\n"
-"    *100 USD EUR* - to convert the amount from 100 USD to EUR"
-msgstr ""
-"Маған төмендегідей хат жіберіңіз:\n"
-"    *BTC USD* - осы жұптың қазіргі айырбастау курсын көру үшін\n"
-"    *100 USD EUR* - 100 долларды евроға айырбастау үшін"
-
-#: app/commands/tutorial.py:21
-msgid "Just text me message in private chat."
-msgstr "Жай ғана маған жеке чатқа хат жіберіңіз."
-
-#: app/commands/tutorial.py:25
-msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
-msgstr ""
-"Топтық чаттарда келесі командаларды жіберіңіз: 👉 /p USD EUR 👈 немесе "
-"/USDEUR"
-
-#: app/commands/tutorial.py:31
-#, python-format
-msgid "Inline mode is available. See how to use [here](%(link)s)."
-msgstr "Біржолды режимі бар. [сілтемені](%(link)s) қолдану нұсқаулығы."
-
-#: app/commands/tutorial.py:37
-msgid "Also take a look here 👉 /help"
-msgstr "Осыны да қарап шығыңыз 👉 /help"
+msgstr "*%(position)s* - Сіздің стандартты валютаңыз қойылатын орын."
 
