@@ -120,6 +120,28 @@ LANGUAGES = (
 
 LANGUAGE_CODE = 'en'
 
+LANGUAGES_NAME = {
+    # 'العربية': 'ar',  # Saudi Arabia
+    'Català': 'ca',
+    'Deutsch': 'de',
+    'English': 'en',
+    'Español': 'es',
+    'Español (AR)': 'es_AR',
+    'Français': 'fr',
+    'Italiano': 'it',
+    'Қазақ тілі': 'kk',
+    'Bahasa Melayu': 'ms',  # Malay
+    'Nederlands': 'nl_NL',
+    'Polski': 'pl_PL',
+    'Português': 'pt',
+    'Português (BR)': 'pt_BR',
+    'Русский': 'ru',
+    'Türkçe': 'tr',
+    'Український': 'uk',
+    '中文': 'zh_Hans',  # Simplified Chinese
+    '中文 (SG)': 'zh_Hans_SG',  # Simplified Chinese Singapore
+}
+
 DEFAULT_CURRENCY = 'USD'
 # _0_XXX XXX_1_
 DEFAULT_CURRENCY_POSITION = 1

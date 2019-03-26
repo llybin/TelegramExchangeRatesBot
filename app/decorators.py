@@ -63,13 +63,12 @@ def register_update(func):
             update_chat.delay(
                 chat_id=chat.id,
                 first_name=chat.first_name,
-                username=chat.username,
-                locale=language_code)
+                username=chat.username)
 
         kwargs['chat_info'] = {
             'chat_id': chat.id,
             'created': chat_created,
-            'locale': language_code,
+            'locale': chat.locale,
             'is_subscribed': chat.is_subscribed,
             'is_console_mode': chat.is_console_mode,
             'default_currency': chat.default_currency,
