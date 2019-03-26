@@ -109,6 +109,7 @@ LANGUAGES = (
     'es',
     'es_AR',
     'fr',
+    'id',
     'it',
     'kk',
     'ms',
@@ -134,6 +135,7 @@ LANGUAGES_NAME = {
     'Español': 'es',
     'Español (AR)': 'es_AR',
     'Français': 'fr',
+    'Bahasa Indonesia': 'id',
     'Italiano': 'it',
     'Қазақ тілі': 'kk',
     'Bahasa Melayu': 'ms',  # Malay
