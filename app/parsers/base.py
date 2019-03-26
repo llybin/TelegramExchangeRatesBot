@@ -33,8 +33,13 @@ class Parser(ABC):
             # zh
             self.locale = locale_parts[0]
         elif len_parts == 2:
-            # zh-hans -> zh_Hans
-            self.locale = f'{locale_parts[0].lower()}_{locale_parts[1].capitalize()}'
+            len_second = len(locale_parts[1])
+            if len_second == 2:
+                # br-pt -> br_PT
+                self.locale = f'{locale_parts[0].lower()}_{locale_parts[1].upper()}'
+            else:
+                # zh-hans -> zh_Hans
+                self.locale = f'{locale_parts[0].lower()}_{locale_parts[1].capitalize()}'
         elif len_parts == 3:
             # zh-hans-sg -> zh_Hans_SG
             self.locale = f'{locale_parts[0].lower()}_{locale_parts[1].capitalize()}_{locale_parts[2].upper()}'
