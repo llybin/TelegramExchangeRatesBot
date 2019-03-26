@@ -3,6 +3,7 @@ from .bitfinex import BitfinexExchange
 from .openexchangerates import OpenExchangeRatesExchange
 from .fixer import FixerExchange
 from .bx_in_th import BxInThExchange
+from .sp_today import SpTodayExchange
 
 __all__ = [
     BitfinexExchange,
@@ -10,4 +11,5 @@ __all__ = [
     OpenExchangeRatesExchange,
     FixerExchange,
     BxInThExchange,
+    SpTodayExchange,
 ]

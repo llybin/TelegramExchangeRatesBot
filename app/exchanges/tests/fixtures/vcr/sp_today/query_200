@@ -1,0 +1,76 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.21.0
+    method: GET
+    uri: http://www.sp-today.com/ticker-news/aleppo_cur.json
+  response:
+    body:
+      string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body\
+        \ bgcolor=\"white\">\r\n<center><h1>301 Moved Permanently</h1></center>\r\n\
+        <hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '178'
+      Content-Type:
+      - text/html
+      Date:
+      - Tue, 26 Mar 2019 12:52:06 GMT
+      Location:
+      - https://sp-today.com/ticker-news/aleppo_cur.json
+      Server:
+      - nginx
+      X-Cache:
+      - MISS from cag
+    status:
+      code: 301
+      message: Moved Permanently
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.21.0
+    method: GET
+    uri: https://sp-today.com/ticker-news/aleppo_cur.json
+  response:
+    body:
+      string: '[{"name":"dollar","sell_price":"549","buy_price":"551","arrow":"1"},{"name":"euro","sell_price":"619","buy_price":"623","arrow":"1"},{"name":"tl","sell_price":"98","buy_price":"99","arrow":"0"},{"name":"eg","sell_price":"31","buy_price":"32","arrow":"0"},{"name":"sa","sell_price":"144","buy_price":"147","arrow":"1"},{"name":"jd","sell_price":"769","buy_price":"777","arrow":"1"},{"name":"ed","sell_price":"147","buy_price":"150","arrow":"1"},{"name":"qar","sell_price":"149","buy_price":"151","arrow":"1"},{"name":"bhd","sell_price":"1446","buy_price":"1462","arrow":"1"},{"name":"lyd","sell_price":"395","buy_price":"399","arrow":"1"},{"name":"kd","sell_price":"1799","buy_price":"1816","arrow":"1"},{"name":"omr","sell_price":"1416","buy_price":"1431","arrow":"1"},{"name":"uk","sell_price":"718","buy_price":"727","arrow":"1"},{"name":"sek","sell_price":"58","buy_price":"60","arrow":"1"},{"name":"cad","sell_price":"406","buy_price":"411","arrow":"1"},{"name":"nok","sell_price":"63","buy_price":"65","arrow":"1"},{"name":"dkk","sell_price":"82","buy_price":"83","arrow":"0"}]'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 26 Mar 2019 12:52:07 GMT
+      ETag:
+      - W/"5c99f14f-43a"
+      Last-Modified:
+      - Tue, 26 Mar 2019 09:30:55 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      content-length:
+      - '1082'
+    status:
+      code: 200
+      message: OK
+version: 1

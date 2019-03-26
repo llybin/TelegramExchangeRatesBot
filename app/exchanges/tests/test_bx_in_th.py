@@ -17,7 +17,7 @@ my_vcr = vcr.VCR(
 )
 
 
-class BxInThTest(SimpleTestCase):
+class BxInThExchangeTest(SimpleTestCase):
 
     def test_name(self):
         self.assertEqual(BxInThExchange.name, '[bx.in.th](https://bx.in.th/ref/s9c3HU/)')
