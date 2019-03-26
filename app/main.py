@@ -26,7 +26,7 @@ from . import sentry_before_send
 from .decorators import register_update, chat_language
 from .converter.formatter import FormatPriceRequestResult, InlineFormatPriceRequestResult
 from .converter.converter import convert
-from .converter.exceptions import ConverterException
+from .converter.exceptions import ConverterException, NoRatesException
 from .logic import get_keyboard, start_parse
 from .models import Chat, Currency, ChatRequests
 from .parsers.exceptions import ValidationException
@@ -393,7 +393,7 @@ def inline_query(bot, update, chat_info):
                     to_currency=r.to_currency.code,
                     parser_name='InlineQuery',
                 ))
-            except ConverterException:
+            except NoRatesException:
                 continue
 
             title = InlineFormatPriceRequestResult(
