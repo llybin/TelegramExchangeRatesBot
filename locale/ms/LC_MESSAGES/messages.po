@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Telegram Exchange Rates Bot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-26 21:22+0700\n"
+"POT-Creation-Date: 2019-03-26 21:24+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ms\n"
@@ -97,6 +97,11 @@ msgid ""
 msgstr ""
 "Tidak mempunyai bahasa penyetempatan anda? Sebarang kesilapan terjemahan?"
 " Membantu memperbaikinya 👉 [poeditor.com](%(trans_link)s)"
+
+#: app/commands/help.py:37
+#, python-format
+msgid "[ExchangeRatesBotNews](%(link)s) - subscribe to channel, stay tuned news."
+msgstr ""
 
 #: app/commands/keyboard.py:25
 msgid "Keyboard is shown."

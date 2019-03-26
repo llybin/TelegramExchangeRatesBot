@@ -34,7 +34,7 @@ def help_command(bot, update, chat_info, _):
         'trans_link': 'https://poeditor.com/join/project/LLu8AztSPb'}
 
     text_to += '\n\n'
-    text_to += '[ExchangeRatesBotNews](%(link)s) - subscribe to channel, stay tuned news.' % {
+    text_to += _('[ExchangeRatesBotNews](%(link)s) - subscribe to channel, stay tuned news.') % {
         'link': 'https://t.me/ExchangeRatesBotNews'}
 
     text_to += '\n\n'
