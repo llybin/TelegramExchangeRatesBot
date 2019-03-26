@@ -31,7 +31,9 @@ class Currency(BaseObject):
     """
     https://en.wikipedia.org/wiki/ISO_4217
 
-    See: migrations/versions/20190306193447_currencies_chat_request_foreigns.py
+    See:
+    migrations/versions/20190306193447_currencies_chat_request_foreigns.py
+    migrations/versions/20190326060130_add_btt_currency.py
     """
     __tablename__ = 'currencies'
 
