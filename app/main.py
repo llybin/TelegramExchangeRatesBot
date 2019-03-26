@@ -167,6 +167,7 @@ def sources_command(bot, update, chat_info):
 
 https://bitfinex.com - 15min (API limits😭)
 https://bittrex.com - 1min
+[https://bx.in.th](https://bx.in.th/ref/s9c3HU/) - 1min
 https://fixer.io - 60min
 https://openexchangerates.org - 60min''')
 
@@ -215,6 +216,7 @@ def feedback_command(bot, update, chat_info, _):
         text=_('What do you want to tell? Or nothing?') + ' /nothing')
 
     return 1
+
 
 @register_update
 @chat_language
@@ -314,6 +316,7 @@ def price(bot, update, text, chat_info, _):
 
         bot.send_message(
             chat_id=update.message.chat_id,
+            disable_web_page_preview=True,
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=get_keyboard(update.message.chat_id),
             text=text_to)
@@ -410,6 +413,7 @@ def inline_query(bot, update, chat_info):
                     title=title,
                     input_message_content=InputTextMessageContent(
                         text_to,
+                        disable_web_page_preview=True,
                         parse_mode=ParseMode.MARKDOWN
                     )
                 )
@@ -451,6 +455,7 @@ def inline_query(bot, update, chat_info):
                     title=title,
                     input_message_content=InputTextMessageContent(
                         text_to,
+                        disable_web_page_preview=True,
                         parse_mode=ParseMode.MARKDOWN
                     )
                 )

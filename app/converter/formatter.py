@@ -141,7 +141,7 @@ class FormatPriceRequestResult(object):
             return f'_{self.prr.last_trade_at:%d %B, %H:%M} UTC_'
 
     def format_exchanges(self) -> str:
-        return f'_{" 📡 ".join(self.prr.exchanges)}_ 📡'
+        return f'{" 📡 ".join(self.prr.exchanges)} 📡'
 
     def format_difference(self) -> str:
         if not self.is_diff_available():

@@ -54,6 +54,12 @@ CELERYBEAT_SCHEDULE = {
         'args': ('app.exchanges.BittrexExchange',),
         'options': {'time_limit': 60, 'once': {'timeout': 60}}
     },
+    'exchange_updater_BxInThExchange': {
+        'task': 'app.tasks.exchange_updater',
+        'schedule': crontab(minute='*/1'),
+        'args': ('app.exchanges.BxInThExchange',),
+        'options': {'time_limit': 60, 'once': {'timeout': 60}}
+    },
     'exchange_updater_OpenExchangeRatesExchange': {
         'task': 'app.tasks.exchange_updater',
         'schedule': crontab(minute=1, hour='*/1'),
