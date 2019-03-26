@@ -25,11 +25,11 @@ msgstr "Simplemente envíame un mensaje privado."
 
 #: app/main.py:52
 msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
-msgstr "En grupos usa comandos como: 👉 /p USD EUR 👈 o simplemente /USDEUR"
+msgstr "En grupos usa comandos como éste: 👉 /p USD EUR 👈 o simplemente /USDEUR"
 
 #: app/main.py:57
 msgid "Inline mode is available. See how to use [here](%(link)s)."
-msgstr "Modo en linea disponible. Consulta como usarlo [aquí](%(link)s)."
+msgstr "Modo en linea disponible. Consulta cómo usarlo [aquí](%(link)s)."
 
 #: app/main.py:62
 msgid "Also take a look here 👉 /help"
@@ -57,7 +57,7 @@ msgstr "*Comandos*"
 
 #: app/main.py:115
 msgid "/start - Start to enslave mankind"
-msgstr "/start - Comenzar a esclavizar la humanidad"
+msgstr "/start - Comenzar a esclavizar a la humanidad"
 
 #: app/main.py:117
 msgid "/tutorial - Tutorial, how to talk with me"
@@ -97,7 +97,7 @@ msgstr "¿No está tu idioma? ¿Algún error en la traducción? Ayuda a arreglar
 
 #: app/main.py:172
 msgid "Keyboard is shown."
-msgstr "Teclado visto."
+msgstr "Teclado mostrado."
 
 #: app/main.py:176
 msgid "Keyboard is hidden."
