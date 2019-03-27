@@ -134,22 +134,22 @@ LANGUAGES_NAME = {
     'Deutsch': 'de',
     'English': 'en',
     'Español': 'es',
-    'Español (AR)': 'es_AR',
+    'Español (AR)': 'es-ar',
     'Français': 'fr',
     'Bahasa Indonesia': 'id',
     'Italiano': 'it',
     'Қазақ тілі': 'kk',
     'Bahasa Melayu': 'ms',  # Malay
-    'Nederlands': 'nl_NL',
-    'Polski': 'pl_PL',
+    'Nederlands': 'nl',
+    'Polski': 'pl',
     'Português': 'pt',
-    'Português (BR)': 'pt_BR',
+    'Português (BR)': 'pt-br',
     'Русский': 'ru',
     'Türkçe': 'tr',
     'Український': 'uk',
     'Ўзбекча': 'uz',
-    '中文': 'zh_Hans',  # Simplified Chinese
-    '中文 (SG)': 'zh_Hans_SG',  # Simplified Chinese Singapore
+    '中文': 'zh-hans',  # Simplified Chinese
+    '中文 (SG)': 'zh-hans-sg',  # Simplified Chinese Singapore
 }
 
 DEFAULT_CURRENCY = 'USD'
