@@ -1,34 +1,108 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version: Telegram Exchange Rates Bot\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-26 21:24+0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: es_ar\n"
-"Language-Team: es_ar <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Telegram Exchange Rates Bot\n"
+"Language: es-ar\n"
 
-#: app/commands/disclaimers.py:9
-msgid ""
-"Data is provided by financial exchanges and may be delayed as specified "
-"by financial exchanges or our data providers. Bot does not verify any "
-"data and disclaims any obligation to do so. Bot cannot guarantee the "
-"accuracy of the exchange rates displayed. You should confirm current "
-"rates before making any transactions that could be affected by changes in"
-" the exchange rates."
-msgstr ""
-"Los datos son ofrecidos por intercambios financieros y pueden estar "
-"retrasados según los proveedores. El bot no verifica ningún dato y no "
-"está obligado a hacerlo. El bot no puede garantizar la precisión de las "
-"tasas de cambios mostradas. Deberías confirmar las tasas de cambio antes "
-"de hacer cualquier transacción que podría afectarte en los cambios de las"
-" tasas."
+#: app/commands/tutorial.py:10
+msgid "I am bot. I will help you to know a current exchange rates."
+msgstr "Soy un bot. Te ayudaré con las tasas de cambio actuales."
+
+#: app/commands/tutorial.py:15
+msgid "Send me a message like this:\n"
+"    *BTC USD* - to see the current exchange rate for pair\n"
+"    *100 USD EUR* - to convert the amount from 100 USD to EUR"
+msgstr "Enviame un mensaje así:\n"
+"    *BTC USD* para ver la tasa de cambio actual para ese par\n"
+"    *100 USD EUR* para convertir 100 USD a EUR"
+
+#: app/commands/tutorial.py:21
+msgid "Just text me message in private chat."
+msgstr "Enviame un mensaje en privado."
+
+#: app/commands/tutorial.py:25
+msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
+msgstr "En chats grupales usá comandos como este 👉 /p USD EUR 👈 o sólo /USDEUR"
+
+#: app/commands/tutorial.py:31
+msgid "Inline mode is available. See how to use [here](%(link)s)."
+msgstr "Modo interno disponible. Mirá cómo usarlo [acá](%(link)s)."
+
+#: app/commands/tutorial.py:37
+msgid "Also take a look here 👉 /help"
+msgstr "También mirá esto 👉 /help"
+
+#: app/commands/start.py:16
+msgid "humans"
+msgstr "humanos"
+
+#: app/commands/start.py:20
+msgid "Hello, %(name)s!"
+msgstr "¡Hola, %(name)s!"
+
+#: app/commands/start.py:35
+msgid "Have any question how to talk with me? 👉 /tutorial"
+msgstr "¿No sabés cómo hablarme? Mirá 👉 /tutorial"
+
+#: app/commands/stop.py:19
+msgid "You're unsubscribed. You always can subscribe again 👉 /start"
+msgstr "Te desuscribiste. Podés volver de nuevo con 👉 /start"
+
+#: app/commands/help.py:9
+msgid "*Commands*"
+msgstr "*Comandos*"
+
+#: app/commands/help.py:12
+msgid "/start - Start to enslave mankind"
+msgstr "/start - Listo, a esclavizar humanos"
+
+#: app/commands/help.py:14
+msgid "/tutorial - Tutorial, how to talk with me"
+msgstr "/tutorial - Es un tutorial para saber como hablarme"
+
+#: app/commands/help.py:16
+msgid "/currencies - All currencies that I support"
+msgstr "/currencies - muestra las divisas que sé"
+
+#: app/commands/help.py:18
+msgid "/feedback - If you have suggestions, text me"
+msgstr "/feedback - si tenés sugerencias, escribime"
+
+#: app/commands/help.py:20
+#, fuzzy
+msgid "/keyboard - Hide / show a keyboard with request history"
+msgstr "/keyboard - muestra/oculta el historial reciente"
+
+#: app/commands/help.py:22
+msgid "/p - Command for group chats, get exchange rate"
+msgstr "/p - comando para chats grupales"
+
+#: app/commands/help.py:24
+msgid "/sources - Currency rates sources"
+msgstr "/sources - muestra las fuentes"
+
+#: app/commands/help.py:28
+msgid "/disclaimers - Disclaimers"
+msgstr "/disclaimers - legales"
+
+#: app/commands/help.py:30
+msgid "/stop - Unsubscribe"
+msgstr "/stop - desuscribirme"
+
+#: app/commands/help.py:33
+msgid "Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)"
+msgstr "¿No encontrás tu localización? ¿Errores en el texto? Ayudá en [poeditor.com](%(trans_link)s)"
+
+#: app/commands/keyboard.py:25
+msgid "Keyboard is shown."
+msgstr "Teclado visible"
+
+#: app/commands/keyboard.py:29
+msgid "Keyboard is hidden."
+msgstr "Teclado oculto"
 
 #: app/commands/feedback.py:15 app/commands/keyboard.py:16
 #: app/commands/setups.py:42
@@ -43,71 +117,9 @@ msgstr "¿Qué querés comentar?"
 msgid "Message sent, thank you."
 msgstr "Mensaje enviado, gracias."
 
-#: app/commands/help.py:9
-msgid "*Commands*"
-msgstr "*Comandos*"
-
-#: app/commands/help.py:12
-msgid "/start - Start to enslave mankind"
-msgstr "/start - inicia la esclavitud"
-
-#: app/commands/help.py:14
-msgid "/tutorial - Tutorial, how to talk with me"
-msgstr "/tutorial - para hablarme"
-
-#: app/commands/help.py:16
-msgid "/currencies - All currencies that I support"
-msgstr "/currencies - muestra las divisas que sé"
-
-#: app/commands/help.py:18
-msgid "/feedback - If you have suggestions, text me"
-msgstr "/feedback - para escribirme sugerencias"
-
-#: app/commands/help.py:20
-msgid "/keyboard - Hide / show a keyboard with request history"
-msgstr "/keyboard - muestra / oculta teclado con hist. reciente"
-
-#: app/commands/help.py:22
-msgid "/p - Command for group chats, get exchange rate"
-msgstr "/p - comando para chats grupales"
-
-#: app/commands/help.py:24
-msgid "/sources - Currency rates sources"
-msgstr "/sources - muestra las fuentes"
-
-#: app/commands/help.py:26
-msgid "/settings - Bot personal settings"
-msgstr ""
-
-#: app/commands/help.py:28
-msgid "/disclaimers - Disclaimers"
-msgstr "/disclaimers - para notas"
-
-#: app/commands/help.py:30
-msgid "/stop - Unsubscribe"
-msgstr "/stop - desuscribe"
-
-#: app/commands/help.py:33
-#, python-format
-msgid ""
-"Don't have your localization? Any translation errors? Help fix it 👉 "
-"[poeditor.com](%(trans_link)s)"
-msgstr ""
-"¿No tenés tu localización? ¿Errores de texto? Ayudá en "
-"[poeditor.com](%(trans_link)s)"
-
-#: app/commands/help.py:37
-#, python-format
-msgid "[ExchangeRatesBotNews](%(link)s) - subscribe to channel, stay tuned news."
-msgstr ""
-
-#: app/commands/keyboard.py:25
-msgid "Keyboard is shown."
-msgstr "Teclado visible."
-
-#: app/commands/keyboard.py:29
-msgid "Keyboard is hidden."
-msgstr "Teclado oculto."
+#: app/commands/disclaimers.py:9
+msgid "Data is provided by financial exchanges and may be delayed as specified by financial exchanges or our data providers. Bot does not verify any data and disclaims any obligation to do so. Bot cannot guarantee the accuracy of the exchange rates displayed. You should confirm current rates before making any transactions that could be affected by changes in the exchange rates."
+msgstr "Los datos son ofrecidos por intercambios financieros y pueden estar retrasados según los proveedores. El bot no verifica ningún dato y no está obligado a hacerlo. El bot no puede garantizar la precisión de las tasas de cambios mostradas. Deberías confirmar las tasas de cambio antes de hacer cualquier transacción que podría afectarte en los cambios de las tasas."
 
 #: app/commands/price.py:60
 msgid "The message must contain currencies or amounts 👉 /tutorial"
@@ -118,98 +130,51 @@ msgid "I don't understand you 😞 Take a look here 👉 /help"
 msgstr "No te entiendo 😞 Mirá acá 👉 /help"
 
 #: app/commands/price.py:70
-msgid ""
-"I understood that you asked, but at the moment I don't have actual "
-"exchange rates for your request. Try later. Sorry. 😭"
-msgstr ""
-"Entendí lo que pediste, pero en este momento no tengo tasas de cambio "
-"actuales para vos. Probá más tarde. Lo siento. 😭"
+msgid "I understood that you asked, but at the moment I don't have actual exchange rates for your request. Try later. Sorry. 😭"
+msgstr "Entendí lo que pediste, pero en este momento no tengo tasas de cambio actuales para vos. Probá más tarde. Lo siento. 😭"
 
-#: app/commands/setups.py:28
-msgid "Language"
-msgstr ""
-
-#: app/commands/setups.py:29
-msgid "Default currency"
-msgstr ""
-
-#: app/commands/setups.py:30
-msgid "Default currency position"
-msgstr ""
-
-#: app/commands/setups.py:31
-msgid "Close settings"
-msgstr ""
+#: app/commands/help.py:26
+msgid "/settings - Bot personal settings"
+msgstr "/settings - Configuración del bot"
 
 #: app/commands/setups.py:33
 msgid "What do you want to set up?"
-msgstr ""
+msgstr "¿Qué querés configurar?"
 
 #: app/commands/setups.py:53 app/commands/setups.py:83
-#, python-format
 msgid "*%(language)s* is your language now."
-msgstr ""
+msgstr "*%(language)s* es tu idioma actual."
 
 #: app/commands/setups.py:55 app/commands/setups.py:101
 #: app/commands/setups.py:159
 msgid "If you'd like to change send me new or /back"
-msgstr ""
+msgstr "Si querés cambiar enviame uno o volvé /back"
 
 #: app/commands/setups.py:99 app/commands/setups.py:135
-#, python-format
 msgid "*%(default_currency)s* is your default currency."
-msgstr ""
+msgstr "*%(default_currency)s* es tu divisa actual."
 
 #: app/commands/setups.py:157 app/commands/setups.py:196
-#, python-format
 msgid "*%(position)s* - position where your default currency will be added."
-msgstr ""
+msgstr "*%(position)s* - ubicación en donde será agregada tu divisa actual."
 
-#: app/commands/start.py:16
-msgid "humans"
-msgstr "humanos"
+#: app/commands/setups.py:28
+msgid "Language"
+msgstr "Idioma"
 
-#: app/commands/start.py:20
-#, python-format
-msgid "Hello, %(name)s!"
-msgstr "¡Hola, %(name)s!"
+#: app/commands/setups.py:29
+msgid "Default currency"
+msgstr "Divisa actual"
 
-#: app/commands/start.py:35
-msgid "Have any question how to talk with me? 👉 /tutorial"
-msgstr "¿No sabés cómo hablarme? Mirá 👉 /tutorial"
+#: app/commands/setups.py:30
+msgid "Default currency position"
+msgstr "Posición de divisa predet."
 
-#: app/commands/stop.py:19
-msgid "You're unsubscribed. You always can subscribe again 👉 /start"
-msgstr "Te desuscribiste. Podés volver de nuevo con 👉 /start"
+#: app/commands/setups.py:31
+msgid "Close settings"
+msgstr "Cerrar config."
 
-#: app/commands/tutorial.py:10
-msgid "I am bot. I will help you to know a current exchange rates."
-msgstr "Soy un bot. Te ayudaré con las tasas de cambio actuales."
-
-#: app/commands/tutorial.py:15
-msgid ""
-"Send me a message like this:\n"
-"    *BTC USD* - to see the current exchange rate for pair\n"
-"    *100 USD EUR* - to convert the amount from 100 USD to EUR"
-msgstr ""
-"Enviame un mensaje así:\n"
-"    *BTC USD* para ver la tasa de cambio actual para ese par\n"
-"    *100 USD EUR* para convertir 100 USD a EUR"
-
-#: app/commands/tutorial.py:21
-msgid "Just text me message in private chat."
-msgstr "Enviame un mensaje en privado."
-
-#: app/commands/tutorial.py:25
-msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
-msgstr "En chats grupales usá comandos como este 👉 /p USD EUR 👈 o sólo /USDEUR"
-
-#: app/commands/tutorial.py:31
-#, python-format
-msgid "Inline mode is available. See how to use [here](%(link)s)."
-msgstr "Modo interno disponible. Mirá cómo usarlo [acá](%(link)s)."
-
-#: app/commands/tutorial.py:37
-msgid "Also take a look here 👉 /help"
-msgstr "También mirá esto 👉 /help"
+#: app/commands/help.py:37
+msgid "[ExchangeRatesBotNews](%(link)s) - subscribe to channel, stay tuned news."
+msgstr "[ExchangeRatesBotNews](%(link)s) - suscribite para estar al día."
 
