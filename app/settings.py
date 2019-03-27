@@ -120,6 +120,7 @@ LANGUAGES = (
     'ru',
     'tr',
     'uk',
+    'uz',
     'zh_Hans',
     # 'zh_Hant',
     'zh_Hans_SG',
@@ -146,6 +147,7 @@ LANGUAGES_NAME = {
     'Русский': 'ru',
     'Türkçe': 'tr',
     'Український': 'uk',
+    'Ўзбекча': 'uz',
     '中文': 'zh_Hans',  # Simplified Chinese
     '中文 (SG)': 'zh_Hans_SG',  # Simplified Chinese Singapore
 }
