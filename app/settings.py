@@ -20,6 +20,7 @@ CELERY_ONCE_DEFAULT_TIMEOUT = 1800
 
 CELERY_IMPORTS = (
     'app.tasks',
+    'app.tasks_notifications',
 )
 
 CELERY_ENABLE_UTC = True

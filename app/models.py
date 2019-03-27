@@ -116,19 +116,23 @@ class Event(BaseObject):
     chat = orm.relationship('Chat')
 
 
-# class Notification(db):
-#     __tablename__ = 'notifications'
-#     # __table_args__ = (UniqueConstraint('chat_id', 'currencies', 'clause'),)
-#
-#     id = sa.Column(sa.Integer, primary_key=True)
-#     chat_id = sa.Column(sa.BigInteger, nullable=False, index=True)
-#     currencies = sa.Column(sa.Text, nullable=False)
-#     clause = sa.Column(sa.Enum('more', 'less', 'diff', 'percent', name='notification_clause'), nullable=False)
-#     value = sa.Column(sa.Numeric(14, 6), nullable=False)
-#     last_rate = sa.Column(sa.Numeric(14, 6), nullable=False)
-#     is_active = sa.Column(sa.Boolean(), default=True, nullable=False)
-#     created = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
-#     updated = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
+class Notification(BaseObject):
+    __tablename__ = 'notifications'
+
+    id = sa.Column(sa.Integer, primary_key=True)
+    chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
+    from_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
+    to_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
+    trigger_clause = sa.Column(sa.Enum('more', 'less', 'diff', 'percent', name='notification_clause'), nullable=False)
+    trigger_value = sa.Column(sa.Numeric(decimal_precision, decimal_scale), nullable=False)
+    last_rate = sa.Column(sa.Numeric(decimal_precision, decimal_scale), nullable=False)
+    is_active = sa.Column(sa.Boolean(), default=True, index=True, nullable=False)
+    created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
+    modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
+
+    chat = orm.relationship('Chat')
+    from_currency = orm.relationship('Currency', foreign_keys=[from_currency_id])
+    to_currency = orm.relationship('Currency', foreign_keys=[to_currency_id])
 
 
 # TODO: move

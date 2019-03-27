@@ -34,10 +34,6 @@ def help_command(bot, update, chat_info, _):
         'trans_link': 'https://poeditor.com/join/project/LLu8AztSPb'}
 
     text_to += '\n\n'
-    text_to += _('[ExchangeRatesBotNews](%(link)s) - subscribe to channel, stay tuned news.') % {
-        'link': 'https://t.me/ExchangeRatesBotNews'}
-
-    text_to += '\n\n'
     text_to += '''SSD cloud servers in regions: New York, San Francisco, Amsterdam, Singapore, London, Frankfurt, Toronto, Bangalore.
 
 Sign up using [link](%(link)s) and receive $100. From $5 per month: 1GB / 1 CPU / 25GB SSD Disk.''' % {'link': 'https://m.do.co/c/ba04a478e10d'}  # NOQA

@@ -235,9 +235,17 @@ class InlineFormatPriceRequestResult(FormatPriceRequestResult):
         else:
             return f'{from_amount} {from_currency} = {result_amount} {to_currency}'
 
-    def get(self) -> str:
-        if self.is_convert_mode():
-            return self.format_amount_convert()
 
+class NotifyFormatPriceRequestResult(FormatPriceRequestResult):
+    # FIXME: copy-paste
+    def format_price(self) -> str:
+        assert not self.is_convert_mode()
+
+        rate = self.format_amount(self.prr.rate)
+        from_currency = self.prr.price_request.currency
+        to_currency = self.prr.price_request.to_currency
+
+        if self.is_diff_available() and self._get_arrow():
+            return f'*{from_currency} {to_currency}* {rate} {self._get_arrow()} 🔔'
         else:
-            return self.format_price()
+            return f'*{from_currency} {to_currency}* {rate}'
