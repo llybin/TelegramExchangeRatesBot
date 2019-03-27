@@ -90,6 +90,7 @@ def main():
     )
 
     dp.add_handler(feedback_handler)
+    dp.add_handler(CommandHandler("feedback", feedback_command))
 
     settings_handler = ConversationHandler(
         entry_points=[CommandHandler("settings", settings_commands)],
@@ -117,6 +118,7 @@ def main():
     )
 
     dp.add_handler(settings_handler)
+    dp.add_handler(CommandHandler("settings", settings_commands))
 
     dp.add_handler(RegexHandler(r"^/", empty_command))
 
