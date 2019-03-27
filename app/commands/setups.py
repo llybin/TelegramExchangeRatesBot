@@ -50,8 +50,12 @@ def settings_commands(bot, update, chat_info, _):
 @register_update
 @chat_language
 def settings_language_commands(bot, update, chat_info, _):
-    text_to = _('*%(language)s* is your language now.') % {
-        'language': LOCALE_NAME[chat_info['locale']]}
+    if chat_info['locale'] in LOCALE_NAME:
+        language_name = LOCALE_NAME[chat_info['locale']]
+    else:
+        language_name = chat_info['locale']
+
+    text_to = _('*%(language)s* is your language now.') % {'language': language_name}
     text_to += ' ' + _('If you\'d like to change send me new or /back')
 
     bot.send_message(
