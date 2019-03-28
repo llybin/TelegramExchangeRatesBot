@@ -8,11 +8,11 @@ env:
 
 script:
   - cp .env.default .env
+  - echo 'TRAVIS_JOB_ID="$TRAVIS_JOB_ID"' >> .env
+  - echo 'TRAVIS_BRANCH="$TRAVIS_BRANCH"' >> .env
   - docker-compose build
   - docker-compose up -d db
   - docker-compose run service pybabel compile -d locale
   - docker-compose run service coverage run ./manage.py test
   - docker-compose run service coverage report
-
-after_success:
-  - coveralls
+  - docker-compose run coveralls

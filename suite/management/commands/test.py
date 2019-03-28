@@ -42,12 +42,16 @@ def test(tests_path=None):
 
     create_database(db_engine.url)
 
+    result = None
     try:
         click.echo("Migrating DB...")
         command_migrate('head')
 
         click.echo("Running tests...")
-        return test_runner.run(tests)
+        result = test_runner.run(tests)
     finally:
         click.echo("Deleting DB...")
         drop_database(db_engine.url)
+
+    if not result or result.failures or result.errors:
+        exit(-1)
