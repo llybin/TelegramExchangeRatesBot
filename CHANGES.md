@@ -1,7 +1,7 @@
 # CHANGES
 
 ##### 1.2
-
+- notifications backend, todo: interface
 
 ##### 1.1
 - added BTT - BitConnect currency
