@@ -15,4 +15,4 @@ script:
   - docker-compose run service pybabel compile -d locale
   - docker-compose run service coverage run ./manage.py test
   - docker-compose run service coverage report
-  - docker-compose run coveralls
+  - docker-compose run service coveralls
