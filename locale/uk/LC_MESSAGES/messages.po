@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Telegram Exchange Rates Bot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-28 19:10+0700\n"
+"POT-Creation-Date: 2019-03-29 02:10+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -14,6 +14,13 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
+
+#: app/tasks_notifications.py:52
+#, python-format
+msgid ""
+"Your notification has been disabled, due to one of the currencies "
+"%(from_currency)s %(to_currency)s has been deactivated."
+msgstr ""
 
 #: app/commands/disclaimers.py:9
 msgid ""
@@ -32,7 +39,7 @@ msgstr ""
 "зміни курсів валют."
 
 #: app/commands/feedback.py:15 app/commands/keyboard.py:16
-#: app/commands/setups.py:42
+#: app/commands/personal_settings.py:42
 msgid "The command is not available for group chats"
 msgstr "Команда недоступна для групових чатів."
 
@@ -105,6 +112,46 @@ msgstr "Клавіатура відображається."
 msgid "Keyboard is hidden."
 msgstr "Клавіатура є схованою."
 
+#: app/commands/personal_settings.py:28
+msgid "Language"
+msgstr "Мова"
+
+#: app/commands/personal_settings.py:29
+msgid "Default currency"
+msgstr "Валюта за замовчуванням"
+
+#: app/commands/personal_settings.py:30
+msgid "Default currency position"
+msgstr "Позиція валюти за замовчуванням"
+
+#: app/commands/personal_settings.py:31
+msgid "Close settings"
+msgstr "Закрити налаштування"
+
+#: app/commands/personal_settings.py:33
+msgid "What do you want to set up?"
+msgstr "Що хочеш налаштувати?"
+
+#: app/commands/personal_settings.py:58 app/commands/personal_settings.py:87
+#, python-format
+msgid "*%(language)s* is your language now."
+msgstr "*%(language)s* - це тепер твоя мова."
+
+#: app/commands/personal_settings.py:59 app/commands/personal_settings.py:105
+#: app/commands/personal_settings.py:163
+msgid "If you'd like to change send me new or /back"
+msgstr "Якщо ти бажаєте змінити, відправ мені нове значення, або /back"
+
+#: app/commands/personal_settings.py:103 app/commands/personal_settings.py:139
+#, python-format
+msgid "*%(default_currency)s* is your default currency."
+msgstr "*%(default_currency)s* - це твоя валюта за замовчуванням."
+
+#: app/commands/personal_settings.py:161 app/commands/personal_settings.py:200
+#, python-format
+msgid "*%(position)s* - position where your default currency will be added."
+msgstr "*%(position)s* - з якої сторони буде додана твоя валюта за замовчуванням."
+
 #: app/commands/price.py:60
 msgid "The message must contain currencies or amounts 👉 /tutorial"
 msgstr "Повідомлення має містити курси валют або значення 👉 /tutorial"
@@ -121,60 +168,20 @@ msgstr ""
 "Я зрозумів твій запит, але на даний момент в мене немає актуальних курсів"
 " обміну за цим запитом. Спробуй пізніше. Прошу вибачення.  😭"
 
-#: app/commands/setups.py:28
-msgid "Language"
-msgstr "Мова"
-
-#: app/commands/setups.py:29
-msgid "Default currency"
-msgstr "Валюта за замовчуванням"
-
-#: app/commands/setups.py:30
-msgid "Default currency position"
-msgstr "Позиція валюти за замовчуванням"
-
-#: app/commands/setups.py:31
-msgid "Close settings"
-msgstr "Закрити налаштування"
-
-#: app/commands/setups.py:33
-msgid "What do you want to set up?"
-msgstr "Що хочеш налаштувати?"
-
-#: app/commands/setups.py:58 app/commands/setups.py:87
-#, python-format
-msgid "*%(language)s* is your language now."
-msgstr "*%(language)s* - це тепер твоя мова."
-
-#: app/commands/setups.py:59 app/commands/setups.py:105
-#: app/commands/setups.py:163
-msgid "If you'd like to change send me new or /back"
-msgstr "Якщо ти бажаєте змінити, відправ мені нове значення, або /back"
-
-#: app/commands/setups.py:103 app/commands/setups.py:139
-#, python-format
-msgid "*%(default_currency)s* is your default currency."
-msgstr "*%(default_currency)s* - це твоя валюта за замовчуванням."
-
-#: app/commands/setups.py:161 app/commands/setups.py:200
-#, python-format
-msgid "*%(position)s* - position where your default currency will be added."
-msgstr "*%(position)s* - з якої сторони буде додана твоя валюта за замовчуванням."
-
-#: app/commands/start.py:16
+#: app/commands/start.py:17
 msgid "humans"
 msgstr "люди"
 
-#: app/commands/start.py:20
+#: app/commands/start.py:21
 #, python-format
 msgid "Hello, %(name)s!"
 msgstr "Привіт, %(name)s!"
 
-#: app/commands/start.py:35
+#: app/commands/start.py:36
 msgid "Have any question how to talk with me? 👉 /tutorial"
 msgstr "Залишилися питання по тому, як мною користуватися? 👉 /tutorial"
 
-#: app/commands/stop.py:19
+#: app/commands/stop.py:20
 msgid "You're unsubscribed. You always can subscribe again 👉 /start"
 msgstr "Ти відписався. Ти завжди можеш підписатися знову 👉 /start"
 
