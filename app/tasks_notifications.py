@@ -66,7 +66,7 @@ def notification_auto_disable(pair: list):
 
 
 @celery_app.task(bind=True, queue='send_notification', time_limit=60, rate_limit='15/s',
-                 retry_backoff_max=5, retry_backoff_max=300)
+                 retry_backoff=5, retry_backoff_max=300)
 def send_notification(self, chat_id, text):
     """
     https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once
