@@ -8,21 +8,8 @@ env:
 
 script:
   - cp .env.default .env
-  - echo 'CI="$CI"' >> .env
-  - echo 'TRAVIS="$TRAVIS"' >> .env
-  - echo 'SHIPPABLE="$SHIPPABLE"' >> .env
-  - echo 'TRAVIS_BRANCH="$TRAVIS_BRANCH"' >> .env
-  - echo 'TRAVIS_COMMIT="$TRAVIS_COMMIT"' >> .env
-  - echo 'TRAVIS_JOB_NUMBER="$TRAVIS_JOB_NUMBER"' >> .env
-  - echo 'TRAVIS_PULL_REQUEST="$TRAVIS_PULL_REQUEST"' >> .env
-  - echo 'TRAVIS_JOB_ID="$TRAVIS_JOB_ID"' >> .env
-  - echo 'TRAVIS_REPO_SLUG="$TRAVIS_REPO_SLUG"' >> .env
-  - echo 'TRAVIS_TAG="$TRAVIS_TAG"' >> .env
-  - echo 'TRAVIS_OS_NAME="$TRAVIS_OS_NAME"' >> .env
-  - echo 'CODECOV_TOKEN="$CODECOV_TOKEN"' >> .env
   - docker-compose build
   - docker-compose up -d db
   - docker-compose run service pybabel compile -d locale
   - docker-compose run service coverage run ./manage.py test
   - docker-compose run service coverage report
-  - docker-compose run service codecov

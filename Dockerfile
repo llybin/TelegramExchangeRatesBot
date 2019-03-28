@@ -7,13 +7,7 @@ WORKDIR /code
 
 COPY wait-for-it.sh ./
 
-# coverage
-RUN apt-get update \
-    && apt-get -y install git \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN pip install pipenv codecov
+RUN pip install pipenv
 COPY Pipfile Pipfile.lock ./
 RUN pipenv install --system --dev
 
