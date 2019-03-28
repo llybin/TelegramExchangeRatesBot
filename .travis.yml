@@ -19,6 +19,7 @@ script:
   - echo 'TRAVIS_REPO_SLUG="$TRAVIS_REPO_SLUG"' >> .env
   - echo 'TRAVIS_TAG="$TRAVIS_TAG"' >> .env
   - echo 'TRAVIS_OS_NAME="$TRAVIS_OS_NAME"' >> .env
+  - echo 'CODECOV_TOKEN="$CODECOV_TOKEN"' >> .env
   - docker-compose build
   - docker-compose up -d db
   - docker-compose run service pybabel compile -d locale
