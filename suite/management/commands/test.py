@@ -47,7 +47,7 @@ def test(tests_path=None):
         command_migrate('head')
 
         click.echo("Running tests...")
-        test_runner.run(tests)
+        return test_runner.run(tests)
     finally:
         click.echo("Deleting DB...")
         drop_database(db_engine.url)

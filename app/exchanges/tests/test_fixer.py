@@ -3,6 +3,7 @@ from decimal import Decimal
 
 import vcr
 
+from suite.test.utils import override_settings
 from suite.test.testcases import SimpleTestCase
 from ..fixer import FixerExchange
 from ..base import PairData, Pair, ECurrency
@@ -17,6 +18,7 @@ my_vcr = vcr.VCR(
 )
 
 
+@override_settings(FIXER_TOKEN='FAKE-TOKEN')
 class FixerTest(SimpleTestCase):
 
     def test_name(self):
