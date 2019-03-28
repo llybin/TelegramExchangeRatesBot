@@ -18,7 +18,7 @@ my_vcr = vcr.VCR(
 )
 
 
-@override_settings(OPENEXCHANGERATES_TOKEN='FAKE-TOKEN')
+# @override_settings(OPENEXCHANGERATES_TOKEN='FAKE-TOKEN')
 class OpenExchangeRatesTest(SimpleTestCase):
 
     def test_name(self):

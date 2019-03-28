@@ -54,4 +54,4 @@ def test(tests_path=None):
         drop_database(db_engine.url)
 
     if not result or result.failures or result.errors:
-        exit(-1)
+        exit(1)
