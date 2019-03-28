@@ -8,10 +8,10 @@ WORKDIR /code
 COPY wait-for-it.sh ./
 
 # coveralls
-RUN apt-get update \
-    && apt-get -y install git \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+#RUN apt-get update \
+#    && apt-get -y install git \
+#    && apt-get clean \
+#    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN pip install pipenv
 COPY Pipfile Pipfile.lock ./
