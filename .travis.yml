@@ -7,7 +7,7 @@ env:
   - COMPOSE_FILE=docker-compose.yml
 
 script:
-  - pip install --user coveralls
+  - pip install --user coveralls codecov
   - PATH=$HOME/.local/bin:$PATH
   - cp .env.default .env
   - docker-compose build
@@ -18,3 +18,4 @@ script:
 
 after_success:
   - coveralls
+  - codecov
