@@ -6,7 +6,7 @@ from freezegun import freeze_time
 
 from suite.test.testcases import SimpleTestCase
 from ..bx_in_th import BxInThExchange
-from ..base import PairData, Pair, Currency
+from ..base import PairData, Pair, ECurrency
 from ..exceptions import PairNotExistsException
 
 
@@ -26,38 +26,38 @@ class BxInThExchangeTest(SimpleTestCase):
     def test_list_currencies(self):
         currencies = BxInThExchange().list_currencies
         self.assertEqual(len(currencies), 27)
-        self.assertTrue(Currency(code='BTC') in currencies)
-        self.assertTrue(Currency(code='THB') in currencies)
+        self.assertTrue(ECurrency(code='BTC') in currencies)
+        self.assertTrue(ECurrency(code='THB') in currencies)
 
     @my_vcr.use_cassette('query_200')
     def test_list_pairs(self):
         pairs = BxInThExchange().list_pairs
         self.assertEqual(len(pairs), 28)
-        self.assertTrue(Pair(Currency('BTC'), Currency('THB')) in pairs)
-        self.assertFalse(Pair(Currency('THB'), Currency('BTC')) in pairs)
+        self.assertTrue(Pair(ECurrency('BTC'), ECurrency('THB')) in pairs)
+        self.assertFalse(Pair(ECurrency('THB'), ECurrency('BTC')) in pairs)
 
     @my_vcr.use_cassette('query_200')
     def test_is_pair_exists(self):
         exchange = BxInThExchange()
-        self.assertTrue(exchange.is_pair_exists(Pair(Currency('BTC'), Currency('THB'))))
+        self.assertTrue(exchange.is_pair_exists(Pair(ECurrency('BTC'), ECurrency('THB'))))
 
-        self.assertFalse(exchange.is_pair_exists(Pair(Currency('THB'), Currency('BTC'))))
-        self.assertFalse(exchange.is_pair_exists(Pair(Currency('thb'), Currency('BTC'))))
-        self.assertFalse(exchange.is_pair_exists(Pair(Currency('btc'), Currency('MONEY'))))
+        self.assertFalse(exchange.is_pair_exists(Pair(ECurrency('THB'), ECurrency('BTC'))))
+        self.assertFalse(exchange.is_pair_exists(Pair(ECurrency('thb'), ECurrency('BTC'))))
+        self.assertFalse(exchange.is_pair_exists(Pair(ECurrency('btc'), ECurrency('MONEY'))))
 
     @my_vcr.use_cassette('query_200')
     def test_is_currency_exists(self):
         exchange = BxInThExchange()
-        self.assertTrue(exchange.is_currency_exists(Currency(code='BTC')))
-        self.assertTrue(exchange.is_currency_exists(Currency(code='THB')))
+        self.assertTrue(exchange.is_currency_exists(ECurrency(code='BTC')))
+        self.assertTrue(exchange.is_currency_exists(ECurrency(code='THB')))
 
-        self.assertFalse(exchange.is_currency_exists(Currency(code='thb')))
-        self.assertFalse(exchange.is_currency_exists(Currency(code='MONEY')))
+        self.assertFalse(exchange.is_currency_exists(ECurrency(code='thb')))
+        self.assertFalse(exchange.is_currency_exists(ECurrency(code='MONEY')))
 
     @my_vcr.use_cassette('query_200')
     @freeze_time("2019-03-17 22:14:15", tz_offset=0)
     def test_get_pair_info(self):
-        pair = Pair(Currency('BTC'), Currency('THB'))
+        pair = Pair(ECurrency('BTC'), ECurrency('THB'))
         self.assertEqual(
             BxInThExchange().get_pair_info(pair),
             PairData(
@@ -70,6 +70,6 @@ class BxInThExchangeTest(SimpleTestCase):
 
     @my_vcr.use_cassette('query_200')
     def test_get_pair_info_no_pair(self):
-        pair = Pair(Currency('USD'), Currency('BTC'))
+        pair = Pair(ECurrency('USD'), ECurrency('BTC'))
         with self.assertRaises(PairNotExistsException):
             BxInThExchange().get_pair_info(pair)

@@ -5,7 +5,7 @@ import vcr
 
 from suite.test.testcases import SimpleTestCase
 from ..bitfinex import BitfinexExchange
-from ..base import PairData, Pair, Currency
+from ..base import PairData, Pair, ECurrency
 from ..exceptions import PairNotExistsException
 
 
@@ -25,37 +25,37 @@ class BitfinexTest(SimpleTestCase):
     def test_list_currencies(self):
         currencies = BitfinexExchange().list_currencies
         self.assertEqual(len(currencies), 127)
-        self.assertTrue(Currency(code='BTC') in currencies)
-        self.assertTrue(Currency(code='USD') in currencies)
+        self.assertTrue(ECurrency(code='BTC') in currencies)
+        self.assertTrue(ECurrency(code='USD') in currencies)
 
     @my_vcr.use_cassette('symbols_200')
     def test_list_pairs(self):
         pairs = BitfinexExchange().list_pairs
         self.assertEqual(len(pairs), 339)
-        self.assertTrue(Pair(Currency('BTC'), Currency('USD')) in pairs)
-        self.assertFalse(Pair(Currency('USD'), Currency('BTC')) in pairs)
+        self.assertTrue(Pair(ECurrency('BTC'), ECurrency('USD')) in pairs)
+        self.assertFalse(Pair(ECurrency('USD'), ECurrency('BTC')) in pairs)
 
     @my_vcr.use_cassette('symbols_200')
     def test_is_pair_exists(self):
         exchange = BitfinexExchange()
-        self.assertTrue(exchange.is_pair_exists(Pair(Currency('BTC'), Currency('USD'))))
+        self.assertTrue(exchange.is_pair_exists(Pair(ECurrency('BTC'), ECurrency('USD'))))
 
-        self.assertFalse(exchange.is_pair_exists(Pair(Currency('USD'), Currency('BTC'))))
-        self.assertFalse(exchange.is_pair_exists(Pair(Currency('usd'), Currency('BTC'))))
-        self.assertFalse(exchange.is_pair_exists(Pair(Currency('usd'), Currency('MONEY'))))
+        self.assertFalse(exchange.is_pair_exists(Pair(ECurrency('USD'), ECurrency('BTC'))))
+        self.assertFalse(exchange.is_pair_exists(Pair(ECurrency('usd'), ECurrency('BTC'))))
+        self.assertFalse(exchange.is_pair_exists(Pair(ECurrency('usd'), ECurrency('MONEY'))))
 
     @my_vcr.use_cassette('symbols_200')
     def test_is_currency_exists(self):
         exchange = BitfinexExchange()
-        self.assertTrue(exchange.is_currency_exists(Currency(code='BTC')))
-        self.assertTrue(exchange.is_currency_exists(Currency(code='USD')))
+        self.assertTrue(exchange.is_currency_exists(ECurrency(code='BTC')))
+        self.assertTrue(exchange.is_currency_exists(ECurrency(code='USD')))
 
-        self.assertFalse(exchange.is_currency_exists(Currency(code='usd')))
-        self.assertFalse(exchange.is_currency_exists(Currency(code='MONEY')))
+        self.assertFalse(exchange.is_currency_exists(ECurrency(code='usd')))
+        self.assertFalse(exchange.is_currency_exists(ECurrency(code='MONEY')))
 
     @my_vcr.use_cassette('get_pair_200')
     def test_get_pair_info(self):
-        pair = Pair(Currency('BTC'), Currency('USD'))
+        pair = Pair(ECurrency('BTC'), ECurrency('USD'))
         self.assertEqual(
             BitfinexExchange().get_pair_info(pair),
             PairData(
@@ -70,6 +70,6 @@ class BitfinexTest(SimpleTestCase):
 
     @my_vcr.use_cassette('get_pair_200')
     def test_get_pair_info_no_pair(self):
-        pair = Pair(Currency('USD'), Currency('BTC'))
+        pair = Pair(ECurrency('USD'), ECurrency('BTC'))
         with self.assertRaises(PairNotExistsException):
             BitfinexExchange().get_pair_info(pair)

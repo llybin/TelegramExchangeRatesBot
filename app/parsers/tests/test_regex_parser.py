@@ -2,7 +2,7 @@ import unittest
 from decimal import Decimal
 from unittest.mock import patch
 
-from app.models import get_all_currencies
+from app.queries import get_all_currencies
 from ..base import PriceRequest, DirectionWriting
 from ..exceptions import ValidationException
 from ..regex_parser import RegexParser, parse_amount
@@ -415,6 +415,16 @@ class ParseAmountTest(unittest.TestCase):
 
         self.assertEqual(
             parse_amount('9,123', 'ru'),
+            Decimal('9.123')
+        )
+
+        self.assertEqual(
+            parse_amount('9.123', 'pt_BR'),
+            Decimal('9123')
+        )
+
+        self.assertEqual(
+            parse_amount('9.123', 'zh_Hans_SG'),
             Decimal('9.123')
         )
 

@@ -1,16 +1,15 @@
-import gettext
 import logging
 from functools import wraps
 
 import transaction
-from pyramid_sqlalchemy import Session
 from sqlalchemy.exc import IntegrityError
 
+from suite.database import Session
 from suite.conf import settings
 
-from app import translations
-from .models import Chat
-from .tasks import update_chat
+from app.translations import get_translations
+from app.models import Chat
+from app.tasks import update_chat
 
 
 def register_update(func):
@@ -85,22 +84,7 @@ def chat_language(func):
     def wrapper(bot, update, *args, **kwargs):
         language_code = kwargs['chat_info']['locale']
 
-        if language_code in translations:
-            _ = translations[language_code].gettext
-
-        elif language_code[:2] in translations:
-            # en-us
-            _ = translations[language_code[:2]].gettext
-
-        elif language_code[:7] in translations:
-            # zh-hans-sg
-            _ = translations[language_code[:7]].gettext
-
-        else:
-            logging.info('No translations for language: %s', language_code)
-            _ = gettext.gettext
-
-        kwargs['_'] = _
+        kwargs['_'] = get_translations(language_code)
 
         return func(bot, update, *args, **kwargs)
 

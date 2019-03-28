@@ -20,6 +20,7 @@ CELERY_ONCE_DEFAULT_TIMEOUT = 1800
 
 CELERY_IMPORTS = (
     'app.tasks',
+    'app.tasks_notifications',
 )
 
 CELERY_ENABLE_UTC = True
@@ -38,6 +39,8 @@ CELERY_DEFAULT_QUEUE = 'low'
 CELERY_QUEUES = (
     Queue('low'),
     Queue('exchanges'),
+    Queue('notifications'),
+    Queue('send_notification'),
     Queue('update_chat_request'),
 )
 
@@ -81,7 +84,10 @@ CELERYBEAT_SCHEDULE = {
     'delete_expired_rates': {
         'task': 'app.tasks.delete_expired_rates',
         'schedule': crontab(minute=5, hour='*/1'),
-        'options': {'once': {'timeout': 60}}
+    },
+    'notification_checker': {
+        'task': 'app.tasks_notifications.notification_checker',
+        'schedule': crontab(minute='*/5')
     },
 }
 

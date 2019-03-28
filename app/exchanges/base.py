@@ -4,7 +4,7 @@ from decimal import Decimal
 from typing import NamedTuple, Tuple
 
 
-class Currency(NamedTuple):
+class ECurrency(NamedTuple):
     code: str
 
     def __str__(self):
@@ -12,8 +12,8 @@ class Currency(NamedTuple):
 
 
 class Pair(NamedTuple):
-    from_currency: Currency
-    to_currency: Currency
+    from_currency: ECurrency
+    to_currency: ECurrency
 
     def __str__(self):
         return f'{self.from_currency}-{self.to_currency}'
@@ -63,13 +63,13 @@ class Exchange(ABC):
 
     @property
     @abstractmethod
-    def list_currencies(self) -> Tuple[Currency]:
+    def list_currencies(self) -> Tuple[ECurrency]:
         pass
 
     def is_pair_exists(self, pair: Pair) -> bool:
         return pair in self.list_pairs
 
-    def is_currency_exists(self, currency: Currency) -> bool:
+    def is_currency_exists(self, currency: ECurrency) -> bool:
         return currency in self.list_currencies
 
     @abstractmethod

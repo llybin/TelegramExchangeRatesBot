@@ -5,8 +5,9 @@ from freezegun import freeze_time
 from suite.test.testcases import SimpleTestCase
 
 from app.parsers.base import DirectionWriting
-from ..converter import PriceRequestResult, PriceRequest
-from ..formatter import FormatPriceRequestResult, InlineFormatPriceRequestResult
+from ..base import PriceRequestResult
+from ..converter import PriceRequest
+from ..formatter import FormatPriceRequestResult, InlineFormatPriceRequestResult, NotifyFormatPriceRequestResult
 
 
 class FormatPriceRequestResultTest(SimpleTestCase):
@@ -268,6 +269,48 @@ test-exchanger 📡''')
 _17 March, 22:14 UTC_
 test-exchanger 📡''')
 
+    @freeze_time("2019-03-17 22:14:15", tz_offset=0)
+    def test_locale(self):
+        prr = PriceRequestResult(
+            price_request=PriceRequest(
+                amount=None,
+                currency='USD',
+                to_currency='EUR',
+                parser_name='test-parser',
+                direction_writing=DirectionWriting.UNKNOWN,
+            ),
+            exchanges=['test-exchanger'],
+            rate=Decimal('1.5'),
+            rate_open=Decimal('1.3'),
+            low24h=Decimal('1.2'),
+            high24h=Decimal('1.6'),
+            last_trade_at=datetime.now()
+        )
+
+        fpr = FormatPriceRequestResult(prr, 'en')
+
+        self.assertTrue(fpr.is_diff_available())
+        self.assertFalse(fpr.is_convert_mode())
+        self.assertEqual(
+            fpr.get(),
+            '*USD EUR* 1.5 ⬆️\n+0.2 (+15.38%)\n*Low*: 1.2 *High*: 1.6\n_17 March, 22:14 UTC_\ntest-exchanger 📡')
+
+        fpr = FormatPriceRequestResult(prr, 'de')
+
+        self.assertTrue(fpr.is_diff_available())
+        self.assertFalse(fpr.is_convert_mode())
+        self.assertEqual(
+            fpr.get(),
+            '*USD EUR* 1,5 ⬆️\n+0,2 (+15,38%)\n*Low*: 1,2 *High*: 1,6\n_17 March, 22:14 UTC_\ntest-exchanger 📡')
+
+        fpr = FormatPriceRequestResult(prr, 'zh-hans-sg')
+
+        self.assertTrue(fpr.is_diff_available())
+        self.assertFalse(fpr.is_convert_mode())
+        self.assertEqual(
+            fpr.get(),
+            '*USD EUR* 1.5 ⬆️\n+0.2 (+15.38%)\n*Low*: 1.2 *High*: 1.6\n_17 March, 22:14 UTC_\ntest-exchanger 📡')
+
 
 class InlineFormatPriceRequestResultTest(SimpleTestCase):
     @freeze_time("2019-03-17 22:14:15", tz_offset=0)
@@ -320,3 +363,30 @@ class InlineFormatPriceRequestResultTest(SimpleTestCase):
         self.assertEqual(
             fpr.get(),
             'USD EUR 1.5 ⬆️')
+
+
+class NotifyFormatPriceRequestResultTest(SimpleTestCase):
+    @freeze_time("2019-03-17 22:14:15", tz_offset=0)
+    def test_price_mode(self):
+        prr = PriceRequestResult(
+            price_request=PriceRequest(
+                amount=None,
+                currency='USD',
+                to_currency='EUR',
+                parser_name='test-parser',
+                direction_writing=DirectionWriting.UNKNOWN,
+            ),
+            exchanges=['test-exchanger'],
+            rate=Decimal('1.5'),
+            rate_open=Decimal('1.3'),
+            low24h=Decimal('1.2'),
+            high24h=Decimal('1.6'),
+            last_trade_at=datetime.now()
+        )
+        fpr = NotifyFormatPriceRequestResult(prr, 'en')
+
+        self.assertTrue(fpr.is_diff_available())
+        self.assertFalse(fpr.is_convert_mode())
+        self.assertEqual(
+            fpr.get(),
+            '*USD EUR* 1.5 ⬆️ 🔔\n+0.2 (+15.38%)\n*Low*: 1.2 *High*: 1.6\n_17 March, 22:14 UTC_\ntest-exchanger 📡')

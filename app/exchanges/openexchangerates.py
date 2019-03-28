@@ -7,7 +7,7 @@ from cached_property import cached_property
 from jsonschema import validate, ValidationError
 from suite.conf import settings
 
-from .base import Exchange, PairData, Pair, Currency
+from .base import Exchange, PairData, Pair, ECurrency
 from .exceptions import PairNotExistsException, APIErrorException, NoTokenException, APIChangedException
 
 
@@ -66,14 +66,14 @@ class OpenExchangeRatesExchange(Exchange):
         currencies = self._get_data['rates'].keys()
         base_currency = self._get_data['base'].upper()
 
-        return tuple(Pair(Currency(base_currency), Currency(x.upper())) for x in currencies)
+        return tuple(Pair(ECurrency(base_currency), ECurrency(x.upper())) for x in currencies)
 
     @cached_property
-    def list_currencies(self) -> Tuple[Currency]:
+    def list_currencies(self) -> Tuple[ECurrency]:
         currencies = self._get_data['rates'].keys()
         base_currency = self._get_data['base'].upper()
 
-        return (Currency(base_currency),) + tuple(Currency(x.upper()) for x in currencies)
+        return (ECurrency(base_currency),) + tuple(ECurrency(x.upper()) for x in currencies)
 
     def get_pair_info(self, pair: Pair) -> PairData:
         if not self.is_pair_exists(pair):

@@ -4,10 +4,10 @@ import click
 import telegram
 import transaction
 from telegram import ParseMode
-from pyramid_sqlalchemy import Session, init_sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.sql import true
 
+from suite.database import Session, init_sqlalchemy
 from suite.conf import settings
 
 from app.models import Chat
@@ -49,7 +49,7 @@ def newsletter():
         Chat.is_subscribed == true(),
         # Chat.locale == 'en',
         # Chat.id > 0,
-        # Chat.id == settings.DEVELOPER_USER_ID,
+        Chat.id == settings.DEVELOPER_USER_ID,
     ).all()
 
     # TODO: args
@@ -62,8 +62,7 @@ def newsletter():
 - added Uzbekistan locale, thanks :)
 - other translations were updated, thanks :)
 - /settings command, only for private chats: language, default currency settings
-- fixes and improvements
-- [ExchangeRatesBotNews](https://t.me/ExchangeRatesBotNews) - subscribe to channel, stay tuned news."""
+- fixes and improvements"""
 
     for chat in chats:
         send(bot, chat, text)

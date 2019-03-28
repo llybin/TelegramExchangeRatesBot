@@ -1,7 +1,6 @@
 import logging
 
 import sentry_sdk
-from pyramid_sqlalchemy import init_sqlalchemy
 from telegram.ext import (
     Updater,
     CommandHandler,
@@ -12,11 +11,13 @@ from telegram.ext import (
     InlineQueryHandler,
 )
 from sqlalchemy import create_engine
+from suite.database import init_sqlalchemy
 from suite.conf import settings
 
-from . import sentry_before_send
-from .decorators import register_update, chat_language
-from .logic import get_keyboard
+from app.decorators import register_update, chat_language
+from app.logic import get_keyboard
+from app.sentry import before_send
+from app.translations import init_translations
 
 from app.commands.currencies import currencies_command
 from app.commands.disclaimers import disclaimers_command
@@ -24,7 +25,7 @@ from app.commands.feedback import feedback_command, send_feedback_command
 from app.commands.help import help_command
 from app.commands.keyboard import keyboard_command
 from app.commands.price import price_command, message_command, empty_command, inline_query
-from app.commands.setups import (
+from app.commands.personal_settings import (
     SettingsSteps,
     settings_commands,
     settings_language_commands,
@@ -59,11 +60,13 @@ def main():
     if settings.SENTRY_URL:
         sentry_sdk.init(
             dsn=settings.SENTRY_URL,
-            before_send=sentry_before_send
+            before_send=before_send
         )
 
     db_engine = create_engine(settings.DATABASE['url'])
     init_sqlalchemy(db_engine)
+
+    init_translations()
 
     updater = Updater(token=settings.BOT_TOKEN)
 

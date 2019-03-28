@@ -2,14 +2,14 @@ from datetime import datetime
 from decimal import Decimal
 
 from suite.test.testcases import SimpleTestCase
-from ..base import Pair, Currency, reverse_pair, reverse_pair_data, reverse_amount, PairData
+from ..base import Pair, ECurrency, reverse_pair, reverse_pair_data, reverse_amount, PairData
 
 
 class ReverseFunctionsTest(SimpleTestCase):
 
     def test_reverse_pair(self):
-        pair = Pair(Currency('BTC'), Currency('USD'))
-        reversed_pair = Pair(Currency('USD'), Currency('BTC'))
+        pair = Pair(ECurrency('BTC'), ECurrency('USD'))
+        reversed_pair = Pair(ECurrency('USD'), ECurrency('BTC'))
 
         self.assertEqual(reverse_pair(pair), reversed_pair)
 
@@ -18,7 +18,7 @@ class ReverseFunctionsTest(SimpleTestCase):
 
     def test_reverse_pair_data(self):
         pair_data = PairData(
-            pair=Pair(Currency('BTC'), Currency('USD')),
+            pair=Pair(ECurrency('BTC'), ECurrency('USD')),
             rate=Decimal('1') / Decimal('3'),
             last_trade_at=datetime(2019, 3, 9, 12),
             rate_open=Decimal('1') / Decimal('2'),
@@ -27,7 +27,7 @@ class ReverseFunctionsTest(SimpleTestCase):
         )
 
         pair_data_reversed = PairData(
-            pair=Pair(Currency('USD'), Currency('BTC')),
+            pair=Pair(ECurrency('USD'), ECurrency('BTC')),
             rate=Decimal('3'),
             last_trade_at=datetime(2019, 3, 9, 12),
             rate_open=Decimal('2'),

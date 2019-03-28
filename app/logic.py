@@ -1,12 +1,12 @@
-from pyramid_sqlalchemy import Session
 from telegram import ReplyKeyboardMarkup
-
+from suite.database import Session
 from suite.conf import settings
-from .helpers import import_module
-from .keyboard import KeyboardSimpleClever
-from .models import Chat, ChatRequests
-from .parsers.base import PriceRequest
-from .parsers.exceptions import ValidationException
+
+from app.helpers import import_module
+from app.keyboard import KeyboardSimpleClever
+from app.models import Chat, ChatRequests
+from app.parsers.base import PriceRequest
+from app.parsers.exceptions import ValidationException
 
 
 def get_keyboard(chat_id: int) -> ReplyKeyboardMarkup or None:

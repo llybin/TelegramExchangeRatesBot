@@ -2,9 +2,9 @@ from decimal import Decimal
 
 from babel.numbers import format_decimal, get_decimal_quantum, NumberPattern, get_decimal_symbol
 
-from .. import constants
-from ..parsers.base import DirectionWriting
-from .converter import PriceRequestResult
+from app import constants
+from app.parsers.base import DirectionWriting
+from .base import PriceRequestResult
 
 
 # monkey patching fix very small values
@@ -238,6 +238,20 @@ class InlineFormatPriceRequestResult(FormatPriceRequestResult):
     def get(self) -> str:
         if self.is_convert_mode():
             return self.format_amount_convert()
-
         else:
             return self.format_price()
+
+
+class NotifyFormatPriceRequestResult(FormatPriceRequestResult):
+    # FIXME: copy-paste
+    def format_price(self) -> str:
+        assert not self.is_convert_mode()
+
+        rate = self.format_amount(self.prr.rate)
+        from_currency = self.prr.price_request.currency
+        to_currency = self.prr.price_request.to_currency
+
+        if self.is_diff_available() and self._get_arrow():
+            return f'*{from_currency} {to_currency}* {rate} {self._get_arrow()} 🔔'
+        else:
+            return f'*{from_currency} {to_currency}* {rate}'

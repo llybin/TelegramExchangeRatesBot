@@ -4,15 +4,15 @@ import logging
 import transaction
 from telegram import Bot
 from celery_once import QueueOnce
-from pyramid_sqlalchemy import Session
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import IntegrityError
+from suite.database import Session
 from suite.conf import settings
 
-from .celery import celery_app
-from .exchanges.base import reverse_pair_data, PairData
-from .helpers import import_module, rate_from_pair_data, fill_rate_open
-from .models import Exchange, Currency, Rate, RequestsLog, ChatRequests, Chat
+from app.celery import celery_app
+from app.exchanges.base import reverse_pair_data, PairData
+from app.helpers import import_module, rate_from_pair_data, fill_rate_open
+from app.models import Exchange, Currency, Rate, RequestsLog, ChatRequests, Chat
 
 
 # @celery_app.task(base=QueueOnce, queue='exchanges')

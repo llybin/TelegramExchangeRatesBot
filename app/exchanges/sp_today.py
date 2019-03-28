@@ -7,7 +7,7 @@ import requests
 from cached_property import cached_property
 from jsonschema import validate, ValidationError
 
-from .base import Exchange, PairData, Pair, Currency
+from .base import Exchange, PairData, Pair, ECurrency
 from .exceptions import PairNotExistsException, APIErrorException
 
 MAPPING_CURRENCIES = {
@@ -78,7 +78,7 @@ class SpTodayExchange(Exchange):
                 logging.warning('New currency added: %s', x['name'])
                 continue
 
-            result[Pair(Currency(MAPPING_CURRENCIES[x['name']]), Currency('SYP'))] = x
+            result[Pair(ECurrency(MAPPING_CURRENCIES[x['name']]), ECurrency('SYP'))] = x
 
         if len(result) != len(MAPPING_CURRENCIES):
             logging.warning('Currencies were deleted: %s', set(MAPPING_CURRENCIES.keys() - set(result.keys())))
@@ -90,7 +90,7 @@ class SpTodayExchange(Exchange):
         return tuple(self._get_data.keys())
 
     @cached_property
-    def list_currencies(self) -> Tuple[Currency]:
+    def list_currencies(self) -> Tuple[ECurrency]:
         currencies = set()
 
         for from_currency, to_currency in self.list_pairs:

@@ -1,6 +1,6 @@
 import unittest
 
-from ..keyboard import KeyboardArrows, KeyboardSimpleClever
+from app.keyboard import KeyboardArrows, KeyboardSimpleClever
 
 
 class KeyboardArrowsTest(unittest.TestCase):

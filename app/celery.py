@@ -2,15 +2,16 @@ import sentry_sdk
 from sentry_sdk.integrations.celery import CeleryIntegration
 from suite.conf import settings
 from celery import Celery
-from pyramid_sqlalchemy import init_sqlalchemy
 from sqlalchemy import create_engine
+from suite.database import init_sqlalchemy
 
-from . import sentry_before_send
+from app.sentry import before_send
+from app.translations import init_translations
 
 if settings.SENTRY_URL:
     sentry_sdk.init(
         dsn=settings.SENTRY_URL,
-        before_send=sentry_before_send,
+        before_send=before_send,
         integrations=[CeleryIntegration()]
     )
 
@@ -26,3 +27,5 @@ celery_app.conf.ONCE = {
 
 db_engine = create_engine(settings.DATABASE['url'])
 init_sqlalchemy(db_engine)
+
+init_translations()

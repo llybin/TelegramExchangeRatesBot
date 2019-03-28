@@ -2,12 +2,12 @@ import importlib
 import logging
 from typing import Type
 
-from pyramid_sqlalchemy import Session
 from sqlalchemy.orm.exc import NoResultFound
+from suite.database import Session
 
-from .exchanges.base import PairData
-from .exceptions import CurrencyNotSupportedException
-from .models import Rate, Currency
+from app.exchanges.base import PairData
+from app.exceptions import CurrencyNotSupportedException
+from app.models import Rate, Currency
 
 
 def import_module(name: str) -> Type:
