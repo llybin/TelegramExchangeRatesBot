@@ -39,6 +39,8 @@ CELERY_DEFAULT_QUEUE = 'low'
 CELERY_QUEUES = (
     Queue('low'),
     Queue('exchanges'),
+    Queue('notifications'),
+    Queue('send_notification'),
     Queue('update_chat_request'),
 )
 

@@ -2,7 +2,7 @@ import unittest
 from decimal import Decimal
 from unittest.mock import patch
 
-from app.models import get_all_currencies
+from app.queries import get_all_currencies
 from ..base import PriceRequest, DirectionWriting
 from ..exceptions import ValidationException
 from ..regex_parser import RegexParser, parse_amount

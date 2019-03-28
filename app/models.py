@@ -1,8 +1,8 @@
+import enum
 import sqlalchemy as sa
-from pyramid_sqlalchemy import BaseObject, Session
+from pyramid_sqlalchemy import BaseObject
 from sqlalchemy import orm
 
-from .cache import region
 from suite.conf import settings
 
 from .constants import decimal_precision, decimal_scale
@@ -116,6 +116,13 @@ class Event(BaseObject):
     chat = orm.relationship('Chat')
 
 
+class NotifyTriggerClauseEnum(enum.Enum):
+    more = 'more'
+    less = 'less'
+    diff = 'diff'
+    percent = 'percent'
+
+
 class Notification(BaseObject):
     __tablename__ = 'notifications'
 
@@ -123,7 +130,7 @@ class Notification(BaseObject):
     chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)
     from_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
     to_currency_id = sa.Column(sa.Integer, sa.ForeignKey('currencies.id'), nullable=False)
-    trigger_clause = sa.Column(sa.Enum('more', 'less', 'diff', 'percent', name='notification_clause'), nullable=False)
+    trigger_clause = sa.Column(sa.Enum(NotifyTriggerClauseEnum), nullable=False)
     trigger_value = sa.Column(sa.Numeric(decimal_precision, decimal_scale), nullable=False)
     last_rate = sa.Column(sa.Numeric(decimal_precision, decimal_scale), nullable=False)
     is_active = sa.Column(sa.Boolean(), default=True, index=True, nullable=False)
@@ -133,9 +140,3 @@ class Notification(BaseObject):
     chat = orm.relationship('Chat')
     from_currency = orm.relationship('Currency', foreign_keys=[from_currency_id])
     to_currency = orm.relationship('Currency', foreign_keys=[to_currency_id])
-
-
-# TODO: move
-@region.cache_on_arguments(expiration_time=300)
-def get_all_currencies():
-    return [x[0] for x in Session.query(Currency.code).filter_by(is_active=True)]

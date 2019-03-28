@@ -24,7 +24,7 @@ from app.commands.feedback import feedback_command, send_feedback_command
 from app.commands.help import help_command
 from app.commands.keyboard import keyboard_command
 from app.commands.price import price_command, message_command, empty_command, inline_query
-from app.commands.setups import (
+from app.commands.personal_settings import (
     SettingsSteps,
     settings_commands,
     settings_language_commands,

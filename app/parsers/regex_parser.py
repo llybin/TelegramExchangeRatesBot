@@ -31,7 +31,7 @@ from .base import (
     Parser,
 )
 from .exceptions import WrongFormatException, UnknownCurrencyException
-from app.models import get_all_currencies
+from app.queries import get_all_currencies
 
 CURRENCY_SEPARATORS_LIST = (r'\s', ' to ', ' in ', '=', ' = ')
 CURRENCY_SEPARATORS_STR = '|'.join(CURRENCY_SEPARATORS_LIST)

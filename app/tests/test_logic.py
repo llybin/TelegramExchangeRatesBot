@@ -1,6 +1,6 @@
 from suite.test.testcases import SimpleTestCase
 
-from app.models import get_all_currencies
+from app.queries import get_all_currencies
 
 
 class LogicTest(SimpleTestCase):
