@@ -418,6 +418,16 @@ class ParseAmountTest(unittest.TestCase):
             Decimal('9.123')
         )
 
+        self.assertEqual(
+            parse_amount('9.123', 'pt_BR'),
+            Decimal('9123')
+        )
+
+        self.assertEqual(
+            parse_amount('9.123', 'zh_Hans_SG'),
+            Decimal('9.123')
+        )
+
     @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_bad(self, m):
         with self.assertRaises(ValidationException):
