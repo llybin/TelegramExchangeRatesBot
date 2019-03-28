@@ -8,8 +8,8 @@ def tutorial(bot, update, _):
     text_to = _('I am bot. I will help you to know a current exchange rates.')
     text_to += '\n\n'
     text_to += _('''Send me a message like this:
-    *BTC USD* - to see the current exchange rate for pair
-    *100 USD EUR* - to convert the amount from 100 USD to EUR''')
+*BTC USD* - to see the current exchange rate for pair
+*100 USD EUR* - to convert the amount from 100 USD to EUR''')
     text_to += '\n\n'
     text_to += _('Just text me message in private chat.')
     text_to += '\n\n'
