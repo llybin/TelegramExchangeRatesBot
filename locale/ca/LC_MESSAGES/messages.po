@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Telegram Exchange Rates Bot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-26 21:24+0700\n"
+"POT-Creation-Date: 2019-03-28 18:28+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ca\n"
@@ -97,11 +97,6 @@ msgstr ""
 "No tenim el teu idioma? Hi ha cap error de traducció? Ajuda a arreglar-ho"
 " 👉 [poeditor.com](%(trans_link)s)"
 
-#: app/commands/help.py:37
-#, python-format
-msgid "[ExchangeRatesBotNews](%(link)s) - subscribe to channel, stay tuned news."
-msgstr ""
-
 #: app/commands/keyboard.py:25
 msgid "Keyboard is shown."
 msgstr "Es mostra el teclat."
@@ -146,22 +141,22 @@ msgstr ""
 msgid "What do you want to set up?"
 msgstr ""
 
-#: app/commands/setups.py:53 app/commands/setups.py:83
+#: app/commands/setups.py:58 app/commands/setups.py:87
 #, python-format
 msgid "*%(language)s* is your language now."
 msgstr ""
 
-#: app/commands/setups.py:55 app/commands/setups.py:101
-#: app/commands/setups.py:159
+#: app/commands/setups.py:59 app/commands/setups.py:105
+#: app/commands/setups.py:163
 msgid "If you'd like to change send me new or /back"
 msgstr ""
 
-#: app/commands/setups.py:99 app/commands/setups.py:135
+#: app/commands/setups.py:103 app/commands/setups.py:139
 #, python-format
 msgid "*%(default_currency)s* is your default currency."
 msgstr ""
 
-#: app/commands/setups.py:157 app/commands/setups.py:196
+#: app/commands/setups.py:161 app/commands/setups.py:200
 #, python-format
 msgid "*%(position)s* - position where your default currency will be added."
 msgstr ""
@@ -183,11 +178,11 @@ msgstr "Tens cap pregunta sobre com parlar amb mi?  👉 /tutorial"
 msgid "You're unsubscribed. You always can subscribe again 👉 /start"
 msgstr "Has anul·lat la subscripció. Sempre pots tornar a subscriure't 👉 /start\n"
 
-#: app/commands/tutorial.py:10
+#: app/commands/tutorial.py:8
 msgid "I am bot. I will help you to know a current exchange rates."
 msgstr "Jo sóc un bot. Jo t'ajudaré a conéixer les taxes de canvi actuals."
 
-#: app/commands/tutorial.py:15
+#: app/commands/tutorial.py:10
 msgid ""
 "Send me a message like this:\n"
 "    *BTC USD* - to see the current exchange rate for pair\n"
@@ -197,22 +192,27 @@ msgstr ""
 "    *BTC USD* - per a veure la taxa de paritat\n"
 "    *100 USD EUR* - per a convertir la quantitat de 100 USD a EUR"
 
-#: app/commands/tutorial.py:21
+#: app/commands/tutorial.py:14
 msgid "Just text me message in private chat."
 msgstr "Només cal que menviïs un missatge en el xat privat"
 
-#: app/commands/tutorial.py:25
+#: app/commands/tutorial.py:16
 msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
 msgstr ""
 "En xats de grup, usa comandaments com ara aquest: 👉 /p USD EUR 👈 o "
 "simplement /USDEUR"
 
-#: app/commands/tutorial.py:31
+#: app/commands/tutorial.py:18
 #, python-format
 msgid "Inline mode is available. See how to use [here](%(link)s)."
 msgstr "El mode en llínia està disponible. Vejeu com usar-lo [ací](%(link)s)."
 
-#: app/commands/tutorial.py:37
+#: app/commands/tutorial.py:21
 msgid "Also take a look here 👉 /help"
 msgstr "A més, fes una ullada ací 👉 /help"
+
+#~ msgid ""
+#~ "[ExchangeRatesBotNews](%(link)s) - subscribe to "
+#~ "channel, stay tuned news."
+#~ msgstr ""
 
