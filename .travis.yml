@@ -11,8 +11,11 @@ script:
   - docker-compose build
   - docker-compose up -d db
   - docker-compose run service pybabel compile -d locale
+  - ci_env=`bash <(curl -s https://codecov.io/env)`
+  - docker-compose run service $ci_env
   - docker-compose run service coverage run ./manage.py test
   - docker-compose run service coverage report
+  - docker-compose run service bash <(curl -s https://codecov.io/bash)
 
 after_success:
   - sudo pip install codecov
