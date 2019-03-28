@@ -8,7 +8,6 @@ iso4217 = "==1.5.20180829"
 vcrpy = "*"
 freezegun = "*"
 coverage = "*"
-coveralls = "*"
 
 [packages]
 alembic = "==1.0.8"
