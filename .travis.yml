@@ -7,16 +7,13 @@ env:
   - COMPOSE_FILE=docker-compose.yml
 
 script:
+  - pip install coveralls
   - cp .env.default .env
-#  - echo 'COVERALLS_SERVICE_NAME="travis-ci"' >> .env
-#  - echo 'CI="$CI"' >> .env
-#  - echo 'TRAVIS_JOB_ID="$TRAVIS_JOB_ID"' >> .env
-#  - echo 'TRAVIS_BRANCH="$TRAVIS_BRANCH"' >> .env
-#  - echo 'TRAVIS_PULL_REQUEST="$TRAVIS_PULL_REQUEST"' >> .env
-#  - echo 'COVERALLS_REPO_TOKEN="COVERALLS_REPO_TOKEN"' >> .env
   - docker-compose build
   - docker-compose up -d db
   - docker-compose run service pybabel compile -d locale
   - docker-compose run service coverage run --source=. ./manage.py test
   - docker-compose run service coverage report
-#  - docker-compose run service coveralls
+
+after_success:
+  - coveralls
