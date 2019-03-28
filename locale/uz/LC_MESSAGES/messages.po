@@ -9,8 +9,7 @@ msgstr ""
 
 #: app/commands/tutorial.py:10
 msgid "I am bot. I will help you to know a current exchange rates."
-msgstr "Men botman. Sizga joriy valyuta kurslarini bilish uchun yordam beraman.\n"
-""
+msgstr "Men botman. Sizga joriy valyuta kurslarini bilish uchun yordam beraman."
 
 #: app/commands/tutorial.py:15
 msgid "Send me a message like this:\n"
@@ -26,8 +25,7 @@ msgstr "Menga shaxsiy xabar yuboring."
 
 #: app/commands/tutorial.py:25
 msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
-msgstr "Guruhlarda ushbu buyruqlardan foydalaning: 👉 /p USD EUR 👈 yoki oddiygina /USDEUR\n"
-""
+msgstr "Guruhlarda ushbu buyruqlardan foydalaning: 👉 /p USD EUR 👈 yoki oddiygina /USDEUR"
 
 #: app/commands/tutorial.py:31
 msgid "Inline mode is available. See how to use [here](%(link)s)."
