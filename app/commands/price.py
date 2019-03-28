@@ -85,6 +85,9 @@ def price(bot, update, text, chat_info, _):
 @chat_language
 def price_command(bot, update, args, chat_info, _):
     text = ''.join(args)
+    # usd@ExchangeRatesBot
+    text = text.split(bot.name)[0]
+
     price(bot, update, text, chat_info, _)
 
 
@@ -100,7 +103,11 @@ def message_command(bot, update, chat_info, _):
 @register_update
 @chat_language
 def empty_command(bot, update, chat_info, _):
-    price(bot, update, update.message.text[1:], chat_info, _)
+    text = update.message.text[1:]
+    # /usd@ExchangeRatesBot
+    text = text.split(bot.name)[0]
+
+    price(bot, update, text, chat_info, _)
 
 
 @register_update
