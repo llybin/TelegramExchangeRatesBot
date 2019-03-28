@@ -1,8 +1,9 @@
+import logging
 from datetime import datetime
 
-import logging
-from pyramid_sqlalchemy import Session
 from telegram import ParseMode, InlineQueryResultArticle, InputTextMessageContent
+from suite.database import Session
+from suite.conf import settings
 
 from app.converter.converter import convert
 from app.converter.exceptions import ConverterException, NoRatesException
@@ -14,7 +15,6 @@ from app.models import ChatRequests
 from app.parsers.base import PriceRequest
 from app.parsers.exceptions import ValidationException
 from app.tasks import update_chat_request, write_request_log
-from suite.conf import settings
 
 
 def price(bot, update, text, chat_info, _):

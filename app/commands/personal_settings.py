@@ -1,11 +1,11 @@
 from enum import Enum
 
 import transaction
-from pyramid_sqlalchemy import Session
 from telegram import ReplyKeyboardMarkup, ParseMode, ReplyKeyboardRemove
+from suite.database import Session
 from suite.conf import settings
 
-from .. import translations
+from app.translations import get_translations
 from app.decorators import register_update, chat_language
 from app.models import Chat, Currency
 
@@ -83,7 +83,7 @@ def settings_language_set_commands(bot, update, chat_info):
     ).update({'locale': locale})
     transaction.commit()
 
-    _ = translations[locale].gettext
+    _ = get_translations(locale)
     text_to = _('*%(language)s* is your language now.') % {'language': LOCALE_NAME[locale]}
 
     bot.send_message(

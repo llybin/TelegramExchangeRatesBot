@@ -7,7 +7,7 @@ from cached_property import cached_property
 from jsonschema import validate, ValidationError
 from ratelimit import limits, sleep_and_retry
 
-from .base import Exchange, PairData, Pair, Currency
+from .base import Exchange, PairData, Pair, ECurrency
 from .exceptions import PairNotExistsException, APIErrorException, APIChangedException
 
 
@@ -53,12 +53,12 @@ class BitfinexExchange(Exchange):
             if len(to_currency) != 3:
                 raise APIChangedException('Not only 3-symbol currency')
 
-            pairs.add(Pair(Currency(from_currency), Currency(to_currency)))
+            pairs.add(Pair(ECurrency(from_currency), ECurrency(to_currency)))
 
         return tuple(pairs)
 
     @cached_property
-    def list_currencies(self) -> Tuple[Currency]:
+    def list_currencies(self) -> Tuple[ECurrency]:
         currencies = set()
 
         for from_currency, to_currency in self.list_pairs:

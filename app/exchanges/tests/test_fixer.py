@@ -5,7 +5,7 @@ import vcr
 
 from suite.test.testcases import SimpleTestCase
 from ..fixer import FixerExchange
-from ..base import PairData, Pair, Currency
+from ..base import PairData, Pair, ECurrency
 from ..exceptions import PairNotExistsException
 
 
@@ -26,35 +26,35 @@ class FixerTest(SimpleTestCase):
     def test_list_currencies(self):
         currencies = FixerExchange().list_currencies
         self.assertEqual(len(currencies), 169)
-        self.assertTrue(Currency(code='EUR') in currencies)
-        self.assertTrue(Currency(code='USD') in currencies)
+        self.assertTrue(ECurrency(code='EUR') in currencies)
+        self.assertTrue(ECurrency(code='USD') in currencies)
 
     @my_vcr.use_cassette('query_200')
     def test_list_pairs(self):
         pairs = FixerExchange().list_pairs
         self.assertEqual(len(pairs), 168)
-        self.assertTrue(Pair(Currency('EUR'), Currency('USD')) in pairs)
+        self.assertTrue(Pair(ECurrency('EUR'), ECurrency('USD')) in pairs)
 
     @my_vcr.use_cassette('query_200')
     def test_is_pair_exists(self):
         exchange = FixerExchange()
-        self.assertTrue(exchange.is_pair_exists(Pair(Currency('EUR'), Currency('USD'))))
+        self.assertTrue(exchange.is_pair_exists(Pair(ECurrency('EUR'), ECurrency('USD'))))
 
-        self.assertFalse(exchange.is_pair_exists(Pair(Currency('eur'), Currency('USD'))))
-        self.assertFalse(exchange.is_pair_exists(Pair(Currency('eur'), Currency('MONEY'))))
+        self.assertFalse(exchange.is_pair_exists(Pair(ECurrency('eur'), ECurrency('USD'))))
+        self.assertFalse(exchange.is_pair_exists(Pair(ECurrency('eur'), ECurrency('MONEY'))))
 
     @my_vcr.use_cassette('query_200')
     def test_is_currency_exists(self):
         exchange = FixerExchange()
-        self.assertTrue(exchange.is_currency_exists(Currency(code='EUR')))
-        self.assertTrue(exchange.is_currency_exists(Currency(code='USD')))
+        self.assertTrue(exchange.is_currency_exists(ECurrency(code='EUR')))
+        self.assertTrue(exchange.is_currency_exists(ECurrency(code='USD')))
 
-        self.assertFalse(exchange.is_currency_exists(Currency(code='usd')))
-        self.assertFalse(exchange.is_currency_exists(Currency(code='MONEY')))
+        self.assertFalse(exchange.is_currency_exists(ECurrency(code='usd')))
+        self.assertFalse(exchange.is_currency_exists(ECurrency(code='MONEY')))
 
     @my_vcr.use_cassette('query_200')
     def test_get_pair_info(self):
-        pair = Pair(Currency('EUR'), Currency('USD'))
+        pair = Pair(ECurrency('EUR'), ECurrency('USD'))
         self.assertEqual(
             FixerExchange().get_pair_info(pair),
             PairData(
@@ -67,6 +67,6 @@ class FixerTest(SimpleTestCase):
 
     @my_vcr.use_cassette('query_200')
     def test_get_pair_info_no_pair(self):
-        pair = Pair(Currency('MONEY'), Currency('EUR'))
+        pair = Pair(ECurrency('MONEY'), ECurrency('EUR'))
         with self.assertRaises(PairNotExistsException):
             FixerExchange().get_pair_info(pair)

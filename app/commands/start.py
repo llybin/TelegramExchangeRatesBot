@@ -1,5 +1,6 @@
 import transaction
-from pyramid_sqlalchemy import Session
+from sqlalchemy.sql import true
+from suite.database import Session
 
 from app.commands.tutorial import tutorial
 from app.decorators import register_update, chat_language
@@ -26,7 +27,7 @@ def start_command(bot, update, chat_info, _):
         if not chat_info['is_subscribed']:
             Session().query(Chat).filter_by(
                 id=update.message.chat_id
-            ).update({'is_subscribed': True})
+            ).update({'is_subscribed': true()})
             transaction.commit()
 
         bot.send_message(

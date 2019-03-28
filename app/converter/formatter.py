@@ -2,9 +2,9 @@ from decimal import Decimal
 
 from babel.numbers import format_decimal, get_decimal_quantum, NumberPattern, get_decimal_symbol
 
-from .. import constants
-from ..parsers.base import DirectionWriting
-from .converter import PriceRequestResult
+from app import constants
+from app.parsers.base import DirectionWriting
+from .base import PriceRequestResult
 
 
 # monkey patching fix very small values

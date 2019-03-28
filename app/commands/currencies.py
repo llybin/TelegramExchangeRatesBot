@@ -1,5 +1,5 @@
-from pyramid_sqlalchemy import Session
 from telegram import ParseMode
+from suite.database import Session
 
 from app.decorators import register_update
 from app.models import Currency

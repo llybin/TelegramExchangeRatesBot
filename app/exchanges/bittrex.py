@@ -6,7 +6,7 @@ import requests
 from cached_property import cached_property
 from jsonschema import validate, ValidationError
 
-from .base import Exchange, PairData, Pair, Currency
+from .base import Exchange, PairData, Pair, ECurrency
 from .exceptions import PairNotExistsException, APIErrorException, APIChangedException
 
 
@@ -72,7 +72,7 @@ class BittrexExchange(Exchange):
             # reverse
             to_currency, from_currency = x['MarketName'].upper().split('-')
             del x['MarketName']
-            result[Pair(Currency(from_currency), Currency(to_currency))] = x
+            result[Pair(ECurrency(from_currency), ECurrency(to_currency))] = x
 
         return result
 
@@ -81,7 +81,7 @@ class BittrexExchange(Exchange):
         return tuple(self._get_data.keys())
 
     @cached_property
-    def list_currencies(self) -> Tuple[Currency]:
+    def list_currencies(self) -> Tuple[ECurrency]:
         currencies = set()
 
         for from_currency, to_currency in self.list_pairs:

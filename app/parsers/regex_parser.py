@@ -24,14 +24,14 @@ from decimal import Decimal, InvalidOperation
 from babel.core import Locale
 from babel.numbers import get_decimal_symbol, get_group_symbol
 
-from ..constants import BIGGEST_VALUE
+from app.constants import BIGGEST_VALUE
+from app.queries import get_all_currencies
 from .base import (
     DirectionWriting,
     PriceRequest,
     Parser,
 )
 from .exceptions import WrongFormatException, UnknownCurrencyException
-from app.queries import get_all_currencies
 
 CURRENCY_SEPARATORS_LIST = (r'\s', ' to ', ' in ', '=', ' = ')
 CURRENCY_SEPARATORS_STR = '|'.join(CURRENCY_SEPARATORS_LIST)

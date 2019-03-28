@@ -1,6 +1,6 @@
 import transaction
-from pyramid_sqlalchemy import Session
 from telegram import ReplyKeyboardRemove
+from suite.database import Session
 
 from app.decorators import register_update, chat_language
 from app.logic import get_keyboard

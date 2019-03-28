@@ -84,7 +84,10 @@ CELERYBEAT_SCHEDULE = {
     'delete_expired_rates': {
         'task': 'app.tasks.delete_expired_rates',
         'schedule': crontab(minute=5, hour='*/1'),
-        'options': {'once': {'timeout': 60}}
+    },
+    'notification_checker': {
+        'task': 'app.tasks_notifications.notification_checker',
+        'schedule': crontab(minute='*/5')
     },
 }
 

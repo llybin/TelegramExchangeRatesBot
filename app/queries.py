@@ -1,4 +1,4 @@
-from pyramid_sqlalchemy import Session
+from suite.database import Session
 
 from app.cache import region
 from app.models import Currency

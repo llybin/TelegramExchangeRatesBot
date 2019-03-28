@@ -3,19 +3,18 @@ from decimal import Decimal
 
 import telegram
 import transaction
-from celery_once import QueueOnce
-from pyramid_sqlalchemy import Session
 from sqlalchemy import true, false
 from telegram import ParseMode
-from telegram.error import RetryAfter, TimedOut
+from telegram.error import RetryAfter, TimedOut, Unauthorized
+from suite.database import Session
 from suite.conf import settings
 
-from . import translations
 from app.celery import celery_app
 from app.converter.converter import convert
 from app.converter.formatter import NotifyFormatPriceRequestResult
-from app.models import Notification, Currency, NotifyTriggerClauseEnum
+from app.models import Notification, Currency, NotifyTriggerClauseEnum, Chat
 from app.parsers.base import PriceRequest
+from app.translations import get_translations
 
 
 def is_triggered(trigger_clause: str, trigger_value: Decimal, last_rate: Decimal, current_rate: Decimal):
@@ -36,9 +35,6 @@ def is_triggered(trigger_clause: str, trigger_value: Decimal, last_rate: Decimal
 
 
 def notification_auto_disable(pair: list):
-    # TODO: modify decorator, in personal_settings
-    _ = translations['en'].gettext
-
     db_session = Session()
 
     notifications = db_session.query(
@@ -50,6 +46,7 @@ def notification_auto_disable(pair: list):
     ).all()
 
     for n in notifications:
+        _ = get_translations(n.chat.locale)
         send_notification(
             n.chat_id,
             _('Your notification has been disabled, due to one of the currencies %(from_currency)s %(to_currency)s has been deactivated.') % {  # NOQA
@@ -68,15 +65,16 @@ def notification_auto_disable(pair: list):
     transaction.commit()
 
 
-@celery_app.task(bind=True, queue='send_notification', time_limit=60, rate_limit='15/s', default_retry_delay=10)
+@celery_app.task(bind=True, queue='send_notification', time_limit=60, rate_limit='15/s',
+                 retry_backoff_max=5, retry_backoff_max=300)
 def send_notification(self, chat_id, text):
     """
     https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once
     The API will not allow more than ~30 messages to different users per second
     """
-    try:
-        bot = telegram.Bot(settings.BOT_TOKEN)
+    bot = telegram.Bot(settings.BOT_TOKEN)
 
+    try:
         bot.send_message(
             chat_id=chat_id,
             disable_web_page_preview=True,
@@ -89,14 +87,27 @@ def send_notification(self, chat_id, text):
     except RetryAfter as e:
         raise self.retry(exc=e, countdown=int(e.retry_after))
 
-    # TODO: Forbidden - unsubscribe, disable notification
-    # TODO: /stop - disable notifications
+    except Unauthorized:
+        # bot deleted
+        db_session = Session()
+
+        db_session.query(
+            Notification
+        ).filter_by(
+            is_active=true(),
+            chat_id=chat_id,
+        ).update({'is_active': false()})
+
+        db_session.query(Chat).filter_by(
+            id=chat_id
+        ).update({'is_subscribed': false()})
+
+        transaction.commit()
 
 
 # base=QueueOnce
-@celery_app.task(queue='notifications', time_limit=60)
+@celery_app.task(queue='notifications', time_limit=300)
 def notification_checker():
-    # TODO: check is_subscribed flag
     db_session = Session()
     pairs = db_session.query(
         Notification.from_currency_id,
@@ -122,7 +133,7 @@ def notification_checker():
             amount=None,
             currency=from_currency.code,
             to_currency=to_currency.code,
-            parser_name='notifications'
+            parser_name='Notification'
         )
 
         prr = convert(pr)
@@ -138,10 +149,7 @@ def notification_checker():
 
         for n in notifications:
             if is_triggered(n.trigger_clause, n.trigger_value, n.last_rate, prr.rate):
-                n.last_rate = prr.rate
-                # TODO: transaction.commit()
-
                 text_to = NotifyFormatPriceRequestResult(prr, n.chat.locale).get()
                 send_notification(n.chat_id, text_to)
-
-        transaction.commit()
+                n.last_rate = prr.rate
+                transaction.commit()

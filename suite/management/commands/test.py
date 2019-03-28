@@ -1,10 +1,10 @@
 import unittest
 
 import click
-from pyramid_sqlalchemy import init_sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database, drop_database
 
+from suite.database import init_sqlalchemy
 from suite.conf import settings
 from suite.management.commands.db import command_migrate, alembic_cfg
 

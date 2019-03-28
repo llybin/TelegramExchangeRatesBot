@@ -1,8 +1,8 @@
 import enum
 import sqlalchemy as sa
-from pyramid_sqlalchemy import BaseObject
 from sqlalchemy import orm
 
+from suite.database import BaseObject
 from suite.conf import settings
 
 from .constants import decimal_precision, decimal_scale
@@ -125,6 +125,7 @@ class NotifyTriggerClauseEnum(enum.Enum):
 
 class Notification(BaseObject):
     __tablename__ = 'notifications'
+    __table_args__ = (sa.UniqueConstraint('chat_id', 'from_currency_id', 'to_currency_id'),)
 
     id = sa.Column(sa.Integer, primary_key=True)
     chat_id = sa.Column(sa.BigInteger, sa.ForeignKey('chats.id'), nullable=False)

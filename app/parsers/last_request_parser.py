@@ -4,9 +4,11 @@ Last request parser, when user send only amount
 """
 
 import re
-from babel.core import Locale
-from pyramid_sqlalchemy import Session
 
+from babel.core import Locale
+from suite.database import Session
+
+from app.models import ChatRequests
 from .base import (
     DirectionWriting,
     PriceRequest,
@@ -14,7 +16,6 @@ from .base import (
 )
 from .exceptions import WrongFormatException
 from .regex_parser import parse_amount
-from ..models import ChatRequests
 
 
 # len("123,456,789,012.123456789012") == 28
