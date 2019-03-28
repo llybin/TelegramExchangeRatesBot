@@ -7,6 +7,7 @@ env:
   - COMPOSE_FILE=docker-compose.yml
 
 script:
+  - pip install --upgrade pip
   - pip install coveralls
   - cp .env.default .env
   - docker-compose build
