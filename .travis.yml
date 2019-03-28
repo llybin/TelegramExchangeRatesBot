@@ -11,4 +11,8 @@ script:
   - docker-compose build
   - docker-compose up -d db
   - docker-compose run service pybabel compile -d locale
-  - docker-compose run service ./manage.py test
+  - docker-compose run service coverage run ./manage.py test
+  - docker-compose run service coverage report
+
+after_success:
+  - coveralls
