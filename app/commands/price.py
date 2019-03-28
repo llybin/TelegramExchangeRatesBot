@@ -155,10 +155,11 @@ def inline_query(bot, update, chat_info):
             chat_id=update.effective_user.id,
             msg='',
             created_at=datetime.now(),
-            tag='Inline'
+            tag='Inline All'
         )
         # TODO: increase counter what was chosen if it possible
     else:
+        tag = ''
         try:
             price_request = start_parse(
                 query,
@@ -169,6 +170,8 @@ def inline_query(bot, update, chat_info):
             )
 
             logging.info(f'inline_request: {query} -> {price_request}')
+
+            tag = price_request.parser_name
 
             price_request_result = convert(price_request)
 
@@ -200,7 +203,7 @@ def inline_query(bot, update, chat_info):
                 to_currency=price_request.to_currency
             )
 
-        except (ValidationException, ConverterException) as e:
+        except (ValidationException, ConverterException):
             logging.info(f'inline_request unrecognized: {query}')
             results = []
 
@@ -210,7 +213,7 @@ def inline_query(bot, update, chat_info):
                     chat_id=update.effective_user.id,
                     msg=query,
                     created_at=datetime.now(),
-                    tag='Inline'
+                    tag=f'Inline {tag}' if tag else 'Inline'
                 )
 
     update.inline_query.answer(results)
