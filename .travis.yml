@@ -8,8 +8,10 @@ env:
 
 script:
   - cp .env.default .env
+  - echo 'CI="$CI"' >> .env
   - echo 'TRAVIS_JOB_ID="$TRAVIS_JOB_ID"' >> .env
   - echo 'TRAVIS_BRANCH="$TRAVIS_BRANCH"' >> .env
+  - echo 'TRAVIS_PULL_REQUEST="$TRAVIS_PULL_REQUEST"' >> .env
   - echo 'COVERALLS_REPO_TOKEN="COVERALLS_REPO_TOKEN"' >> .env
   - docker-compose build
   - docker-compose up -d db
