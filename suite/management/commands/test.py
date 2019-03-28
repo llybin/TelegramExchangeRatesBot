@@ -10,9 +10,19 @@ from suite.management.commands.db import command_migrate, alembic_cfg
 
 
 @click.command(help="Runs tests.")
-def test():
+@click.argument('tests_path', required=False)
+def test(tests_path=None):
     loader = unittest.TestLoader()
-    tests = loader.discover('.')
+    if tests_path:
+        try:
+            tests = loader.loadTestsFromName(tests_path)
+            if not tests._tests:
+                tests = loader.discover(tests_path, top_level_dir='.')
+        except ModuleNotFoundError:
+            tests = loader.discover('.')
+    else:
+        tests = loader.discover('.')
+
     test_runner = unittest.TextTestRunner(verbosity=2)
 
     settings.SENTRY_URL = None
