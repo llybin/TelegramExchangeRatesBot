@@ -8,6 +8,7 @@ env:
 
 script:
   - cp .env.default .env
+  - echo 'COVERALLS_SERVICE_NAME="travis-ci"' >> .env
   - echo 'CI="$CI"' >> .env
   - echo 'TRAVIS_JOB_ID="$TRAVIS_JOB_ID"' >> .env
   - echo 'TRAVIS_BRANCH="$TRAVIS_BRANCH"' >> .env

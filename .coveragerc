@@ -1,5 +1,7 @@
 [run]
 branch = True
+include =
+        ./*
 omit =
-	*tests*
-	migrations/*
+        *tests*
+        migrations/*
