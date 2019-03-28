@@ -87,7 +87,7 @@ msgstr "/sources - Pul birlik kurslarining manbalari"
 
 #: app/commands/help.py:28
 msgid "/disclaimers - Disclaimers"
-msgstr "/disclaimers - Ohohlantirishlar"
+msgstr "/disclaimers - Ogohlantirishlar"
 
 #: app/commands/help.py:30
 msgid "/stop - Unsubscribe"
@@ -177,7 +177,6 @@ msgid "Close settings"
 msgstr "Sozlamalarni yopish"
 
 #: app/commands/help.py:37
-#, fuzzy
 msgid "[ExchangeRatesBotNews](%(link)s) - subscribe to channel, stay tuned news."
 msgstr "[ExchangeRatesBotNews](%(link)s) - angiliklarimizdan bohabar bo'lish uchun, kanalimizga obuna bo'ling!"
 
