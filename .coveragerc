@@ -1,6 +1,5 @@
 [run]
-include =
-    ./*
+source = .
 omit =
     *tests*
     *migrations*

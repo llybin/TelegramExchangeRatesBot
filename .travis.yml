@@ -7,13 +7,13 @@ env:
   - COMPOSE_FILE=docker-compose.yml
 
 script:
-  - pip install --upgrade pip
-  - pip install coveralls
+  - pip install --user coveralls
+  - PATH=$HOME/.local/bin:$PATH
   - cp .env.default .env
   - docker-compose build
   - docker-compose up -d db
   - docker-compose run service pybabel compile -d locale
-  - docker-compose run service coverage run --source=. ./manage.py test
+  - docker-compose run service coverage run ./manage.py test
   - docker-compose run service coverage report
 
 after_success:
