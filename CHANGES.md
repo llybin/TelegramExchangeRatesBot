@@ -1,7 +1,13 @@
 # CHANGES
 
-##### 1.2
+##### 1.3
 - notifications backend, todo: interface
+
+##### 1.2
+- tutorial in one message
+- parser logging inline better
+- python libs upgraded
+- translations updated
 
 ##### 1.1
 - added BTT - BitConnect currency
