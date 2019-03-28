@@ -7,8 +7,6 @@ env:
   - COMPOSE_FILE=docker-compose.yml
 
 script:
-  - pip install --user codecov
-  - PATH=$HOME/.local/bin:$PATH
   - cp .env.default .env
   - docker-compose build
   - docker-compose up -d db
@@ -17,4 +15,5 @@ script:
   - docker-compose run service coverage report
 
 after_success:
+  - sudo pip install codecov
   - codecov
