@@ -1,7 +1,7 @@
 """initial
 
 Revision ID: 20190306160951
-Revises: 
+Revises:
 Create Date: 2019-03-06 16:09:51.510721
 
 """

@@ -6,10 +6,10 @@ from .bx_in_th import BxInThExchange
 from .sp_today import SpTodayExchange
 
 __all__ = [
-    BitfinexExchange,
-    BittrexExchange,
-    OpenExchangeRatesExchange,
-    FixerExchange,
-    BxInThExchange,
-    SpTodayExchange,
+    'BitfinexExchange',
+    'BittrexExchange',
+    'OpenExchangeRatesExchange',
+    'FixerExchange',
+    'BxInThExchange',
+    'SpTodayExchange',
 ]
