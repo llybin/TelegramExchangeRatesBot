@@ -1,6 +1,7 @@
 # Telegram ExchangeRatesBot
 
 [![Build Status](https://travis-ci.com/llybin/TelegramExchangeRatesBot.svg?branch=master)](https://travis-ci.com/llybin/TelegramExchangeRatesBot)
+[![codecov](https://codecov.io/gh/llybin/TelegramExchangeRatesBot/branch/master/graph/badge.svg)](https://codecov.io/gh/llybin/TelegramExchangeRatesBot)
 [![GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](LICENSE)
 
 Telegram bot actual exchange rates for travel, work and daily life.
