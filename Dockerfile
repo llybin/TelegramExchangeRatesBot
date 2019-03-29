@@ -9,7 +9,7 @@ COPY wait-for-it.sh ./
 
 # coverage
 RUN apt-get update \
-    && apt-get -y install git \
+    && apt-get -y install git curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
