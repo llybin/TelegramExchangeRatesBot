@@ -1,8 +1,8 @@
 from suite.test.testcases import SimpleTestCase
 
-from app.tasks import PairData
+from app.tasks_notifications import PriceRequest
 
 
 class TasksTest(SimpleTestCase):
     def test_todo(self):
-        self.assertTrue(PairData)
+        self.assertTrue(PriceRequest)

@@ -1,8 +1,12 @@
 from suite.test.testcases import SimpleTestCase
+from suite.conf import settings
 
-from app.queries import get_all_currencies
+from app.logic import PARSERS
 
 
-class LogicTest(SimpleTestCase):
-    def test_get_all_currencies(self):
-        self.assertEqual(len(get_all_currencies()), 210)
+class ParsingTest(SimpleTestCase):
+    def test_parsers(self):
+        self.assertEqual(
+            list(map(lambda x: x.__name__, PARSERS)),
+            list(map(lambda x: x.rsplit('.', 1)[1], settings.BOT_PARSERS))
+        )
