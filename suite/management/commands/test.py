@@ -26,6 +26,9 @@ def test(tests_path=None):
     test_runner = unittest.TextTestRunner(verbosity=2)
 
     settings.SENTRY_URL = None
+    settings.BOT_TOKEN = None
+    settings.DEVELOPER_BOT_TOKEN = None
+    settings.DEVELOPER_USER_ID = None
 
     db_url, db_name = settings.DATABASE['url'].rsplit('/', 1)
     settings.DATABASE['url'] = f"{db_url}/test_{db_name}"
