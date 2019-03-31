@@ -15,4 +15,4 @@ script:
   - docker-compose run service coverage run ./manage.py test
   - docker-compose run service coverage report
   - docker-compose run $ci_env service codecov
-  - docker-compose run $ci_env service python-codacy-coverage -r /code/coverage.xml
+  - docker-compose run $ci_env -e CODACY_PROJECT_TOKEN service python-codacy-coverage -r /code/coverage.xml
