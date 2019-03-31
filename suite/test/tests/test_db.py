@@ -4,5 +4,5 @@ from suite.conf import settings
 
 class TestDBTest(SimpleTestCase):
     def test_db_test(self):
-        db_url, db_name = settings.DATABASE['url'].rsplit('/', 1)
+        db_name = settings.DATABASE['url'].rsplit('/', 1)[1]
         self.assertTrue(db_name.startswith('test_'))

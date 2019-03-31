@@ -50,7 +50,7 @@ class BxInThExchange(Exchange):
             raise APIErrorException(e)
 
         result = {}
-        for i, x in data.items():
+        for x in data.values():
             # reverse
             to_currency, from_currency = x['primary_currency'], x['secondary_currency']
             result[Pair(ECurrency(from_currency), ECurrency(to_currency))] = x['last_price']

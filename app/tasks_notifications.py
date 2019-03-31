@@ -31,7 +31,7 @@ def is_triggered(trigger_clause: str, trigger_value: Decimal, last_rate: Decimal
         return abs(last_rate - current_rate) / last_rate * Decimal('100') >= trigger_value
 
     else:
-        raise NotImplemented
+        raise ValueError('Unknown NotifyTriggerClauseEnum')
 
 
 def notification_auto_disable(pair: list):
@@ -47,7 +47,7 @@ def notification_auto_disable(pair: list):
 
     for n in notifications:
         _ = get_translations(n.chat.locale)
-        send_notification(
+        send_notification.delay(
             n.chat_id,
             _('Your notification has been disabled, due to one of the currencies %(from_currency)s %(to_currency)s has been deactivated.') % {  # NOQA
                 'from_currency': n.from_currency.code, 'to_currency': n.to_currency.code
@@ -150,6 +150,6 @@ def notification_checker():
         for n in notifications:
             if is_triggered(n.trigger_clause, n.trigger_value, n.last_rate, prr.rate):
                 text_to = NotifyFormatPriceRequestResult(prr, n.chat.locale).get()
-                send_notification(n.chat_id, text_to)
+                send_notification.delay(n.chat_id, text_to)
                 n.last_rate = prr.rate
                 transaction.commit()
