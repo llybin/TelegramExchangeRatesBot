@@ -13,4 +13,8 @@ script:
   - docker-compose run service pybabel compile -d locale
   - docker-compose run service coverage run ./manage.py test
   - docker-compose run service coverage report
-  - docker-compose run -e CODACY_PROJECT_TOKEN service python-codacy-coverage -r /code/coverage.xml
+  - docker-compose run service coverage xml
+
+after_success:
+  - sudo pip install codacy-coverage==1.3.11
+  - python-codacy-coverage -r ./coverage.xml
