@@ -4,9 +4,46 @@ from decimal import Decimal
 from freezegun import freeze_time
 from suite.test.testcases import SimpleTestCase
 
+from app.constants import decimal_scale
 from app.parsers.base import DirectionWriting, PriceRequest
 from app.converter.base import PriceRequestResult
-from ..formatter import FormatPriceRequestResult, InlineFormatPriceRequestResult, NotifyFormatPriceRequestResult
+from ..formatter import (
+    FormatPriceRequestResult,
+    InlineFormatPriceRequestResult,
+    NotifyFormatPriceRequestResult,
+    clever_round,
+)
+
+
+class CleverRoundTest(SimpleTestCase):
+
+    def test_more_1(self):
+        self.assertEqual(clever_round(Decimal('1.00001'), 4), Decimal('1'))
+
+    def test_no_fraction(self):
+        self.assertEqual(clever_round(Decimal('10'), 4), Decimal('10'))
+
+    def test_very_small(self):
+        self.assertEqual(clever_round(Decimal(f'0.{"0" * decimal_scale}1'), 4), Decimal('0'))
+
+    def test_all_ndigits(self):
+        self.assertEqual(
+            clever_round(Decimal(f'0.{"0" * (decimal_scale - 4)}11111'), 4),
+            Decimal(f'0.{"0" * (decimal_scale - 4)}1111'))
+
+    def test_part_ndigits(self):
+        self.assertEqual(
+            clever_round(Decimal(f'0.{"0" * (decimal_scale - 3)}1111'), 4),
+            Decimal(f'0.{"0" * (decimal_scale - 3)}111'))
+
+        self.assertEqual(
+            clever_round(Decimal(f'0.{"0" * (decimal_scale - 1)}11111'), 4),
+            Decimal(f'0.{"0" * (decimal_scale - 1)}1'))
+
+    def test_rounding(self):
+        self.assertEqual(
+            clever_round(Decimal(f'0.{"0" * (decimal_scale - 4)}12345'), 4),
+            Decimal(f'0.{"0" * (decimal_scale - 4)}1235'))
 
 
 class FormatPriceRequestResultTest(SimpleTestCase):
@@ -31,7 +68,7 @@ class FormatPriceRequestResultTest(SimpleTestCase):
 
         fpr = FormatPriceRequestResult(prr, 'en')
 
-        self.assertTrue(fpr.is_diff_available())
+        self.assertTrue(fpr.is_rate_diff_available())
         self.assertTrue(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
@@ -57,7 +94,7 @@ class FormatPriceRequestResultTest(SimpleTestCase):
 
         fpr = FormatPriceRequestResult(prr, 'en')
 
-        self.assertTrue(fpr.is_diff_available())
+        self.assertTrue(fpr.is_rate_diff_available())
         self.assertTrue(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
@@ -83,7 +120,7 @@ class FormatPriceRequestResultTest(SimpleTestCase):
 
         fpr = FormatPriceRequestResult(prr, 'en')
 
-        self.assertTrue(fpr.is_diff_available())
+        self.assertTrue(fpr.is_rate_diff_available())
         self.assertTrue(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
@@ -108,7 +145,7 @@ class FormatPriceRequestResultTest(SimpleTestCase):
         )
         fpr = FormatPriceRequestResult(prr, 'en')
 
-        self.assertTrue(fpr.is_diff_available())
+        self.assertTrue(fpr.is_rate_diff_available())
         self.assertFalse(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
@@ -133,7 +170,7 @@ class FormatPriceRequestResultTest(SimpleTestCase):
         )
         fpr = FormatPriceRequestResult(prr, 'en')
 
-        self.assertFalse(fpr.is_diff_available())
+        self.assertFalse(fpr.is_rate_diff_available())
         self.assertFalse(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
@@ -158,7 +195,7 @@ class FormatPriceRequestResultTest(SimpleTestCase):
         )
         fpr = FormatPriceRequestResult(prr, 'en')
 
-        self.assertFalse(fpr.is_diff_available())
+        self.assertFalse(fpr.is_rate_diff_available())
         self.assertFalse(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
@@ -183,7 +220,7 @@ class FormatPriceRequestResultTest(SimpleTestCase):
         )
         fpr = FormatPriceRequestResult(prr, 'en')
 
-        self.assertTrue(fpr.is_diff_available())
+        self.assertTrue(fpr.is_rate_diff_available())
         self.assertFalse(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
@@ -208,7 +245,7 @@ class FormatPriceRequestResultTest(SimpleTestCase):
         )
         fpr = FormatPriceRequestResult(prr, 'en')
 
-        self.assertTrue(fpr.is_diff_available())
+        self.assertTrue(fpr.is_rate_diff_available())
         self.assertFalse(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
@@ -231,7 +268,7 @@ class FormatPriceRequestResultTest(SimpleTestCase):
         )
         fpr = FormatPriceRequestResult(prr, 'en')
 
-        self.assertTrue(fpr.is_diff_available())
+        self.assertTrue(fpr.is_rate_diff_available())
         self.assertFalse(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
@@ -258,7 +295,7 @@ test-exchanger 📡''')
         )
         fpr = FormatPriceRequestResult(prr, 'en')
 
-        self.assertTrue(fpr.is_diff_available())
+        self.assertTrue(fpr.is_rate_diff_available())
         self.assertFalse(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
@@ -288,7 +325,7 @@ test-exchanger 📡''')
 
         fpr = FormatPriceRequestResult(prr, 'en')
 
-        self.assertTrue(fpr.is_diff_available())
+        self.assertTrue(fpr.is_rate_diff_available())
         self.assertFalse(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
@@ -296,7 +333,7 @@ test-exchanger 📡''')
 
         fpr = FormatPriceRequestResult(prr, 'de')
 
-        self.assertTrue(fpr.is_diff_available())
+        self.assertTrue(fpr.is_rate_diff_available())
         self.assertFalse(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
@@ -304,7 +341,7 @@ test-exchanger 📡''')
 
         fpr = FormatPriceRequestResult(prr, 'zh-hans-sg')
 
-        self.assertTrue(fpr.is_diff_available())
+        self.assertTrue(fpr.is_rate_diff_available())
         self.assertFalse(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
@@ -332,11 +369,37 @@ class InlineFormatPriceRequestResultTest(SimpleTestCase):
 
         fpr = InlineFormatPriceRequestResult(prr, 'en')
 
-        self.assertTrue(fpr.is_diff_available())
+        self.assertTrue(fpr.is_rate_diff_available())
         self.assertTrue(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
             '0.5 USD = 1.5 EUR')
+
+    @freeze_time("2019-03-17 22:14:15", tz_offset=0)
+    def test_convert_r2l(self):
+        prr = PriceRequestResult(
+            price_request=PriceRequest(
+                amount=Decimal('0.5'),
+                currency='USD',
+                to_currency='EUR',
+                parser_name='test-parser',
+                direction_writing=DirectionWriting.RIGHT2LEFT,
+            ),
+            exchanges=['test-exchanger'],
+            rate=Decimal('3'),
+            rate_open=Decimal('1'),
+            low24h=Decimal('1'),
+            high24h=Decimal('1'),
+            last_trade_at=datetime.now()
+        )
+
+        fpr = InlineFormatPriceRequestResult(prr, 'en')
+
+        self.assertTrue(fpr.is_rate_diff_available())
+        self.assertTrue(fpr.is_convert_mode())
+        self.assertEqual(
+            fpr.get(),
+            '1.5 EUR = 0.5 USD')
 
     @freeze_time("2019-03-17 22:14:15", tz_offset=0)
     def test_price_mode(self):
@@ -357,11 +420,36 @@ class InlineFormatPriceRequestResultTest(SimpleTestCase):
         )
         fpr = InlineFormatPriceRequestResult(prr, 'en')
 
-        self.assertTrue(fpr.is_diff_available())
+        self.assertTrue(fpr.is_rate_diff_available())
         self.assertFalse(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
             'USD EUR 1.5 ⬆️')
+
+    @freeze_time("2019-03-17 22:14:15", tz_offset=0)
+    def test_price_mode_no_diff(self):
+        prr = PriceRequestResult(
+            price_request=PriceRequest(
+                amount=None,
+                currency='USD',
+                to_currency='EUR',
+                parser_name='test-parser',
+                direction_writing=DirectionWriting.UNKNOWN,
+            ),
+            exchanges=['test-exchanger'],
+            rate=Decimal('1.5'),
+            rate_open=None,
+            low24h=Decimal('1.2'),
+            high24h=Decimal('1.6'),
+            last_trade_at=datetime.now()
+        )
+        fpr = InlineFormatPriceRequestResult(prr, 'en')
+
+        self.assertFalse(fpr.is_rate_diff_available())
+        self.assertFalse(fpr.is_convert_mode())
+        self.assertEqual(
+            fpr.get(),
+            'USD EUR 1.5')
 
 
 class NotifyFormatPriceRequestResultTest(SimpleTestCase):
@@ -384,8 +472,30 @@ class NotifyFormatPriceRequestResultTest(SimpleTestCase):
         )
         fpr = NotifyFormatPriceRequestResult(prr, 'en')
 
-        self.assertTrue(fpr.is_diff_available())
+        self.assertTrue(fpr.is_rate_diff_available())
         self.assertFalse(fpr.is_convert_mode())
         self.assertEqual(
             fpr.get(),
             '*USD EUR* 1.5 ⬆️ 🔔\n+0.2 (+15.38%)\n*Low*: 1.2 *High*: 1.6\n_17 March, 22:14 UTC_\ntest-exchanger 📡')
+
+    @freeze_time("2019-03-17 22:14:15", tz_offset=0)
+    def test_price_mode_no_diff(self):
+        prr = PriceRequestResult(
+            price_request=PriceRequest(
+                amount=None,
+                currency='USD',
+                to_currency='EUR',
+                parser_name='test-parser',
+                direction_writing=DirectionWriting.UNKNOWN,
+            ),
+            exchanges=['test-exchanger'],
+            rate=Decimal('1.5'),
+            last_trade_at=datetime.now()
+        )
+        fpr = NotifyFormatPriceRequestResult(prr, 'en')
+
+        self.assertFalse(fpr.is_rate_diff_available())
+        self.assertFalse(fpr.is_convert_mode())
+        self.assertEqual(
+            fpr.get(),
+            '*USD EUR* 1.5 🔔\n_17 March, 22:14 UTC_\ntest-exchanger 📡')

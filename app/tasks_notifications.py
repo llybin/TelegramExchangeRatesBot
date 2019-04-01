@@ -17,24 +17,33 @@ from app.parsers.base import PriceRequest
 from app.translations import get_translations
 
 
-def is_triggered(trigger_clause: str, trigger_value: Decimal, last_rate: Decimal, current_rate: Decimal):
+def is_triggered(trigger_clause: NotifyTriggerClauseEnum, trigger_value: Decimal,
+                 last_notification_rate: Decimal, current_rate: Decimal) -> bool:
+    """
+    :param trigger_clause: clause of notification
+    :param trigger_value: rate or diff or percent depends on trigger_clause
+    :param last_notification_rate: rate when was set or last triggered notification
+    :param current_rate: rate now
+    :return:
+    """
+
     if trigger_clause == NotifyTriggerClauseEnum.more:
-        return current_rate >= last_rate
+        return current_rate >= trigger_value
 
     elif trigger_clause == NotifyTriggerClauseEnum.less:
-        return current_rate <= last_rate
+        return current_rate <= trigger_value
 
     elif trigger_clause == NotifyTriggerClauseEnum.diff:
-        return abs(last_rate - current_rate) >= trigger_value
+        return abs(last_notification_rate - current_rate) >= trigger_value
 
     elif trigger_clause == NotifyTriggerClauseEnum.percent:
-        return abs(last_rate - current_rate) / last_rate * Decimal('100') >= trigger_value
+        return abs(last_notification_rate - current_rate) / last_notification_rate * Decimal('100') >= trigger_value
 
     else:
         raise ValueError('Unknown NotifyTriggerClauseEnum')
 
 
-def notification_auto_disable(pair: list):
+def notification_auto_disable(pair: list) -> None:
     db_session = Session()
 
     notifications = db_session.query(
@@ -67,7 +76,7 @@ def notification_auto_disable(pair: list):
 
 @celery_app.task(bind=True, queue='send_notification', time_limit=60, rate_limit='15/s',
                  retry_backoff=5, retry_backoff_max=300)
-def send_notification(self, chat_id, text):
+def send_notification(self, chat_id: int, text: str) -> None:
     """
     https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once
     The API will not allow more than ~30 messages to different users per second
@@ -107,7 +116,7 @@ def send_notification(self, chat_id, text):
 
 # base=QueueOnce
 @celery_app.task(queue='notifications', time_limit=300)
-def notification_checker():
+def notification_checker() -> None:
     db_session = Session()
     pairs = db_session.query(
         Notification.from_currency_id,

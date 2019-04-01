@@ -1,4 +1,4 @@
-from decimal import Decimal
+from decimal import Decimal, ROUND_HALF_UP
 
 from babel.numbers import format_decimal, get_decimal_quantum, NumberPattern, get_decimal_symbol
 
@@ -42,6 +42,7 @@ def clever_round(number: Decimal, ndigits: int) -> Decimal:
     precision = len(str_fraction) - len(str_fraction.lstrip('0')) + 1
 
     if precision > constants.decimal_scale:
+        # very small
         return Decimal('0')
 
     elif constants.decimal_scale - precision < ndigits:
@@ -50,7 +51,7 @@ def clever_round(number: Decimal, ndigits: int) -> Decimal:
     else:
         precision += ndigits - 1
 
-    return number.quantize(get_decimal_quantum(precision))
+    return number.quantize(get_decimal_quantum(precision), rounding=ROUND_HALF_UP)
 
 
 class FormatPriceRequestResult(object):
@@ -61,30 +62,30 @@ class FormatPriceRequestResult(object):
         self.prr = prr
         self.locale = transform_locale(locale)
 
-    def is_diff_available(self):
-        return self.prr.rate and self.prr.rate_open
+    def is_rate_diff_available(self) -> bool:
+        return bool(self.prr.rate and self.prr.rate_open)
 
-    def is_high_low_available(self):
-        return self.prr.low24h and self.prr.high24h
+    def is_high_low_available(self) -> bool:
+        return bool(self.prr.low24h and self.prr.high24h)
 
     def _diff_rate(self) -> Decimal or None:
-        assert self.is_diff_available()
+        assert self.is_rate_diff_available()
 
         return self.prr.rate - self.prr.rate_open
 
     def _percent_diff_rate(self) -> Decimal or None:
-        assert self.is_diff_available()
+        assert self.is_rate_diff_available()
 
         return (self._diff_rate() / self.prr.rate_open) * Decimal('100')
 
     def _get_sign(self) -> str or None:
-        assert self.is_diff_available()
+        assert self.is_rate_diff_available()
 
         # return nothing because if minus then amount already contain minus
         return '+' if self._diff_rate() > 0 else ''
 
     def _get_arrow(self) -> str:
-        assert self.is_diff_available()
+        assert self.is_rate_diff_available()
 
         number = self._diff_rate()
 
@@ -95,7 +96,7 @@ class FormatPriceRequestResult(object):
         else:
             return ''
 
-    def is_convert_mode(self):
+    def is_convert_mode(self) -> bool:
         return self.prr.price_request.amount is not None
 
     def format_amount(self, number: Decimal, ndigits: int = 4) -> str:
@@ -129,7 +130,7 @@ class FormatPriceRequestResult(object):
         return f'{" 📡 ".join(self.prr.exchanges)} 📡'
 
     def format_difference(self) -> str:
-        if not self.is_diff_available():
+        if not self.is_rate_diff_available():
             return ''
 
         diff = self.format_amount(self._diff_rate())
@@ -154,7 +155,7 @@ class FormatPriceRequestResult(object):
         from_currency = self.prr.price_request.currency
         to_currency = self.prr.price_request.to_currency
 
-        if self.is_diff_available() and self._get_arrow():
+        if self.is_rate_diff_available() and self._get_arrow():
             return f'*{from_currency} {to_currency}* {rate} {self._get_arrow()}'
         else:
             return f'*{from_currency} {to_currency}* {rate}'
@@ -181,7 +182,7 @@ class FormatPriceRequestResult(object):
         else:
             msg_list.append(self.format_price())
 
-            if self.is_diff_available():
+            if self.is_rate_diff_available():
                 msg_list.append(self.format_difference())
 
             if self.is_high_low_available():
@@ -202,7 +203,7 @@ class InlineFormatPriceRequestResult(FormatPriceRequestResult):
         from_currency = self.prr.price_request.currency
         to_currency = self.prr.price_request.to_currency
 
-        if self.is_diff_available() and self._get_arrow():
+        if self.is_rate_diff_available() and self._get_arrow():
             return f'{from_currency} {to_currency} {rate} {self._get_arrow()}'
         else:
             return f'{from_currency} {to_currency} {rate}'
@@ -236,7 +237,7 @@ class NotifyFormatPriceRequestResult(FormatPriceRequestResult):
         from_currency = self.prr.price_request.currency
         to_currency = self.prr.price_request.to_currency
 
-        if self.is_diff_available() and self._get_arrow():
+        if self.is_rate_diff_available() and self._get_arrow():
             return f'*{from_currency} {to_currency}* {rate} {self._get_arrow()} 🔔'
         else:
-            return f'*{from_currency} {to_currency}* {rate}'
+            return f'*{from_currency} {to_currency}* {rate} 🔔'
