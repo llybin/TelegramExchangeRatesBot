@@ -1,6 +1,6 @@
 from suite.test.testcases import SimpleTestCase
 
-from app.translations import get_translations, init_translations
+from app.translations import get_translations, init_translations, transform_locale
 
 
 class TranslationsTest(SimpleTestCase):
@@ -30,3 +30,24 @@ class TranslationsTest(SimpleTestCase):
 
     def test_3_not_exists(self):
         self.assertTrue(get_translations('qq-qqqq-qq'))
+
+
+class TransformLocaleTest(SimpleTestCase):
+    def setUp(self) -> None:
+        init_translations()
+
+    def test_1(self):
+        self.assertEqual(transform_locale('ru'), 'ru')
+
+    def test_2(self):
+        self.assertEqual(transform_locale('en-us'), 'en_US')
+
+    def test_2_4(self):
+        self.assertEqual(transform_locale('zh-hans'), 'zh_Hans')
+
+    def test_3(self):
+        self.assertEqual(transform_locale('zh-hans-sg'), 'zh_Hans_SG')
+
+    def test_unknown(self):
+        self.assertEqual(transform_locale('zh-hans-sg-any'), 'en')
+        self.assertEqual(transform_locale('zh-h'), 'en')

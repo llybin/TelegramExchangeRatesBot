@@ -5,6 +5,7 @@ from babel.numbers import format_decimal, get_decimal_quantum, NumberPattern, ge
 from app import constants
 from app.parsers.base import DirectionWriting
 from app.converter.base import PriceRequestResult
+from app.translations import transform_locale
 
 
 # monkey patching fix very small values
@@ -58,23 +59,7 @@ class FormatPriceRequestResult(object):
 
     def __init__(self, prr: PriceRequestResult, locale: str):
         self.prr = prr
-        locale_parts = locale.split('-')
-        len_parts = len(locale_parts)
-        # site-packages/babel/locale-data
-        if len_parts == 1:
-            # zh
-            self.locale = locale_parts[0]
-        elif len_parts == 2:
-            len_second = len(locale_parts[1])
-            if len_second == 2:
-                # br-pt -> br_PT
-                self.locale = f'{locale_parts[0].lower()}_{locale_parts[1].upper()}'
-            else:
-                # zh-hans -> zh_Hans
-                self.locale = f'{locale_parts[0].lower()}_{locale_parts[1].capitalize()}'
-        elif len_parts == 3:
-            # zh-hans-sg -> zh_Hans_SG
-            self.locale = f'{locale_parts[0].lower()}_{locale_parts[1].capitalize()}_{locale_parts[2].upper()}'
+        self.locale = transform_locale(locale)
 
     def is_diff_available(self):
         return self.prr.rate and self.prr.rate_open
