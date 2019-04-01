@@ -154,3 +154,12 @@ class IsTriggeredTest(SimpleTestCase):
                 last_notification_rate=Decimal('90'),
                 current_rate=Decimal('98')
             ))
+
+    def test_unknown_clause(self):
+        with self.assertRaises(ValueError):
+            is_triggered(
+                trigger_clause=None,
+                trigger_value=Decimal('10'),
+                last_notification_rate=Decimal('90'),
+                current_rate=Decimal('99')
+            )
