@@ -10,7 +10,7 @@ from suite.database import Session
 from suite.conf import settings
 
 from app.celery import celery_app
-from app.converter.converter import convert
+from app.converter.converter import convert, PriceRequestResult
 from app.formatter.formatter import NotifyFormatPriceRequestResult
 from app.models import Notification, Currency, NotifyTriggerClauseEnum, Chat
 from app.parsers.base import PriceRequest
@@ -21,17 +21,17 @@ def is_triggered(trigger_clause: NotifyTriggerClauseEnum, trigger_value: Decimal
                  last_notification_rate: Decimal, current_rate: Decimal) -> bool:
     """
     :param trigger_clause: clause of notification
-    :param trigger_value: rate or diff or percent depends on trigger_clause
-    :param last_notification_rate: rate when was set or last triggered notification
+    :param trigger_value: diff or percent depends on trigger_clause
+    :param last_notification_rate: rate when was created or last triggered notification
     :param current_rate: rate now
     :return:
     """
 
     if trigger_clause == NotifyTriggerClauseEnum.more:
-        return current_rate >= trigger_value
+        return current_rate >= last_notification_rate
 
     elif trigger_clause == NotifyTriggerClauseEnum.less:
-        return current_rate <= trigger_value
+        return current_rate <= last_notification_rate
 
     elif trigger_clause == NotifyTriggerClauseEnum.diff:
         return abs(last_notification_rate - current_rate) >= trigger_value
@@ -58,10 +58,10 @@ def notification_auto_disable(pair: list) -> None:
         _ = get_translations(n.chat.locale)
         send_notification.delay(
             n.chat_id,
-            _('Your notification has been disabled, due to one of the currencies %(from_currency)s %(to_currency)s has been deactivated.') % {  # NOQA
+            _('Your notification has been disabled, due to one of the currencies'
+              ' %(from_currency)s %(to_currency)s has been deactivated.') % {
                 'from_currency': n.from_currency.code, 'to_currency': n.to_currency.code
-            }
-        )
+            })
 
     db_session.query(
         Notification
@@ -158,7 +158,27 @@ def notification_checker() -> None:
 
         for n in notifications:
             if is_triggered(n.trigger_clause, n.trigger_value, n.last_rate, prr.rate):
-                text_to = NotifyFormatPriceRequestResult(prr, n.chat.locale).get()
+                # replace rate_open from daily to rate when was created or last triggered notification
+                # TODO: PriceRequestResult -> dataclass, inside diff and etc
+                nprr = PriceRequestResult(
+                    price_request=prr.price_request,
+                    exchanges=prr.exchanges,
+                    rate=prr.rate,
+                    rate_open=n.last_rate,
+                    last_trade_at=prr.last_trade_at,
+                    low24h=prr.low24h,
+                    high24h=prr.high24h
+                )
+
+                text_to = NotifyFormatPriceRequestResult(nprr, n.chat.locale).get()
+
+                if n.trigger_clause in [NotifyTriggerClauseEnum.less, NotifyTriggerClauseEnum.more]:
+                    n.is_active = False
+                    _ = get_translations(n.chat.locale)
+                    text_to += _('\n_One-time reminder. Set up a new reminder._')
+
                 send_notification.delay(n.chat_id, text_to)
+
                 n.last_rate = prr.rate
+
                 transaction.commit()

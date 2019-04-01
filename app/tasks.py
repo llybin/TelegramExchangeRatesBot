@@ -5,7 +5,7 @@ import transaction
 from telegram import Bot
 from celery_once import QueueOnce
 from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 from suite.database import Session
 from suite.conf import settings
 
@@ -63,7 +63,7 @@ def exchange_updater(exchange_class: str) -> None:
 
     try:
         transaction.commit()
-    except IntegrityError:
+    except (IntegrityError, OperationalError):
         logging.exception("Error to fill rate pair")
         transaction.abort()
 
@@ -78,7 +78,12 @@ def delete_expired_rates() -> None:
         logging.warning('Rate expired exchange: %s, pair: %s-%s',
                         r.exchange.name, r.from_currency.code, r.to_currency.code)
         db_session.delete(r)
-    transaction.commit()
+
+    try:
+        transaction.commit()
+    except (IntegrityError, OperationalError):
+        logging.exception("Error delete expired")
+        transaction.abort()
 
 
 @celery_app.task(queue='low', time_limit=5)
@@ -143,6 +148,6 @@ def update_chat_request(chat_id: int, currency: str, to_currency: str):
 
     try:
         transaction.commit()
-    except IntegrityError:
+    except (IntegrityError, OperationalError):
         logging.exception("Error create chat_request, chat_request exists")
         transaction.abort()

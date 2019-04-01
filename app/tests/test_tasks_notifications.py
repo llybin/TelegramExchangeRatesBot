@@ -11,24 +11,24 @@ class IsTriggeredTest(SimpleTestCase):
         self.assertTrue(
             is_triggered(
                 trigger_clause=NotifyTriggerClauseEnum.more,
-                trigger_value=Decimal('100'),
-                last_notification_rate=Decimal('0'),
+                trigger_value=Decimal('0'),
+                last_notification_rate=Decimal('100'),
                 current_rate=Decimal('100')
             ))
 
         self.assertTrue(
             is_triggered(
                 trigger_clause=NotifyTriggerClauseEnum.more,
-                trigger_value=Decimal('100'),
-                last_notification_rate=Decimal('0'),
+                trigger_value=Decimal('0'),
+                last_notification_rate=Decimal('100'),
                 current_rate=Decimal('101')
             ))
 
         self.assertFalse(
             is_triggered(
                 trigger_clause=NotifyTriggerClauseEnum.more,
-                trigger_value=Decimal('100'),
-                last_notification_rate=Decimal('0'),
+                trigger_value=Decimal('0'),
+                last_notification_rate=Decimal('100'),
                 current_rate=Decimal('99')
             ))
 
@@ -36,24 +36,24 @@ class IsTriggeredTest(SimpleTestCase):
         self.assertTrue(
             is_triggered(
                 trigger_clause=NotifyTriggerClauseEnum.less,
-                trigger_value=Decimal('100'),
-                last_notification_rate=Decimal('0'),
+                trigger_value=Decimal('0'),
+                last_notification_rate=Decimal('100'),
                 current_rate=Decimal('99')
             ))
 
         self.assertTrue(
             is_triggered(
                 trigger_clause=NotifyTriggerClauseEnum.less,
-                trigger_value=Decimal('100'),
-                last_notification_rate=Decimal('0'),
+                trigger_value=Decimal('0'),
+                last_notification_rate=Decimal('100'),
                 current_rate=Decimal('100')
             ))
 
         self.assertFalse(
             is_triggered(
                 trigger_clause=NotifyTriggerClauseEnum.less,
-                trigger_value=Decimal('100'),
-                last_notification_rate=Decimal('0'),
+                trigger_value=Decimal('0'),
+                last_notification_rate=Decimal('100'),
                 current_rate=Decimal('101')
             ))
 
