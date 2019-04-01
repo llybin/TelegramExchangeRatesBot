@@ -11,7 +11,7 @@ from suite.conf import settings
 
 from app.celery import celery_app
 from app.converter.converter import convert
-from app.converter.formatter import NotifyFormatPriceRequestResult
+from app.formatter.formatter import NotifyFormatPriceRequestResult
 from app.models import Notification, Currency, NotifyTriggerClauseEnum, Chat
 from app.parsers.base import PriceRequest
 from app.translations import get_translations

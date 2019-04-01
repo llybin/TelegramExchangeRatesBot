@@ -7,7 +7,7 @@ from suite.conf import settings
 
 from app.converter.converter import convert
 from app.converter.exceptions import ConverterException, NoRatesException
-from app.converter.formatter import FormatPriceRequestResult, InlineFormatPriceRequestResult
+from app.formatter.formatter import FormatPriceRequestResult, InlineFormatPriceRequestResult
 from app.decorators import register_update, chat_language
 from app.exceptions import EmptyPriceRequestException
 from app.logic import start_parse, get_keyboard

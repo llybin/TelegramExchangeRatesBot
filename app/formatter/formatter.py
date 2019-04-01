@@ -4,7 +4,7 @@ from babel.numbers import format_decimal, get_decimal_quantum, NumberPattern, ge
 
 from app import constants
 from app.parsers.base import DirectionWriting
-from .base import PriceRequestResult
+from app.converter.base import PriceRequestResult
 
 
 # monkey patching fix very small values

@@ -4,9 +4,8 @@ from decimal import Decimal
 from freezegun import freeze_time
 from suite.test.testcases import SimpleTestCase
 
-from app.parsers.base import DirectionWriting
-from ..base import PriceRequestResult
-from ..converter import PriceRequest
+from app.parsers.base import DirectionWriting, PriceRequest
+from app.converter.base import PriceRequestResult
 from ..formatter import FormatPriceRequestResult, InlineFormatPriceRequestResult, NotifyFormatPriceRequestResult
 
 
