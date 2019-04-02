@@ -67,6 +67,7 @@ def visibility_set_true_command(bot, update, chat_info, _):
 
     bot.send_message(
         chat_id=update.message.chat_id,
+        parse_mode=ParseMode.MARKDOWN,
         text=text_to)
 
     onscreen_menu(bot, update, chat_info, _)
@@ -86,6 +87,7 @@ def visibility_set_false_command(bot, update, chat_info, _):
 
     bot.send_message(
         chat_id=update.message.chat_id,
+        parse_mode=ParseMode.MARKDOWN,
         text=text_to)
 
     onscreen_menu(bot, update, chat_info, _)
