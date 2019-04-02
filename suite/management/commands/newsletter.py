@@ -49,20 +49,19 @@ def newsletter():
         Chat.is_subscribed == true(),
         # Chat.locale == 'en',
         # Chat.id > 0,
-        Chat.id == settings.DEVELOPER_USER_ID,
+        # Chat.id == settings.DEVELOPER_USER_ID,
     ).all()
 
     # TODO: args
     text = """ What's new:
 
-- added BTT - BitConnect currency
-- added [bx.in.th](https://bx.in.th/ref/s9c3HU/) exchange for THB crypto pairs
-- added sp-today.com exchange for SYP pairs
-- added Indonesia locale, thanks :)
-- added Uzbekistan locale, thanks :)
-- other translations were updated, thanks :)
-- /settings command, only for private chats: language, default currency settings
-- fixes and improvements"""
+- Keyboard command has been moved under /settings
+- Also you are able now to delete your history requests from keyboard in /settings I know, someone waited it for years 🥳
+- Settings and help available from menu (three vertical dots) on mobiles
+- I testing notifications and thinking how to create set up in interface
+- Also wad added section donations in /help
+- Have any problems or suggestions - write me /feedback
+"""
 
     for chat in chats:
         send(bot, chat, text)
