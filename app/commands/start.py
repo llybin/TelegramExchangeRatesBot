@@ -1,6 +1,7 @@
 import transaction
 from sqlalchemy.sql import true
 from suite.database import Session
+from telegram.ext import ConversationHandler
 
 from app.commands.tutorial import tutorial
 from app.decorators import register_update, chat_language
@@ -34,3 +35,5 @@ def start_command(bot, update, chat_info, _):
             chat_id=update.message.chat_id,
             reply_markup=get_keyboard(update.message.chat_id),
             text=_('Have any question how to talk with me? 👉 /tutorial'))
+
+    return ConversationHandler.END

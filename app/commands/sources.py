@@ -1,4 +1,5 @@
 from telegram import ParseMode
+from telegram.ext import ConversationHandler
 
 from app.decorators import register_update
 
@@ -17,3 +18,5 @@ https://bittrex.com - 1min
 https://sp-today.com - 60min
 https://fixer.io - 60min
 https://openexchangerates.org - 60min''')
+
+    return ConversationHandler.END

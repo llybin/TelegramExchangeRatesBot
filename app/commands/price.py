@@ -2,6 +2,7 @@ import logging
 from datetime import datetime
 
 from telegram import ParseMode, InlineQueryResultArticle, InputTextMessageContent
+from telegram.ext import ConversationHandler
 from suite.database import Session
 from suite.conf import settings
 
@@ -90,6 +91,8 @@ def price_command(bot, update, args, chat_info, _):
 
     price(bot, update, text, chat_info, _)
 
+    return ConversationHandler.END
+
 
 @register_update
 @chat_language
@@ -98,6 +101,8 @@ def message_command(bot, update, chat_info, _):
         return
 
     price(bot, update, update.message.text, chat_info, _)
+
+    return ConversationHandler.END
 
 
 @register_update
@@ -108,6 +113,8 @@ def empty_command(bot, update, chat_info, _):
     text = text.split(bot.name)[0]
 
     price(bot, update, text, chat_info, _)
+
+    return ConversationHandler.END
 
 
 @register_update

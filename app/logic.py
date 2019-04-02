@@ -9,7 +9,7 @@ from app.parsers.base import PriceRequest
 from app.parsers.exceptions import ValidationException
 
 
-def get_keyboard(chat_id: int) -> ReplyKeyboardMarkup or None:
+def get_keyboard(chat_id: int, buttons=None, symbol='') -> ReplyKeyboardMarkup or None:
     if chat_id < 0:
         return None
 
@@ -26,7 +26,9 @@ def get_keyboard(chat_id: int) -> ReplyKeyboardMarkup or None:
         ).limit(9).all()
 
         if last_requests:
-            last_reqs_list = [f'{x.from_currency.code} {x.to_currency.code}' for x in last_requests]
+            last_reqs_list = [f'{symbol}{x.from_currency.code} {x.to_currency.code}' for x in last_requests]
+            if buttons:
+                last_reqs_list = buttons + last_reqs_list
             keyboard = KeyboardSimpleClever(last_reqs_list).show()
             reply_markup = ReplyKeyboardMarkup(keyboard)
         else:

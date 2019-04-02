@@ -2,6 +2,7 @@
 
 ## 1.3
 *   notifications backend, todo: interface
+*   on-screen menu below settings, show/hide, delete history
 
 ## 1.2
 *   tutorial in one message

@@ -121,14 +121,16 @@ def main():
                 RegexHandler(r"^2:", onscreen_menu.edit_history_command),
             ],
             SettingsSteps.onscreen_menu_visibility: [
-                RegexHandler(r"^↩️", onscreen_menu.onscreen_menu),
+                RegexHandler(r"^↩️", onscreen_menu.menu_command),
                 RegexHandler(r"^1", onscreen_menu.visibility_set_true_command),
                 RegexHandler(r"^2", onscreen_menu.visibility_set_false_command),
             ],
-            # SettingsSteps.onscreen_menu_edit_history: [
-            #     RegexHandler("^↩️", settings_commands),
-            #     MessageHandler(Filters.text, default_currency_position.set_command),
-            # ],
+            SettingsSteps.onscreen_menu_edit_history: [
+                RegexHandler(r"^↩️", onscreen_menu.menu_command),
+                RegexHandler(r"^🅾️", onscreen_menu.edit_history_delete_old_command),
+                RegexHandler(r"^🆑", onscreen_menu.edit_history_delete_all_command),
+                RegexHandler(r"^❌", onscreen_menu.edit_history_delete_one_command),
+            ],
         },
         fallbacks=[CommandHandler("cancel", cancel_command)]
     )

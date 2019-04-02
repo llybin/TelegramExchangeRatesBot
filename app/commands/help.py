@@ -1,4 +1,5 @@
 from telegram import ParseMode
+from telegram.ext import ConversationHandler
 
 from app.decorators import register_update, chat_language
 
@@ -41,3 +42,5 @@ Sign up using [link](%(link)s) and receive $100. From $5 per month: 1GB / 1 CPU 
         disable_web_page_preview=True,
         parse_mode=ParseMode.MARKDOWN,
         text=text_to)
+
+    return ConversationHandler.END

@@ -1,6 +1,7 @@
 import transaction
 from sqlalchemy.sql import false, true
 from suite.database import Session
+from telegram.ext import ConversationHandler
 
 from app.decorators import register_update, chat_language
 from app.models import Chat, Notification
@@ -28,3 +29,5 @@ def stop_command(bot, update, chat_info, _):
     ).update({'is_active': false()})
 
     transaction.commit()
+
+    return ConversationHandler.END

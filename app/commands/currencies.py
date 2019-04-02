@@ -1,4 +1,6 @@
 from telegram import ParseMode
+from telegram.ext import ConversationHandler
+
 from suite.database import Session
 
 from app.decorators import register_update
@@ -14,3 +16,6 @@ def currencies_command(bot, update, chat_info):
         chat_id=update.message.chat_id,
         parse_mode=ParseMode.MARKDOWN,
         text=text_to)
+
+    return ConversationHandler.END
+

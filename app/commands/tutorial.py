@@ -1,4 +1,5 @@
 from telegram import ParseMode
+from telegram.ext import ConversationHandler
 
 from app.decorators import register_update, chat_language
 from app.logic import get_keyboard
@@ -32,3 +33,4 @@ def tutorial(bot, update, _):
 @chat_language
 def tutorial_command(bot, update, chat_info, _):
     tutorial(bot, update, _)
+    return ConversationHandler.END

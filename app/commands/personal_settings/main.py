@@ -19,10 +19,10 @@ def main_menu(bot, update, chat_info, _):
     bot.send_message(
         chat_id=update.message.chat_id,
         reply_markup=ReplyKeyboardMarkup([
-            [f'{SettingsSteps.language.value}: ' + _("Language")],
-            [f'{SettingsSteps.default_currency.value}: ' + _("Default currency")],
-            [f'{SettingsSteps.default_currency_position.value}: ' + _("Default currency position")],
-            [f'{SettingsSteps.onscreen_menu.value}: ' + _("On-screen menu below")],
+            ['1: ' + _("Language")],
+            ['2: ' + _("Default currency")],
+            ['3: ' + _("Default currency position")],
+            ['4: ' + _("On-screen menu below")],
             ['↩️'],
         ]),
         text=_('What do you want to set up?'))
