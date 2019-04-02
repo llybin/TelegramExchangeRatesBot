@@ -20,7 +20,7 @@ def menu_command(bot, update, chat_info, _):
         language_name = LOCALE_NAME[chat_info['locale']]
         text_to = _('*%(language)s* is your language now.') % {'language': language_name}
     else:
-        text_to = _('Your language has no translation. Help fix it 👉 [poeditor.com](%(trans_link)s)') % {
+        text_to = 'Your language has no translation. Help fix it 👉 [poeditor.com](%(trans_link)s)' % {
             'trans_link': 'https://poeditor.com/join/project/LLu8AztSPb'}
 
     keyboard = KeyboardSimpleClever(['↩️'] + LANGUAGES_LIST, 2).show()

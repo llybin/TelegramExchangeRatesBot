@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Telegram Exchange Rates Bot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-02 13:28+0700\n"
+"POT-Creation-Date: 2019-04-02 18:23+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -196,13 +196,6 @@ msgstr ""
 msgid "*%(language)s* is your language now."
 msgstr ""
 
-#: app/commands/personal_settings/language.py:23
-#, python-format
-msgid ""
-"Your language has no translation. Help fix it 👉 "
-"[poeditor.com](%(trans_link)s)"
-msgstr ""
-
 #: app/commands/personal_settings/main.py:22
 msgid "Language"
 msgstr ""
@@ -261,38 +254,38 @@ msgstr ""
 msgid "On-screen menu below with a history requests will *always shows*."
 msgstr ""
 
-#: app/commands/personal_settings/onscreen_menu.py:85
+#: app/commands/personal_settings/onscreen_menu.py:86
 msgid "On-screen menu below with a history requests will *never shows*."
 msgstr ""
 
-#: app/commands/personal_settings/onscreen_menu.py:101
+#: app/commands/personal_settings/onscreen_menu.py:103
 msgid "You can *delete* a request from a history requests."
 msgstr ""
 
-#: app/commands/personal_settings/onscreen_menu.py:105
-#: app/commands/personal_settings/onscreen_menu.py:130
+#: app/commands/personal_settings/onscreen_menu.py:107
+#: app/commands/personal_settings/onscreen_menu.py:132
 msgid "Delete old"
 msgstr ""
 
-#: app/commands/personal_settings/onscreen_menu.py:105
-#: app/commands/personal_settings/onscreen_menu.py:130
+#: app/commands/personal_settings/onscreen_menu.py:107
+#: app/commands/personal_settings/onscreen_menu.py:132
 msgid "Delete all"
 msgstr ""
 
-#: app/commands/personal_settings/onscreen_menu.py:118
+#: app/commands/personal_settings/onscreen_menu.py:120
 msgid "Your history requests is empty for deletion."
 msgstr ""
 
-#: app/commands/personal_settings/onscreen_menu.py:162
+#: app/commands/personal_settings/onscreen_menu.py:164
 #, python-format
 msgid "*%(first)s %(second)s* was deleted."
 msgstr ""
 
-#: app/commands/personal_settings/onscreen_menu.py:205
+#: app/commands/personal_settings/onscreen_menu.py:207
 msgid "History of old requests has been cleared."
 msgstr ""
 
-#: app/commands/personal_settings/onscreen_menu.py:226
+#: app/commands/personal_settings/onscreen_menu.py:228
 msgid "History requests has been cleared fully."
 msgstr ""
 
@@ -319,5 +312,10 @@ msgstr ""
 #~ msgid ""
 #~ "\n"
 #~ "_One-time reminder. Set up a new reminder._"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Your language has no translation. Help"
+#~ " fix it 👉 [poeditor.com](%(trans_link)s)"
 #~ msgstr ""
 
