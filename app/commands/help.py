@@ -33,9 +33,27 @@ def help_command(bot, update, chat_info, _):
         'trans_link': 'https://poeditor.com/join/project/LLu8AztSPb'}
 
     text_to += '\n\n'
-    text_to += '''SSD cloud servers in regions: New York, San Francisco, Amsterdam, Singapore, London, Frankfurt, Toronto, Bangalore.
 
-Sign up using [link](%(link)s) and receive $100. From $5 per month: 1GB / 1 CPU / 25GB SSD Disk.''' % {'link': 'https://m.do.co/c/ba04a478e10d'}  # NOQA
+    text_to += '*Donations*'
+
+    text_to += '\n\n'
+
+    text_to += '''[PayPal](https://paypal.me/lybin)
+
+[Yandex.Money](money.yandex.ru/to/41001252061112)
+
+*WebMoney*: R152423429164, Z282158953669, X159713546826, E378035973063
+
+*Bitcoin (BTC)*: 1GJZ36ahmApeX6RuuDGhi7t8qzBprJ9sQc
+
+*Bitcoin Cash (BCH)*: qznahv6kprwsfrq6sr2ehcfuf259yjcmqgk7fuz976
+
+*Ether (ETH)*: 0x56b2144aFE4564852409B302B29d7B6B2797Cf2D
+
+*BurstCoin (BURST)*: BURST-BTKF-8WT9-L98N-98JH2
+
+*Stellar (XLM)*: GBP332VIMDGSPJOOCXPCAJSS3EDBTYLJ4IVY42674F436ZXCVKVJWJY4
+'''
 
     bot.send_message(
         chat_id=update.message.chat_id,
