@@ -1,57 +1,47 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version: Telegram Exchange Rates Bot\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-02 18:23+0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: en\n"
-"Language-Team: en <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Telegram Exchange Rates Bot\n"
+"Language: en\n"
 
-#: app/tasks_notifications.py:61
-#, python-format
-msgid ""
-"Your notification has been disabled, due to one of the currencies "
-"%(from_currency)s %(to_currency)s has been deactivated."
-msgstr ""
+#: app/commands/tutorial.py:9
+msgid "I am bot. I will help you to know a current exchange rates."
+msgstr "I am bot. I will help you to know a current exchange rates."
 
-#: app/tasks_notifications.py:179
-msgid "_One-time reminder. Set up a new reminder._"
-msgstr ""
+#: app/commands/tutorial.py:15
+msgid "Just text me message in private chat."
+msgstr "Just text me message in private chat."
 
-#: app/commands/disclaimers.py:11
-msgid ""
-"Data is provided by financial exchanges and may be delayed as specified "
-"by financial exchanges or our data providers. Bot does not verify any "
-"data and disclaims any obligation to do so. Bot cannot guarantee the "
-"accuracy of the exchange rates displayed. You should confirm current "
-"rates before making any transactions that could be affected by changes in"
-" the exchange rates."
-msgstr ""
-"Data is provided by financial exchanges and may be delayed as specified "
-"by financial exchanges or our data providers. Bot does not verify any "
-"data and disclaims any obligation to do so. Bot cannot guarantee the "
-"accuracy of the exchange rates displayed. You should confirm current "
-"rates before making any transactions that could be affected by changes in"
-" the exchange rates."
+#: app/commands/tutorial.py:17
+msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
+msgstr "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
 
-#: app/commands/feedback.py:15 app/commands/personal_settings/main.py:37
-msgid "The command is not available for group chats"
-msgstr "The command is not available for group chats"
+#: app/commands/tutorial.py:19
+msgid "Inline mode is available. See how to use [here](%(link)s)."
+msgstr "Inline mode is available. See how to use [here](%(link)s)."
 
-#: app/commands/feedback.py:21
-msgid "What do you want to tell? Or nothing?"
-msgstr "What do you want to tell? Or nothing?"
+#: app/commands/tutorial.py:22
+msgid "Also take a look here 👉 /help"
+msgstr "Also take a look here 👉 /help"
 
-#: app/commands/feedback.py:29
-msgid "Message sent, thank you."
-msgstr "Message sent, thank you."
+#: app/commands/start.py:18
+msgid "humans"
+msgstr "humans"
+
+#: app/commands/start.py:22
+msgid "Hello, %(name)s!"
+msgstr "Hello, %(name)s!"
+
+#: app/commands/start.py:37
+msgid "Have any question how to talk with me? 👉 /tutorial"
+msgstr "Have any question how to talk with me? 👉 /tutorial"
+
+#: app/commands/stop.py:21
+msgid "You're unsubscribed. You always can subscribe again 👉 /start"
+msgstr "You're unsubscribed. You always can subscribe again 👉 /start"
 
 #: app/commands/help.py:10
 msgid "*Commands*"
@@ -81,10 +71,6 @@ msgstr "/p - Command for group chats, get exchange rate"
 msgid "/sources - Currency rates sources"
 msgstr "/sources - Currency rates sources"
 
-#: app/commands/help.py:25
-msgid "/settings - Bot personal settings"
-msgstr "/settings - Bot personal settings"
-
 #: app/commands/help.py:27
 msgid "/disclaimers - Disclaimers"
 msgstr "/disclaimers - Disclaimers"
@@ -94,13 +80,24 @@ msgid "/stop - Unsubscribe"
 msgstr "/stop - Unsubscribe"
 
 #: app/commands/help.py:32
-#, python-format
-msgid ""
-"Don't have your localization? Any translation errors? Help fix it 👉 "
-"[poeditor.com](%(trans_link)s)"
-msgstr ""
-"Don't have your localization? Any translation errors? Help fix it 👉 "
-"[poeditor.com](%(trans_link)s)"
+msgid "Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)"
+msgstr "Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)"
+
+#: app/commands/feedback.py:15 app/commands/personal_settings/main.py:37
+msgid "The command is not available for group chats"
+msgstr "The command is not available for group chats"
+
+#: app/commands/feedback.py:21
+msgid "What do you want to tell? Or nothing?"
+msgstr "What do you want to tell? Or nothing?"
+
+#: app/commands/feedback.py:29
+msgid "Message sent, thank you."
+msgstr "Message sent, thank you."
+
+#: app/commands/disclaimers.py:11
+msgid "Data is provided by financial exchanges and may be delayed as specified by financial exchanges or our data providers. Bot does not verify any data and disclaims any obligation to do so. Bot cannot guarantee the accuracy of the exchange rates displayed. You should confirm current rates before making any transactions that could be affected by changes in the exchange rates."
+msgstr "Data is provided by financial exchanges and may be delayed as specified by financial exchanges or our data providers. Bot does not verify any data and disclaims any obligation to do so. Bot cannot guarantee the accuracy of the exchange rates displayed. You should confirm current rates before making any transactions that could be affected by changes in the exchange rates."
 
 #: app/commands/price.py:61
 msgid "The message must contain currencies or amounts 👉 /tutorial"
@@ -111,208 +108,142 @@ msgid "I don't understand you 😞 Take a look here 👉 /help"
 msgstr "I don't understand you 😞 Take a look here 👉 /help"
 
 #: app/commands/price.py:71
-msgid ""
-"I understood that you asked, but at the moment I don't have actual "
-"exchange rates for your request. Try later. Sorry. 😭"
-msgstr ""
-"I understood that you asked, but at the moment I don't have actual "
-"exchange rates for your request. Try later. Sorry. 😭"
+msgid "I understood that you asked, but at the moment I don't have actual exchange rates for your request. Try later. Sorry. 😭"
+msgstr "I understood that you asked, but at the moment I don't have actual exchange rates for your request. Try later. Sorry. 😭"
 
-#: app/commands/start.py:18
-msgid "humans"
-msgstr "humans"
+#: app/commands/help.py:25
+msgid "/settings - Bot personal settings"
+msgstr "/settings - Bot personal settings"
 
-#: app/commands/start.py:22
-#, python-format
-msgid "Hello, %(name)s!"
-msgstr "Hello, %(name)s!"
+#. in settings: language etc.
+#: app/commands/personal_settings/main.py:28
+msgid "What do you want to set up?"
+msgstr "What do you want to set up?"
 
-#: app/commands/start.py:37
-msgid "Have any question how to talk with me? 👉 /tutorial"
-msgstr "Have any question how to talk with me? 👉 /tutorial"
+#. *%(language)s* - no need translate
+#: app/commands/personal_settings/language.py:21
+#: app/commands/personal_settings/language.py:54
+msgid "*%(language)s* is your language now."
+msgstr "*%(language)s* is your language now."
 
-#: app/commands/stop.py:21
-msgid "You're unsubscribed. You always can subscribe again 👉 /start"
-msgstr "You're unsubscribed. You always can subscribe again 👉 /start"
-
-#: app/commands/tutorial.py:9
-msgid "I am bot. I will help you to know a current exchange rates."
-msgstr "I am bot. I will help you to know a current exchange rates."
-
-#: app/commands/tutorial.py:11
-msgid ""
-"Send me a message like this:\n"
-"*BTC USD* - to see the current exchange rate for pair\n"
-"*100 USD EUR* - to convert the amount from 100 USD to EUR"
-msgstr ""
-"Send me a message like this:\n"
-"*BTC USD* - to see the current exchange rate for pair\n"
-"*100 USD EUR* - to convert the amount from 100 USD to EUR"
-
-#: app/commands/tutorial.py:15
-msgid "Just text me message in private chat."
-msgstr "Just text me message in private chat."
-
-#: app/commands/tutorial.py:17
-msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
-msgstr "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
-
-#: app/commands/tutorial.py:19
-#, python-format
-msgid "Inline mode is available. See how to use [here](%(link)s)."
-msgstr "Inline mode is available. See how to use [here](%(link)s)."
-
-#: app/commands/tutorial.py:22
-msgid "Also take a look here 👉 /help"
-msgstr "Also take a look here 👉 /help"
-
-#: app/commands/personal_settings/default_currency.py:15
-#, python-format
-msgid ""
-"*%(default_currency)s* is your default currency.\n"
-"You can set any currency by default, e.g. *EUR*. When you send only USD -"
-" will get *EUR USD*"
-msgstr ""
-
+#. default currency - you can set any currency by default, e.g. BTC, next send only USD and will get BTCUSD
 #: app/commands/personal_settings/default_currency.py:53
-#, python-format
 msgid "*%(default_currency)s* is your default currency."
 msgstr "*%(default_currency)s* is your default currency."
 
+#. default currency position - you can set any currency by default, e.g. BTC, next send only USD and will get BTC USD or USD BTC. Choosing position of default currency.
 #: app/commands/personal_settings/default_currency_position.py:19
 #: app/commands/personal_settings/default_currency_position.py:63
-#, python-format
 msgid "*%(position)s* - position where your default currency will be added."
 msgstr "*%(position)s* - position where your default currency will be added."
-
-#: app/commands/personal_settings/language.py:21
-#: app/commands/personal_settings/language.py:54
-#, python-format
-msgid "*%(language)s* is your language now."
-msgstr "*%(language)s* is your language now."
 
 #: app/commands/personal_settings/main.py:22
 msgid "Language"
 msgstr "Language"
 
+#. you can set any currency by default, e.g. BTC, next send only USD and will get BTCUSD
 #: app/commands/personal_settings/main.py:23
 msgid "Default currency"
 msgstr "Default currency"
 
+#. you can set any currency by default, e.g. BTC, next send only USD and will get BTC USD or USD BTC. Choosing position of default currency.
 #: app/commands/personal_settings/main.py:24
 msgid "Default currency position"
 msgstr "Default currency position"
 
+#: app/commands/tutorial.py:11
+msgid "Send me a message like this:\n"
+"*BTC USD* - to see the current exchange rate for pair\n"
+"*100 USD EUR* - to convert the amount from 100 USD to EUR"
+msgstr "Send me a message like this:\n"
+"*BTC USD* - to see the current exchange rate for pair\n"
+"*100 USD EUR* - to convert the amount from 100 USD to EUR"
+
+#: app/tasks_notifications.py:61
+msgid "Your notification has been disabled, due to one of the currencies %(from_currency)s %(to_currency)s has been deactivated."
+msgstr "Your notification has been disabled, due to one of the currencies %(from_currency)s %(to_currency)s has been deactivated."
+
+#: app/tasks_notifications.py:179
+msgid "_One-time reminder. Set up a new reminder._"
+msgstr "_One-time reminder. Set up a new reminder._"
+
+#: app/commands/personal_settings/default_currency.py:15
+msgid "*%(default_currency)s* is your default currency.\n"
+"You can set any currency by default, e.g. *EUR*. When you send only USD - will get *EUR USD*"
+msgstr "*%(default_currency)s* is your default currency.\n"
+"You can set any currency by default, e.g. *EUR*. When you send only USD - will get *EUR USD*"
+
 #: app/commands/personal_settings/main.py:25
 msgid "On-screen menu below"
-msgstr ""
-
-#: app/commands/personal_settings/main.py:28
-msgid "What do you want to set up?"
-msgstr "What do you want to set up?"
+msgstr "On-screen menu below"
 
 #: app/commands/personal_settings/onscreen_menu.py:12
 msgid "Here you can customize on-screen menu with a history requests."
-msgstr ""
+msgstr "Here you can customize on-screen menu with a history requests."
 
 #: app/commands/personal_settings/onscreen_menu.py:18
 msgid "1: Visibility"
-msgstr ""
+msgstr "1: Visibility"
 
 #: app/commands/personal_settings/onscreen_menu.py:19
 msgid "2: Delete request from a history"
-msgstr ""
+msgstr "2: Delete request from a history"
 
 #: app/commands/personal_settings/onscreen_menu.py:37
 msgid "On-screen menu below with a history requests *always shows* at the moment."
-msgstr ""
+msgstr "On-screen menu below with a history requests *always shows* at the moment."
 
 #: app/commands/personal_settings/onscreen_menu.py:39
 msgid "On-screen menu below with a history requests *never shows* at the moment."
-msgstr ""
+msgstr "On-screen menu below with a history requests *never shows* at the moment."
 
 #: app/commands/personal_settings/onscreen_menu.py:43
-msgid ""
-"You can choose. Show always on-screen menu below with a history requests "
-"or never show."
-msgstr ""
+msgid "You can choose. Show always on-screen menu below with a history requests or never show."
+msgstr "You can choose. Show always on-screen menu below with a history requests or never show."
 
 #: app/commands/personal_settings/onscreen_menu.py:49
 msgid "1: Always show"
-msgstr ""
+msgstr "1: Always show"
 
 #: app/commands/personal_settings/onscreen_menu.py:50
 msgid "2: Never show"
-msgstr ""
+msgstr "2: Never show"
 
 #: app/commands/personal_settings/onscreen_menu.py:66
 msgid "On-screen menu below with a history requests will *always shows*."
-msgstr ""
+msgstr "On-screen menu below with a history requests will *always shows*."
 
-#: app/commands/personal_settings/onscreen_menu.py:86
+#: app/commands/personal_settings/onscreen_menu.py:85
 msgid "On-screen menu below with a history requests will *never shows*."
-msgstr ""
+msgstr "On-screen menu below with a history requests will *never shows*."
 
-#: app/commands/personal_settings/onscreen_menu.py:103
+#: app/commands/personal_settings/onscreen_menu.py:101
 msgid "You can *delete* a request from a history requests."
-msgstr ""
+msgstr "You can *delete* a request from a history requests."
 
-#: app/commands/personal_settings/onscreen_menu.py:107
-#: app/commands/personal_settings/onscreen_menu.py:132
+#: app/commands/personal_settings/onscreen_menu.py:105
+#: app/commands/personal_settings/onscreen_menu.py:130
 msgid "Delete old"
-msgstr ""
+msgstr "Delete old"
 
-#: app/commands/personal_settings/onscreen_menu.py:107
-#: app/commands/personal_settings/onscreen_menu.py:132
+#: app/commands/personal_settings/onscreen_menu.py:105
+#: app/commands/personal_settings/onscreen_menu.py:130
 msgid "Delete all"
-msgstr ""
+msgstr "Delete all"
 
-#: app/commands/personal_settings/onscreen_menu.py:120
+#: app/commands/personal_settings/onscreen_menu.py:118
 msgid "Your history requests is empty for deletion."
-msgstr ""
+msgstr "Your history requests is empty for deletion."
 
-#: app/commands/personal_settings/onscreen_menu.py:164
-#, python-format
+#: app/commands/personal_settings/onscreen_menu.py:162
 msgid "*%(first)s %(second)s* was deleted."
-msgstr ""
+msgstr "*%(first)s %(second)s* was deleted."
 
-#: app/commands/personal_settings/onscreen_menu.py:207
+#: app/commands/personal_settings/onscreen_menu.py:205
 msgid "History of old requests has been cleared."
-msgstr ""
+msgstr "History of old requests has been cleared."
 
-#: app/commands/personal_settings/onscreen_menu.py:228
+#: app/commands/personal_settings/onscreen_menu.py:226
 msgid "History requests has been cleared fully."
-msgstr ""
-
-#~ msgid ""
-#~ "[ExchangeRatesBotNews](%(link)s) - subscribe to "
-#~ "channel, stay tuned news."
-#~ msgstr ""
-#~ "[ExchangeRatesBotNews](%(link)s) - subscribe to "
-#~ "channel, stay tuned news."
-
-#~ msgid "/keyboard - Hide / show a keyboard with request history"
-#~ msgstr "/keyboard - Hide / show a keyboard with request history"
-
-#~ msgid "Keyboard is shown."
-#~ msgstr "Keyboard is shown."
-
-#~ msgid "Keyboard is hidden."
-#~ msgstr "Keyboard is hidden."
-
-#~ msgid "Close settings"
-#~ msgstr "Close settings"
-
-#~ msgid "If you'd like to change send me new or /back"
-#~ msgstr "If you'd like to change send me new or /back"
-
-#~ msgid ""
-#~ "\n"
-#~ "_One-time reminder. Set up a new reminder._"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Your language has no translation. Help"
-#~ " fix it 👉 [poeditor.com](%(trans_link)s)"
-#~ msgstr ""
+msgstr "History requests has been cleared fully."
 
