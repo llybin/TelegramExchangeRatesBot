@@ -15,7 +15,7 @@ from app.models import Chat
 
 def send(bot, chat, text):
     try:
-        click.echo("Sending to %s, %s" % (chat.first_name, chat.id))
+        click.echo("Sending to %s" % chat.id)
         bot.send_message(
             chat_id=chat.id,
             disable_web_page_preview=True,
@@ -23,8 +23,8 @@ def send(bot, chat, text):
             parse_mode=ParseMode.MARKDOWN,
             text=text)
     except Exception as e:
-        # logging.warning("Bot was blocked by the user %s, %s", chat.first_name, chat.id)
-        # logging.warning("Bot was kicked by the user %s, %s", chat.first_name, chat.id)
+        # logging.warning("Bot was blocked by the user %s", chat.id)
+        # logging.warning("Bot was kicked by the user %s", chat.id)
         click.echo(str(e))
 
         Session().query(Chat).filter_by(
@@ -44,7 +44,7 @@ def newsletter():
     init_sqlalchemy(db_engine)
 
     # TODO: iterate
-    chats = Session.query(Chat.id, Chat.first_name).filter(
+    chats = Session.query(Chat.id).filter(
         # TODO: args
         Chat.is_subscribed == true(),
         # Chat.locale == 'en',

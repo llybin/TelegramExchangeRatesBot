@@ -12,8 +12,6 @@ class Chat(BaseObject):
     __tablename__ = 'chats'
 
     id = sa.Column(sa.BigInteger, primary_key=True, autoincrement=False)
-    first_name = sa.Column(sa.Text, nullable=True)
-    username = sa.Column(sa.Text, nullable=True)
     locale = sa.Column(sa.Text, default=settings.LANGUAGE_CODE, nullable=False)
     is_subscribed = sa.Column(sa.Boolean, default=True, nullable=False)
     is_console_mode = sa.Column(sa.Boolean, default=True, nullable=False)

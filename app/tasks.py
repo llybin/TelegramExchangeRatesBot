@@ -101,17 +101,6 @@ def write_request_log(chat_id: int, msg: str, created_at: datetime, tag: str = '
     transaction.commit()
 
 
-@celery_app.task(base=QueueOnce, queue='low', time_limit=5, once={'graceful': True})
-def update_chat(chat_id: int, first_name: str, username: str) -> None:
-    db_session = Session()
-
-    db_session.query(Chat).filter_by(
-        id=chat_id
-    ).update({'first_name': first_name, 'username': username})
-
-    transaction.commit()
-
-
 @celery_app.task(queue='low', time_limit=60)
 def send_feedback(chat_id: int, first_name: str, username: str, text: str) -> None:
     if not settings.DEVELOPER_BOT_TOKEN or not settings.DEVELOPER_USER_ID:

@@ -9,7 +9,6 @@ from suite.conf import settings
 
 from app.translations import get_translations
 from app.models import Chat
-from app.tasks import update_chat
 
 
 def register_update(func):
@@ -42,8 +41,6 @@ def register_update(func):
         if not chat:
             chat = Chat(
                 id=chat_id,
-                first_name=update.effective_user.first_name if chat_id > 0 else None,
-                username=update.effective_user.username if chat_id > 0 else None,
                 locale=language_code,
                 is_console_mode=False if chat_id > 0 else True,  # never show keyboard for a group chats
             )
@@ -59,10 +56,6 @@ def register_update(func):
                 chat = db_session.query(Chat).filter_by(id=chat_id).one()
         else:
             chat_created = False
-            update_chat.delay(
-                chat_id=chat.id,
-                first_name=chat.first_name,
-                username=chat.username)
 
         kwargs['chat_info'] = {
             'chat_id': chat.id,
