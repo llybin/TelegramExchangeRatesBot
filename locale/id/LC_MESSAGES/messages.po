@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Telegram Exchange Rates Bot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-29 02:10+0700\n"
+"POT-Creation-Date: 2019-04-02 13:28+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: id\n"
@@ -14,14 +14,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: app/tasks_notifications.py:52
+#: app/tasks_notifications.py:61
 #, python-format
 msgid ""
 "Your notification has been disabled, due to one of the currencies "
 "%(from_currency)s %(to_currency)s has been deactivated."
 msgstr ""
 
-#: app/commands/disclaimers.py:9
+#: app/tasks_notifications.py:179
+msgid "_One-time reminder. Set up a new reminder._"
+msgstr ""
+
+#: app/commands/disclaimers.py:11
 msgid ""
 "Data is provided by financial exchanges and may be delayed as specified "
 "by financial exchanges or our data providers. Bot does not verify any "
@@ -34,8 +38,7 @@ msgstr ""
 "melakukan verifikasi data. Bot tidak bertanggung jawab atas kesalahan dan"
 " kerugian atas digunakannya layanan ini."
 
-#: app/commands/feedback.py:15 app/commands/keyboard.py:16
-#: app/commands/personal_settings.py:42
+#: app/commands/feedback.py:15 app/commands/personal_settings/main.py:37
 msgid "The command is not available for group chats"
 msgstr "Perintah tidak tersedia untuk grup"
 
@@ -47,114 +50,62 @@ msgstr "Ada yang bisa saya bantu?"
 msgid "Message sent, thank you."
 msgstr "Pesan terkirim. Terima kasih."
 
-#: app/commands/help.py:9
+#: app/commands/help.py:10
 msgid "*Commands*"
 msgstr "*Perintah*"
 
-#: app/commands/help.py:12
+#: app/commands/help.py:13
 msgid "/start - Start to enslave mankind"
 msgstr "/start - Untuk menguasai dunia"
 
-#: app/commands/help.py:14
+#: app/commands/help.py:15
 msgid "/tutorial - Tutorial, how to talk with me"
 msgstr "/tutorial - Petunjuk untuk berkomunikasi dengan saya"
 
-#: app/commands/help.py:16
+#: app/commands/help.py:17
 msgid "/currencies - All currencies that I support"
 msgstr "/currencies - Daftar mata uang yang didukung"
 
-#: app/commands/help.py:18
+#: app/commands/help.py:19
 msgid "/feedback - If you have suggestions, text me"
 msgstr "/feedback - Ada saran untuk saya"
 
-#: app/commands/help.py:20
-msgid "/keyboard - Hide / show a keyboard with request history"
-msgstr "/keyboard - Sembunyikan / tampilkan keyboard"
-
-#: app/commands/help.py:22
+#: app/commands/help.py:21
 msgid "/p - Command for group chats, get exchange rate"
 msgstr "/p - Perintah di dalam percakapan grup"
 
-#: app/commands/help.py:24
+#: app/commands/help.py:23
 msgid "/sources - Currency rates sources"
 msgstr "/sources - Sumber informasi nilai tukar"
 
-#: app/commands/help.py:26
+#: app/commands/help.py:25
 msgid "/settings - Bot personal settings"
 msgstr "/settings - Pengaturan bot"
 
-#: app/commands/help.py:28
+#: app/commands/help.py:27
 msgid "/disclaimers - Disclaimers"
 msgstr "/disclaimers  - Catatan penggunaan"
 
-#: app/commands/help.py:30
+#: app/commands/help.py:29
 msgid "/stop - Unsubscribe"
 msgstr "/stop - Bebaskan saya"
 
-#: app/commands/help.py:33
+#: app/commands/help.py:32
 #, python-format
 msgid ""
 "Don't have your localization? Any translation errors? Help fix it 👉 "
 "[poeditor.com](%(trans_link)s)"
 msgstr "Ada kesalahan penulisan? Bantu perbaiki 👉 [poeditor.com](%(trans_link)s)"
 
-#: app/commands/keyboard.py:25
-msgid "Keyboard is shown."
-msgstr "Keyboard ditampilkan."
-
-#: app/commands/keyboard.py:29
-msgid "Keyboard is hidden."
-msgstr "Keyboard disembunyikan."
-
-#: app/commands/personal_settings.py:28
-msgid "Language"
-msgstr ""
-
-#: app/commands/personal_settings.py:29
-msgid "Default currency"
-msgstr ""
-
-#: app/commands/personal_settings.py:30
-msgid "Default currency position"
-msgstr ""
-
-#: app/commands/personal_settings.py:31
-msgid "Close settings"
-msgstr ""
-
-#: app/commands/personal_settings.py:33
-msgid "What do you want to set up?"
-msgstr "Apa yang ingin diatur."
-
-#: app/commands/personal_settings.py:58 app/commands/personal_settings.py:87
-#, python-format
-msgid "*%(language)s* is your language now."
-msgstr "*%(language)s* adalah bahasa anda."
-
-#: app/commands/personal_settings.py:59 app/commands/personal_settings.py:105
-#: app/commands/personal_settings.py:163
-msgid "If you'd like to change send me new or /back"
-msgstr "Bila ingin yang lain kirim pesan baru atau /back"
-
-#: app/commands/personal_settings.py:103 app/commands/personal_settings.py:139
-#, python-format
-msgid "*%(default_currency)s* is your default currency."
-msgstr "*%(default_currency)s* adalah mata uang anda."
-
-#: app/commands/personal_settings.py:161 app/commands/personal_settings.py:200
-#, python-format
-msgid "*%(position)s* - position where your default currency will be added."
-msgstr "*%(position)s* - posisi mata uang anda akan ditambahkan."
-
-#: app/commands/price.py:60
+#: app/commands/price.py:61
 msgid "The message must contain currencies or amounts 👉 /tutorial"
 msgstr "Pesan harus berisi mata uang dan jumlah  👉 /tutorial"
 
-#: app/commands/price.py:65
+#: app/commands/price.py:66
 msgid "I don't understand you 😞 Take a look here 👉 /help"
 msgstr "Saya tidak mengerti  😞 Lihat contoh perintah disini 👉 /help"
 
-#: app/commands/price.py:70
+#: app/commands/price.py:71
 msgid ""
 "I understood that you asked, but at the moment I don't have actual "
 "exchange rates for your request. Try later. Sorry. 😭"
@@ -162,28 +113,28 @@ msgstr ""
 "Saya paham permintaan anda, tetapi saat ini saya belum bisa memprosesnya."
 " Coba sesaat lagi. 😭"
 
-#: app/commands/start.py:17
+#: app/commands/start.py:18
 msgid "humans"
 msgstr "Hai semua .."
 
-#: app/commands/start.py:21
+#: app/commands/start.py:22
 #, python-format
 msgid "Hello, %(name)s!"
 msgstr "Hai, %(name)s!"
 
-#: app/commands/start.py:36
+#: app/commands/start.py:37
 msgid "Have any question how to talk with me? 👉 /tutorial"
 msgstr "Butuh bantuan untuk bicara dengan saya? 👉 /tutorial"
 
-#: app/commands/stop.py:20
+#: app/commands/stop.py:21
 msgid "You're unsubscribed. You always can subscribe again 👉 /start"
 msgstr "Anda tidak berlangganan. Anda dapat berlangganan kembali dengan 👉 /start"
 
-#: app/commands/tutorial.py:8
+#: app/commands/tutorial.py:9
 msgid "I am bot. I will help you to know a current exchange rates."
 msgstr "Saya bot. Saya akan membantu mencari pertukaran mata uang."
 
-#: app/commands/tutorial.py:10
+#: app/commands/tutorial.py:11
 msgid ""
 "Send me a message like this:\n"
 "*BTC USD* - to see the current exchange rate for pair\n"
@@ -193,25 +144,170 @@ msgstr ""
 "*BTC IDR* - untuk nilai tukar BTC ke Rupiah\n"
 "*100 USD IDR* - untuk nilai tukar 100 Dollar US ke Rupiah"
 
-#: app/commands/tutorial.py:14
+#: app/commands/tutorial.py:15
 msgid "Just text me message in private chat."
 msgstr "Kirim pesan dalam percakapan pribadi."
 
-#: app/commands/tutorial.py:16
+#: app/commands/tutorial.py:17
 msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
 msgstr "Di dalam grup gunakan perintah: 👉 /p USD IDR 👈 atau langsung /USDIDR"
 
-#: app/commands/tutorial.py:18
+#: app/commands/tutorial.py:19
 #, python-format
 msgid "Inline mode is available. See how to use [here](%(link)s)."
 msgstr "Modus satu baris juga tersedia. Lihat penggunaannya di [sini](%(link)s)."
 
-#: app/commands/tutorial.py:21
+#: app/commands/tutorial.py:22
 msgid "Also take a look here 👉 /help"
 msgstr "Lihat bantuan di sini  👉 /help"
+
+#: app/commands/personal_settings/default_currency.py:15
+#, python-format
+msgid ""
+"*%(default_currency)s* is your default currency.\n"
+"You can set any currency by default, e.g. *EUR*. When you send only USD -"
+" will get *EUR USD*"
+msgstr ""
+
+#: app/commands/personal_settings/default_currency.py:53
+#, python-format
+msgid "*%(default_currency)s* is your default currency."
+msgstr "*%(default_currency)s* adalah mata uang anda."
+
+#: app/commands/personal_settings/default_currency_position.py:19
+#: app/commands/personal_settings/default_currency_position.py:63
+#, python-format
+msgid "*%(position)s* - position where your default currency will be added."
+msgstr "*%(position)s* - posisi mata uang anda akan ditambahkan."
+
+#: app/commands/personal_settings/language.py:21
+#: app/commands/personal_settings/language.py:54
+#, python-format
+msgid "*%(language)s* is your language now."
+msgstr "*%(language)s* adalah bahasa anda."
+
+#: app/commands/personal_settings/language.py:23
+#, python-format
+msgid ""
+"Your language has no translation. Help fix it 👉 "
+"[poeditor.com](%(trans_link)s)"
+msgstr ""
+
+#: app/commands/personal_settings/main.py:22
+msgid "Language"
+msgstr ""
+
+#: app/commands/personal_settings/main.py:23
+msgid "Default currency"
+msgstr ""
+
+#: app/commands/personal_settings/main.py:24
+msgid "Default currency position"
+msgstr ""
+
+#: app/commands/personal_settings/main.py:25
+msgid "On-screen menu below"
+msgstr ""
+
+#: app/commands/personal_settings/main.py:28
+msgid "What do you want to set up?"
+msgstr "Apa yang ingin diatur."
+
+#: app/commands/personal_settings/onscreen_menu.py:12
+msgid "Here you can customize on-screen menu with a history requests."
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:18
+msgid "1: Visibility"
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:19
+msgid "2: Delete request from a history"
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:37
+msgid "On-screen menu below with a history requests *always shows* at the moment."
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:39
+msgid "On-screen menu below with a history requests *never shows* at the moment."
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:43
+msgid ""
+"You can choose. Show always on-screen menu below with a history requests "
+"or never show."
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:49
+msgid "1: Always show"
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:50
+msgid "2: Never show"
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:66
+msgid "On-screen menu below with a history requests will *always shows*."
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:85
+msgid "On-screen menu below with a history requests will *never shows*."
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:101
+msgid "You can *delete* a request from a history requests."
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:105
+#: app/commands/personal_settings/onscreen_menu.py:130
+msgid "Delete old"
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:105
+#: app/commands/personal_settings/onscreen_menu.py:130
+msgid "Delete all"
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:118
+msgid "Your history requests is empty for deletion."
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:162
+#, python-format
+msgid "*%(first)s %(second)s* was deleted."
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:205
+msgid "History of old requests has been cleared."
+msgstr ""
+
+#: app/commands/personal_settings/onscreen_menu.py:226
+msgid "History requests has been cleared fully."
+msgstr ""
 
 #~ msgid ""
 #~ "[ExchangeRatesBotNews](%(link)s) - subscribe to "
 #~ "channel, stay tuned news."
+#~ msgstr ""
+
+#~ msgid "/keyboard - Hide / show a keyboard with request history"
+#~ msgstr "/keyboard - Sembunyikan / tampilkan keyboard"
+
+#~ msgid "Keyboard is shown."
+#~ msgstr "Keyboard ditampilkan."
+
+#~ msgid "Keyboard is hidden."
+#~ msgstr "Keyboard disembunyikan."
+
+#~ msgid "Close settings"
+#~ msgstr ""
+
+#~ msgid "If you'd like to change send me new or /back"
+#~ msgstr "Bila ingin yang lain kirim pesan baru atau /back"
+
+#~ msgid ""
+#~ "\n"
+#~ "_One-time reminder. Set up a new reminder._"
 #~ msgstr ""
 

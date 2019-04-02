@@ -124,6 +124,14 @@ def edit_history_command(bot, update, chat_info, _):
         return SettingsSteps.onscreen_menu
 
 
+def get_keyboard_deletion(chat_id: int, _):
+    return get_keyboard(
+        chat_id,
+        ['↩️', '🅾️ ' + _('Delete old'), '🆑 ' + _('Delete all')],
+        '❌ '
+    )
+
+
 @register_update
 @chat_language
 def edit_history_delete_one_command(bot, update, chat_info, _):
@@ -155,11 +163,7 @@ def edit_history_delete_one_command(bot, update, chat_info, _):
 
         # TODO: move from get_keyboard query for check to queries and use it
         if get_keyboard(update.message.chat_id):
-            keyboard = get_keyboard(
-                update.message.chat_id,
-                ['↩️', '🅾️ ' + _('Delete old'), '🆑 ' + _('Delete all')],
-                '❌ '
-            )
+            keyboard = get_keyboard_deletion(update.message.chat_id, _)
 
             bot.send_message(
                 chat_id=update.message.chat_id,
@@ -200,11 +204,7 @@ def edit_history_delete_old_command(bot, update, chat_info, _):
 
     text_to = _('History of old requests has been cleared.')
 
-    keyboard = get_keyboard(
-        update.message.chat_id,
-        ['↩️', '🅾️ ' + _('Delete old'), '🆑 ' + _('Delete all')],
-        '❌ '
-    )
+    keyboard = get_keyboard_deletion(update.message.chat_id, _)
 
     bot.send_message(
         chat_id=update.message.chat_id,
@@ -225,11 +225,7 @@ def edit_history_delete_all_command(bot, update, chat_info, _):
 
     text_to = _('History requests has been cleared fully.')
 
-    keyboard = get_keyboard(
-        update.message.chat_id,
-        ['↩️', '🅾️ ' + _('Delete old'), '🆑 ' + _('Delete all')],
-        '❌ '
-    )
+    keyboard = get_keyboard_deletion(update.message.chat_id, _)
 
     bot.send_message(
         chat_id=update.message.chat_id,

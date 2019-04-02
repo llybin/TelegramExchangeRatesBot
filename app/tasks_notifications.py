@@ -175,7 +175,8 @@ def notification_checker() -> None:
                 if n.trigger_clause in [NotifyTriggerClauseEnum.less, NotifyTriggerClauseEnum.more]:
                     n.is_active = False
                     _ = get_translations(n.chat.locale)
-                    text_to += _('\n_One-time reminder. Set up a new reminder._')
+                    text_to += '\n'
+                    text_to += _('_One-time reminder. Set up a new reminder._')
 
                 send_notification.delay(n.chat_id, text_to)
 
