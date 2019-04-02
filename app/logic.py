@@ -15,7 +15,7 @@ def get_keyboard(chat_id: int) -> ReplyKeyboardMarkup or None:
 
     chat = Session.query(Chat).filter_by(id=chat_id).first()
 
-    if chat.is_console_mode:
+    if not chat.is_show_keyboard:
         return None
 
     else:

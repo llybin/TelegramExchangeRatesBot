@@ -1,6 +1,7 @@
 import logging
 
 import sentry_sdk
+from telegram import ReplyKeyboardRemove
 from telegram.ext import (
     Updater,
     CommandHandler,
@@ -23,18 +24,12 @@ from app.commands.currencies import currencies_command
 from app.commands.disclaimers import disclaimers_command
 from app.commands.feedback import feedback_command, send_feedback_command
 from app.commands.help import help_command
-from app.commands.keyboard import keyboard_command
 from app.commands.price import price_command, message_command, empty_command, inline_query
-from app.commands.personal_settings import (
-    SettingsSteps,
-    settings_commands,
-    settings_language_commands,
-    settings_language_set_commands,
-    settings_default_currency_commands,
-    settings_default_currency_set_commands,
-    settings_default_currency_position_commands,
-    settings_default_currency_position_set_commands,
-)
+from app.commands.personal_settings.main import SettingsSteps, settings_command
+from app.commands.personal_settings import language
+from app.commands.personal_settings import default_currency
+from app.commands.personal_settings import default_currency_position
+from app.commands.personal_settings import onscreen_menu
 from app.commands.sources import sources_command
 from app.commands.start import start_command
 from app.commands.stop import stop_command
@@ -44,9 +39,13 @@ from app.commands.tutorial import tutorial_command
 @register_update
 @chat_language
 def cancel_command(bot, update, chat_info, _):
+    keyboard = get_keyboard(update.message.chat_id)
+    if not keyboard:
+        keyboard = ReplyKeyboardRemove()
+
     bot.send_message(
         chat_id=update.message.chat_id,
-        reply_markup=get_keyboard(update.message.chat_id),
+        reply_markup=keyboard,
         text='👌')
 
     return ConversationHandler.END
@@ -77,7 +76,6 @@ def main():
     dp.add_handler(CommandHandler("currencies", currencies_command))
     dp.add_handler(CommandHandler("disclaimers", disclaimers_command))
     dp.add_handler(CommandHandler("help", help_command))
-    dp.add_handler(CommandHandler("keyboard", keyboard_command))
     dp.add_handler(CommandHandler("p", price_command, pass_args=True))
     dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("stop", stop_command))
@@ -96,32 +94,47 @@ def main():
     dp.add_handler(CommandHandler("feedback", feedback_command))
 
     settings_handler = ConversationHandler(
-        entry_points=[CommandHandler("settings", settings_commands)],
+        entry_points=[CommandHandler("settings", settings_command)],
         states={
-            SettingsSteps.settings: [
-                RegexHandler(r"^1:", settings_language_commands),
-                RegexHandler(r"^2:", settings_default_currency_commands),
-                RegexHandler(r"^3:", settings_default_currency_position_commands),
-                RegexHandler(r"^4:", cancel_command),
+            SettingsSteps.main: [
+                RegexHandler(r"^↩️", cancel_command),
+                RegexHandler(r"^1:", language.menu_command),
+                RegexHandler(r"^2:", default_currency.menu_command),
+                RegexHandler(r"^3:", default_currency_position.menu_command),
+                RegexHandler(r"^4:", onscreen_menu.menu_command),
             ],
             SettingsSteps.language: [
-                CommandHandler('back', settings_commands),
-                MessageHandler(Filters.text, settings_language_set_commands)
+                RegexHandler(r"^↩️", settings_command),
+                MessageHandler(Filters.text, language.set_command),
             ],
             SettingsSteps.default_currency: [
-                CommandHandler('back', settings_commands),
-                MessageHandler(Filters.text, settings_default_currency_set_commands)
+                RegexHandler(r"^↩️", settings_command),
+                MessageHandler(Filters.text, default_currency.set_command),
             ],
             SettingsSteps.default_currency_position: [
-                CommandHandler('back', settings_commands),
-                MessageHandler(Filters.text, settings_default_currency_position_set_commands)
+                RegexHandler(r"^↩️", settings_command),
+                MessageHandler(Filters.text, default_currency_position.set_command),
             ],
+            SettingsSteps.onscreen_menu: [
+                RegexHandler(r"^↩️", settings_command),
+                RegexHandler(r"^1:", onscreen_menu.visibility_command),
+                RegexHandler(r"^2:", onscreen_menu.edit_history_command),
+            ],
+            SettingsSteps.onscreen_menu_visibility: [
+                RegexHandler(r"^↩️", onscreen_menu.onscreen_menu),
+                RegexHandler(r"^1", onscreen_menu.visibility_set_true_command),
+                RegexHandler(r"^2", onscreen_menu.visibility_set_false_command),
+            ],
+            # SettingsSteps.onscreen_menu_edit_history: [
+            #     RegexHandler("^↩️", settings_commands),
+            #     MessageHandler(Filters.text, default_currency_position.set_command),
+            # ],
         },
         fallbacks=[CommandHandler("cancel", cancel_command)]
     )
 
     dp.add_handler(settings_handler)
-    dp.add_handler(CommandHandler("settings", settings_commands))
+    dp.add_handler(CommandHandler("settings", settings_command))
 
     dp.add_handler(RegexHandler(r"^/", empty_command))
 

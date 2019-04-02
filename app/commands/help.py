@@ -17,8 +17,6 @@ def help_command(bot, update, chat_info, _):
     text_to += '\n'
     text_to += _('/feedback - If you have suggestions, text me')
     text_to += '\n'
-    text_to += _('/keyboard - Hide / show a keyboard with request history')
-    text_to += '\n'
     text_to += _('/p - Command for group chats, get exchange rate')
     text_to += '\n'
     text_to += _('/sources - Currency rates sources')

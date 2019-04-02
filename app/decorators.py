@@ -42,17 +42,17 @@ def register_update(func):
             chat = Chat(
                 id=chat_id,
                 locale=language_code,
-                is_console_mode=False if chat_id > 0 else True,  # never show keyboard for a group chats
+                is_show_keyboard=True if chat_id > 0 else False,  # never show keyboard for a group chats
             )
             db_session.add(chat)
             try:
                 transaction.commit()
                 chat_created = True
-                chat = db_session.query(Chat).filter_by(id=chat_id).one()
             except IntegrityError:
                 chat_created = False
                 logging.exception("Error create chat, chat exists")
                 transaction.abort()
+            finally:
                 chat = db_session.query(Chat).filter_by(id=chat_id).one()
         else:
             chat_created = False
@@ -62,7 +62,7 @@ def register_update(func):
             'created': chat_created,
             'locale': chat.locale,
             'is_subscribed': chat.is_subscribed,
-            'is_console_mode': chat.is_console_mode,
+            'is_show_keyboard': chat.is_show_keyboard,
             'default_currency': chat.default_currency,
             'default_currency_position': chat.default_currency_position,
         }
