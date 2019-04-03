@@ -18,7 +18,7 @@ def onscreen_menu(update: Update, chat_info: dict, _: gettext):
         parse_mode=ParseMode.MARKDOWN,
         reply_markup=ReplyKeyboardMarkup([
             ['1. ' + _('Visibility')],
-            ['2. ' + _('Delete request from a history')],
+            ['2. ' + _('Delete from a history requests')],
             ['↩️'],
         ]),
         text=text_to)

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Telegram Exchange Rates Bot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-03 20:18+0700\n"
+"POT-Creation-Date: 2019-04-03 20:38+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt_br\n"
@@ -225,7 +225,7 @@ msgid "Visibility"
 msgstr ""
 
 #: app/callbacks/personal_settings/onscreen_menu.py:21
-msgid "Delete request from a history"
+msgid "Delete from a history requests"
 msgstr ""
 
 #: app/callbacks/personal_settings/onscreen_menu.py:39
@@ -331,5 +331,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "2: Never show"
+#~ msgstr ""
+
+#~ msgid "Delete request from a history"
 #~ msgstr ""
 
