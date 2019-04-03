@@ -9,7 +9,7 @@ from ..regex_parser import RegexParser, parse_amount
 
 
 class RegexParserTest(unittest.TestCase):
-    @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
+    @patch('app.parsers.regex_parser.get_all_currency_codes', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_ok_pair_no_digits(self, m):
         # pair low case, no digits, space separator
         self.assertEqual(
@@ -58,7 +58,7 @@ class RegexParserTest(unittest.TestCase):
             )
         )
 
-    @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
+    @patch('app.parsers.regex_parser.get_all_currency_codes', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_ok_single_no_digits(self, m):
         # single to, no digits
         self.assertEqual(
@@ -84,7 +84,7 @@ class RegexParserTest(unittest.TestCase):
             )
         )
 
-    @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
+    @patch('app.parsers.regex_parser.get_all_currency_codes', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_ok_digits_l2r(self, m):
         # pair, space separator
         self.assertEqual(
@@ -134,7 +134,7 @@ class RegexParserTest(unittest.TestCase):
             )
         )
 
-    @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
+    @patch('app.parsers.regex_parser.get_all_currency_codes', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_ok_digits_r2l(self, m):
         # pair, space separator
         self.assertEqual(
@@ -184,7 +184,7 @@ class RegexParserTest(unittest.TestCase):
             )
         )
 
-    @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
+    @patch('app.parsers.regex_parser.get_all_currency_codes', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_ok_separators(self, m):
         self.assertEqual(
             RegexParser('usd to rub', 1, 'en', 'USD', False).parse(),
@@ -230,7 +230,7 @@ class RegexParserTest(unittest.TestCase):
             )
         )
 
-    @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
+    @patch('app.parsers.regex_parser.get_all_currency_codes', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_no_separators(self, m):
         self.assertEqual(
             RegexParser('usdrub', 1, 'en', 'USD', False).parse(),
@@ -287,7 +287,7 @@ class RegexParserTest(unittest.TestCase):
             )
         )
 
-    @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
+    @patch('app.parsers.regex_parser.get_all_currency_codes', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_money_formats(self, m):
         self.assertEqual(
             RegexParser('100.20 usd rub', 1, 'en', 'USD', True).parse(),
@@ -355,7 +355,7 @@ class RegexParserTest(unittest.TestCase):
             )
         )
 
-    @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
+    @patch('app.parsers.regex_parser.get_all_currency_codes', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_bad(self, m):
         cases = [
             '',
@@ -386,7 +386,7 @@ class RegexParserTest(unittest.TestCase):
 
 
 class ParseAmountTest(unittest.TestCase):
-    @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
+    @patch('app.parsers.regex_parser.get_all_currency_codes', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_ok(self, m):
         self.assertEqual(
             parse_amount('99999999999.1234567890123', 'en'),
@@ -428,7 +428,7 @@ class ParseAmountTest(unittest.TestCase):
             Decimal('9.123')
         )
 
-    @patch('app.parsers.regex_parser.get_all_currencies', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
+    @patch('app.parsers.regex_parser.get_all_currency_codes', return_value=['USD', 'RUB', 'EUR', 'BURST', 'SC'])
     def test_bad(self, m):
         with self.assertRaises(ValidationException):
             parse_amount('99999999999.1234567890123', 'de')
