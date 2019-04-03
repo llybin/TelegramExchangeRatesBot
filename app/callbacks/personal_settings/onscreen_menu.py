@@ -17,8 +17,8 @@ def onscreen_menu(update: Update, chat_info: dict, _: gettext):
     update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
         reply_markup=ReplyKeyboardMarkup([
-            [_('1: Visibility')],
-            [_('2: Delete request from a history')],
+            ['1. ' + _('Visibility')],
+            ['2. ' + _('Delete request from a history')],
             ['↩️'],
         ]),
         text=text_to)
@@ -47,8 +47,8 @@ def visibility_callback(update: Update, context: CallbackContext, chat_info: dic
     update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
         reply_markup=ReplyKeyboardMarkup([
-            [_('1: Always show')],
-            [_('2: Never show')],
+            ['1. ' + _('Always show')],
+            ['2. ' + _('Never show')],
             ['↩️'],
         ]),
         text=text_to)

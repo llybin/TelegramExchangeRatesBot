@@ -25,11 +25,7 @@ from app.callbacks.disclaimers import disclaimers_callback
 from app.callbacks.feedback import feedback_callback, send_feedback_callback
 from app.callbacks.help import help_callback
 from app.callbacks.price import price_callback, message_callback, on_slash_callback, inline_query_callback
-from app.callbacks.personal_settings.main import SettingsSteps, settings_callback
-from app.callbacks.personal_settings import language
-from app.callbacks.personal_settings import default_currency
-from app.callbacks.personal_settings import default_currency_position
-from app.callbacks.personal_settings import onscreen_menu
+from app.callbacks import personal_settings
 from app.callbacks.sources import sources_callback
 from app.callbacks.start import start_callback
 from app.callbacks.stop import stop_callback
@@ -81,42 +77,42 @@ def main():
     dp.add_handler(feedback_handler)
 
     settings_handler = ConversationHandler(
-        entry_points=[CommandHandler("settings", settings_callback)],
+        entry_points=[CommandHandler("settings", personal_settings.main.settings_callback)],
         states={
-            SettingsSteps.main: [
+            personal_settings.SettingsSteps.main: [
                 MessageHandler(Filters.regex(r"^↩️"), cancel_callback),
-                MessageHandler(Filters.regex(r"^1:"), language.menu_callback),
-                MessageHandler(Filters.regex(r"^2:"), default_currency.menu_callback),
-                MessageHandler(Filters.regex(r"^3:"), default_currency_position.menu_callback),
-                MessageHandler(Filters.regex(r"^4:"), onscreen_menu.menu_callback),
+                MessageHandler(Filters.regex(r"^1. "), personal_settings.language.menu_callback),
+                MessageHandler(Filters.regex(r"^2. "), personal_settings.default_currency.menu_callback),
+                MessageHandler(Filters.regex(r"^3. "), personal_settings.default_currency_position.menu_callback),
+                MessageHandler(Filters.regex(r"^4. "), personal_settings.onscreen_menu.menu_callback),
             ],
-            SettingsSteps.language: [
-                MessageHandler(Filters.regex(r"^↩️"), settings_callback),
-                MessageHandler(Filters.text, language.set_callback),
+            personal_settings.SettingsSteps.language: [
+                MessageHandler(Filters.regex(r"^↩️"), personal_settings.main.settings_callback),
+                MessageHandler(Filters.text, personal_settings.language.set_callback),
             ],
-            SettingsSteps.default_currency: [
-                MessageHandler(Filters.regex(r"^↩️"), settings_callback),
-                MessageHandler(Filters.text, default_currency.set_callback),
+            personal_settings.SettingsSteps.default_currency: [
+                MessageHandler(Filters.regex(r"^↩️"), personal_settings.main.settings_callback),
+                MessageHandler(Filters.text, personal_settings.default_currency.set_callback),
             ],
-            SettingsSteps.default_currency_position: [
-                MessageHandler(Filters.regex(r"^↩️"), settings_callback),
-                MessageHandler(Filters.text, default_currency_position.set_command),
+            personal_settings.SettingsSteps.default_currency_position: [
+                MessageHandler(Filters.regex(r"^↩️"), personal_settings.main.settings_callback),
+                MessageHandler(Filters.text, personal_settings.default_currency_position.set_command),
             ],
-            SettingsSteps.onscreen_menu: [
-                MessageHandler(Filters.regex(r"^↩️"), settings_callback),
-                MessageHandler(Filters.regex(r"^1:"), onscreen_menu.visibility_callback),
-                MessageHandler(Filters.regex(r"^2:"), onscreen_menu.edit_history_callback),
+            personal_settings.SettingsSteps.onscreen_menu: [
+                MessageHandler(Filters.regex(r"^↩️"), personal_settings.main.settings_callback),
+                MessageHandler(Filters.regex(r"^1. "), personal_settings.onscreen_menu.visibility_callback),
+                MessageHandler(Filters.regex(r"^2. "), personal_settings.onscreen_menu.edit_history_callback),
             ],
-            SettingsSteps.onscreen_menu_visibility: [
-                MessageHandler(Filters.regex(r"^↩️"), onscreen_menu.menu_callback),
-                MessageHandler(Filters.regex(r"^1"), onscreen_menu.visibility_set_true_callback),
-                MessageHandler(Filters.regex(r"^2"), onscreen_menu.visibility_set_false_callback),
+            personal_settings.SettingsSteps.onscreen_menu_visibility: [
+                MessageHandler(Filters.regex(r"^↩️"), personal_settings.onscreen_menu.menu_callback),
+                MessageHandler(Filters.regex(r"^1. "), personal_settings.onscreen_menu.visibility_set_true_callback),
+                MessageHandler(Filters.regex(r"^2. "), personal_settings.onscreen_menu.visibility_set_false_callback),
             ],
-            SettingsSteps.onscreen_menu_edit_history: [
-                MessageHandler(Filters.regex(r"^↩️"), onscreen_menu.menu_callback),
-                MessageHandler(Filters.regex(r"^🅾️"), onscreen_menu.edit_history_delete_old_callback),
-                MessageHandler(Filters.regex(r"^🆑"), onscreen_menu.edit_history_delete_all_callback),
-                MessageHandler(Filters.regex(r"^❌"), onscreen_menu.edit_history_delete_one_callback),
+            personal_settings.SettingsSteps.onscreen_menu_edit_history: [
+                MessageHandler(Filters.regex(r"^↩️"), personal_settings.onscreen_menu.menu_callback),
+                MessageHandler(Filters.regex(r"^🅾️"), personal_settings.onscreen_menu.edit_history_delete_old_callback),
+                MessageHandler(Filters.regex(r"^🆑"), personal_settings.onscreen_menu.edit_history_delete_all_callback),
+                MessageHandler(Filters.regex(r"^❌"), personal_settings.onscreen_menu.edit_history_delete_one_callback),
             ],
         },
         fallbacks=[CommandHandler("cancel", cancel_callback)],
@@ -131,11 +127,12 @@ def main():
     dp.add_handler(CommandHandler("feedback", feedback_callback))
     dp.add_handler(CommandHandler("help", help_callback))
     dp.add_handler(CommandHandler("p", price_callback, pass_args=True))
-    dp.add_handler(CommandHandler("settings", settings_callback))
+    dp.add_handler(CommandHandler("settings", personal_settings.main.settings_callback))
     dp.add_handler(CommandHandler("start", start_callback))
     dp.add_handler(CommandHandler("stop", stop_callback))
     dp.add_handler(CommandHandler("sources", sources_callback))
     dp.add_handler(CommandHandler("tutorial", tutorial_callback))
+
     dp.add_handler(MessageHandler(Filters.regex(r"^/"), on_slash_callback))
     dp.add_handler(MessageHandler(Filters.text, message_callback))
 
