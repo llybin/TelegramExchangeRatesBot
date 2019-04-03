@@ -15,7 +15,6 @@ def get_all_currencies():
     return Session.query(Currency.code, Currency.name).filter_by(is_active=True).order_by(Currency.name).all()
 
 
-@region.cache_on_arguments(expiration_time=1)
 def get_last_request(chat_id):
     return Session.query(ChatRequests).filter_by(
         chat_id=chat_id
