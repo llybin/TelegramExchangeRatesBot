@@ -12,7 +12,7 @@ from suite.conf import settings
 from app.celery import celery_app
 from app.exchanges.base import reverse_pair_data, PairData
 from app.helpers import import_module, rate_from_pair_data, fill_rate_open
-from app.models import Exchange, Currency, Rate, RequestsLog, ChatRequests, Chat
+from app.models import Exchange, Currency, Rate, RequestsLog, ChatRequests
 
 
 # @celery_app.task(base=QueueOnce, queue='exchanges')
