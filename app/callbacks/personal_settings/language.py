@@ -1,7 +1,7 @@
 from gettext import gettext
 
 import transaction
-from telegram import ParseMode, ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
+from telegram import ParseMode, ReplyKeyboardMarkup, Update
 from telegram.ext import CallbackContext
 from suite.conf import settings
 from suite.database import Session
