@@ -17,6 +17,7 @@ from suite.conf import settings
 from app.decorators import register_update
 from app.logic import get_keyboard
 from app.sentry import init_sentry
+from app.state_storage import RedisPersistence
 from app.translations import init_translations
 
 from app.callbacks.currencies import currencies_callback
@@ -60,31 +61,24 @@ def main():
 
     init_translations()
 
-    updater = Updater(token=settings.BOT_TOKEN, use_context=True)
+    updater = Updater(
+        token=settings.BOT_TOKEN,
+        persistence=RedisPersistence(),
+        use_context=True)
 
-    # Get the dispatcher to register handlers
     dp = updater.dispatcher
-
-    # on different callbacks - answer in Telegram
-    dp.add_handler(CommandHandler("currencies", currencies_callback))
-    dp.add_handler(CommandHandler("disclaimers", disclaimers_callback))
-    dp.add_handler(CommandHandler("help", help_callback))
-    dp.add_handler(CommandHandler("p", price_callback, pass_args=True))
-    dp.add_handler(CommandHandler("start", start_callback))
-    dp.add_handler(CommandHandler("stop", stop_callback))
-    dp.add_handler(CommandHandler("sources", sources_callback))
-    dp.add_handler(CommandHandler("tutorial", tutorial_callback))
 
     feedback_handler = ConversationHandler(
         entry_points=[CommandHandler("feedback", feedback_callback)],
         states={
             1: [MessageHandler(Filters.text, send_feedback_callback)]
         },
-        fallbacks=[CommandHandler("nothing", cancel_callback)]
+        fallbacks=[CommandHandler("nothing", cancel_callback)],
+        name="feedback_conversation",
+        persistent=True
     )
 
     dp.add_handler(feedback_handler)
-    dp.add_handler(CommandHandler("feedback", feedback_callback))
 
     settings_handler = ConversationHandler(
         entry_points=[CommandHandler("settings", settings_callback)],
@@ -125,17 +119,27 @@ def main():
                 MessageHandler(Filters.regex(r"^❌"), onscreen_menu.edit_history_delete_one_callback),
             ],
         },
-        fallbacks=[CommandHandler("cancel", cancel_callback)]
+        fallbacks=[CommandHandler("cancel", cancel_callback)],
+        name="settings_conversation",
+        persistent=True
     )
 
     dp.add_handler(settings_handler)
-    dp.add_handler(CommandHandler("settings", settings_callback))
 
+    dp.add_handler(CommandHandler("currencies", currencies_callback))
+    dp.add_handler(CommandHandler("disclaimers", disclaimers_callback))
+    dp.add_handler(CommandHandler("feedback", feedback_callback))
+    dp.add_handler(CommandHandler("help", help_callback))
+    dp.add_handler(CommandHandler("p", price_callback, pass_args=True))
+    dp.add_handler(CommandHandler("settings", settings_callback))
+    dp.add_handler(CommandHandler("start", start_callback))
+    dp.add_handler(CommandHandler("stop", stop_callback))
+    dp.add_handler(CommandHandler("sources", sources_callback))
+    dp.add_handler(CommandHandler("tutorial", tutorial_callback))
     dp.add_handler(MessageHandler(Filters.regex(r"^/"), on_slash_callback))
+    dp.add_handler(MessageHandler(Filters.text, message_callback))
 
     dp.add_handler(InlineQueryHandler(inline_query_callback))
-
-    dp.add_handler(MessageHandler(Filters.text, message_callback))
 
     # log all errors
     dp.add_error_handler(error_callback)

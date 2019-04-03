@@ -8,10 +8,9 @@ DATABASE = {
     'url': os.environ.get('DB_URL', 'postgresql://postgres:@db:5432/postgres'),
 }
 
-CACHE = {
-    'host': os.environ.get('CACHE_HOST', 'redis'),
-    'db': os.environ.get('CACHE_DB', '1'),
-}
+CACHE_URL = 'redis://redis:6379/1'
+
+BOT_PERSISTENCE_URL = 'redis://redis:6379/3'
 
 BROKER_URL = os.environ.get('BROKER_URL', 'redis://redis:6379/0')
 

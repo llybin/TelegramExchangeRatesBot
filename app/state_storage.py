@@ -1,186 +1,83 @@
-import pickle
-from collections import defaultdict
 from copy import deepcopy
+from collections import defaultdict
+from suite.conf import settings
+
+import redis
 
 from telegram.ext.basepersistence import BasePersistence
 
+STORAGE_TTL = 60 * 60 * 24 * 30
+CHAT_DATA_KEY = 'chat_data'
+USER_DATA_KEY = 'user_data'
+CONVERSATIONS_KEY = 'conversations'
 
-class PicklePersistence(BasePersistence):
-    def __init__(self, filename, store_user_data=True, store_chat_data=True, singe_file=True,
-                 on_flush=False):
-        self.filename = filename
-        self.store_user_data = store_user_data
-        self.store_chat_data = store_chat_data
-        self.single_file = singe_file
-        self.on_flush = on_flush
+
+class RedisPersistence(BasePersistence):
+    redis: redis
+
+    chat_data: defaultdict or None
+    user_data: defaultdict or None
+    conversations: dict or None
+
+    def __init__(self, store_user_data=True, store_chat_data=True):
+        super().__init__(store_user_data, store_chat_data)
+        self.redis = redis.StrictRedis.from_url(settings.BOT_PERSISTENCE_URL)
         self.user_data = None
         self.chat_data = None
         self.conversations = None
 
-    def load_singlefile(self):
-        try:
-            filename = self.filename
-            with open(self.filename, "rb") as f:
-                all = pickle.load(f)
-                self.user_data = defaultdict(dict, all['user_data'])
-                self.chat_data = defaultdict(dict, all['chat_data'])
-                self.conversations = all['conversations']
-        except IOError:
-            self.conversations = {}
-            self.user_data = defaultdict(dict)
-            self.chat_data = defaultdict(dict)
-        except pickle.UnpicklingError:
-            raise TypeError("File {} does not contain valid pickle data".format(filename))
-        except Exception:
-            raise TypeError("Something went wrong unpickling {}".format(filename))
-
-    def load_file(self, filename):
-        try:
-            with open(filename, "rb") as f:
-                return pickle.load(f)
-        except IOError:
-            return None
-        except pickle.UnpicklingError:
-            raise TypeError("File {} does not contain valid pickle data".format(filename))
-        except Exception:
-            raise TypeError("Something went wrong unpickling {}".format(filename))
-
-    def dump_singlefile(self):
-        with open(self.filename, "wb") as f:
-            all = {'conversations': self.conversations, 'user_data': self.user_data,
-                   'chat_data': self.chat_data}
-            pickle.dump(all, f)
-
-    def dump_file(self, filename, data):
-        with open(filename, "wb") as f:
-            pickle.dump(data, f)
-
-    def get_user_data(self):
-        """Returns the user_data from the pickle file if it exsists or an empty defaultdict.
-
-        Returns:
-            :obj:`defaultdict`: The restored user data.
-        """
-        if self.user_data:
-            pass
-        elif not self.single_file:
-            filename = "{}_user_data".format(self.filename)
-            data = self.load_file(filename)
-            if not data:
-                data = defaultdict(dict)
+    def get_user_data(self) -> defaultdict:
+        if self.user_data is None:
+            data = self.redis.get(USER_DATA_KEY)
+            if data:
+                self.user_data = defaultdict(dict, data)
             else:
-                data = defaultdict(dict, data)
-            self.user_data = data
-        else:
-            self.load_singlefile()
+                self.user_data = defaultdict(dict)
+
         return deepcopy(self.user_data)
 
-    def get_chat_data(self):
-        """Returns the chat_data from the pickle file if it exsists or an empty defaultdict.
-
-        Returns:
-            :obj:`defaultdict`: The restored chat data.
-        """
-        if self.chat_data:
-            pass
-        elif not self.single_file:
-            filename = "{}_chat_data".format(self.filename)
-            data = self.load_file(filename)
-            if not data:
-                data = defaultdict(dict)
+    def get_chat_data(self) -> defaultdict:
+        if self.chat_data is None:
+            data = self.redis.get(CHAT_DATA_KEY)
+            if data:
+                self.chat_data = defaultdict(dict, data)
             else:
-                data = defaultdict(dict, data)
-            self.chat_data = data
-        else:
-            self.load_singlefile()
+                self.chat_data = defaultdict(dict)
+
         return deepcopy(self.chat_data)
 
-    def get_conversations(self, name):
-        """Returns the conversations from the pickle file if it exsists or an empty defaultdict.
+    def get_conversations(self, name: str) -> dict:
+        if self.conversations is None:
+            data = self.redis.get(CONVERSATIONS_KEY)
+            if data:
+                self.conversations = data
+            else:
+                self.conversations = {}
 
-        Args:
-            name (:obj:`str`): The handlers name.
-
-        Returns:
-            :obj:`dict`: The restored conversations for the handler.
-        """
-        if self.conversations:
-            pass
-        elif not self.single_file:
-            filename = "{}_conversations".format(self.filename)
-            data = self.load_file(filename)
-            if not data:
-                data = {name: {}}
-            self.conversations = data
-        else:
-            self.load_singlefile()
         return self.conversations.get(name, {}).copy()
 
-    def update_conversation(self, name, key, new_state):
-        """Will update the conversations for the given handler and depending on :attr:`on_flush`
-        save the pickle file.
-
-        Args:
-            name (:obj:`str`): The handlers name.
-            key (:obj:`tuple`): The key the state is changed for.
-            new_state (:obj:`tuple` | :obj:`any`): The new state for the given key.
-        """
+    def update_conversation(self, name, key, new_state) -> None:
         if self.conversations.setdefault(name, {}).get(key) == new_state:
             return
         self.conversations[name][key] = new_state
-        if not self.on_flush:
-            if not self.single_file:
-                filename = "{}_conversations".format(self.filename)
-                self.dump_file(filename, self.conversations)
-            else:
-                self.dump_singlefile()
+        self.redis.setex(CONVERSATIONS_KEY, STORAGE_TTL, self.conversations)
 
-    def update_user_data(self, user_id, data):
-        """Will update the user_data (if changed) and depending on :attr:`on_flush` save the
-        pickle file.
-
-        Args:
-            user_id (:obj:`int`): The user the data might have been changed for.
-            data (:obj:`dict`): The :attr:`telegram.ext.dispatcher.user_data` [user_id].
-        """
+    def update_user_data(self, user_id, data) -> None:
         if self.user_data.get(user_id) == data:
             return
         self.user_data[user_id] = data
-        if not self.on_flush:
-            if not self.single_file:
-                filename = "{}_user_data".format(self.filename)
-                self.dump_file(filename, self.user_data)
-            else:
-                self.dump_singlefile()
+        self.redis.setex(USER_DATA_KEY, STORAGE_TTL, self.user_data)
 
-    def update_chat_data(self, chat_id, data):
-        """Will update the chat_data (if changed) and depending on :attr:`on_flush` save the
-        pickle file.
-
-        Args:
-            chat_id (:obj:`int`): The chat the data might have been changed for.
-            data (:obj:`dict`): The :attr:`telegram.ext.dispatcher.chat_data` [chat_id].
-        """
+    def update_chat_data(self, chat_id, data) -> None:
         if self.chat_data.get(chat_id) == data:
             return
         self.chat_data[chat_id] = data
-        if not self.on_flush:
-            if not self.single_file:
-                filename = "{}_chat_data".format(self.filename)
-                self.dump_file(filename, self.chat_data)
-            else:
-                self.dump_singlefile()
+        self.redis.setex(CHAT_DATA_KEY, STORAGE_TTL, self.chat_data)
 
-    def flush(self):
-        """ Will save all data in memory to pickle file(s).
-        """
-        if self.single_file:
-            if self.user_data or self.chat_data or self.conversations:
-                self.dump_singlefile()
-        else:
-            if self.user_data:
-                self.dump_file("{}_user_data".format(self.filename), self.user_data)
-            if self.chat_data:
-                self.dump_file("{}_chat_data".format(self.filename), self.chat_data)
-            if self.conversations:
-                self.dump_file("{}_conversations".format(self.filename), self.conversations)
+    def flush(self) -> None:
+        if self.user_data:
+            self.redis.setex(USER_DATA_KEY, STORAGE_TTL, self.user_data)
+        if self.chat_data:
+            self.redis.setex(CHAT_DATA_KEY, STORAGE_TTL, self.chat_data)
+        if self.conversations:
+            self.redis.setex(CONVERSATIONS_KEY, STORAGE_TTL, self.conversations)
