@@ -2,7 +2,7 @@ import unittest
 from decimal import Decimal
 from unittest.mock import patch
 
-from app.queries import get_all_currencies
+from app.queries import get_all_currency_codes
 from ..base import PriceRequest, DirectionWriting
 from ..exceptions import ValidationException
 from ..regex_parser import RegexParser, parse_amount
@@ -378,8 +378,8 @@ class RegexParserTest(unittest.TestCase):
                 RegexParser(text, 1, 'en', 'USD', True).parse()
 
     def test_cross_all_currency(self):
-        for cur0 in get_all_currencies():
-            for cur1 in get_all_currencies():
+        for cur0 in get_all_currency_codes():
+            for cur1 in get_all_currency_codes():
                 pr = RegexParser(f'{cur0}{cur1}', 1, 'en', 'USD', False).parse()
                 self.assertEqual(pr.currency, cur0, f'{cur0}{cur1}')
                 self.assertEqual(pr.to_currency, cur1, f'{cur0}{cur1}')

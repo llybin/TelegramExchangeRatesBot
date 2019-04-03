@@ -25,7 +25,7 @@ from babel.core import Locale
 from babel.numbers import get_decimal_symbol, get_group_symbol
 
 from app.constants import BIGGEST_VALUE
-from app.queries import get_all_currencies
+from app.queries import get_all_currency_codes
 from .base import (
     DirectionWriting,
     PriceRequest,
@@ -89,7 +89,7 @@ class RegexParser(Parser):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.all_currencies = get_all_currencies()
+        self.all_currencies = get_all_currency_codes()
 
     def is_currency_recognized(self, currency: str) -> bool:
         return currency in self.all_currencies

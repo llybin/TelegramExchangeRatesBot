@@ -4,9 +4,10 @@ from suite.conf import settings
 
 from app.helpers import import_module
 from app.keyboard import KeyboardSimpleClever
-from app.models import Chat, ChatRequests
+from app.models import Chat
 from app.parsers.base import PriceRequest
 from app.parsers.exceptions import ValidationException
+from app.queries import get_last_request
 
 
 def get_keyboard(chat_id: int, buttons=None, symbol='') -> ReplyKeyboardMarkup or None:
@@ -19,11 +20,7 @@ def get_keyboard(chat_id: int, buttons=None, symbol='') -> ReplyKeyboardMarkup o
         return None
 
     else:
-        last_requests = Session.query(ChatRequests).filter_by(
-            chat_id=chat_id
-        ).order_by(
-            ChatRequests.times.desc()
-        ).limit(9).all()
+        last_requests = get_last_request(chat_id)
 
         if last_requests:
             last_reqs_list = [f'{symbol}{x.from_currency.code} {x.to_currency.code}' for x in last_requests]

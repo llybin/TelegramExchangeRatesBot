@@ -9,7 +9,7 @@ from app.callbacks.personal_settings.main import SettingsSteps, main_menu
 from app.decorators import register_update, chat_language
 from app.models import Currency, Chat
 from app.keyboard import KeyboardSimpleClever
-from app.queries import get_all_currencies
+from app.queries import get_all_currency_codes
 
 
 @register_update
@@ -19,7 +19,7 @@ def menu_callback(update: Update, context: CallbackContext, chat_info: dict, _: 
                 'You can set any currency by default, e.g. *EUR*. When you send only USD - will get *EUR USD*') % {
         'default_currency': chat_info['default_currency']}
 
-    keyboard = KeyboardSimpleClever(['↩️'] + get_all_currencies(), 4).show()
+    keyboard = KeyboardSimpleClever(['↩️'] + get_all_currency_codes(), 4).show()
 
     update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,

@@ -9,6 +9,7 @@ from app.callbacks.personal_settings.main import SettingsSteps
 from app.decorators import register_update, chat_language
 from app.models import Chat, Currency, ChatRequests
 from app.logic import get_keyboard
+from app.queries import get_last_request
 
 
 def onscreen_menu(update: Update, chat_info: dict, _: gettext):
@@ -93,8 +94,7 @@ def visibility_set_false_callback(update: Update, context: CallbackContext, chat
 @register_update
 @chat_language
 def edit_history_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
-    # TODO: move from get_keyboard query for check to queries and use it
-    if get_keyboard(update.message.chat_id):
+    if get_last_request(update.message.chat_id):
         text_to = _('You can *delete* a request from a history requests.')
 
         keyboard = get_keyboard(
@@ -153,8 +153,7 @@ def edit_history_delete_one_callback(update: Update, context: CallbackContext, c
 
         text_to = _('*%(first)s %(second)s* was deleted.') % {'first': parts[1], 'second': parts[2]}
 
-        # TODO: move from get_keyboard query for check to queries and use it
-        if get_keyboard(update.message.chat_id):
+        if get_last_request(update.message.chat_id):
             keyboard = get_keyboard_deletion(update.message.chat_id, _)
 
             update.message.reply_text(
