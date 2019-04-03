@@ -1,8 +1,11 @@
+from gettext import gettext
+
 import transaction
-from telegram import ParseMode, ReplyKeyboardMarkup, ReplyKeyboardRemove
+from telegram import ParseMode, ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
+from telegram.ext import CallbackContext
 from suite.database import Session
 
-from app.commands.personal_settings.main import SettingsSteps, main_menu
+from app.callbacks.personal_settings.main import SettingsSteps, main_menu
 from app.decorators import register_update, chat_language
 from app.models import Chat
 from app.keyboard import KeyboardSimpleClever
@@ -10,7 +13,7 @@ from app.keyboard import KeyboardSimpleClever
 
 @register_update
 @chat_language
-def menu_command(bot, update, chat_info, _):
+def menu_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     if chat_info['default_currency_position']:
         position = f'___{chat_info["default_currency"]}'
     else:
@@ -27,8 +30,7 @@ def menu_command(bot, update, chat_info, _):
         ], 3
     ).show()
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
         reply_markup=ReplyKeyboardMarkup(keyboard),
         text=text_to)
@@ -38,15 +40,13 @@ def menu_command(bot, update, chat_info, _):
 
 @register_update
 @chat_language
-def set_command(bot, update, chat_info, _):
+def set_command(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     if update.message.text.endswith('___'):
         default_currency_position = False
     elif update.message.text.startswith('___'):
         default_currency_position = True
     else:
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text='🧐')
+        update.message.reply_text(text='🧐')
         return SettingsSteps.default_currency_position
 
     if default_currency_position:
@@ -63,12 +63,10 @@ def set_command(bot, update, chat_info, _):
     text_to = _('*%(position)s* - position where your default currency will be added.') % {
         'position': position}
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
-        reply_markup=ReplyKeyboardRemove(),
         text=text_to)
 
-    main_menu(bot, update, chat_info, _)
+    main_menu(update, chat_info, _)
 
     return SettingsSteps.main

@@ -1,18 +1,20 @@
+from gettext import gettext
+
 import transaction
-from telegram import ParseMode, ReplyKeyboardMarkup
+from telegram import ParseMode, ReplyKeyboardMarkup, Update
+from telegram.ext import CallbackContext
 from suite.database import Session
 
-from app.commands.personal_settings.main import SettingsSteps
+from app.callbacks.personal_settings.main import SettingsSteps
 from app.decorators import register_update, chat_language
 from app.models import Chat, Currency, ChatRequests
 from app.logic import get_keyboard
 
 
-def onscreen_menu(bot, update, chat_info, _):
+def onscreen_menu(update: Update, chat_info: dict, _: gettext):
     text_to = _('Here you can customize on-screen menu with a history requests.')
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
         reply_markup=ReplyKeyboardMarkup([
             [_('1: Visibility')],
@@ -24,15 +26,15 @@ def onscreen_menu(bot, update, chat_info, _):
 
 @register_update
 @chat_language
-def menu_command(bot, update, chat_info, _):
-    onscreen_menu(bot, update, chat_info, _)
+def menu_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
+    onscreen_menu(update, chat_info, _)
 
     return SettingsSteps.onscreen_menu
 
 
 @register_update
 @chat_language
-def visibility_command(bot, update, chat_info, _):
+def visibility_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     if chat_info['is_show_keyboard']:
         text_to = _('On-screen menu below with a history requests *always shows* at the moment.')
     else:
@@ -42,8 +44,7 @@ def visibility_command(bot, update, chat_info, _):
 
     text_to += _('You can choose. Show always on-screen menu below with a history requests or never show.')
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
         reply_markup=ReplyKeyboardMarkup([
             [_('1: Always show')],
@@ -55,49 +56,43 @@ def visibility_command(bot, update, chat_info, _):
     return SettingsSteps.onscreen_menu_visibility
 
 
-@register_update
-@chat_language
-def visibility_set_true_command(bot, update, chat_info, _):
+def visibility_set(update: Update, chat_info: dict, _: gettext, is_show_keyboard: bool):
     db_session = Session()
     chat = db_session.query(Chat).filter_by(id=update.message.chat_id).first()
-    chat.is_show_keyboard = True
+    chat.is_show_keyboard = is_show_keyboard
     transaction.commit()
 
-    text_to = _('On-screen menu below with a history requests will *always shows*.')
+    if is_show_keyboard:
+        text_to = _('On-screen menu below with a history requests will *always shows*.')
+    else:
+        text_to = _('On-screen menu below with a history requests will *never shows*.')
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
         text=text_to)
 
-    onscreen_menu(bot, update, chat_info, _)
+    onscreen_menu(update, chat_info, _)
+
+
+@register_update
+@chat_language
+def visibility_set_true_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
+    visibility_set(update, chat_info, _, True)
 
     return SettingsSteps.onscreen_menu
 
 
 @register_update
 @chat_language
-def visibility_set_false_command(bot, update, chat_info, _):
-    db_session = Session()
-    chat = db_session.query(Chat).filter_by(id=update.message.chat_id).first()
-    chat.is_show_keyboard = False
-    transaction.commit()
-
-    text_to = _('On-screen menu below with a history requests will *never shows*.')
-
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        parse_mode=ParseMode.MARKDOWN,
-        text=text_to)
-
-    onscreen_menu(bot, update, chat_info, _)
+def visibility_set_false_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
+    visibility_set(update, chat_info, _, False)
 
     return SettingsSteps.onscreen_menu
 
 
 @register_update
 @chat_language
-def edit_history_command(bot, update, chat_info, _):
+def edit_history_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     # TODO: move from get_keyboard query for check to queries and use it
     if get_keyboard(update.message.chat_id):
         text_to = _('You can *delete* a request from a history requests.')
@@ -108,8 +103,7 @@ def edit_history_command(bot, update, chat_info, _):
             '❌ '
         )
 
-        bot.send_message(
-            chat_id=update.message.chat_id,
+        update.message.reply_text(
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=keyboard,
             text=text_to)
@@ -119,14 +113,12 @@ def edit_history_command(bot, update, chat_info, _):
     else:
         text_to = _('Your history requests is empty for deletion.')
 
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text=text_to)
+        update.message.reply_text(text=text_to)
 
         return SettingsSteps.onscreen_menu
 
 
-def get_keyboard_deletion(chat_id: int, _):
+def get_keyboard_deletion(chat_id: int, _: gettext):
     return get_keyboard(
         chat_id,
         ['↩️', '🅾️ ' + _('Delete old'), '🆑 ' + _('Delete all')],
@@ -136,7 +128,7 @@ def get_keyboard_deletion(chat_id: int, _):
 
 @register_update
 @chat_language
-def edit_history_delete_one_command(bot, update, chat_info, _):
+def edit_history_delete_one_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     parts = update.message.text.split(' ')
 
     db_session = Session()
@@ -150,9 +142,7 @@ def edit_history_delete_one_command(bot, update, chat_info, _):
     ).first()
 
     if not from_currency or not to_currency:
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text='🧐')
+        update.message.reply_text(text='🧐')
     else:
         db_session.query(ChatRequests).filter_by(
             chat_id=update.message.chat_id,
@@ -167,8 +157,7 @@ def edit_history_delete_one_command(bot, update, chat_info, _):
         if get_keyboard(update.message.chat_id):
             keyboard = get_keyboard_deletion(update.message.chat_id, _)
 
-            bot.send_message(
-                chat_id=update.message.chat_id,
+            update.message.reply_text(
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=keyboard,
                 text=text_to)
@@ -176,19 +165,18 @@ def edit_history_delete_one_command(bot, update, chat_info, _):
             return SettingsSteps.onscreen_menu_edit_history
 
         else:
-            bot.send_message(
-                chat_id=update.message.chat_id,
+            update.message.reply_text(
                 parse_mode=ParseMode.MARKDOWN,
                 text=text_to)
 
-            onscreen_menu(bot, update, chat_info, _)
+            onscreen_menu(update, chat_info, _)
 
             return SettingsSteps.onscreen_menu
 
 
 @register_update
 @chat_language
-def edit_history_delete_old_command(bot, update, chat_info, _):
+def edit_history_delete_old_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     db_session = Session()
 
     subquery = db_session.query(ChatRequests.id).filter_by(
@@ -208,8 +196,7 @@ def edit_history_delete_old_command(bot, update, chat_info, _):
 
     keyboard = get_keyboard_deletion(update.message.chat_id, _)
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
         reply_markup=keyboard,
         text=text_to)
@@ -219,7 +206,7 @@ def edit_history_delete_old_command(bot, update, chat_info, _):
 
 @register_update
 @chat_language
-def edit_history_delete_all_command(bot, update, chat_info, _):
+def edit_history_delete_all_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     Session().query(ChatRequests).filter_by(
         chat_id=update.message.chat_id,
     ).delete()
@@ -229,12 +216,11 @@ def edit_history_delete_all_command(bot, update, chat_info, _):
 
     keyboard = get_keyboard_deletion(update.message.chat_id, _)
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
         reply_markup=keyboard,
         text=text_to)
 
-    onscreen_menu(bot, update, chat_info, _)
+    onscreen_menu(update, chat_info, _)
 
     return SettingsSteps.onscreen_menu

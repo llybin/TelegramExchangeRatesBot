@@ -1,11 +1,13 @@
-from telegram import ParseMode
-from telegram.ext import ConversationHandler
+from gettext import gettext
+
+from telegram import ParseMode, Update
+from telegram.ext import ConversationHandler, CallbackContext
 
 from app.decorators import register_update, chat_language
 from app.logic import get_keyboard
 
 
-def tutorial(bot, update, _):
+def tutorial(update, _):
     text_to = _('I am bot. I will help you to know a current exchange rates.')
     text_to += '\n\n'
     text_to += _('''Send me a message like this:
@@ -21,8 +23,7 @@ def tutorial(bot, update, _):
     text_to += '\n\n'
     text_to += _('Also take a look here 👉 /help')
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         reply_markup=get_keyboard(update.message.chat_id),
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
@@ -31,6 +32,6 @@ def tutorial(bot, update, _):
 
 @register_update
 @chat_language
-def tutorial_command(bot, update, chat_info, _):
-    tutorial(bot, update, _)
+def tutorial_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
+    tutorial(update, _)
     return ConversationHandler.END

@@ -1,8 +1,9 @@
 import logging
 from datetime import datetime
+from gettext import gettext
 
-from telegram import ParseMode, InlineQueryResultArticle, InputTextMessageContent
-from telegram.ext import ConversationHandler
+from telegram import ParseMode, InlineQueryResultArticle, InputTextMessageContent, Update
+from telegram.ext import ConversationHandler, CallbackContext
 from suite.database import Session
 from suite.conf import settings
 
@@ -18,7 +19,7 @@ from app.parsers.exceptions import ValidationException
 from app.tasks import update_chat_request, write_request_log
 
 
-def price(bot, update, text, chat_info, _):
+def price(update: Update, text: str, chat_info: dict, _: gettext):
     tag = ''
     try:
         if not text:
@@ -48,8 +49,7 @@ def price(bot, update, text, chat_info, _):
             to_currency=price_request.to_currency
         )
 
-        bot.send_message(
-            chat_id=update.message.chat_id,
+        update.message.reply_text(
             disable_web_page_preview=True,
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=get_keyboard(update.message.chat_id),
@@ -84,41 +84,41 @@ def price(bot, update, text, chat_info, _):
 
 @register_update
 @chat_language
-def price_command(bot, update, args, chat_info, _):
-    text = ''.join(args)
+def price_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
+    text = ''.join(context.args)
     # usd@ExchangeRatesBot
-    text = text.split(bot.name)[0]
+    text = text.split(update.message.bot.name)[0]
 
-    price(bot, update, text, chat_info, _)
+    price(update, text, chat_info, _)
 
     return ConversationHandler.END
 
 
 @register_update
 @chat_language
-def message_command(bot, update, chat_info, _):
+def message_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     if not update.message:
         return
 
-    price(bot, update, update.message.text, chat_info, _)
+    price(update, update.message.text, chat_info, _)
 
     return ConversationHandler.END
 
 
 @register_update
 @chat_language
-def empty_command(bot, update, chat_info, _):
+def on_slash_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     text = update.message.text[1:]
     # /usd@ExchangeRatesBot
-    text = text.split(bot.name)[0]
+    text = text.split(update.message.bot.name)[0]
 
-    price(bot, update, text, chat_info, _)
+    price(update, text, chat_info, _)
 
     return ConversationHandler.END
 
 
 @register_update
-def inline_query(bot, update, chat_info):
+def inline_query_callback(update: Update, context: CallbackContext, chat_info: dict):
     query = update.inline_query.query
 
     if not query:

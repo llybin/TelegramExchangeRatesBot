@@ -1,9 +1,12 @@
+from gettext import gettext
+
 import transaction
-from telegram import ParseMode, ReplyKeyboardMarkup, ReplyKeyboardRemove
+from telegram import ParseMode, ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
+from telegram.ext import CallbackContext
 from suite.conf import settings
 from suite.database import Session
 
-from app.commands.personal_settings.main import SettingsSteps, main_menu
+from app.callbacks.personal_settings.main import SettingsSteps, main_menu
 from app.decorators import register_update, chat_language
 from app.models import Chat
 from app.translations import get_translations
@@ -15,7 +18,7 @@ LOCALE_NAME = {v: k for k, v in settings.LANGUAGES_NAME.items()}
 
 @register_update
 @chat_language
-def menu_command(bot, update, chat_info, _):
+def menu_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     if chat_info['locale'] in LOCALE_NAME:
         language_name = LOCALE_NAME[chat_info['locale']]
         text_to = _('*%(language)s* is your language now.') % {'language': language_name}
@@ -25,8 +28,7 @@ def menu_command(bot, update, chat_info, _):
 
     keyboard = KeyboardSimpleClever(['↩️'] + LANGUAGES_LIST, 2).show()
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
         reply_markup=ReplyKeyboardMarkup(keyboard),
         text=text_to)
@@ -35,11 +37,9 @@ def menu_command(bot, update, chat_info, _):
 
 
 @register_update
-def set_command(bot, update, chat_info):
+def set_callback(update: Update, context: CallbackContext, chat_info: dict):
     if update.message.text not in settings.LANGUAGES_NAME:
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text='🧐')
+        update.message.reply_text(text='🧐')
         return SettingsSteps.language
     else:
         locale = settings.LANGUAGES_NAME[update.message.text]
@@ -53,12 +53,10 @@ def set_command(bot, update, chat_info):
     _ = get_translations(locale)
     text_to = _('*%(language)s* is your language now.') % {'language': LOCALE_NAME[locale]}
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
-        reply_markup=ReplyKeyboardRemove(),
         text=text_to)
 
-    main_menu(bot, update, chat_info, _)
+    main_menu(update, chat_info, _)
 
     return SettingsSteps.main

@@ -1,13 +1,15 @@
-from telegram.ext import ConversationHandler
+from gettext import gettext
+
+from telegram import Update
+from telegram.ext import ConversationHandler, CallbackContext
 
 from app.decorators import register_update, chat_language
 
 
 @register_update
 @chat_language
-def disclaimers_command(bot, update, chat_info, _):
-    bot.send_message(
-        chat_id=update.message.chat_id,
+def disclaimers_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
+    update.message.reply_text(
         text=_('Data is provided by financial exchanges and may be delayed '
                'as specified by financial exchanges or our data providers. '
                'Bot does not verify any data and disclaims any obligation '

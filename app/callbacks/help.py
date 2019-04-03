@@ -1,12 +1,14 @@
-from telegram import ParseMode
-from telegram.ext import ConversationHandler
+from gettext import gettext
+
+from telegram import ParseMode, Update
+from telegram.ext import ConversationHandler, CallbackContext
 
 from app.decorators import register_update, chat_language
 
 
 @register_update
 @chat_language
-def help_command(bot, update, chat_info, _):
+def help_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     text_to = _('*Commands*')
 
     text_to += '\n\n'
@@ -55,8 +57,7 @@ def help_command(bot, update, chat_info, _):
 *Stellar (XLM)*: GBP332VIMDGSPJOOCXPCAJSS3EDBTYLJ4IVY42674F436ZXCVKVJWJY4
 '''
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         disable_web_page_preview=True,
         parse_mode=ParseMode.MARKDOWN,
         text=text_to)

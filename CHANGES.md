@@ -1,5 +1,9 @@
 # CHANGES
 
+## 1.4
+*   upgrade python-telegram-bot = "==12.0.0b1"
+
+
 ## 1.3
 *   notifications backend, todo: interface
 *   on-screen menu below settings, show/hide, delete history

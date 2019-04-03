@@ -1,13 +1,12 @@
-from telegram import ParseMode
-from telegram.ext import ConversationHandler
+from telegram import ParseMode, Update
+from telegram.ext import ConversationHandler, CallbackContext
 
 from app.decorators import register_update
 
 
 @register_update
-def sources_command(bot, update, chat_info):
-    bot.send_message(
-        chat_id=update.message.chat_id,
+def sources_callback(update: Update, context: CallbackContext, chat_info: dict):
+    update.message.reply_text(
         disable_web_page_preview=True,
         parse_mode=ParseMode.MARKDOWN,
         text='''*Sources*

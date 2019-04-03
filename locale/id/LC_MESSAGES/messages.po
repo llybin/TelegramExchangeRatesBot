@@ -231,7 +231,7 @@ msgstr "Riwayat permintaan anda sudah tidak ada untuk dihapus"
 
 #: app/commands/personal_settings/onscreen_menu.py:162
 msgid "*%(first)s %(second)s* was deleted."
-msgstr "*%(pertama)s %(kedua)s* sudah dihapus."
+msgstr "*%(first)s %(second)s* sudah dihapus."
 
 #: app/commands/personal_settings/onscreen_menu.py:205
 msgid "History of old requests has been cleared."

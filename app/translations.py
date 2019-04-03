@@ -19,7 +19,7 @@ def init_translations():
         )
 
 
-def get_translations(language_code: str):
+def get_translations(language_code: str) -> gettext:
     if language_code in translations:
         return translations[language_code].gettext
 

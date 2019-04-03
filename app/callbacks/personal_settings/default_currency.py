@@ -1,8 +1,11 @@
+from gettext import gettext
+
 import transaction
-from telegram import ParseMode, ReplyKeyboardMarkup
+from telegram import ParseMode, ReplyKeyboardMarkup, Update
+from telegram.ext import CallbackContext
 from suite.database import Session
 
-from app.commands.personal_settings.main import SettingsSteps, main_menu
+from app.callbacks.personal_settings.main import SettingsSteps, main_menu
 from app.decorators import register_update, chat_language
 from app.models import Currency, Chat
 from app.keyboard import KeyboardSimpleClever
@@ -11,15 +14,14 @@ from app.queries import get_all_currencies
 
 @register_update
 @chat_language
-def menu_command(bot, update, chat_info, _):
+def menu_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     text_to = _('*%(default_currency)s* is your default currency.\n'
                 'You can set any currency by default, e.g. *EUR*. When you send only USD - will get *EUR USD*') % {
         'default_currency': chat_info['default_currency']}
 
     keyboard = KeyboardSimpleClever(['↩️'] + get_all_currencies(), 4).show()
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
         reply_markup=ReplyKeyboardMarkup(keyboard),
         text=text_to)
@@ -29,7 +31,7 @@ def menu_command(bot, update, chat_info, _):
 
 @register_update
 @chat_language
-def set_command(bot, update, chat_info, _):
+def set_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     currency_code = update.message.text.upper()
 
     db_session = Session()
@@ -40,9 +42,7 @@ def set_command(bot, update, chat_info, _):
     ).first()
 
     if not currency:
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text='🧐')
+        update.message.reply_text(text='🧐')
         return SettingsSteps.default_currency
 
     db_session.query(Chat).filter_by(
@@ -53,11 +53,10 @@ def set_command(bot, update, chat_info, _):
     text_to = _('*%(default_currency)s* is your default currency.') % {
         'default_currency': currency_code}
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
         text=text_to)
 
-    main_menu(bot, update, chat_info, _)
+    main_menu(update, chat_info, _)
 
     return SettingsSteps.main

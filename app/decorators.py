@@ -3,6 +3,8 @@ from functools import wraps
 
 import transaction
 from sqlalchemy.exc import IntegrityError
+from telegram import Update
+from telegram.ext import CallbackContext
 
 from suite.database import Session
 from suite.conf import settings
@@ -12,7 +14,8 @@ from app.models import Chat
 
 
 def register_update(func):
-    def wrapper(bot, update, *args, **kwargs):
+    @wraps(func)
+    def wrapper(update: Update, context: CallbackContext, *args, **kwargs):
         if not update.effective_user:
             # bots, may be exclude in filter messages
             return
@@ -67,18 +70,18 @@ def register_update(func):
             'default_currency_position': chat.default_currency_position,
         }
 
-        return func(bot, update, *args, **kwargs)
+        return func(update, context, *args, **kwargs)
 
     return wrapper
 
 
 def chat_language(func):
     @wraps(func)
-    def wrapper(bot, update, *args, **kwargs):
+    def wrapper(update: Update, context: CallbackContext, *args, **kwargs):
         language_code = kwargs['chat_info']['locale']
 
         kwargs['_'] = get_translations(language_code)
 
-        return func(bot, update, *args, **kwargs)
+        return func(update, context, *args, **kwargs)
 
     return wrapper

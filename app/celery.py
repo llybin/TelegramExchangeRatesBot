@@ -1,19 +1,12 @@
-import sentry_sdk
-from sentry_sdk.integrations.celery import CeleryIntegration
 from suite.conf import settings
 from celery import Celery
 from sqlalchemy import create_engine
 from suite.database import init_sqlalchemy
 
-from app.sentry import before_send
+from app.sentry import init_sentry
 from app.translations import init_translations
 
-if settings.SENTRY_URL:
-    sentry_sdk.init(
-        dsn=settings.SENTRY_URL,
-        before_send=before_send,
-        integrations=[CeleryIntegration()]
-    )
+init_sentry()
 
 celery_app = Celery()
 celery_app.config_from_object(settings)

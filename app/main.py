@@ -1,13 +1,12 @@
 import logging
 
-import sentry_sdk
-from telegram import ReplyKeyboardRemove
+from telegram import Update, ReplyKeyboardRemove
 from telegram.ext import (
+    CallbackContext,
     Updater,
     CommandHandler,
     MessageHandler,
     Filters,
-    RegexHandler,
     ConversationHandler,
     InlineQueryHandler,
 )
@@ -15,137 +14,131 @@ from sqlalchemy import create_engine
 from suite.database import init_sqlalchemy
 from suite.conf import settings
 
-from app.decorators import register_update, chat_language
+from app.decorators import register_update
 from app.logic import get_keyboard
-from app.sentry import before_send
+from app.sentry import init_sentry
 from app.translations import init_translations
 
-from app.commands.currencies import currencies_command
-from app.commands.disclaimers import disclaimers_command
-from app.commands.feedback import feedback_command, send_feedback_command
-from app.commands.help import help_command
-from app.commands.price import price_command, message_command, empty_command, inline_query
-from app.commands.personal_settings.main import SettingsSteps, settings_command
-from app.commands.personal_settings import language
-from app.commands.personal_settings import default_currency
-from app.commands.personal_settings import default_currency_position
-from app.commands.personal_settings import onscreen_menu
-from app.commands.sources import sources_command
-from app.commands.start import start_command
-from app.commands.stop import stop_command
-from app.commands.tutorial import tutorial_command
+from app.callbacks.currencies import currencies_callback
+from app.callbacks.disclaimers import disclaimers_callback
+from app.callbacks.feedback import feedback_callback, send_feedback_callback
+from app.callbacks.help import help_callback
+from app.callbacks.price import price_callback, message_callback, on_slash_callback, inline_query_callback
+from app.callbacks.personal_settings.main import SettingsSteps, settings_callback
+from app.callbacks.personal_settings import language
+from app.callbacks.personal_settings import default_currency
+from app.callbacks.personal_settings import default_currency_position
+from app.callbacks.personal_settings import onscreen_menu
+from app.callbacks.sources import sources_callback
+from app.callbacks.start import start_callback
+from app.callbacks.stop import stop_callback
+from app.callbacks.tutorial import tutorial_callback
 
 
 @register_update
-@chat_language
-def cancel_command(bot, update, chat_info, _):
+def cancel_callback(update: Update, context: CallbackContext, chat_info: dict):
     keyboard = get_keyboard(update.message.chat_id)
     if not keyboard:
         keyboard = ReplyKeyboardRemove()
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
+    update.message.reply_text(
         reply_markup=keyboard,
         text='👌')
 
     return ConversationHandler.END
 
 
-def error_handler(bot, update, err):
-    logging.exception(f'Telegram bot error handler: %s', err)
+def error_callback(update: Update, context: CallbackContext):
+    logging.warning('Update "%s" caused error "%s"', update, context.error)
 
 
 def main():
-    if settings.SENTRY_URL:
-        sentry_sdk.init(
-            dsn=settings.SENTRY_URL,
-            before_send=before_send
-        )
+    init_sentry()
 
     db_engine = create_engine(settings.DATABASE['url'])
     init_sqlalchemy(db_engine)
 
     init_translations()
 
-    updater = Updater(token=settings.BOT_TOKEN)
+    updater = Updater(token=settings.BOT_TOKEN, use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
-    # on different commands - answer in Telegram
-    dp.add_handler(CommandHandler("currencies", currencies_command))
-    dp.add_handler(CommandHandler("disclaimers", disclaimers_command))
-    dp.add_handler(CommandHandler("help", help_command))
-    dp.add_handler(CommandHandler("p", price_command, pass_args=True))
-    dp.add_handler(CommandHandler("start", start_command))
-    dp.add_handler(CommandHandler("stop", stop_command))
-    dp.add_handler(CommandHandler("sources", sources_command))
-    dp.add_handler(CommandHandler("tutorial", tutorial_command))
+    # on different callbacks - answer in Telegram
+    dp.add_handler(CommandHandler("currencies", currencies_callback))
+    dp.add_handler(CommandHandler("disclaimers", disclaimers_callback))
+    dp.add_handler(CommandHandler("help", help_callback))
+    dp.add_handler(CommandHandler("p", price_callback, pass_args=True))
+    dp.add_handler(CommandHandler("start", start_callback))
+    dp.add_handler(CommandHandler("stop", stop_callback))
+    dp.add_handler(CommandHandler("sources", sources_callback))
+    dp.add_handler(CommandHandler("tutorial", tutorial_callback))
 
     feedback_handler = ConversationHandler(
-        entry_points=[CommandHandler("feedback", feedback_command)],
+        entry_points=[CommandHandler("feedback", feedback_callback)],
         states={
-            1: [MessageHandler(Filters.text, send_feedback_command)]
+            1: [MessageHandler(Filters.text, send_feedback_callback)]
         },
-        fallbacks=[CommandHandler("nothing", cancel_command)]
+        fallbacks=[CommandHandler("nothing", cancel_callback)]
     )
 
     dp.add_handler(feedback_handler)
-    dp.add_handler(CommandHandler("feedback", feedback_command))
+    dp.add_handler(CommandHandler("feedback", feedback_callback))
 
     settings_handler = ConversationHandler(
-        entry_points=[CommandHandler("settings", settings_command)],
+        entry_points=[CommandHandler("settings", settings_callback)],
         states={
             SettingsSteps.main: [
-                RegexHandler(r"^↩️", cancel_command),
-                RegexHandler(r"^1:", language.menu_command),
-                RegexHandler(r"^2:", default_currency.menu_command),
-                RegexHandler(r"^3:", default_currency_position.menu_command),
-                RegexHandler(r"^4:", onscreen_menu.menu_command),
+                MessageHandler(Filters.regex(r"^↩️"), cancel_callback),
+                MessageHandler(Filters.regex(r"^1:"), language.menu_callback),
+                MessageHandler(Filters.regex(r"^2:"), default_currency.menu_callback),
+                MessageHandler(Filters.regex(r"^3:"), default_currency_position.menu_callback),
+                MessageHandler(Filters.regex(r"^4:"), onscreen_menu.menu_callback),
             ],
             SettingsSteps.language: [
-                RegexHandler(r"^↩️", settings_command),
-                MessageHandler(Filters.text, language.set_command),
+                MessageHandler(Filters.regex(r"^↩️"), settings_callback),
+                MessageHandler(Filters.text, language.set_callback),
             ],
             SettingsSteps.default_currency: [
-                RegexHandler(r"^↩️", settings_command),
-                MessageHandler(Filters.text, default_currency.set_command),
+                MessageHandler(Filters.regex(r"^↩️"), settings_callback),
+                MessageHandler(Filters.text, default_currency.set_callback),
             ],
             SettingsSteps.default_currency_position: [
-                RegexHandler(r"^↩️", settings_command),
+                MessageHandler(Filters.regex(r"^↩️"), settings_callback),
                 MessageHandler(Filters.text, default_currency_position.set_command),
             ],
             SettingsSteps.onscreen_menu: [
-                RegexHandler(r"^↩️", settings_command),
-                RegexHandler(r"^1:", onscreen_menu.visibility_command),
-                RegexHandler(r"^2:", onscreen_menu.edit_history_command),
+                MessageHandler(Filters.regex(r"^↩️"), settings_callback),
+                MessageHandler(Filters.regex(r"^1:"), onscreen_menu.visibility_callback),
+                MessageHandler(Filters.regex(r"^2:"), onscreen_menu.edit_history_callback),
             ],
             SettingsSteps.onscreen_menu_visibility: [
-                RegexHandler(r"^↩️", onscreen_menu.menu_command),
-                RegexHandler(r"^1", onscreen_menu.visibility_set_true_command),
-                RegexHandler(r"^2", onscreen_menu.visibility_set_false_command),
+                MessageHandler(Filters.regex(r"^↩️"), onscreen_menu.menu_callback),
+                MessageHandler(Filters.regex(r"^1"), onscreen_menu.visibility_set_true_callback),
+                MessageHandler(Filters.regex(r"^2"), onscreen_menu.visibility_set_false_callback),
             ],
             SettingsSteps.onscreen_menu_edit_history: [
-                RegexHandler(r"^↩️", onscreen_menu.menu_command),
-                RegexHandler(r"^🅾️", onscreen_menu.edit_history_delete_old_command),
-                RegexHandler(r"^🆑", onscreen_menu.edit_history_delete_all_command),
-                RegexHandler(r"^❌", onscreen_menu.edit_history_delete_one_command),
+                MessageHandler(Filters.regex(r"^↩️"), onscreen_menu.menu_callback),
+                MessageHandler(Filters.regex(r"^🅾️"), onscreen_menu.edit_history_delete_old_callback),
+                MessageHandler(Filters.regex(r"^🆑"), onscreen_menu.edit_history_delete_all_callback),
+                MessageHandler(Filters.regex(r"^❌"), onscreen_menu.edit_history_delete_one_callback),
             ],
         },
-        fallbacks=[CommandHandler("cancel", cancel_command)]
+        fallbacks=[CommandHandler("cancel", cancel_callback)]
     )
 
     dp.add_handler(settings_handler)
-    dp.add_handler(CommandHandler("settings", settings_command))
+    dp.add_handler(CommandHandler("settings", settings_callback))
 
-    dp.add_handler(RegexHandler(r"^/", empty_command))
+    dp.add_handler(MessageHandler(Filters.regex(r"^/"), on_slash_callback))
 
-    dp.add_handler(InlineQueryHandler(inline_query))
+    dp.add_handler(InlineQueryHandler(inline_query_callback))
 
-    dp.add_handler(MessageHandler(Filters.text, message_command))
+    dp.add_handler(MessageHandler(Filters.text, message_callback))
 
     # log all errors
-    dp.add_error_handler(error_handler)
+    dp.add_error_handler(error_callback)
 
     # Start the Bot
     updater.start_polling()
