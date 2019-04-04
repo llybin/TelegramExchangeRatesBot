@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "fef8837d52db9a5bb2ce0eee9e782a3582685478e77898897445d34411969c65"
+            "sha256": "4f3521be5437cf3b2be5da892d1831a584edff7585227455bb45dba488b4ccbe"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -301,6 +301,12 @@
             ],
             "version": "==0.14.11"
         },
+        "pysocks": {
+            "hashes": [
+                "sha256:3fe52c55890a248676fd69dc9e3c4e811718b777834bcaab7a8125cf9deac672"
+            ],
+            "version": "==1.6.8"
+        },
         "python-dateutil": {
             "hashes": [
                 "sha256:7e6584c74aeed623791615e26efd690f29817a27c73085b78e4bad02493df2fb",
@@ -346,6 +352,9 @@
             "version": "==2.10.6"
         },
         "requests": {
+            "extras": [
+                "socks"
+            ],
             "hashes": [
                 "sha256:502a824f31acdacb3a35b6690b5fbf0bc41d63a24a45c4004352b0242707598e",
                 "sha256:7bf2a778576d825600030a110f3c0e3e8edc51dfaafe1c146e39a2027784957b"

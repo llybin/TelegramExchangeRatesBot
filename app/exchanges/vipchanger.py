@@ -6,6 +6,7 @@ from typing import Tuple
 import bs4
 import requests
 from cached_property import cached_property
+from suite.conf import settings
 
 from .base import Exchange, PairData, Pair, ECurrency
 from .exceptions import PairNotExistsException, APIErrorException, APIChangedException
@@ -30,7 +31,9 @@ class VipChangerExchange(Exchange):
     @cached_property
     def _get_data(self) -> dict:
         try:
-            response = requests.get('https://vipchanger.com/')
+            response = requests.get(
+                'https://vipchanger.com/',
+                proxies=settings.PROXIES_TH)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             raise APIErrorException(e)

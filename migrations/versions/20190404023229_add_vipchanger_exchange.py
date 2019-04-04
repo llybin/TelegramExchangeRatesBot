@@ -32,7 +32,7 @@ class Exchange(Base):
 
 def upgrade():
     session = Session(bind=op.get_bind())
-    session.add(Exchange(name=VipChangerExchange.name, is_active=True, weight=30))
+    session.add(Exchange(name=VipChangerExchange.name, is_active=False, weight=30))
     session.flush()
 
 

@@ -111,6 +111,10 @@ BOT_PARSERS = [
 OPENEXCHANGERATES_TOKEN = os.environ.get('OPENEXCHANGERATES_TOKEN')
 FIXER_TOKEN = os.environ.get('FIXER_TOKEN')
 
+PROXIES_TH = {
+    'https': os.environ.get('PROXY_TH')
+}
+
 SENTRY_URL = os.environ.get('SENTRY_URL')
 
 LANGUAGES = (
