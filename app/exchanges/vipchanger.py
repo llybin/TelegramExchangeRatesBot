@@ -60,6 +60,9 @@ class VipChangerExchange(Exchange):
             from_currency = MAPPING_CURRENCIES.get(c0)
             to_currency = MAPPING_CURRENCIES.get(c1)
 
+            if from_currency == 'USD' or to_currency == 'USD':
+                continue
+
             if not (from_currency and to_currency):
                 logging.warning('Unknown currency: %s %s', c0, c1)
                 continue
