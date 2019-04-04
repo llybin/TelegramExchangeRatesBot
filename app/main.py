@@ -36,7 +36,7 @@ def cancel_callback(update: Update, context: CallbackContext, chat_info: dict):
     keyboard = get_keyboard(update.message.chat_id)
 
     update.message.reply_text(
-        reply_markup=ReplyKeyboardMarkup(keyboard) if keyboard else ReplyKeyboardRemove,
+        reply_markup=ReplyKeyboardMarkup(keyboard) if keyboard else ReplyKeyboardRemove(),
         text='👌')
 
     return ConversationHandler.END
