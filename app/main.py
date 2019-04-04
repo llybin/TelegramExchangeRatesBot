@@ -33,12 +33,10 @@ from app.callbacks.tutorial import tutorial_callback
 
 @register_update
 def cancel_callback(update: Update, context: CallbackContext, chat_info: dict):
-    keyboard = ReplyKeyboardMarkup(get_keyboard(update.message.chat_id))
-    if not keyboard:
-        keyboard = ReplyKeyboardRemove()
+    keyboard = get_keyboard(update.message.chat_id)
 
     update.message.reply_text(
-        reply_markup=keyboard,
+        reply_markup=ReplyKeyboardMarkup(keyboard) if keyboard else ReplyKeyboardRemove,
         text='👌')
 
     return ConversationHandler.END

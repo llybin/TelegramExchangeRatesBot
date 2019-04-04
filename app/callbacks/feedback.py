@@ -29,8 +29,10 @@ def feedback_callback(update: Update, context: CallbackContext, chat_info: dict,
 def send_feedback_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     text_to = _('Message sent, thank you.')
 
+    keyboard = get_keyboard(update.message.chat_id)
+
     update.message.reply_text(
-        reply_markup=ReplyKeyboardMarkup(get_keyboard(update.message.chat_id)),
+        reply_markup=ReplyKeyboardMarkup(keyboard) if keyboard else None,
         text=text_to)
 
     send_feedback.delay(

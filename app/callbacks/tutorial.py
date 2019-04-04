@@ -23,8 +23,10 @@ def tutorial(update, _):
     text_to += '\n\n'
     text_to += _('Also take a look here 👉 /help')
 
+    keyboard = get_keyboard(update.message.chat_id)
+
     update.message.reply_text(
-        reply_markup=ReplyKeyboardMarkup(get_keyboard(update.message.chat_id)),
+        reply_markup=ReplyKeyboardMarkup(keyboard) if keyboard else None,
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
         text=text_to)

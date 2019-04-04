@@ -48,10 +48,12 @@ def price(update: Update, text: str, chat_info: dict, _: gettext):
             to_currency=price_request.to_currency
         )
 
+        keyboard = get_keyboard(update.message.chat_id)
+
         update.message.reply_text(
             disable_web_page_preview=True,
             parse_mode=ParseMode.MARKDOWN,
-            reply_markup=ReplyKeyboardMarkup(get_keyboard(update.message.chat_id)),
+            reply_markup=ReplyKeyboardMarkup(keyboard) if keyboard else None,
             text=text_to)
 
     except EmptyPriceRequestException:

@@ -3,7 +3,7 @@ from gettext import gettext
 import transaction
 from sqlalchemy.sql import true
 from suite.database import Session
-from telegram import Update
+from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ConversationHandler, CallbackContext
 
 from app.callbacks.tutorial import tutorial
@@ -33,8 +33,10 @@ def start_callback(update: Update, context: CallbackContext, chat_info: dict, _:
             ).update({'is_subscribed': true()})
             transaction.commit()
 
+        keyboard = get_keyboard(update.message.chat_id)
+
         update.message.reply_text(
-            reply_markup=ReplyKeyboardMarkup(get_keyboard(update.message.chat_id)),
+            reply_markup=ReplyKeyboardMarkup(keyboard) if keyboard else None,
             text=_('Have any question how to talk with me? 👉 /tutorial'))
 
     return ConversationHandler.END
