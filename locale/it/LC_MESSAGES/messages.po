@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Telegram Exchange Rates Bot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-03 20:38+0700\n"
+"POT-Creation-Date: 2019-04-04 13:38+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: it\n"
@@ -41,7 +41,7 @@ msgstr ""
 "necessario verificare le tariffe correnti prima di effettuare transazioni"
 " che potrebbero essere influenzate dalle variazioni dei tassi di cambio."
 
-#: app/callbacks/feedback.py:17 app/callbacks/personal_settings/main.py:37
+#: app/callbacks/feedback.py:17 app/callbacks/personal_settings/main.py:38
 msgid "The command is not available for group chats"
 msgstr "Il comando non è disponibile per le chat di gruppo"
 
@@ -102,15 +102,15 @@ msgstr ""
 "Non ho la tua localizzazione? Errori nella traduzione? Aiutami a "
 "correggerli 👉 [poeditor.com](%(trans_link)s)"
 
-#: app/callbacks/price.py:61
+#: app/callbacks/price.py:60
 msgid "The message must contain currencies or amounts 👉 /tutorial"
 msgstr "Il messaggio deve contenere cambi o cifre 👉 /tutorial"
 
-#: app/callbacks/price.py:66
+#: app/callbacks/price.py:65
 msgid "I don't understand you 😞 Take a look here 👉 /help"
 msgstr "Non ho capito 😞 Dai un'occhiata qui 👉 /help"
 
-#: app/callbacks/price.py:71
+#: app/callbacks/price.py:70
 msgid ""
 "I understood that you asked, but at the moment I don't have actual "
 "exchange rates for your request. Try later. Sorry. 😭"
@@ -193,97 +193,114 @@ msgstr ""
 msgid "*%(language)s* is your language now."
 msgstr ""
 
-#: app/callbacks/personal_settings/main.py:22
+#: app/callbacks/personal_settings/main.py:23
 msgid "Language"
 msgstr ""
 
-#: app/callbacks/personal_settings/main.py:23
+#: app/callbacks/personal_settings/main.py:24
 msgid "Default currency"
 msgstr ""
 
-#: app/callbacks/personal_settings/main.py:24
+#: app/callbacks/personal_settings/main.py:25
 msgid "Default currency position"
 msgstr ""
 
-#: app/callbacks/personal_settings/main.py:25
+#: app/callbacks/personal_settings/main.py:26
 msgid "On-screen menu below"
 msgstr ""
 
-#: app/callbacks/personal_settings/main.py:28
+#: app/callbacks/personal_settings/main.py:29
 msgid "What do you want to set up?"
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:15
+#: app/callbacks/personal_settings/onscreen_menu.py:17
 msgid "Here you can customize on-screen menu with a history requests."
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:20
+#: app/callbacks/personal_settings/onscreen_menu.py:22
 msgid "Visibility"
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:21
+#: app/callbacks/personal_settings/onscreen_menu.py:23
+msgid "Size"
+msgstr ""
+
+#: app/callbacks/personal_settings/onscreen_menu.py:24
 msgid "Delete from a history requests"
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:39
+#: app/callbacks/personal_settings/onscreen_menu.py:42
 msgid "On-screen menu below with a history requests *always shows* at the moment."
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:41
+#: app/callbacks/personal_settings/onscreen_menu.py:44
 msgid "On-screen menu below with a history requests *never shows* at the moment."
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:45
+#: app/callbacks/personal_settings/onscreen_menu.py:48
 msgid ""
 "You can choose. Show always on-screen menu below with a history requests "
 "or never show."
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:50
+#: app/callbacks/personal_settings/onscreen_menu.py:53
 msgid "Always show"
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:51
+#: app/callbacks/personal_settings/onscreen_menu.py:54
 msgid "Never show"
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:66
+#: app/callbacks/personal_settings/onscreen_menu.py:69
 msgid "On-screen menu below with a history requests will *always shows*."
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:68
+#: app/callbacks/personal_settings/onscreen_menu.py:71
 msgid "On-screen menu below with a history requests will *never shows*."
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:98
-msgid "You can *delete* a request from a history requests."
+#: app/callbacks/personal_settings/onscreen_menu.py:97
+msgid "Delete hidden"
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:102
-#: app/callbacks/personal_settings/onscreen_menu.py:124
-msgid "Delete old"
-msgstr ""
-
-#: app/callbacks/personal_settings/onscreen_menu.py:102
-#: app/callbacks/personal_settings/onscreen_menu.py:124
+#: app/callbacks/personal_settings/onscreen_menu.py:97
 msgid "Delete all"
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:114
+#: app/callbacks/personal_settings/onscreen_menu.py:105
+msgid "You can *delete* a request from a history requests."
+msgstr ""
+
+#: app/callbacks/personal_settings/onscreen_menu.py:117
 msgid "Your history requests is empty for deletion."
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:154
+#: app/callbacks/personal_settings/onscreen_menu.py:149
 #, python-format
 msgid "*%(first)s %(second)s* was deleted."
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:195
-msgid "History of old requests has been cleared."
+#: app/callbacks/personal_settings/onscreen_menu.py:191
+msgid "History of hidden requests has been cleared."
 msgstr ""
 
-#: app/callbacks/personal_settings/onscreen_menu.py:215
+#: app/callbacks/personal_settings/onscreen_menu.py:211
 msgid "History requests has been cleared fully."
+msgstr ""
+
+#: app/callbacks/personal_settings/onscreen_menu.py:231
+#, python-format
+msgid ""
+"%(keyboard_size)s - size of on-screen menu with a history requests at the"
+" moment.\n"
+"You can customize the size. *width x height*"
+msgstr ""
+
+#: app/callbacks/personal_settings/onscreen_menu.py:251
+#, python-format
+msgid ""
+"%(keyboard_size)s - size of on-screen menu with a history requests was "
+"changed."
 msgstr ""
 
 #~ msgid ""
@@ -332,5 +349,11 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Delete request from a history"
+#~ msgstr ""
+
+#~ msgid "Delete old"
+#~ msgstr ""
+
+#~ msgid "History of old requests has been cleared."
 #~ msgstr ""
 

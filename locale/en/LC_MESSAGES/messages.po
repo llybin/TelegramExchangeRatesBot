@@ -1,47 +1,59 @@
+
 msgid ""
 msgstr ""
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: POEditor.com\n"
 "Project-Id-Version: Telegram Exchange Rates Bot\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-04-04 13:38+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
 
-#: app/callbacks/tutorial.py:11
-msgid "I am bot. I will help you to know a current exchange rates."
-msgstr "I am bot. I will help you to know a current exchange rates."
+#: app/tasks_notifications.py:61
+#, python-format
+msgid ""
+"Your notification has been disabled, due to one of the currencies "
+"%(from_currency)s %(to_currency)s has been deactivated."
+msgstr ""
+"Your notification has been disabled, due to one of the currencies "
+"%(from_currency)s %(to_currency)s has been deactivated."
 
-#: app/callbacks/tutorial.py:17
-msgid "Just text me message in private chat."
-msgstr "Just text me message in private chat."
+#: app/tasks_notifications.py:179
+msgid "_One-time reminder. Set up a new reminder._"
+msgstr "_One-time reminder. Set up a new reminder._"
 
-#: app/callbacks/tutorial.py:19
-msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
-msgstr "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
+#: app/callbacks/disclaimers.py:13
+msgid ""
+"Data is provided by financial exchanges and may be delayed as specified "
+"by financial exchanges or our data providers. Bot does not verify any "
+"data and disclaims any obligation to do so. Bot cannot guarantee the "
+"accuracy of the exchange rates displayed. You should confirm current "
+"rates before making any transactions that could be affected by changes in"
+" the exchange rates."
+msgstr ""
+"Data is provided by financial exchanges and may be delayed as specified "
+"by financial exchanges or our data providers. Bot does not verify any "
+"data and disclaims any obligation to do so. Bot cannot guarantee the "
+"accuracy of the exchange rates displayed. You should confirm current "
+"rates before making any transactions that could be affected by changes in"
+" the exchange rates."
 
-#: app/callbacks/tutorial.py:21
-msgid "Inline mode is available. See how to use [here](%(link)s)."
-msgstr "Inline mode is available. See how to use [here](%(link)s)."
+#: app/callbacks/feedback.py:17 app/callbacks/personal_settings/main.py:38
+msgid "The command is not available for group chats"
+msgstr "The command is not available for group chats"
 
-#: app/callbacks/tutorial.py:24
-msgid "Also take a look here 👉 /help"
-msgstr "Also take a look here 👉 /help"
+#: app/callbacks/feedback.py:22
+msgid "What do you want to tell? Or nothing?"
+msgstr "What do you want to tell? Or nothing?"
 
-#: app/callbacks/start.py:21
-msgid "humans"
-msgstr "humans"
-
-#: app/callbacks/start.py:24
-msgid "Hello, %(name)s!"
-msgstr "Hello, %(name)s!"
-
-#: app/callbacks/start.py:38
-msgid "Have any question how to talk with me? 👉 /tutorial"
-msgstr "Have any question how to talk with me? 👉 /tutorial"
-
-#: app/callbacks/stop.py:23
-msgid "You're unsubscribed. You always can subscribe again 👉 /start"
-msgstr "You're unsubscribed. You always can subscribe again 👉 /start"
+#: app/callbacks/feedback.py:30
+msgid "Message sent, thank you."
+msgstr "Message sent, thank you."
 
 #: app/callbacks/help.py:12
 msgid "*Commands*"
@@ -71,6 +83,10 @@ msgstr "/p - Command for group chats, get exchange rate"
 msgid "/sources - Currency rates sources"
 msgstr "/sources - Currency rates sources"
 
+#: app/callbacks/help.py:27
+msgid "/settings - Bot personal settings"
+msgstr "/settings - Bot personal settings"
+
 #: app/callbacks/help.py:29
 msgid "/disclaimers - Disclaimers"
 msgstr "/disclaimers - Disclaimers"
@@ -80,170 +96,221 @@ msgid "/stop - Unsubscribe"
 msgstr "/stop - Unsubscribe"
 
 #: app/callbacks/help.py:34
-msgid "Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)"
-msgstr "Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)"
+#, python-format
+msgid ""
+"Don't have your localization? Any translation errors? Help fix it 👉 "
+"[poeditor.com](%(trans_link)s)"
+msgstr ""
+"Don't have your localization? Any translation errors? Help fix it 👉 "
+"[poeditor.com](%(trans_link)s)"
 
-#: app/callbacks/feedback.py:17 app/callbacks/personal_settings/main.py:37
-msgid "The command is not available for group chats"
-msgstr "The command is not available for group chats"
-
-#: app/callbacks/feedback.py:22
-msgid "What do you want to tell? Or nothing?"
-msgstr "What do you want to tell? Or nothing?"
-
-#: app/callbacks/feedback.py:30
-msgid "Message sent, thank you."
-msgstr "Message sent, thank you."
-
-#: app/callbacks/disclaimers.py:13
-msgid "Data is provided by financial exchanges and may be delayed as specified by financial exchanges or our data providers. Bot does not verify any data and disclaims any obligation to do so. Bot cannot guarantee the accuracy of the exchange rates displayed. You should confirm current rates before making any transactions that could be affected by changes in the exchange rates."
-msgstr "Data is provided by financial exchanges and may be delayed as specified by financial exchanges or our data providers. Bot does not verify any data and disclaims any obligation to do so. Bot cannot guarantee the accuracy of the exchange rates displayed. You should confirm current rates before making any transactions that could be affected by changes in the exchange rates."
-
-#: app/callbacks/price.py:61
+#: app/callbacks/price.py:60
 msgid "The message must contain currencies or amounts 👉 /tutorial"
 msgstr "The message must contain currencies or amounts 👉 /tutorial"
 
-#: app/callbacks/price.py:66
+#: app/callbacks/price.py:65
 msgid "I don't understand you 😞 Take a look here 👉 /help"
 msgstr "I don't understand you 😞 Take a look here 👉 /help"
 
-#: app/callbacks/price.py:71
-msgid "I understood that you asked, but at the moment I don't have actual exchange rates for your request. Try later. Sorry. 😭"
-msgstr "I understood that you asked, but at the moment I don't have actual exchange rates for your request. Try later. Sorry. 😭"
+#: app/callbacks/price.py:70
+msgid ""
+"I understood that you asked, but at the moment I don't have actual "
+"exchange rates for your request. Try later. Sorry. 😭"
+msgstr ""
+"I understood that you asked, but at the moment I don't have actual "
+"exchange rates for your request. Try later. Sorry. 😭"
 
-#: app/callbacks/help.py:27
-msgid "/settings - Bot personal settings"
-msgstr "/settings - Bot personal settings"
+#: app/callbacks/start.py:21
+msgid "humans"
+msgstr "humans"
 
-#. in settings: language etc.
-#: app/callbacks/personal_settings/main.py:28
-msgid "What do you want to set up?"
-msgstr "What do you want to set up?"
+#: app/callbacks/start.py:24
+#, python-format
+msgid "Hello, %(name)s!"
+msgstr "Hello, %(name)s!"
 
-#. *%(language)s* - no need translate
-#: app/callbacks/personal_settings/language.py:24
-#: app/callbacks/personal_settings/language.py:54
-msgid "*%(language)s* is your language now."
-msgstr "*%(language)s* is your language now."
+#: app/callbacks/start.py:38
+msgid "Have any question how to talk with me? 👉 /tutorial"
+msgstr "Have any question how to talk with me? 👉 /tutorial"
 
-#. default currency - you can set any currency by default, e.g. BTC, next send only USD and will get BTCUSD
+#: app/callbacks/stop.py:23
+msgid "You're unsubscribed. You always can subscribe again 👉 /start"
+msgstr "You're unsubscribed. You always can subscribe again 👉 /start"
+
+#: app/callbacks/tutorial.py:11
+msgid "I am bot. I will help you to know a current exchange rates."
+msgstr "I am bot. I will help you to know a current exchange rates."
+
+#: app/callbacks/tutorial.py:13
+msgid ""
+"Send me a message like this:\n"
+"*BTC USD* - to see the current exchange rate for pair\n"
+"*100 USD EUR* - to convert the amount from 100 USD to EUR"
+msgstr ""
+"Send me a message like this:\n"
+"*BTC USD* - to see the current exchange rate for pair\n"
+"*100 USD EUR* - to convert the amount from 100 USD to EUR"
+
+#: app/callbacks/tutorial.py:17
+msgid "Just text me message in private chat."
+msgstr "Just text me message in private chat."
+
+#: app/callbacks/tutorial.py:19
+msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
+msgstr "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
+
+#: app/callbacks/tutorial.py:21
+#, python-format
+msgid "Inline mode is available. See how to use [here](%(link)s)."
+msgstr "Inline mode is available. See how to use [here](%(link)s)."
+
+#: app/callbacks/tutorial.py:24
+msgid "Also take a look here 👉 /help"
+msgstr "Also take a look here 👉 /help"
+
+#: app/callbacks/personal_settings/default_currency.py:18
+#, python-format
+msgid ""
+"*%(default_currency)s* is your default currency.\n"
+"You can set any currency by default, e.g. *EUR*. When you send only USD -"
+" will get *EUR USD*"
+msgstr ""
+"*%(default_currency)s* is your default currency.\n"
+"You can set any currency by default, e.g. *EUR*. When you send only USD -"
+" will get *EUR USD*"
+
 #: app/callbacks/personal_settings/default_currency.py:53
+#, python-format
 msgid "*%(default_currency)s* is your default currency."
 msgstr "*%(default_currency)s* is your default currency."
 
-#. default currency position - you can set any currency by default, e.g. BTC, next send only USD and will get BTC USD or USD BTC. Choosing position of default currency.
 #: app/callbacks/personal_settings/default_currency_position.py:22
 #: app/callbacks/personal_settings/default_currency_position.py:63
+#, python-format
 msgid "*%(position)s* - position where your default currency will be added."
 msgstr "*%(position)s* - position where your default currency will be added."
 
-#: app/callbacks/personal_settings/main.py:22
+#: app/callbacks/personal_settings/language.py:24
+#: app/callbacks/personal_settings/language.py:54
+#, python-format
+msgid "*%(language)s* is your language now."
+msgstr "*%(language)s* is your language now."
+
+#: app/callbacks/personal_settings/main.py:23
 msgid "Language"
 msgstr "Language"
 
-#. you can set any currency by default, e.g. BTC, next send only USD and will get BTCUSD
-#: app/callbacks/personal_settings/main.py:23
+#: app/callbacks/personal_settings/main.py:24
 msgid "Default currency"
 msgstr "Default currency"
 
-#. you can set any currency by default, e.g. BTC, next send only USD and will get BTC USD or USD BTC. Choosing position of default currency.
-#: app/callbacks/personal_settings/main.py:24
+#: app/callbacks/personal_settings/main.py:25
 msgid "Default currency position"
 msgstr "Default currency position"
 
-#: app/callbacks/tutorial.py:13
-msgid "Send me a message like this:\n"
-"*BTC USD* - to see the current exchange rate for pair\n"
-"*100 USD EUR* - to convert the amount from 100 USD to EUR"
-msgstr "Send me a message like this:\n"
-"*BTC USD* - to see the current exchange rate for pair\n"
-"*100 USD EUR* - to convert the amount from 100 USD to EUR"
-
-#: app/tasks_notifications.py:61
-msgid "Your notification has been disabled, due to one of the currencies %(from_currency)s %(to_currency)s has been deactivated."
-msgstr "Your notification has been disabled, due to one of the currencies %(from_currency)s %(to_currency)s has been deactivated."
-
-#: app/tasks_notifications.py:179
-msgid "_One-time reminder. Set up a new reminder._"
-msgstr "_One-time reminder. Set up a new reminder._"
-
-#: app/callbacks/personal_settings/default_currency.py:18
-msgid "*%(default_currency)s* is your default currency.\n"
-"You can set any currency by default, e.g. *EUR*. When you send only USD - will get *EUR USD*"
-msgstr "*%(default_currency)s* is your default currency.\n"
-"You can set any currency by default, e.g. *EUR*. When you send only USD - will get *EUR USD*"
-
-#: app/callbacks/personal_settings/main.py:25
+#: app/callbacks/personal_settings/main.py:26
 msgid "On-screen menu below"
 msgstr "On-screen menu below"
 
-#: app/callbacks/personal_settings/onscreen_menu.py:15
+#: app/callbacks/personal_settings/main.py:29
+msgid "What do you want to set up?"
+msgstr "What do you want to set up?"
+
+#: app/callbacks/personal_settings/onscreen_menu.py:17
 msgid "Here you can customize on-screen menu with a history requests."
 msgstr "Here you can customize on-screen menu with a history requests."
 
-#: app/callbacks/personal_settings/onscreen_menu.py:39
-msgid "On-screen menu below with a history requests *always shows* at the moment."
-msgstr "On-screen menu below with a history requests *always shows* at the moment."
-
-#: app/callbacks/personal_settings/onscreen_menu.py:41
-msgid "On-screen menu below with a history requests *never shows* at the moment."
-msgstr "On-screen menu below with a history requests *never shows* at the moment."
-
-#: app/callbacks/personal_settings/onscreen_menu.py:45
-msgid "You can choose. Show always on-screen menu below with a history requests or never show."
-msgstr "You can choose. Show always on-screen menu below with a history requests or never show."
-
-#: app/callbacks/personal_settings/onscreen_menu.py:66
-msgid "On-screen menu below with a history requests will *always shows*."
-msgstr "On-screen menu below with a history requests will *always shows*."
-
-#: app/callbacks/personal_settings/onscreen_menu.py:68
-msgid "On-screen menu below with a history requests will *never shows*."
-msgstr "On-screen menu below with a history requests will *never shows*."
-
-#: app/callbacks/personal_settings/onscreen_menu.py:98
-msgid "You can *delete* a request from a history requests."
-msgstr "You can *delete* a request from a history requests."
-
-#: app/callbacks/personal_settings/onscreen_menu.py:102
-#: app/callbacks/personal_settings/onscreen_menu.py:124
-msgid "Delete old"
-msgstr "Delete old"
-
-#: app/callbacks/personal_settings/onscreen_menu.py:102
-#: app/callbacks/personal_settings/onscreen_menu.py:124
-msgid "Delete all"
-msgstr "Delete all"
-
-#: app/callbacks/personal_settings/onscreen_menu.py:114
-msgid "Your history requests is empty for deletion."
-msgstr "Your history requests is empty for deletion."
-
-#: app/callbacks/personal_settings/onscreen_menu.py:154
-msgid "*%(first)s %(second)s* was deleted."
-msgstr "*%(first)s %(second)s* was deleted."
-
-#: app/callbacks/personal_settings/onscreen_menu.py:195
-msgid "History of old requests has been cleared."
-msgstr "History of old requests has been cleared."
-
-#: app/callbacks/personal_settings/onscreen_menu.py:215
-msgid "History requests has been cleared fully."
-msgstr "History requests has been cleared fully."
-
-#: app/callbacks/personal_settings/onscreen_menu.py:20
+#: app/callbacks/personal_settings/onscreen_menu.py:22
 msgid "Visibility"
 msgstr "Visibility"
 
-#: app/callbacks/personal_settings/onscreen_menu.py:50
+#: app/callbacks/personal_settings/onscreen_menu.py:23
+msgid "Size"
+msgstr ""
+
+#: app/callbacks/personal_settings/onscreen_menu.py:24
+msgid "Delete from a history requests"
+msgstr "Delete from a history requests"
+
+#: app/callbacks/personal_settings/onscreen_menu.py:42
+msgid "On-screen menu below with a history requests *always shows* at the moment."
+msgstr "On-screen menu below with a history requests *always shows* at the moment."
+
+#: app/callbacks/personal_settings/onscreen_menu.py:44
+msgid "On-screen menu below with a history requests *never shows* at the moment."
+msgstr "On-screen menu below with a history requests *never shows* at the moment."
+
+#: app/callbacks/personal_settings/onscreen_menu.py:48
+msgid ""
+"You can choose. Show always on-screen menu below with a history requests "
+"or never show."
+msgstr ""
+"You can choose. Show always on-screen menu below with a history requests "
+"or never show."
+
+#: app/callbacks/personal_settings/onscreen_menu.py:53
 msgid "Always show"
 msgstr "Always show"
 
-#: app/callbacks/personal_settings/onscreen_menu.py:51
+#: app/callbacks/personal_settings/onscreen_menu.py:54
 msgid "Never show"
 msgstr "Never show"
 
-#: app/callbacks/personal_settings/onscreen_menu.py:21
-msgid "Delete from a history requests"
-msgstr "Delete from a history requests"
+#: app/callbacks/personal_settings/onscreen_menu.py:69
+msgid "On-screen menu below with a history requests will *always shows*."
+msgstr "On-screen menu below with a history requests will *always shows*."
+
+#: app/callbacks/personal_settings/onscreen_menu.py:71
+msgid "On-screen menu below with a history requests will *never shows*."
+msgstr "On-screen menu below with a history requests will *never shows*."
+
+#: app/callbacks/personal_settings/onscreen_menu.py:97
+msgid "Delete hidden"
+msgstr ""
+
+#: app/callbacks/personal_settings/onscreen_menu.py:97
+msgid "Delete all"
+msgstr "Delete all"
+
+#: app/callbacks/personal_settings/onscreen_menu.py:105
+msgid "You can *delete* a request from a history requests."
+msgstr "You can *delete* a request from a history requests."
+
+#: app/callbacks/personal_settings/onscreen_menu.py:117
+msgid "Your history requests is empty for deletion."
+msgstr "Your history requests is empty for deletion."
+
+#: app/callbacks/personal_settings/onscreen_menu.py:149
+#, python-format
+msgid "*%(first)s %(second)s* was deleted."
+msgstr "*%(first)s %(second)s* was deleted."
+
+#: app/callbacks/personal_settings/onscreen_menu.py:191
+msgid "History of hidden requests has been cleared."
+msgstr ""
+
+#: app/callbacks/personal_settings/onscreen_menu.py:211
+msgid "History requests has been cleared fully."
+msgstr "History requests has been cleared fully."
+
+#: app/callbacks/personal_settings/onscreen_menu.py:231
+#, python-format
+msgid ""
+"%(keyboard_size)s - size of on-screen menu with a history requests at the"
+" moment.\n"
+"You can customize the size. *width x height*"
+msgstr ""
+
+#: app/callbacks/personal_settings/onscreen_menu.py:251
+#, python-format
+msgid ""
+"%(keyboard_size)s - size of on-screen menu with a history requests was "
+"changed."
+msgstr ""
+
+#~ msgid "Delete old"
+#~ msgstr "Delete old"
+
+#~ msgid "History of old requests has been cleared."
+#~ msgstr "History of old requests has been cleared."
 
