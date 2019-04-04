@@ -1,6 +1,6 @@
 import logging
 
-from telegram import Update, ReplyKeyboardRemove
+from telegram import Update, ReplyKeyboardRemove, ReplyKeyboardMarkup
 from telegram.ext import (
     CallbackContext,
     Updater,
@@ -33,7 +33,7 @@ from app.callbacks.tutorial import tutorial_callback
 
 @register_update
 def cancel_callback(update: Update, context: CallbackContext, chat_info: dict):
-    keyboard = get_keyboard(update.message.chat_id)
+    keyboard = ReplyKeyboardMarkup(get_keyboard(update.message.chat_id))
     if not keyboard:
         keyboard = ReplyKeyboardRemove()
 
@@ -95,7 +95,8 @@ def main():
             personal_settings.SettingsSteps.onscreen_menu: [
                 MessageHandler(Filters.regex(r"^↩️"), personal_settings.main.settings_callback),
                 MessageHandler(Filters.regex(r"^1. "), personal_settings.onscreen_menu.visibility_callback),
-                MessageHandler(Filters.regex(r"^2. "), personal_settings.onscreen_menu.edit_history_callback),
+                MessageHandler(Filters.regex(r"^2. "), personal_settings.onscreen_menu.size_callback),
+                MessageHandler(Filters.regex(r"^3. "), personal_settings.onscreen_menu.edit_history_callback),
             ],
             personal_settings.SettingsSteps.onscreen_menu_visibility: [
                 MessageHandler(Filters.regex(r"^↩️"), personal_settings.onscreen_menu.menu_callback),
@@ -107,6 +108,10 @@ def main():
                 MessageHandler(Filters.regex(r"^🅾️"), personal_settings.onscreen_menu.edit_history_delete_old_callback),
                 MessageHandler(Filters.regex(r"^🆑"), personal_settings.onscreen_menu.edit_history_delete_all_callback),
                 MessageHandler(Filters.regex(r"^❌"), personal_settings.onscreen_menu.edit_history_delete_one_callback),
+            ],
+            personal_settings.SettingsSteps.onscreen_menu_size: [
+                MessageHandler(Filters.regex(r"^↩️"), personal_settings.onscreen_menu.menu_callback),
+                MessageHandler(Filters.text, personal_settings.onscreen_menu.set_size_callback),
             ],
         },
         fallbacks=[CommandHandler("cancel", cancel_callback)]

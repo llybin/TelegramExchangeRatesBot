@@ -66,6 +66,7 @@ def register_update(func):
             'locale': chat.locale,
             'is_subscribed': chat.is_subscribed,
             'is_show_keyboard': chat.is_show_keyboard,
+            'keyboard_size': chat.keyboard_size,
             'default_currency': chat.default_currency,
             'default_currency_position': chat.default_currency_position,
         }

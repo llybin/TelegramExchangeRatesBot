@@ -2,9 +2,8 @@ import logging
 from datetime import datetime
 from gettext import gettext
 
-from telegram import ParseMode, InlineQueryResultArticle, InputTextMessageContent, Update
+from telegram import ParseMode, InlineQueryResultArticle, InputTextMessageContent, Update, ReplyKeyboardMarkup
 from telegram.ext import ConversationHandler, CallbackContext
-from suite.database import Session
 from suite.conf import settings
 
 from app.converter.converter import convert
@@ -13,10 +12,10 @@ from app.formatter.formatter import FormatPriceRequestResult, InlineFormatPriceR
 from app.decorators import register_update, chat_language
 from app.exceptions import EmptyPriceRequestException
 from app.logic import start_parse, get_keyboard
-from app.models import ChatRequests
 from app.parsers.base import PriceRequest
 from app.parsers.exceptions import ValidationException
 from app.tasks import update_chat_request, write_request_log
+from app.queries import get_last_request
 
 
 def price(update: Update, text: str, chat_info: dict, _: gettext):
@@ -52,7 +51,7 @@ def price(update: Update, text: str, chat_info: dict, _: gettext):
         update.message.reply_text(
             disable_web_page_preview=True,
             parse_mode=ParseMode.MARKDOWN,
-            reply_markup=get_keyboard(update.message.chat_id),
+            reply_markup=ReplyKeyboardMarkup(get_keyboard(update.message.chat_id)),
             text=text_to)
 
     except EmptyPriceRequestException:
@@ -124,11 +123,7 @@ def inline_query_callback(update: Update, context: CallbackContext, chat_info: d
     if not query:
         logging.info('inline_request empty query')
 
-        last_requests = Session.query(ChatRequests).filter_by(
-            chat_id=update.effective_user.id
-        ).order_by(
-            ChatRequests.times.desc()
-        ).limit(9).all()
+        last_requests = get_last_request(update.effective_user.id)
 
         results = []
 

@@ -7,9 +7,10 @@ from suite.database import Session
 
 from app.callbacks.personal_settings.main import SettingsSteps
 from app.decorators import register_update, chat_language
+from app.keyboard import KeyboardSimpleClever
 from app.models import Chat, Currency, ChatRequests
 from app.logic import get_keyboard
-from app.queries import get_last_request
+from app.queries import have_last_request, get_keyboard_size
 
 
 def onscreen_menu(update: Update, chat_info: dict, _: gettext):
@@ -19,7 +20,8 @@ def onscreen_menu(update: Update, chat_info: dict, _: gettext):
         parse_mode=ParseMode.MARKDOWN,
         reply_markup=ReplyKeyboardMarkup([
             ['1. ' + _('Visibility')],
-            ['2. ' + _('Delete from a history requests')],
+            ['2. ' + _('Size')],
+            ['3. ' + _('Delete from a history requests')],
             ['↩️'],
         ]),
         text=text_to)
@@ -91,17 +93,18 @@ def visibility_set_false_callback(update: Update, context: CallbackContext, chat
     return SettingsSteps.onscreen_menu
 
 
+def get_keyboard_deletion(chat_id: int, _: gettext):
+    keyboard = [['↩️', '🅾️ ' + _('Delete hidden'), '🆑 ' + _('Delete all')]]
+    return ReplyKeyboardMarkup(keyboard + get_keyboard(chat_id, '❌ '))
+
+
 @register_update
 @chat_language
 def edit_history_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
-    if get_last_request(update.message.chat_id):
+    if have_last_request(update.message.chat_id):
         text_to = _('You can *delete* a request from a history requests.')
 
-        keyboard = get_keyboard(
-            update.message.chat_id,
-            ['↩️', '🅾️ ' + _('Delete old'), '🆑 ' + _('Delete all')],
-            '❌ '
-        )
+        keyboard = get_keyboard_deletion(update.message.chat_id, _)
 
         update.message.reply_text(
             parse_mode=ParseMode.MARKDOWN,
@@ -116,14 +119,6 @@ def edit_history_callback(update: Update, context: CallbackContext, chat_info: d
         update.message.reply_text(text=text_to)
 
         return SettingsSteps.onscreen_menu
-
-
-def get_keyboard_deletion(chat_id: int, _: gettext):
-    return get_keyboard(
-        chat_id,
-        ['↩️', '🅾️ ' + _('Delete old'), '🆑 ' + _('Delete all')],
-        '❌ '
-    )
 
 
 @register_update
@@ -153,7 +148,7 @@ def edit_history_delete_one_callback(update: Update, context: CallbackContext, c
 
         text_to = _('*%(first)s %(second)s* was deleted.') % {'first': parts[1], 'second': parts[2]}
 
-        if get_last_request(update.message.chat_id):
+        if have_last_request(update.message.chat_id):
             keyboard = get_keyboard_deletion(update.message.chat_id, _)
 
             update.message.reply_text(
@@ -178,11 +173,13 @@ def edit_history_delete_one_callback(update: Update, context: CallbackContext, c
 def edit_history_delete_old_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
     db_session = Session()
 
+    size = get_keyboard_size(update.message.chat_id)
+
     subquery = db_session.query(ChatRequests.id).filter_by(
         chat_id=update.message.chat_id
     ).order_by(
         ChatRequests.times.desc()
-    ).limit(9)
+    ).limit(size)
 
     db_session.query(ChatRequests).filter(
         ChatRequests.chat_id == update.message.chat_id,
@@ -191,7 +188,7 @@ def edit_history_delete_old_callback(update: Update, context: CallbackContext, c
 
     transaction.commit()
 
-    text_to = _('History of old requests has been cleared.')
+    text_to = _('History of hidden requests has been cleared.')
 
     keyboard = get_keyboard_deletion(update.message.chat_id, _)
 
@@ -218,6 +215,50 @@ def edit_history_delete_all_callback(update: Update, context: CallbackContext, c
     update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
         reply_markup=keyboard,
+        text=text_to)
+
+    onscreen_menu(update, chat_info, _)
+
+    return SettingsSteps.onscreen_menu
+
+
+KEYBOARD_SIZES = sorted(['2x1', '2x2', '2x3', '2x4', '3x1', '3x2', '3x3', '3x4'])
+
+
+@register_update
+@chat_language
+def size_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
+    text_to = _('''%(keyboard_size)s - size of on-screen menu with a history requests at the moment.
+You can customize the size. *width x height*''') % {'keyboard_size': chat_info['keyboard_size']}
+
+    keyboard = KeyboardSimpleClever(['↩️'] + KEYBOARD_SIZES, 3).show()
+
+    update.message.reply_text(
+        parse_mode=ParseMode.MARKDOWN,
+        reply_markup=ReplyKeyboardMarkup(keyboard),
+        text=text_to)
+
+    return SettingsSteps.onscreen_menu_size
+
+
+@register_update
+@chat_language
+def set_size_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
+    if update.message.text not in KEYBOARD_SIZES:
+        update.message.reply_text(text='🧐')
+        return SettingsSteps.onscreen_menu_size
+
+    text_to = _('%(keyboard_size)s - size of on-screen menu with a history requests was changed.') % {
+        'keyboard_size': update.message.text}
+
+    db_session = Session()
+    db_session.query(Chat).filter_by(
+        id=update.message.chat_id
+    ).update({'keyboard_size': update.message.text})
+    transaction.commit()
+
+    update.message.reply_text(
+        parse_mode=ParseMode.MARKDOWN,
         text=text_to)
 
     onscreen_menu(update, chat_info, _)

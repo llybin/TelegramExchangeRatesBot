@@ -1,4 +1,3 @@
-from telegram import ReplyKeyboardMarkup
 from suite.database import Session
 from suite.conf import settings
 
@@ -10,7 +9,7 @@ from app.parsers.exceptions import ValidationException
 from app.queries import get_last_request
 
 
-def get_keyboard(chat_id: int, buttons=None, symbol='') -> ReplyKeyboardMarkup or None:
+def get_keyboard(chat_id: int, symbol='') -> list or None:
     if chat_id < 0:
         return None
 
@@ -24,14 +23,10 @@ def get_keyboard(chat_id: int, buttons=None, symbol='') -> ReplyKeyboardMarkup o
 
         if last_requests:
             last_reqs_list = [f'{symbol}{x.from_currency.code} {x.to_currency.code}' for x in last_requests]
-            if buttons:
-                last_reqs_list = buttons + last_reqs_list
-            keyboard = KeyboardSimpleClever(last_reqs_list).show()
-            reply_markup = ReplyKeyboardMarkup(keyboard)
-        else:
-            reply_markup = None
+            width = int(chat.keyboard_size.split('x')[0])
+            return KeyboardSimpleClever(last_reqs_list, width).show()
 
-        return reply_markup
+        return None
 
 
 PARSERS = [import_module(parser_path) for parser_path in settings.BOT_PARSERS]

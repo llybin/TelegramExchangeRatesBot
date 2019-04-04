@@ -2,6 +2,7 @@
 
 ## 1.4
 *   upgrade python-telegram-bot = "==12.0.0b1"
+*   settings keyboard size
 
 ## 1.3
 *   notifications backend, todo: interface

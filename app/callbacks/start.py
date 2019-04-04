@@ -34,7 +34,7 @@ def start_callback(update: Update, context: CallbackContext, chat_info: dict, _:
             transaction.commit()
 
         update.message.reply_text(
-            reply_markup=get_keyboard(update.message.chat_id),
+            reply_markup=ReplyKeyboardMarkup(get_keyboard(update.message.chat_id)),
             text=_('Have any question how to talk with me? 👉 /tutorial'))
 
     return ConversationHandler.END

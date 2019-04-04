@@ -1,6 +1,6 @@
 from gettext import gettext
 
-from telegram import ParseMode, Update
+from telegram import ParseMode, Update, ReplyKeyboardMarkup
 from telegram.ext import ConversationHandler, CallbackContext
 
 from app.decorators import register_update, chat_language
@@ -24,7 +24,7 @@ def tutorial(update, _):
     text_to += _('Also take a look here 👉 /help')
 
     update.message.reply_text(
-        reply_markup=get_keyboard(update.message.chat_id),
+        reply_markup=ReplyKeyboardMarkup(get_keyboard(update.message.chat_id)),
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
         text=text_to)

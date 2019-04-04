@@ -1,6 +1,6 @@
 from gettext import gettext
 
-from telegram import ReplyKeyboardRemove, Update
+from telegram import ReplyKeyboardRemove, Update, ReplyKeyboardMarkup
 from telegram.ext import ConversationHandler, CallbackContext
 
 from app.decorators import register_update, chat_language
@@ -30,7 +30,7 @@ def send_feedback_callback(update: Update, context: CallbackContext, chat_info: 
     text_to = _('Message sent, thank you.')
 
     update.message.reply_text(
-        reply_markup=get_keyboard(update.message.chat_id),
+        reply_markup=ReplyKeyboardMarkup(get_keyboard(update.message.chat_id)),
         text=text_to)
 
     send_feedback.delay(

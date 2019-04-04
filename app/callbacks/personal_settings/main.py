@@ -14,6 +14,7 @@ class SettingsSteps(object):
     onscreen_menu = 4
     onscreen_menu_visibility = 5
     onscreen_menu_edit_history = 6
+    onscreen_menu_size = 7
 
 
 def main_menu(update: Update, chat_info: dict, _: gettext):
