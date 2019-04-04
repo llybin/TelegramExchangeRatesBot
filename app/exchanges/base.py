@@ -51,6 +51,8 @@ def reverse_pair_data(pair_data: PairData) -> PairData:
 
 
 class Exchange(ABC):
+    included_reversed_pairs = False
+
     @property
     @abstractmethod
     def name(self) -> str:

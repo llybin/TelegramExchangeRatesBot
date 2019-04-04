@@ -40,9 +40,6 @@ def exchange_updater(exchange_class: str) -> None:
             logging.debug(f'Exchange: {exchange.name}, pair: {pair} is not active or not supported, skip.')
             continue
 
-        pair_data = exchange.get_pair_info(pair)
-        reversed_pair_data = reverse_pair_data(pair_data)
-
         def save_rate(the_pair_data: PairData) -> None:
             new_rate = rate_from_pair_data(the_pair_data, exchange_obj.id)
 
@@ -58,8 +55,11 @@ def exchange_updater(exchange_class: str) -> None:
             else:
                 db_session.add(new_rate)
 
+        pair_data = exchange.get_pair_info(pair)
         save_rate(pair_data)
-        save_rate(reversed_pair_data)
+        if not exchange.included_reversed_pairs:
+            reversed_pair_data = reverse_pair_data(pair_data)
+            save_rate(reversed_pair_data)
 
     try:
         transaction.commit()
