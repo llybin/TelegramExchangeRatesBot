@@ -24,7 +24,7 @@ class Chat(Base):
     __tablename__ = 'chats'
 
     id = sa.Column(sa.BigInteger, primary_key=True, autoincrement=False)
-    keyboard_size = sa.Column(sa.Text, default='3x2', nullable=False)
+    keyboard_size = sa.Column(sa.Text, default='2x3', nullable=False)
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 

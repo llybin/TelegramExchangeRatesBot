@@ -15,7 +15,7 @@ class Chat(BaseObject):
     locale = sa.Column(sa.Text, default=settings.LANGUAGE_CODE, nullable=False)
     is_subscribed = sa.Column(sa.Boolean, default=True, nullable=False)
     is_show_keyboard = sa.Column(sa.Boolean, default=False, nullable=False)
-    keyboard_size = sa.Column(sa.Text, default='3x2', nullable=False)
+    keyboard_size = sa.Column(sa.Text, default='2x3', nullable=False)
     default_currency = sa.Column(sa.Text, default=settings.DEFAULT_CURRENCY, nullable=False)
     default_currency_position = sa.Column(sa.Boolean, default=settings.DEFAULT_CURRENCY_POSITION, nullable=False)
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
