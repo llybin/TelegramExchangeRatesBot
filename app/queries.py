@@ -27,7 +27,7 @@ def get_last_request(chat_id):
     return Session.query(ChatRequests).filter_by(
         chat_id=chat_id
     ).order_by(
-        ChatRequests.times.desc(), ChatRequests.id
+        ChatRequests.times.desc(), ChatRequests.modified_at.asc()
     ).limit(size).all()
 
 
