@@ -1,57 +1,47 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version: Telegram Exchange Rates Bot\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-04 13:38+0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: ms\n"
-"Language-Team: ms <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Telegram Exchange Rates Bot\n"
+"Language: ms\n"
 
-#: app/tasks_notifications.py:61
-#, python-format
-msgid ""
-"Your notification has been disabled, due to one of the currencies "
-"%(from_currency)s %(to_currency)s has been deactivated."
-msgstr ""
+#: app/callbacks/tutorial.py:11
+msgid "I am bot. I will help you to know a current exchange rates."
+msgstr "Saya adalah bot. Saya akan membantu anda untuk mengetahui kadar pertukaran mata wang semasa."
 
-#: app/tasks_notifications.py:179
-msgid "_One-time reminder. Set up a new reminder._"
-msgstr ""
+#: app/callbacks/tutorial.py:17
+msgid "Just text me message in private chat."
+msgstr "Hanya hantar mesej kepada saya dalam perbualan peribadi."
 
-#: app/callbacks/disclaimers.py:13
-msgid ""
-"Data is provided by financial exchanges and may be delayed as specified "
-"by financial exchanges or our data providers. Bot does not verify any "
-"data and disclaims any obligation to do so. Bot cannot guarantee the "
-"accuracy of the exchange rates displayed. You should confirm current "
-"rates before making any transactions that could be affected by changes in"
-" the exchange rates."
-msgstr ""
-"Data disediakan oleh bursa kewangan dan mungkin tertunda seperti yang "
-"dinyatakan oleh bursa kewangan atau penyedia data kami. Bot tidak "
-"mengesahkan sebarang data dan menafikan sebarang kewajipan untuk berbuat "
-"demikian. Bot tidak dapat menjamin ketepatan kadar pertukaran yang "
-"dipaparkan. Anda perlu mengesahkan kadar semasa sebelum membuat apa-apa "
-"transaksi yang boleh dipengaruhi oleh perubahan dalam kadar pertukaran."
+#: app/callbacks/tutorial.py:19
+msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
+msgstr "Dalam perbualan berkumpulan gunakan arahan seperti ini: 👉 /p USD EUR 👈 atau hanya /USDEUR"
 
-#: app/callbacks/feedback.py:17 app/callbacks/personal_settings/main.py:38
-msgid "The command is not available for group chats"
-msgstr "Arahan ini tidak tersedia untuk perbualan berkumpulan"
+#: app/callbacks/tutorial.py:21
+msgid "Inline mode is available. See how to use [here](%(link)s)."
+msgstr "Mod inline tersedia. Lihat cara menggunakan [di sini](%(link)s)."
 
-#: app/callbacks/feedback.py:22
-msgid "What do you want to tell? Or nothing?"
-msgstr "Apa yang anda ingin tanya? Atau tidak ada soalan?"
+#: app/callbacks/tutorial.py:24
+msgid "Also take a look here 👉 /help"
+msgstr "Lihat juga di sini 👉 /help"
 
-#: app/callbacks/feedback.py:30
-msgid "Message sent, thank you."
-msgstr "Mesej dihantar, terima kasih."
+#: app/callbacks/start.py:21
+msgid "humans"
+msgstr "manusia"
+
+#: app/callbacks/start.py:24
+msgid "Hello, %(name)s!"
+msgstr "Apa khabar, %(name)s!"
+
+#: app/callbacks/start.py:38
+msgid "Have any question how to talk with me? 👉 /tutorial"
+msgstr "Ada apa-apa persoalan bagaimana bercakap dengan saya? 👉 /tutorial"
+
+#: app/callbacks/stop.py:23
+msgid "You're unsubscribed. You always can subscribe again 👉 /start"
+msgstr "Anda berhenti berlangganan. Anda boleh melanggan semula 👉 /start"
 
 #: app/callbacks/help.py:12
 msgid "*Commands*"
@@ -67,7 +57,7 @@ msgstr "/tutorial - Tutorial, bagaimana bercakap dengan saya"
 
 #: app/callbacks/help.py:19
 msgid "/currencies - All currencies that I support"
-msgstr "/currencies - Semua matawang yang saya sokongkan"
+msgstr "/currencies - Semua mata wang yang saya sokongkan"
 
 #: app/callbacks/help.py:21
 msgid "/feedback - If you have suggestions, text me"
@@ -79,11 +69,7 @@ msgstr "/p - Arahan untuk perbualan berkumpulan, dapatkan kadar pertukaran"
 
 #: app/callbacks/help.py:25
 msgid "/sources - Currency rates sources"
-msgstr "/sources - Sumber kadar matawang"
-
-#: app/callbacks/help.py:27
-msgid "/settings - Bot personal settings"
-msgstr ""
+msgstr "/sources - Sumber kadar mata wang"
 
 #: app/callbacks/help.py:29
 msgid "/disclaimers - Disclaimers"
@@ -94,268 +80,175 @@ msgid "/stop - Unsubscribe"
 msgstr "/stop - Hentikan Langganan"
 
 #: app/callbacks/help.py:34
-#, python-format
-msgid ""
-"Don't have your localization? Any translation errors? Help fix it 👉 "
-"[poeditor.com](%(trans_link)s)"
-msgstr ""
-"Tidak mempunyai bahasa penyetempatan anda? Sebarang kesilapan terjemahan?"
-" Membantu memperbaikinya 👉 [poeditor.com](%(trans_link)s)"
+msgid "Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)"
+msgstr "Tidak mempunyai bahasa penyetempatan anda? Sebarang kesilapan terjemahan? Membantu memperbaikinya 👉 [poeditor.com](%(trans_link)s)"
+
+#: app/callbacks/feedback.py:17 app/callbacks/personal_settings/main.py:38
+msgid "The command is not available for group chats"
+msgstr "Arahan ini tidak tersedia untuk perbualan berkumpulan"
+
+#: app/callbacks/feedback.py:22
+msgid "What do you want to tell? Or nothing?"
+msgstr "Apa yang anda ingin tanya? Atau tidak ada soalan?"
+
+#: app/callbacks/feedback.py:30
+msgid "Message sent, thank you."
+msgstr "Mesej dihantar, terima kasih."
+
+#: app/callbacks/disclaimers.py:13
+msgid "Data is provided by financial exchanges and may be delayed as specified by financial exchanges or our data providers. Bot does not verify any data and disclaims any obligation to do so. Bot cannot guarantee the accuracy of the exchange rates displayed. You should confirm current rates before making any transactions that could be affected by changes in the exchange rates."
+msgstr "Data disediakan oleh bursa kewangan dan mungkin tertunda seperti yang dinyatakan oleh bursa kewangan atau penyedia data kami. Bot tidak mengesahkan sebarang data dan menafikan sebarang kewajipan untuk berbuat demikian. Bot tidak dapat menjamin ketepatan kadar pertukaran yang dipaparkan. Anda perlu mengesahkan kadar semasa sebelum membuat apa-apa transaksi yang boleh dipengaruhi oleh perubahan dalam kadar pertukaran."
 
 #: app/callbacks/price.py:60
 msgid "The message must contain currencies or amounts 👉 /tutorial"
-msgstr "Mesej mesti mengandungi matawang atau jumlah 👉 / tutorial"
+msgstr "Mesej mesti mengandungi mata wang atau jumlah 👉 /tutorial"
 
 #: app/callbacks/price.py:65
 msgid "I don't understand you 😞 Take a look here 👉 /help"
 msgstr "Saya tidak faham anda 😞 Lihat di sini 👉 /help"
 
 #: app/callbacks/price.py:70
-msgid ""
-"I understood that you asked, but at the moment I don't have actual "
-"exchange rates for your request. Try later. Sorry. 😭"
-msgstr ""
-"Saya faham bahawa anda telah tanya, tetapi pada masa ini saya tidak "
-"mempunyai kadar pertukaran sebenar untuk permintaan anda. Sila Cuba "
-"Kemudian. Maafkan. 😭"
+msgid "I understood that you asked, but at the moment I don't have actual exchange rates for your request. Try later. Sorry. 😭"
+msgstr "Saya faham bahawa anda telah tanya, tetapi pada masa ini saya tidak mempunyai kadar pertukaran sebenar untuk permintaan anda. Sila Cuba Kemudian. Maafkan. 😭"
 
-#: app/callbacks/start.py:21
-msgid "humans"
-msgstr "manusia"
-
-#: app/callbacks/start.py:24
-#, python-format
-msgid "Hello, %(name)s!"
-msgstr "Apa khabar, %(name)s!"
-
-#: app/callbacks/start.py:38
-msgid "Have any question how to talk with me? 👉 /tutorial"
-msgstr "Ada apa-apa persoalan bagaimana bercakap dengan saya? 👉 /tutorial"
-
-#: app/callbacks/stop.py:23
-msgid "You're unsubscribed. You always can subscribe again 👉 /start"
-msgstr "Anda berhenti berlangganan. Anda boleh melanggan semula 👉 /start"
-
-#: app/callbacks/tutorial.py:11
-msgid "I am bot. I will help you to know a current exchange rates."
-msgstr ""
-"Saya adalah bot. Saya akan membantu anda untuk mengetahui kadar "
-"pertukaran matawang semasa."
-
-#: app/callbacks/tutorial.py:13
-msgid ""
-"Send me a message like this:\n"
-"*BTC USD* - to see the current exchange rate for pair\n"
-"*100 USD EUR* - to convert the amount from 100 USD to EUR"
-msgstr ""
-"Hantar saya mesej seperti ini:\n"
-"*BTC USD* - untuk melihat kadar pertukaran semasa untuk pasangan\n"
-"*100 USD EUR* - untuk menukar jumlah dari 100 USD ke EUR"
-
-#: app/callbacks/tutorial.py:17
-msgid "Just text me message in private chat."
-msgstr "Hanya hantar mesej kepada saya dalam perbualan peribadi."
-
-#: app/callbacks/tutorial.py:19
-msgid "In group chats use commands like this: 👉 /p USD EUR 👈 or simply /USDEUR"
-msgstr ""
-"Dalam perbualan berkumpulan gunakan arahan seperti ini: 👉 /p USD EUR 👈 "
-"atau hanya /USDEUR"
-
-#: app/callbacks/tutorial.py:21
-#, python-format
-msgid "Inline mode is available. See how to use [here](%(link)s)."
-msgstr "Mod inline tersedia. Lihat cara menggunakan [di sini](%(link)s)."
-
-#: app/callbacks/tutorial.py:24
-msgid "Also take a look here 👉 /help"
-msgstr "Lihat juga di sini 👉 /help"
-
-#: app/callbacks/personal_settings/default_currency.py:18
-#, python-format
-msgid ""
-"*%(default_currency)s* is your default currency.\n"
-"You can set any currency by default, e.g. *EUR*. When you send only USD -"
-" will get *EUR USD*"
-msgstr ""
-
-#: app/callbacks/personal_settings/default_currency.py:53
-#, python-format
-msgid "*%(default_currency)s* is your default currency."
-msgstr ""
-
-#: app/callbacks/personal_settings/default_currency_position.py:22
-#: app/callbacks/personal_settings/default_currency_position.py:63
-#, python-format
-msgid "*%(position)s* - position where your default currency will be added."
-msgstr ""
-
-#: app/callbacks/personal_settings/language.py:24
-#: app/callbacks/personal_settings/language.py:54
-#, python-format
-msgid "*%(language)s* is your language now."
-msgstr ""
-
-#: app/callbacks/personal_settings/main.py:23
-msgid "Language"
-msgstr ""
-
-#: app/callbacks/personal_settings/main.py:24
-msgid "Default currency"
-msgstr ""
-
-#: app/callbacks/personal_settings/main.py:25
-msgid "Default currency position"
-msgstr ""
-
-#: app/callbacks/personal_settings/main.py:26
-msgid "On-screen menu below"
-msgstr ""
+#: app/callbacks/help.py:27
+msgid "/settings - Bot personal settings"
+msgstr "/settings - Tetapan bot peribadi"
 
 #: app/callbacks/personal_settings/main.py:29
 msgid "What do you want to set up?"
-msgstr ""
+msgstr "Apa yang anda ingin sediakan?"
+
+#: app/callbacks/personal_settings/language.py:24
+#: app/callbacks/personal_settings/language.py:54
+msgid "*%(language)s* is your language now."
+msgstr "*%(language)s* adalah bahasa anda sekarang."
+
+#: app/callbacks/personal_settings/default_currency.py:53
+msgid "*%(default_currency)s* is your default currency."
+msgstr "*%(default_currency)s* adalah mata wang lalai anda."
+
+#: app/callbacks/personal_settings/default_currency_position.py:22
+#: app/callbacks/personal_settings/default_currency_position.py:63
+msgid "*%(position)s* - position where your default currency will be added."
+msgstr "*%(position)s* - kedudukan di mana mata wang lalai anda akan ditambah."
+
+#: app/callbacks/personal_settings/main.py:23
+msgid "Language"
+msgstr "Bahasa"
+
+#: app/callbacks/personal_settings/main.py:24
+msgid "Default currency"
+msgstr "Mata wang lalai"
+
+#: app/callbacks/personal_settings/main.py:25
+msgid "Default currency position"
+msgstr "Kedudukan mata wang lalai"
+
+#: app/callbacks/tutorial.py:13
+msgid "Send me a message like this:\n"
+"*BTC USD* - to see the current exchange rate for pair\n"
+"*100 USD EUR* - to convert the amount from 100 USD to EUR"
+msgstr "Hantar saya mesej seperti ini:\n"
+"*BTC USD* - untuk melihat kadar pertukaran semasa untuk pasangan\n"
+"*100 USD EUR* - untuk menukar jumlah dari 100 USD ke EUR"
+
+#: app/tasks_notifications.py:61
+msgid "Your notification has been disabled, due to one of the currencies %(from_currency)s %(to_currency)s has been deactivated."
+msgstr "Pemberitahuan anda telah dilumpuhkan, kerana salah satu daripada mata wang %(from_currency)s %(to_currency)s telah dinyahaktifkan."
+
+#: app/tasks_notifications.py:179
+msgid "_One-time reminder. Set up a new reminder._"
+msgstr "_Peringatan satu kali. Sediakan peringatan baru._"
+
+#: app/callbacks/personal_settings/default_currency.py:18
+msgid "*%(default_currency)s* is your default currency.\n"
+"You can set any currency by default, e.g. *EUR*. When you send only USD - will get *EUR USD*"
+msgstr "*%(default_currency)s* adalah mata wang lalai anda.\n"
+"Anda boleh menetapkan sebarang mata wang secara lalai, cth. *EUR*. Apabila anda menghantar hanya USD - akan mendapat *EUR USD*"
+
+#: app/callbacks/personal_settings/main.py:26
+msgid "On-screen menu below"
+msgstr "Menu pada skrin di bawah"
 
 #: app/callbacks/personal_settings/onscreen_menu.py:17
 msgid "Here you can customize on-screen menu with a history requests."
-msgstr ""
-
-#: app/callbacks/personal_settings/onscreen_menu.py:22
-msgid "Visibility"
-msgstr ""
-
-#: app/callbacks/personal_settings/onscreen_menu.py:23
-msgid "Size"
-msgstr ""
-
-#: app/callbacks/personal_settings/onscreen_menu.py:24
-msgid "Delete from a history requests"
-msgstr ""
+msgstr "Di sini anda boleh menyesuaikan menu pada skrin dengan permintaan sejarah."
 
 #: app/callbacks/personal_settings/onscreen_menu.py:42
 msgid "On-screen menu below with a history requests *always shows* at the moment."
-msgstr ""
+msgstr "Menu pada skrin di bawah dengan permintaan sejarah *sentiasa ditunjukkan* pada masa ini."
 
 #: app/callbacks/personal_settings/onscreen_menu.py:44
 msgid "On-screen menu below with a history requests *never shows* at the moment."
-msgstr ""
+msgstr "Menu di skrin di bawah dengan permintaan sejarah *tidak pernah menunjukkan* pada masa ini."
 
 #: app/callbacks/personal_settings/onscreen_menu.py:48
-msgid ""
-"You can choose. Show always on-screen menu below with a history requests "
-"or never show."
-msgstr ""
-
-#: app/callbacks/personal_settings/onscreen_menu.py:53
-msgid "Always show"
-msgstr ""
-
-#: app/callbacks/personal_settings/onscreen_menu.py:54
-msgid "Never show"
-msgstr ""
+msgid "You can choose. Show always on-screen menu below with a history requests or never show."
+msgstr "Awak boleh pilih. Tunjukkan menu pada skrin di bawah dengan permintaan sejarah atau tidak pernah dipaparkan."
 
 #: app/callbacks/personal_settings/onscreen_menu.py:69
 msgid "On-screen menu below with a history requests will *always shows*."
-msgstr ""
+msgstr "Menu pada skrin di bawah dengan permintaan sejarah akan *sentiasa ditunjukkan*."
 
 #: app/callbacks/personal_settings/onscreen_menu.py:71
 msgid "On-screen menu below with a history requests will *never shows*."
-msgstr ""
-
-#: app/callbacks/personal_settings/onscreen_menu.py:97
-msgid "Delete hidden"
-msgstr ""
-
-#: app/callbacks/personal_settings/onscreen_menu.py:97
-msgid "Delete all"
-msgstr ""
+msgstr "Menu pada skrin di bawah dengan permintaan sejarah akan *tidak pernah dipaparkan*."
 
 #: app/callbacks/personal_settings/onscreen_menu.py:105
 msgid "You can *delete* a request from a history requests."
-msgstr ""
+msgstr "Anda boleh *memadam* permintaan dari permintaan sejarah."
+
+#: app/callbacks/personal_settings/onscreen_menu.py:97
+msgid "Delete all"
+msgstr "Memadam semua"
 
 #: app/callbacks/personal_settings/onscreen_menu.py:117
 msgid "Your history requests is empty for deletion."
-msgstr ""
+msgstr "Permintaan sejarah anda kosong untuk penghapusan."
 
 #: app/callbacks/personal_settings/onscreen_menu.py:149
-#, python-format
 msgid "*%(first)s %(second)s* was deleted."
-msgstr ""
-
-#: app/callbacks/personal_settings/onscreen_menu.py:191
-msgid "History of hidden requests has been cleared."
-msgstr ""
+msgstr "*%(first)s %(second)s* telah dipadamkan."
 
 #: app/callbacks/personal_settings/onscreen_menu.py:211
 msgid "History requests has been cleared fully."
-msgstr ""
+msgstr "Permintaan sejarah telah dibersihkan sepenuhnya."
+
+#: app/callbacks/personal_settings/onscreen_menu.py:22
+msgid "Visibility"
+msgstr "Keterlihatan"
+
+#: app/callbacks/personal_settings/onscreen_menu.py:53
+msgid "Always show"
+msgstr "Sentiasa tunjukkan"
+
+#: app/callbacks/personal_settings/onscreen_menu.py:54
+msgid "Never show"
+msgstr "Jangan tunjukkan"
+
+#: app/callbacks/personal_settings/onscreen_menu.py:24
+msgid "Delete from a history requests"
+msgstr "Padam dari permintaan sejarah"
+
+#: app/callbacks/personal_settings/onscreen_menu.py:23
+msgid "Size"
+msgstr "Saiz"
+
+#: app/callbacks/personal_settings/onscreen_menu.py:97
+msgid "Delete hidden"
+msgstr "Padam tersembunyi"
+
+#: app/callbacks/personal_settings/onscreen_menu.py:191
+msgid "History of hidden requests has been cleared."
+msgstr "Sejarah permintaan tersembunyi telah dibersihkan."
 
 #: app/callbacks/personal_settings/onscreen_menu.py:231
-#, python-format
-msgid ""
-"%(keyboard_size)s - size of on-screen menu with a history requests at the"
-" moment.\n"
+msgid "%(keyboard_size)s - size of on-screen menu with a history requests at the moment.\n"
 "You can customize the size. *width x height*"
-msgstr ""
+msgstr "%(keyboard_size)s - saiz menu pada skrin dengan permintaan sejarah pada masa ini. Anda boleh menyesuaikan saiznya. *lebar x ketinggian*"
 
 #: app/callbacks/personal_settings/onscreen_menu.py:251
-#, python-format
-msgid ""
-"%(keyboard_size)s - size of on-screen menu with a history requests was "
-"changed."
-msgstr ""
-
-#~ msgid ""
-#~ "[ExchangeRatesBotNews](%(link)s) - subscribe to "
-#~ "channel, stay tuned news."
-#~ msgstr ""
-
-#~ msgid "/keyboard - Hide / show a keyboard with request history"
-#~ msgstr ""
-#~ "/keyboard - Sembunyikan / tunjukkan "
-#~ "papan kekunci dengan sejarah permintaan"
-
-#~ msgid "Keyboard is shown."
-#~ msgstr "Papan kekunci ditunjukkan."
-
-#~ msgid "Keyboard is hidden."
-#~ msgstr "Papan kekunci tersembunyi"
-
-#~ msgid "Close settings"
-#~ msgstr ""
-
-#~ msgid "If you'd like to change send me new or /back"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "\n"
-#~ "_One-time reminder. Set up a new reminder._"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Your language has no translation. Help"
-#~ " fix it 👉 [poeditor.com](%(trans_link)s)"
-#~ msgstr ""
-
-#~ msgid "1: Visibility"
-#~ msgstr ""
-
-#~ msgid "2: Delete request from a history"
-#~ msgstr ""
-
-#~ msgid "1: Always show"
-#~ msgstr ""
-
-#~ msgid "2: Never show"
-#~ msgstr ""
-
-#~ msgid "Delete request from a history"
-#~ msgstr ""
-
-#~ msgid "Delete old"
-#~ msgstr ""
-
-#~ msgid "History of old requests has been cleared."
-#~ msgstr ""
+msgid "%(keyboard_size)s - size of on-screen menu with a history requests was changed."
+msgstr "%(keyboard_size)s - saiz menu pada skrin dengan permintaan sejarah telah diubah."
 
