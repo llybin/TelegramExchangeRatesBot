@@ -225,7 +225,6 @@ def inline_query_callback(update: Update, context: CallbackContext, chat_info: d
 
 @register_update
 def inline_result_callback(update: Update, context: CallbackContext, chat_info: dict):
-    print(update.chosen_inline_result.result_id)
     if update.chosen_inline_result:
         parts = update.chosen_inline_result.result_id.split('|')
         if len(parts) != 4:
