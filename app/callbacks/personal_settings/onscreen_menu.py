@@ -210,11 +210,8 @@ def edit_history_delete_all_callback(update: Update, context: CallbackContext, c
 
     text_to = _('History requests has been cleared fully.')
 
-    keyboard = get_keyboard_deletion(update.message.chat_id, _)
-
     update.message.reply_text(
         parse_mode=ParseMode.MARKDOWN,
-        reply_markup=keyboard,
         text=text_to)
 
     onscreen_menu(update, chat_info, _)
