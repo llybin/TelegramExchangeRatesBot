@@ -39,8 +39,8 @@ class BittrexExchange(Exchange):
                             "type": "object",
                             "properties": {
                                 "MarketName": {"type": "string"},
-                                "High": {"type": "number"},
-                                "Low": {"type": "number"},
+                                "High": {"type": ["number", "null"]},
+                                "Low": {"type": ["number", "null"]},
                                 "TimeStamp": {"type": "string"},
                                 "Bid": {"type": "number"},
                                 "Ask": {"type": "number"},
@@ -104,11 +104,17 @@ class BittrexExchange(Exchange):
         except ValueError:
             raise APIChangedException('TimeStamp format.')
 
+        if pair_data['Low'] and pair_data['High']:
+            low24h = Decimal(str(pair_data['Low']))
+            high24h = Decimal(str(pair_data['High']))
+        else:
+            low24h = high24h = None
+
         return PairData(
             pair=pair,
             rate=mid,
             rate_open=Decimal(str(pair_data['PrevDay'])),
-            low24h=Decimal(str(pair_data['Low'])),
-            high24h=Decimal(str(pair_data['High'])),
+            low24h=low24h,
+            high24h=high24h,
             last_trade_at=last_trade_at,
         )
