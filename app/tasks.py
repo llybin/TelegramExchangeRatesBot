@@ -10,7 +10,7 @@ from suite.database import Session
 from suite.conf import settings
 
 from app.celery import celery_app
-from app.exchanges.base import reverse_pair_data, PairData
+from app.exchanges.base import reverse_pair_data, PairData, Pair
 from app.helpers import import_module, rate_from_pair_data, fill_rate_open
 from app.models import Exchange, Currency, Rate, RequestsLog, ChatRequests
 
@@ -113,9 +113,9 @@ def send_feedback(chat_id: int, first_name: str, username: str, text: str) -> No
 
 
 @celery_app.task(queue='update_chat_request', time_limit=5)
-def update_chat_request(chat_id: int, currency: str, to_currency: str):
+def update_chat_request(chat_id: int, from_currency: str, to_currency: str):
     db_session = Session()
-    from_currency = db_session.query(Currency).filter_by(code=currency).one()
+    from_currency = db_session.query(Currency).filter_by(code=from_currency).one()
     to_currency = db_session.query(Currency).filter_by(code=to_currency).one()
 
     chat_request = db_session.query(ChatRequests).filter_by(

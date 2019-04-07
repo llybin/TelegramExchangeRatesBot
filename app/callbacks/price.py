@@ -44,7 +44,7 @@ def price(update: Update, text: str, chat_info: dict, _: gettext):
 
         update_chat_request(
             chat_id=update.message.chat_id,
-            currency=price_request.currency,
+            from_currency=price_request.currency,
             to_currency=price_request.to_currency
         )
 
@@ -168,7 +168,6 @@ def inline_query_callback(update: Update, context: CallbackContext, chat_info: d
             created_at=datetime.now(),
             tag='Inline All'
         )
-        # TODO: increase counter what was chosen if it possible
     else:
         tag = ''
         try:
@@ -193,8 +192,8 @@ def inline_query_callback(update: Update, context: CallbackContext, chat_info: d
             text_to = FormatPriceRequestResult(
                 price_request_result, chat_info['locale']).get()
 
-            ident = f'{price_request.currency}{price_request.to_currency}' \
-                f'{price_request_result.rate}{price_request_result.last_trade_at}'
+            ident = f'{price_request.currency}|{price_request.to_currency}|' \
+                f'{price_request_result.rate}|{price_request_result.last_trade_at}'
 
             results = [
                 InlineQueryResultArticle(
@@ -202,17 +201,12 @@ def inline_query_callback(update: Update, context: CallbackContext, chat_info: d
                     title=title,
                     input_message_content=InputTextMessageContent(
                         text_to,
+                        query='1',
                         disable_web_page_preview=True,
                         parse_mode=ParseMode.MARKDOWN
                     )
                 )
             ]
-
-            update_chat_request.delay(
-                chat_id=update.effective_user.id,
-                currency=price_request.currency,
-                to_currency=price_request.to_currency
-            )
 
         except (ValidationException, ConverterException):
             logging.info(f'inline_request unrecognized: {query}')
@@ -228,3 +222,19 @@ def inline_query_callback(update: Update, context: CallbackContext, chat_info: d
                 )
 
     update.inline_query.answer(results)
+
+
+@register_update
+def inline_result_callback(update: Update, context: CallbackContext, chat_info: dict):
+    print(update.chosen_inline_result.result_id)
+    if update.chosen_inline_result:
+        parts = update.chosen_inline_result.result_id.split('|')
+        if len(parts) != 4:
+            # app/callbacks/price.py:ident
+            logging.warning("Unknown inline result: %s", update.chosen_inline_result.result_id)
+            return
+        update_chat_request.delay(
+            chat_id=update.effective_user.id,
+            from_currency=parts[0],
+            to_currency=parts[1]
+        )

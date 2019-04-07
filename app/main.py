@@ -9,6 +9,7 @@ from telegram.ext import (
     Filters,
     ConversationHandler,
     InlineQueryHandler,
+    ChosenInlineResultHandler,
 )
 from sqlalchemy import create_engine
 from suite.database import init_sqlalchemy
@@ -23,7 +24,7 @@ from app.callbacks.currencies import currencies_callback
 from app.callbacks.disclaimers import disclaimers_callback
 from app.callbacks.feedback import feedback_callback, send_feedback_callback
 from app.callbacks.help import help_callback
-from app.callbacks.price import price_callback, message_callback, on_slash_callback, inline_query_callback
+from app.callbacks import price
 from app.callbacks import personal_settings
 from app.callbacks.sources import sources_callback
 from app.callbacks.start import start_callback
@@ -121,18 +122,19 @@ def main():
     dp.add_handler(CommandHandler("disclaimers", disclaimers_callback))
     dp.add_handler(CommandHandler("feedback", feedback_callback))
     dp.add_handler(CommandHandler("help", help_callback))
-    dp.add_handler(CommandHandler("p", price_callback, pass_args=True))
+    dp.add_handler(CommandHandler("p", price.price_callback, pass_args=True))
     dp.add_handler(CommandHandler("settings", personal_settings.main.settings_callback))
     dp.add_handler(CommandHandler("start", start_callback))
     dp.add_handler(CommandHandler("stop", stop_callback))
     dp.add_handler(CommandHandler("sources", sources_callback))
     dp.add_handler(CommandHandler("tutorial", tutorial_callback))
 
-    dp.add_handler(MessageHandler(Filters.regex(r"^/"), on_slash_callback))
+    dp.add_handler(MessageHandler(Filters.regex(r"^/"), price.on_slash_callback))
 
-    dp.add_handler(InlineQueryHandler(inline_query_callback))
+    dp.add_handler(InlineQueryHandler(price.inline_query_callback))
+    dp.add_handler(ChosenInlineResultHandler(price.inline_result_callback))
 
-    dp.add_handler(MessageHandler(Filters.text, message_callback))
+    dp.add_handler(MessageHandler(Filters.text, price.message_callback))
 
     # log all errors
     dp.add_error_handler(error_callback)
