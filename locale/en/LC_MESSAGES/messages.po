@@ -31,6 +31,7 @@ msgstr "Also take a look here 👉 /help"
 msgid "humans"
 msgstr "humans"
 
+#. %(name)s no need translate
 #: app/callbacks/start.py:24
 msgid "Hello, %(name)s!"
 msgstr "Hello, %(name)s!"
