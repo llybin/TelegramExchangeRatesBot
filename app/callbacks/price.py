@@ -201,7 +201,6 @@ def inline_query_callback(update: Update, context: CallbackContext, chat_info: d
                     title=title,
                     input_message_content=InputTextMessageContent(
                         text_to,
-                        query='1',
                         disable_web_page_preview=True,
                         parse_mode=ParseMode.MARKDOWN
                     )
