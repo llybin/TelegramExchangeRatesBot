@@ -86,7 +86,7 @@ def delete_expired_rates() -> None:
         transaction.abort()
 
 
-@celery_app.task(queue='low', time_limit=5)
+@celery_app.task(queue='low', time_limit=10)
 def write_request_log(chat_id: int, msg: str, created_at: datetime, tag: str = '') -> None:
     if len(msg) > settings.MAX_LEN_MSG_REQUESTS_LOG:
         return
