@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 from decimal import Decimal
 from typing import Tuple
@@ -42,9 +43,9 @@ class BittrexExchange(Exchange):
                                 "High": {"type": ["number", "null"]},
                                 "Low": {"type": ["number", "null"]},
                                 "TimeStamp": {"type": "string"},
-                                "Bid": {"type": "number"},
-                                "Ask": {"type": "number"},
-                                "PrevDay": {"type": "number"},
+                                "Bid": {"type": ["number", "null"]},
+                                "Ask": {"type": ["number", "null"]},
+                                "PrevDay": {"type": ["number", "null"]},
                             },
                             "required": [
                                 "MarketName",
@@ -69,6 +70,10 @@ class BittrexExchange(Exchange):
 
         result = {}
         for x in data['result']:
+            if not x['Bid'] or not x['Ask']:
+                logging.warning('Bittrex no Bid Ask: %s', x)
+                continue
+
             # reverse
             to_currency, from_currency = x['MarketName'].upper().split('-')
             del x['MarketName']
@@ -110,10 +115,12 @@ class BittrexExchange(Exchange):
         else:
             low24h = high24h = None
 
+        rate_open = Decimal(str(pair_data['PrevDay'])) if pair_data['PrevDay'] else None
+
         return PairData(
             pair=pair,
             rate=mid,
-            rate_open=Decimal(str(pair_data['PrevDay'])),
+            rate_open=rate_open,
             low24h=low24h,
             high24h=high24h,
             last_trade_at=last_trade_at,
