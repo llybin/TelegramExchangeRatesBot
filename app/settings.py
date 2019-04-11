@@ -81,12 +81,6 @@ CELERYBEAT_SCHEDULE = {
         'args': ('app.exchanges.SpTodayExchange',),
         'options': {'time_limit': 60, 'once': {'timeout': 60}}
     },
-    'exchange_updater_VipChangerExchange': {
-        'task': 'app.tasks.exchange_updater',
-        'schedule': crontab(minute=1, hour='*/1'),
-        'args': ('app.exchanges.VipChangerExchange',),
-        'options': {'time_limit': 60, 'once': {'timeout': 60}}
-    },
     'delete_expired_rates': {
         'task': 'app.tasks.delete_expired_rates',
         'schedule': crontab(minute=5, hour='*/1'),
@@ -110,10 +104,6 @@ BOT_PARSERS = [
 
 OPENEXCHANGERATES_TOKEN = os.environ.get('OPENEXCHANGERATES_TOKEN')
 FIXER_TOKEN = os.environ.get('FIXER_TOKEN')
-
-PROXIES_TH = {
-    'https': os.environ.get('PROXY_TH')
-}
 
 SENTRY_URL = os.environ.get('SENTRY_URL')
 

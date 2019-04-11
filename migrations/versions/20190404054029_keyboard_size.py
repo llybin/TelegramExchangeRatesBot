@@ -13,7 +13,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 # revision identifiers, used by Alembic.
 revision = '20190404054029'
-down_revision = '20190404023229'
+down_revision = '20190402045327'
 branch_labels = None
 depends_on = None
 

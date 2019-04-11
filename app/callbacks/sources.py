@@ -15,7 +15,6 @@ https://bitfinex.com - 15min (API limits😭)
 https://bittrex.com - 1min
 [https://bx.in.th](https://bx.in.th/ref/s9c3HU/) - 1min
 https://sp-today.com - 60min
-[https://vipchanger.com](https://vipchanger.com/?pid=4503) - 60min
 https://fixer.io - 60min
 https://openexchangerates.org - 60min''')
 
