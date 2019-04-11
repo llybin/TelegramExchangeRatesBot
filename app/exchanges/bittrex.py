@@ -9,6 +9,7 @@ from jsonschema import validate, ValidationError
 
 from .base import Exchange, PairData, Pair, ECurrency
 from .exceptions import PairNotExistsException, APIErrorException, APIChangedException
+from app.queries import get_all_currency_codes
 
 
 class BittrexExchange(Exchange):
@@ -69,13 +70,16 @@ class BittrexExchange(Exchange):
             raise APIErrorException(e)
 
         result = {}
+        all_currency_codes = get_all_currency_codes()
         for x in data['result']:
-            if not x['Bid'] or not x['Ask']:
-                logging.warning('Bittrex no Bid Ask: %s', x)
-                continue
-
             # reverse
             to_currency, from_currency = x['MarketName'].upper().split('-')
+
+            if not x['Bid'] or not x['Ask']:
+                if to_currency in all_currency_codes and from_currency in all_currency_codes:
+                    logging.warning('Bittrex no Bid Ask: %s', x)
+                continue
+
             del x['MarketName']
             result[Pair(ECurrency(from_currency), ECurrency(to_currency))] = x
 
