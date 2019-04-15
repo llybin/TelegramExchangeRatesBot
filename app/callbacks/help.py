@@ -34,6 +34,9 @@ def help_callback(update: Update, context: CallbackContext, chat_info: dict, _: 
     text_to += _("Don't have your localization? Any translation errors? Help fix it 👉 [poeditor.com](%(trans_link)s)") % {  # NOQA
         'trans_link': 'https://poeditor.com/join/project/LLu8AztSPb'}
 
+    text_to += '\n\n'
+    text_to += '🍕🍺 [patreon.com/ExchangeRatesBot](https://www.patreon.com/ExchangeRatesBot)'
+
     update.message.reply_text(
         disable_web_page_preview=True,
         parse_mode=ParseMode.MARKDOWN,

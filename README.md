@@ -7,9 +7,12 @@
 
 Telegram bot actual exchange rates for travel, work and daily life.
 
-Online from 01 July 2015.
+Online since 01 July 2015.
 
 [https://telegram.me/ExchangeRatesBot]()
+
+## 🍕🍺
+[patreon.com/ExchangeRatesBot](https://www.patreon.com/ExchangeRatesBot)
 
 ## Translations
 
