@@ -11,9 +11,6 @@ Online since 01 July 2015.
 
 [https://telegram.me/ExchangeRatesBot]()
 
-## 🍕🍺
-[patreon.com/ExchangeRatesBot](https://www.patreon.com/ExchangeRatesBot)
-
 ## Translations
 
 Don't have your localization? Any translation errors? Help fix it.
