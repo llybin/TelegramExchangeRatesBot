@@ -95,7 +95,7 @@ def visibility_set_false_callback(update: Update, context: CallbackContext, chat
 
 def get_keyboard_deletion(chat_id: int, _: gettext):
     keyboard = [['↩️', '🅾️ ' + _('Delete hidden'), '🆑 ' + _('Delete all')]]
-    return ReplyKeyboardMarkup(keyboard + get_keyboard(chat_id, '❌ '))
+    return ReplyKeyboardMarkup(keyboard + get_keyboard(chat_id, '❌ ') or [])
 
 
 @register_update
