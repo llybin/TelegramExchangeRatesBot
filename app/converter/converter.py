@@ -70,8 +70,7 @@ def convert(price_request: PriceRequest) -> PriceRequestResult:
         if rate_obj:
             rate = combine_values(rate_obj[0].rate, rate_obj[1].rate)
             rate_open = combine_values(rate_obj[0].rate_open, rate_obj[1].rate_open)
-            low24h = combine_values(rate_obj[0].low24h, rate_obj[1].low24h)
-            high24h = combine_values(rate_obj[0].high24h, rate_obj[1].high24h)
+            low24h = high24h = None
 
             price_request_result = PriceRequestResult(
                 price_request=price_request,
