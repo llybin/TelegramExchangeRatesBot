@@ -1,8 +1,8 @@
-"""add_bx_in_tx_exchange
+"""bitkub_exchanger
 
-Revision ID: 20190326083625
-Revises: 20190326060130
-Create Date: 2019-03-26 08:36:25.229520
+Revision ID: 20190903073346
+Revises: 20190404054029
+Create Date: 2019-09-03 07:33:46.874414
 
 """
 from alembic import op
@@ -10,16 +10,14 @@ import sqlalchemy as sa
 from sqlalchemy.orm.session import Session
 from sqlalchemy.ext.declarative import declarative_base
 
-
-class BxInThExchange:
-    name = '[bx.in.th](https://bx.in.th/ref/s9c3HU/)'
-
+from app.exchanges import BitkubExchange
 
 # revision identifiers, used by Alembic.
-revision = '20190326083625'
-down_revision = '20190326060130'
+revision = '20190903073346'
+down_revision = '20190404054029'
 branch_labels = None
 depends_on = None
+
 
 Base = declarative_base()
 
@@ -33,9 +31,21 @@ class Exchange(Base):
     is_active = sa.Column(sa.Boolean, nullable=False)
 
 
+class Rate(Base):
+    __tablename__ = 'rates'
+
+    id = sa.Column(sa.Integer, primary_key=True)
+    exchange_id = sa.Column(sa.Integer, sa.ForeignKey('exchanges.id'), nullable=False)
+
+
 def upgrade():
     session = Session(bind=op.get_bind())
-    session.add(Exchange(name=BxInThExchange.name, is_active=True, weight=15))
+    session.add(Exchange(name=BitkubExchange.name, is_active=True, weight=15))
+
+    bx_in_th_name = '[bx.in.th](https://bx.in.th/ref/s9c3HU/)'
+    bx_in_th = session.query(Exchange).filter_by(name=bx_in_th_name).one()
+    session.query(Rate).filter_by(exchange_id=bx_in_th.id).delete()
+    session.delete(bx_in_th)
     session.flush()
 
 

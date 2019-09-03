@@ -77,7 +77,8 @@ def delete_expired_rates() -> None:
     for r in rates:
         logging.warning('Rate expired exchange: %s, pair: %s-%s',
                         r.exchange.name, r.from_currency.code, r.to_currency.code)
-        db_session.delete(r)
+
+    db_session.delete(rates)
 
     try:
         transaction.commit()

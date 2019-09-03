@@ -5,40 +5,40 @@ import vcr
 from freezegun import freeze_time
 
 from suite.test.testcases import SimpleTestCase
-from ..bx_in_th import BxInThExchange
+from ..bitkub import BitkubExchange
 from ..base import PairData, Pair, ECurrency
 from ..exceptions import PairNotExistsException
 
 
 my_vcr = vcr.VCR(
-    cassette_library_dir='app/exchanges/tests/fixtures/vcr/bx_in_th',
+    cassette_library_dir='app/exchanges/tests/fixtures/vcr/bitkub',
     record_mode='once',
     decode_compressed_response=True,
 )
 
 
-class BxInThExchangeTest(SimpleTestCase):
+class BitkubExchangeTest(SimpleTestCase):
 
     def test_name(self):
-        self.assertEqual(BxInThExchange.name, '[bx.in.th](https://bx.in.th/ref/s9c3HU/)')
+        self.assertEqual(BitkubExchange.name, '[bitkub.com](https://www.bitkub.com/signup?ref=64572)')
 
     @my_vcr.use_cassette('query_200')
     def test_list_currencies(self):
-        currencies = BxInThExchange().list_currencies
-        self.assertEqual(len(currencies), 27)
+        currencies = BitkubExchange().list_currencies
+        self.assertEqual(len(currencies), 26)
         self.assertTrue(ECurrency(code='BTC') in currencies)
         self.assertTrue(ECurrency(code='THB') in currencies)
 
     @my_vcr.use_cassette('query_200')
     def test_list_pairs(self):
-        pairs = BxInThExchange().list_pairs
-        self.assertEqual(len(pairs), 28)
+        pairs = BitkubExchange().list_pairs
+        self.assertEqual(len(pairs), 25)
         self.assertTrue(Pair(ECurrency('BTC'), ECurrency('THB')) in pairs)
         self.assertFalse(Pair(ECurrency('THB'), ECurrency('BTC')) in pairs)
 
     @my_vcr.use_cassette('query_200')
     def test_is_pair_exists(self):
-        exchange = BxInThExchange()
+        exchange = BitkubExchange()
         self.assertTrue(exchange.is_pair_exists(Pair(ECurrency('BTC'), ECurrency('THB'))))
 
         self.assertFalse(exchange.is_pair_exists(Pair(ECurrency('THB'), ECurrency('BTC'))))
@@ -47,7 +47,7 @@ class BxInThExchangeTest(SimpleTestCase):
 
     @my_vcr.use_cassette('query_200')
     def test_is_currency_exists(self):
-        exchange = BxInThExchange()
+        exchange = BitkubExchange()
         self.assertTrue(exchange.is_currency_exists(ECurrency(code='BTC')))
         self.assertTrue(exchange.is_currency_exists(ECurrency(code='THB')))
 
@@ -59,11 +59,13 @@ class BxInThExchangeTest(SimpleTestCase):
     def test_get_pair_info(self):
         pair = Pair(ECurrency('BTC'), ECurrency('THB'))
         self.assertEqual(
-            BxInThExchange().get_pair_info(pair),
+            BitkubExchange().get_pair_info(pair),
             PairData(
                 pair=pair,
-                rate=Decimal('124510.8'),
+                rate=Decimal('300353.515'),
                 rate_open=None,
+                low24h=Decimal('281470'),
+                high24h=Decimal('304000'),
                 last_trade_at=datetime.datetime(2019, 3, 17, 22, 14, 15, 0),
             )
         )
@@ -72,4 +74,4 @@ class BxInThExchangeTest(SimpleTestCase):
     def test_get_pair_info_no_pair(self):
         pair = Pair(ECurrency('USD'), ECurrency('BTC'))
         with self.assertRaises(PairNotExistsException):
-            BxInThExchange().get_pair_info(pair)
+            BitkubExchange().get_pair_info(pair)

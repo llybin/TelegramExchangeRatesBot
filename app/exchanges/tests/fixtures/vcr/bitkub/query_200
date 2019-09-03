@@ -1,0 +1,47 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.22.0
+    method: GET
+    uri: https://api.bitkub.com/api/market/ticker
+  response:
+    body:
+      string: '{"THB_ABT":{"id":22,"last":5.81,"lowestAsk":5.81,"highestBid":5.52,"percentChange":-0.17,"baseVolume":171.97101216,"quoteVolume":1000.87,"isFrozen":0,"high24hr":5.82,"low24hr":5.81},"THB_ADA":{"id":4,"last":1.3,"lowestAsk":1.38,"highestBid":1.3,"percentChange":0,"baseVolume":46550.47804928,"quoteVolume":61082.7,"isFrozen":0,"high24hr":1.44,"low24hr":1.3},"THB_AST":{"id":23,"last":0.91,"lowestAsk":0,"highestBid":0,"percentChange":100,"baseVolume":0,"quoteVolume":0,"isFrozen":0,"high24hr":0,"low24hr":0},"THB_BCH":{"id":6,"last":8200,"lowestAsk":8550,"highestBid":8200,"percentChange":1.05,"baseVolume":130.29481056,"quoteVolume":1083455.98,"isFrozen":0,"high24hr":8609.99,"low24hr":7702},"THB_BSV":{"id":11,"last":3874,"lowestAsk":3969.96,"highestBid":3874,"percentChange":1.98,"baseVolume":23.04260509,"quoteVolume":88347.82,"isFrozen":0,"high24hr":3999.99,"low24hr":3786.51},"THB_BTC":{"id":1,"last":300000,"lowestAsk":300707.03,"highestBid":300000,"percentChange":6.01,"baseVolume":41.15139988,"quoteVolume":12035051.6,"isFrozen":0,"high24hr":304000,"low24hr":281470},"THB_CTXC":{"id":28,"last":2.96,"lowestAsk":3,"highestBid":2.9,"percentChange":1.02,"baseVolume":17391.68954879,"quoteVolume":51439.03,"isFrozen":0,"high24hr":3,"low24hr":2.93},"THB_CVC":{"id":14,"last":1.19,"lowestAsk":1.22,"highestBid":1.19,"percentChange":-0.83,"baseVolume":8104.85961895,"quoteVolume":10261.93,"isFrozen":0,"high24hr":1.31,"low24hr":1.17},"THB_ENG":{"id":20,"last":10,"lowestAsk":0,"highestBid":8.33,"percentChange":0,"baseVolume":0.251,"quoteVolume":2.51,"isFrozen":0,"high24hr":10,"low24hr":10},"THB_ETH":{"id":2,"last":5135.82,"lowestAsk":5120,"highestBid":4900,"percentChange":4.37,"baseVolume":377.97405699,"quoteVolume":1888751.73,"isFrozen":0,"high24hr":5276.05,"low24hr":4000},"THB_GNT":{"id":16,"last":1.64,"lowestAsk":1.79,"highestBid":1.66,"percentChange":-8.38,"baseVolume":72.03714008,"quoteVolume":118.5,"isFrozen":0,"high24hr":1.79,"low24hr":1.64},"THB_GUSD":{"id":25,"last":0,"lowestAsk":0,"highestBid":0,"percentChange":100,"baseVolume":0,"quoteVolume":0,"isFrozen":0,"high24hr":0,"low24hr":0},"THB_INF":{"id":27,"last":10.7,"lowestAsk":10.7,"highestBid":5,"percentChange":0,"baseVolume":0.03925233,"quoteVolume":0.42,"isFrozen":0,"high24hr":10.7,"low24hr":10.7},"THB_IOST":{"id":17,"last":0.3,"lowestAsk":0.3,"highestBid":0.27,"percentChange":-14.29,"baseVolume":6833.50654761,"quoteVolume":2220.01,"isFrozen":0,"high24hr":0.35,"low24hr":0.3},"THB_JFIN":{"id":31,"last":1.56,"lowestAsk":1.98,"highestBid":1.55,"percentChange":-21.21,"baseVolume":195.009324,"quoteVolume":325.52,"isFrozen":0,"high24hr":1.98,"low24hr":1.56},"THB_KNC":{"id":19,"last":5.07,"lowestAsk":5.07,"highestBid":4.67,"percentChange":0,"baseVolume":0.35305719,"quoteVolume":1.79,"isFrozen":0,"high24hr":5.07,"low24hr":5.07},"THB_LINK":{"id":15,"last":64.51,"lowestAsk":64.44,"highestBid":56,"percentChange":-1.36,"baseVolume":0.14877154,"quoteVolume":9.62,"isFrozen":0,"high24hr":65.4,"low24hr":64.51},"THB_LTC":{"id":9,"last":1943,"lowestAsk":1957.98,"highestBid":1943,"percentChange":1.73,"baseVolume":124.75574141,"quoteVolume":238647.63,"isFrozen":0,"high24hr":1960.07,"low24hr":1873},"THB_MANA":{"id":24,"last":1.03,"lowestAsk":1.02,"highestBid":0.9,"percentChange":1.98,"baseVolume":20.52552147,"quoteVolume":21.13,"isFrozen":0,"high24hr":1.03,"low24hr":1.01},"THB_OMG":{"id":5,"last":31.07,"lowestAsk":31.2,"highestBid":30.04,"percentChange":-0.38,"baseVolume":3895.26594789,"quoteVolume":122153.5,"isFrozen":0,"high24hr":33.08,"low24hr":30.95},"THB_RDN":{"id":21,"last":20,"lowestAsk":20,"highestBid":0,"percentChange":0,"baseVolume":0.0505,"quoteVolume":1.01,"isFrozen":0,"high24hr":20,"low24hr":20},"THB_SIX":{"id":30,"last":0.81,"lowestAsk":0.84,"highestBid":0.81,"percentChange":-2.41,"baseVolume":478415.39336514,"quoteVolume":409066.39,"isFrozen":0,"high24hr":0.89,"low24hr":0.8},"THB_SNT":{"id":13,"last":0.51,"lowestAsk":0.49,"highestBid":0.44,"percentChange":6.25,"baseVolume":14706.8750612,"quoteVolume":7387.65,"isFrozen":0,"high24hr":0.51,"low24hr":0.44},"THB_STORJ":{"id":26,"last":4.05,"lowestAsk":0,"highestBid":0,"percentChange":0,"baseVolume":17.3728395,"quoteVolume":70.36,"isFrozen":0,"high24hr":4.05,"low24hr":4.05},"THB_USDT":{"id":8,"last":28.95,"lowestAsk":29.95,"highestBid":28.95,"percentChange":-6.58,"baseVolume":24652.12,"quoteVolume":721745.65,"isFrozen":0,"high24hr":30.99,"low24hr":25.01},"THB_WAN":{"id":3,"last":11.8,"lowestAsk":14.5,"highestBid":9,"percentChange":-11.81,"baseVolume":50.46568951,"quoteVolume":601.35,"isFrozen":0,"high24hr":14.5,"low24hr":11.8},"THB_XLM":{"id":29,"last":1.9,"lowestAsk":1.9,"highestBid":1.88,"percentChange":5.56,"baseVolume":6768.97756352,"quoteVolume":12177.3,"isFrozen":0,"high24hr":1.9,"low24hr":1.79},"THB_XRP":{"id":10,"last":7.48,"lowestAsk":7.49,"highestBid":7.46,"percentChange":-0.27,"baseVolume":98489.70168735,"quoteVolume":737049.51,"isFrozen":0,"high24hr":7.84,"low24hr":7},"THB_ZIL":{"id":12,"last":0.68,"lowestAsk":0.68,"highestBid":0.29,"percentChange":0,"baseVolume":19.72058823,"quoteVolume":13.41,"isFrozen":0,"high24hr":0.68,"low24hr":0.68},"THB_ZRX":{"id":18,"last":5.4,"lowestAsk":5.4,"highestBid":5,"percentChange":5.88,"baseVolume":9.44259259,"quoteVolume":48.29,"isFrozen":0,"high24hr":5.4,"low24hr":5.1}}
+
+        '
+    headers:
+      CF-RAY:
+      - 51065d387a39c8cb-BKK
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=UTF-8;
+      Date:
+      - Tue, 03 Sep 2019 08:30:52 GMT
+      Expect-CT:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Set-Cookie:
+      - __cfduid=d7a3434515a5691d5a22a2215c625f84b1567499452; expires=Wed, 02-Sep-20
+        08:30:52 GMT; path=/; domain=.bitkub.com; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=2592000; includeSubDomains; preload
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '5293'
+    status:
+      code: 200
+      message: OK
+version: 1

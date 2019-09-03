@@ -98,7 +98,7 @@ class Rate(BaseObject):
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
     modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
 
-    exchange = orm.relationship('Exchange')
+    exchange = orm.relationship('Exchange')  # TODO: on all relations cascade = "all, delete, delete-orphan"
     from_currency = orm.relationship('Currency', foreign_keys=[from_currency_id])
     to_currency = orm.relationship('Currency', foreign_keys=[to_currency_id])
 
