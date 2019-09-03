@@ -2,35 +2,62 @@ interactions:
 - request:
     body: null
     headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      User-Agent: [python-requests/2.21.0]
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.22.0
     method: GET
     uri: https://api.bitfinex.com/v1/symbols
   response:
-    body: {string: '["btcusd","ltcusd","ltcbtc","ethusd","ethbtc","etcbtc","etcusd","rrtusd","rrtbtc","zecusd","zecbtc","xmrusd","xmrbtc","dshusd","dshbtc","btceur","btcjpy","xrpusd","xrpbtc","iotusd","iotbtc","ioteth","eosusd","eosbtc","eoseth","sanusd","sanbtc","saneth","omgusd","omgbtc","omgeth","neousd","neobtc","neoeth","etpusd","etpbtc","etpeth","qtmusd","qtmbtc","qtmeth","avtusd","avtbtc","avteth","edousd","edobtc","edoeth","btgusd","btgbtc","datusd","datbtc","dateth","qshusd","qshbtc","qsheth","yywusd","yywbtc","yyweth","gntusd","gntbtc","gnteth","sntusd","sntbtc","snteth","ioteur","batusd","batbtc","bateth","mnausd","mnabtc","mnaeth","funusd","funbtc","funeth","zrxusd","zrxbtc","zrxeth","tnbusd","tnbbtc","tnbeth","spkusd","spkbtc","spketh","trxusd","trxbtc","trxeth","rcnusd","rcnbtc","rcneth","rlcusd","rlcbtc","rlceth","aidusd","aidbtc","aideth","sngusd","sngbtc","sngeth","repusd","repbtc","repeth","elfusd","elfbtc","elfeth","btcgbp","etheur","ethjpy","ethgbp","neoeur","neojpy","neogbp","eoseur","eosjpy","eosgbp","iotjpy","iotgbp","iosusd","iosbtc","ioseth","aiousd","aiobtc","aioeth","requsd","reqbtc","reqeth","rdnusd","rdnbtc","rdneth","lrcusd","lrcbtc","lrceth","waxusd","waxbtc","waxeth","daiusd","daibtc","daieth","agiusd","agibtc","agieth","bftusd","bftbtc","bfteth","mtnusd","mtnbtc","mtneth","odeusd","odebtc","odeeth","antusd","antbtc","anteth","dthusd","dthbtc","dtheth","mitusd","mitbtc","miteth","stjusd","stjbtc","stjeth","xlmusd","xlmeur","xlmjpy","xlmgbp","xlmbtc","xlmeth","xvgusd","xvgeur","xvgjpy","xvggbp","xvgbtc","xvgeth","bciusd","bcibtc","mkrusd","mkrbtc","mkreth","kncusd","kncbtc","knceth","poausd","poabtc","poaeth","lymusd","lymbtc","lymeth","utkusd","utkbtc","utketh","veeusd","veebtc","veeeth","dadusd","dadbtc","dadeth","orsusd","orsbtc","orseth","aucusd","aucbtc","auceth","poyusd","poybtc","poyeth","fsnusd","fsnbtc","fsneth","cbtusd","cbtbtc","cbteth","zcnusd","zcnbtc","zcneth","senusd","senbtc","seneth","ncausd","ncabtc","ncaeth","cndusd","cndbtc","cndeth","ctxusd","ctxbtc","ctxeth","paiusd","paibtc","seeusd","seebtc","seeeth","essusd","essbtc","esseth","atmusd","atmbtc","atmeth","hotusd","hotbtc","hoteth","dtausd","dtabtc","dtaeth","iqxusd","iqxbtc","iqxeos","wprusd","wprbtc","wpreth","zilusd","zilbtc","zileth","bntusd","bntbtc","bnteth","absusd","abseth","xrausd","xraeth","manusd","maneth","bbnusd","bbneth","niousd","nioeth","dgxusd","dgxeth","vetusd","vetbtc","veteth","utnusd","utneth","tknusd","tkneth","gotusd","goteur","goteth","xtzusd","xtzbtc","cnnusd","cnneth","boxusd","boxeth","trxeur","trxgbp","trxjpy","mgousd","mgoeth","rteusd","rteeth","yggusd","yggeth","mlnusd","mlneth","wtcusd","wtceth","csxusd","csxeth","omnusd","omnbtc","intusd","inteth","drnusd","drneth","pnkusd","pnketh","dgbusd","dgbbtc","bsvusd","bsvbtc","babusd","babbtc","wlousd","wloxlm","vldusd","vldeth","enjusd","enjeth","onlusd","onleth","rbtusd","rbtbtc","ustusd","euteur","eutusd","gsdusd","udcusd","tsdusd","paxusd","rifusd","rifbtc","pasusd","paseth","vsyusd","vsybtc","zrxdai","mkrdai","omgdai","bttusd","bttbtc"]'}
+    body:
+      string: '["btcusd","ltcusd","ltcbtc","ethusd","ethbtc","etcbtc","etcusd","rrtusd","rrtbtc","zecusd","zecbtc","xmrusd","xmrbtc","dshusd","dshbtc","btceur","btcjpy","xrpusd","xrpbtc","iotusd","iotbtc","ioteth","eosusd","eosbtc","eoseth","sanusd","sanbtc","saneth","omgusd","omgbtc","omgeth","neousd","neobtc","neoeth","etpusd","etpbtc","etpeth","qtmusd","qtmbtc","qtmeth","avtusd","avtbtc","avteth","edousd","edobtc","edoeth","btgusd","btgbtc","datusd","datbtc","dateth","qshusd","qshbtc","qsheth","yywusd","yywbtc","yyweth","gntusd","gntbtc","gnteth","sntusd","sntbtc","snteth","ioteur","batusd","batbtc","bateth","mnausd","mnabtc","mnaeth","funusd","funbtc","funeth","zrxusd","zrxbtc","zrxeth","tnbusd","tnbbtc","tnbeth","spkusd","spkbtc","spketh","trxusd","trxbtc","trxeth","rcnusd","rcnbtc","rcneth","rlcusd","rlcbtc","rlceth","aidusd","aidbtc","aideth","sngusd","sngbtc","sngeth","repusd","repbtc","repeth","elfusd","elfbtc","elfeth","necusd","necbtc","neceth","btcgbp","etheur","ethjpy","ethgbp","neoeur","neojpy","neogbp","eoseur","eosjpy","eosgbp","iotjpy","iotgbp","iosusd","iosbtc","ioseth","aiousd","aiobtc","aioeth","requsd","reqbtc","reqeth","rdnusd","rdnbtc","rdneth","lrcusd","lrcbtc","lrceth","waxusd","waxbtc","waxeth","daiusd","daibtc","daieth","agiusd","agibtc","agieth","bftusd","bftbtc","bfteth","mtnusd","mtnbtc","mtneth","odeusd","odebtc","odeeth","antusd","antbtc","anteth","dthusd","dthbtc","dtheth","mitusd","mitbtc","miteth","stjusd","stjbtc","stjeth","xlmusd","xlmeur","xlmjpy","xlmgbp","xlmbtc","xlmeth","xvgusd","xvgeur","xvgjpy","xvggbp","xvgbtc","xvgeth","bciusd","bcibtc","mkrusd","mkrbtc","mkreth","kncusd","kncbtc","knceth","poausd","poabtc","poaeth","evtusd","lymusd","lymbtc","lymeth","utkusd","utkbtc","utketh","veeusd","veebtc","veeeth","dadusd","dadbtc","dadeth","orsusd","orsbtc","orseth","aucusd","aucbtc","auceth","poyusd","poybtc","poyeth","fsnusd","fsnbtc","fsneth","cbtusd","cbtbtc","cbteth","zcnusd","zcnbtc","zcneth","senusd","senbtc","seneth","ncausd","ncabtc","ncaeth","cndusd","cndbtc","cndeth","ctxusd","ctxbtc","ctxeth","paiusd","paibtc","seeusd","seebtc","seeeth","essusd","essbtc","esseth","atmusd","atmbtc","atmeth","hotusd","hotbtc","hoteth","dtausd","dtabtc","dtaeth","iqxusd","iqxbtc","iqxeos","wprusd","wprbtc","wpreth","zilusd","zilbtc","zileth","bntusd","bntbtc","bnteth","absusd","abseth","xrausd","xraeth","manusd","maneth","bbnusd","bbneth","niousd","nioeth","dgxusd","dgxeth","vetusd","vetbtc","veteth","utnusd","utneth","tknusd","tkneth","gotusd","goteur","goteth","xtzusd","xtzbtc","cnnusd","cnneth","boxusd","boxeth","trxeur","trxgbp","trxjpy","mgousd","mgoeth","rteusd","rteeth","yggusd","yggeth","mlnusd","mlneth","wtcusd","wtceth","csxusd","csxeth","omnusd","omnbtc","intusd","inteth","drnusd","drneth","pnkusd","pnketh","dgbusd","dgbbtc","bsvusd","bsvbtc","babusd","babbtc","wlousd","wloxlm","vldusd","vldeth","enjusd","enjeth","onlusd","onleth","rbtusd","rbtbtc","ustusd","euteur","eutusd","gsdusd","udcusd","tsdusd","paxusd","rifusd","rifbtc","pasusd","paseth","vsyusd","vsybtc","zrxdai","mkrdai","omgdai","bttusd","bttbtc","btcust","ethust","clousd","clobtc","impusd","impeth","ltcust","eosust","babust","scrusd","screth","gnousd","gnoeth","genusd","geneth","atousd","atobtc","atoeth","wbtusd","xchusd","eususd","wbteth","xcheth","euseth","leousd","leobtc","leoust","leoeos","leoeth","astusd","asteth","foausd","foaeth","ufrusd","ufreth","zbtusd","zbtust","okbusd","uskusd","gtxusd","kanusd","okbust","okbeth","okbbtc","uskust","usketh","uskbtc","uskeos","gtxust","kanust","ampusd","algusd","algbtc","algust","btcxch","swmusd","swmeth","triusd","trieth","loousd","looeth","ampust","dusk:usd","dusk:btc","uosusd","uosbtc","rrbusd","rrbust","dtxusd","dtxust","ampbtc","fttusd","fttust","paxust","udcust","tsdust","btcf0:ustf0","ethf0:ustf0"]'
     headers:
-      CF-RAY: [4b4caa3c8df7c8c9-BKK]
-      Cache-Control: ['max-age=0, private, must-revalidate']
-      Connection: [keep-alive]
-      Content-Type: [application/json; charset=utf-8]
-      Date: ['Sat, 09 Mar 2019 11:21:22 GMT']
-      ETag: [W/"f1653a629945492e3f044f55f5b45226"]
-      Expect-CT: ['max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"']
-      Server: [cloudflare]
-      Set-Cookie: ['__cfduid=d53ed1a3af17deb2e3b4c9164c0ee18a21552130482; expires=Sun,
-          08-Mar-20 11:21:22 GMT; path=/; domain=.bitfinex.com; HttpOnly']
-      Strict-Transport-Security: [max-age=31536000]
-      Transfer-Encoding: [chunked]
-      Vary: [Accept-Encoding]
-      X-Content-Type-Options: [nosniff]
-      X-Download-Options: [noopen]
-      X-Frame-Options: [SAMEORIGIN]
-      X-Permitted-Cross-Domain-Policies: [none]
-      X-Request-Id: [a89439f1-8a96-4489-b262-6315cf9e67d9]
-      X-Runtime: ['0.005044']
-      X-XSS-Protection: [1; mode=block]
-      content-length: ['3052']
-    status: {code: 200, message: OK}
+      CF-RAY:
+      - 5106c22a4c25c8db-BKK
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 03 Sep 2019 09:39:47 GMT
+      ETag:
+      - W/"3d07bb6eb164c55934d76fa822ad5388"
+      Expect-CT:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Set-Cookie:
+      - __cfduid=d40cdffc1efe93b81373e6734f1cbdd5c1567503586; expires=Wed, 02-Sep-20
+        09:39:46 GMT; path=/; domain=.bitfinex.com; HttpOnly
+      Strict-Transport-Security:
+      - max-age=31536000
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 0e19b58e-ed58-434f-98b6-64425e2d72cc
+      X-Runtime:
+      - '0.003964'
+      X-XSS-Protection:
+      - 1; mode=block
+      content-length:
+      - '3804'
+    status:
+      code: 200
+      message: OK
 version: 1

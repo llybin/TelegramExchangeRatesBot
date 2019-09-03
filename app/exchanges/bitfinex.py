@@ -48,10 +48,10 @@ class BitfinexExchange(Exchange):
         for x in self._get_pairs:
             x = x.upper()
 
-            from_currency, to_currency = x[:3], x[3:]
-
-            if len(to_currency) != 3:
-                raise APIChangedException('Not only 3-symbol currency')
+            if ':' in x:
+                from_currency, to_currency = x.split(':')
+            else:
+                from_currency, to_currency = x[:3], x[3:]
 
             pairs.add(Pair(ECurrency(from_currency), ECurrency(to_currency)))
 

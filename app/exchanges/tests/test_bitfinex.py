@@ -24,14 +24,14 @@ class BitfinexTest(SimpleTestCase):
     @my_vcr.use_cassette('symbols_200')
     def test_list_currencies(self):
         currencies = BitfinexExchange().list_currencies
-        self.assertEqual(len(currencies), 127)
+        self.assertEqual(len(currencies), 160)
         self.assertTrue(ECurrency(code='BTC') in currencies)
         self.assertTrue(ECurrency(code='USD') in currencies)
 
     @my_vcr.use_cassette('symbols_200')
     def test_list_pairs(self):
         pairs = BitfinexExchange().list_pairs
-        self.assertEqual(len(pairs), 339)
+        self.assertEqual(len(pairs), 421)
         self.assertTrue(Pair(ECurrency('BTC'), ECurrency('USD')) in pairs)
         self.assertFalse(Pair(ECurrency('USD'), ECurrency('BTC')) in pairs)
 
