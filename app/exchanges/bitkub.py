@@ -67,7 +67,7 @@ class BitkubExchange(Exchange):
 
             if not info['lowestAsk'] or not info['highestBid']:
                 if to_currency in all_currency_codes and from_currency in all_currency_codes:
-                    logging.warning('Bitkub no Bid Ask: %s', info)
+                    logging.info('Bitkub no Bid Ask: %s', info)
                 continue
 
             result[Pair(ECurrency(from_currency), ECurrency(to_currency))] = info
