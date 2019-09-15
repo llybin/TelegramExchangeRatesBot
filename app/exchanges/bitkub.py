@@ -48,7 +48,7 @@ class BitkubExchange(Exchange):
                             "high24hr",
                         ]
                     },
-                    "not": {"required": [""]}
+                    "not": {"required": ["error", ""]}
                 },
             }
             validate(data, schema)

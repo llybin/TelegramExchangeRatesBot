@@ -1,5 +1,14 @@
 # CHANGES
 
+## 1.5
+*   bumped python packages
+*   removed [bx.in.th](https://bx.in.th/ref/s9c3HU/) exchanger, reason: closed
+*   added new Thailand [bitkub.com](https://www.bitkub.com/signup?ref=64572) exchanger
+*   bug fixes
+*   updated translations
+*   inline mode
+*   other improvements
+
 ## 1.4
 *   upgrade python-telegram-bot = "==12.0.0b1"
 *   settings keyboard size

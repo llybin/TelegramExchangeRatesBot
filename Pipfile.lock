@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "26af98d43f8718f608df18eb28d53e938d559724a827e2820db656df3582e375"
+            "sha256": "6515c398538a47c96c80aee9b212b829498085a687eaa5fb5383eb2143562185"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -96,10 +96,10 @@
         },
         "certifi": {
             "hashes": [
-                "sha256:046832c04d4e752f37383b628bc601a7ea7211496b4638f6514d0e5b9acc4939",
-                "sha256:945e3ba63a0b9f577b1395204e13c3a231f9bc0223888be653286534e5873695"
+                "sha256:e4f3620cfea4f83eedc95b24abd9cd56f3c4b146dd0177e83a21b4eb49e21e50",
+                "sha256:fd7c7c74727ddcf00e9acd26bba8da604ffec95bf1c2144e67aff7a8b50e6cef"
             ],
-            "version": "==2019.6.16"
+            "version": "==2019.9.11"
         },
         "cffi": {
             "hashes": [
@@ -199,10 +199,10 @@
         },
         "importlib-metadata": {
             "hashes": [
-                "sha256:9ff1b1c5a354142de080b8a4e9803e5d0d59283c93aed808617c787d16768375",
-                "sha256:b7143592e374e50584564794fcb8aaf00a23025f9db866627f89a21491847a8d"
+                "sha256:652234b6ab8f2506ae58e528b6fbcc668831d3cc758e1bc01ef438d328b68cdb",
+                "sha256:6f264986fb88042bc1f0535fa9a557e6a376cfe5679dc77caac7fe8b5d43d05f"
             ],
-            "version": "==0.20"
+            "version": "==0.22"
         },
         "jsonschema": {
             "hashes": [
@@ -336,11 +336,11 @@
         },
         "python-telegram-bot": {
             "hashes": [
-                "sha256:272f288ddb00e4b8b5951feb7e08d345ced50728a6c612103248772ea2e5fec7",
-                "sha256:7851c54a9bfe65f7f07e4f9eb4fec39a31953041816d63b3734c8d69dfbfa0fa"
+                "sha256:7319de07afd5e9f64e408a7c85eaa74945270bb55593150db9d404854c065928",
+                "sha256:96790cb520898fcbf01536f9d1387096e611722aa9d0770b7b28bed873855e96"
             ],
             "index": "pypi",
-            "version": "==12.0.0"
+            "version": "==12.1.0"
         },
         "pytz": {
             "hashes": [
