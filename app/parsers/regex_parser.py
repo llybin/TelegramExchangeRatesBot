@@ -26,36 +26,35 @@ from babel.numbers import get_decimal_symbol, get_group_symbol
 
 from app.constants import BIGGEST_VALUE
 from app.queries import get_all_currency_codes
-from .base import (
-    DirectionWriting,
-    PriceRequest,
-    Parser,
-)
-from .exceptions import WrongFormatException, UnknownCurrencyException
 
-CURRENCY_SEPARATORS_LIST = (r'\s', ' to ', ' in ', '=', ' = ')
-CURRENCY_SEPARATORS_STR = '|'.join(CURRENCY_SEPARATORS_LIST)
+from .base import DirectionWriting, Parser, PriceRequest
+from .exceptions import UnknownCurrencyException, WrongFormatException
+
+CURRENCY_SEPARATORS_LIST = (r"\s", " to ", " in ", "=", " = ")
+CURRENCY_SEPARATORS_STR = "|".join(CURRENCY_SEPARATORS_LIST)
 
 # len("123,456,789,012.123456789012") == 28
-AMOUNT_PATTERN = r'[\d\.,\'\s]{1,28}'
+AMOUNT_PATTERN = r"[\d\.,\'\s]{1,28}"
 
-REQUEST_PATTERN = r'^' \
-                  r'(%(amount)s)?' \
-                  r'\s?' \
-                  r'(' \
-                  r'[a-zA-Z]{2,6}' \
-                  r'((%(sep)s)?' \
-                  r'[a-zA-Z]{2,6})' \
-                  r'?)' \
-                  r'\s?' \
-                  r'(%(amount)s)?' \
-                  r'$' % {'sep': CURRENCY_SEPARATORS_STR, 'amount': AMOUNT_PATTERN}
+REQUEST_PATTERN = (
+    r"^"
+    r"(%(amount)s)?"
+    r"\s?"
+    r"("
+    r"[a-zA-Z]{2,6}"
+    r"((%(sep)s)?"
+    r"[a-zA-Z]{2,6})"
+    r"?)"
+    r"\s?"
+    r"(%(amount)s)?"
+    r"$" % {"sep": CURRENCY_SEPARATORS_STR, "amount": AMOUNT_PATTERN}
+)
 
 REQUEST_PATTERN_COMPILED = re.compile(REQUEST_PATTERN, re.IGNORECASE)
 
 #                               # usd eur | 100 usd eur | 100.22 usd eur | eur usd 100.33
-PRICE_REQUEST_LEFT_AMOUNT = 0   # None    | 100         | 100.22         | None
-PRICE_REQUEST_CURRENCIES = 1    # usd eur | usd eur     | usd eur        | eur usd
+PRICE_REQUEST_LEFT_AMOUNT = 0  # None    | 100         | 100.22         | None
+PRICE_REQUEST_CURRENCIES = 1  # usd eur | usd eur     | usd eur        | eur usd
 PRICE_REQUEST_RIGHT_AMOUNT = 4  # None    | None        | None           | 100.33
 
 
@@ -64,12 +63,12 @@ def parse_decimal(string, locale):
     locale = Locale.parse(locale)
     decimal_symbol = get_decimal_symbol(locale)
     group_symbol = get_group_symbol(locale)
-    group_symbol = ' ' if group_symbol == '\xa0' else group_symbol
-    return Decimal(string.replace(group_symbol, '').replace(decimal_symbol, '.'))
+    group_symbol = " " if group_symbol == "\xa0" else group_symbol
+    return Decimal(string.replace(group_symbol, "").replace(decimal_symbol, "."))
 
 
 def parse_amount(text: str, locale: str) -> Decimal:
-    locales = [locale, 'en', 'ru', 'de']
+    locales = [locale, "en", "ru", "de"]
     for l in locales:
         try:
             number = parse_decimal(text, locale=l)
@@ -84,7 +83,7 @@ def parse_amount(text: str, locale: str) -> Decimal:
 
 
 class RegexParser(Parser):
-    name = 'RegexParser'
+    name = "RegexParser"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -96,7 +95,7 @@ class RegexParser(Parser):
 
     @staticmethod
     def split_currencies(text: str) -> list:
-        default_sep = ' '
+        default_sep = " "
 
         for s in CURRENCY_SEPARATORS_LIST[1:]:
             text = text.replace(s.upper(), default_sep)
@@ -136,7 +135,9 @@ class RegexParser(Parser):
 
         if len(currencies) == 2:
             currency, to_currency = currencies[0], currencies[1]
-            if not self.is_currency_recognized(currency) or not self.is_currency_recognized(to_currency):
+            if not self.is_currency_recognized(
+                currency
+            ) or not self.is_currency_recognized(to_currency):
                 raise UnknownCurrencyException
 
         elif len(currencies) == 1 and self.is_currency_recognized(currencies[0]):
@@ -152,7 +153,9 @@ class RegexParser(Parser):
             currencies = currencies[0]
             for x in range(2, len(currencies) - 1):
                 currency, to_currency = currencies[:x], currencies[x:]
-                if self.is_currency_recognized(currency) and self.is_currency_recognized(to_currency):
+                if self.is_currency_recognized(
+                    currency
+                ) and self.is_currency_recognized(to_currency):
                     break
             else:
                 raise WrongFormatException

@@ -5,19 +5,19 @@ Revises: 20190326060130
 Create Date: 2019-03-26 08:36:25.229520
 
 """
-from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.orm.session import Session
+from alembic import op
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm.session import Session
 
 
 class BxInThExchange:
-    name = '[bx.in.th](https://bx.in.th/ref/s9c3HU/)'
+    name = "[bx.in.th](https://bx.in.th/ref/s9c3HU/)"
 
 
 # revision identifiers, used by Alembic.
-revision = '20190326083625'
-down_revision = '20190326060130'
+revision = "20190326083625"
+down_revision = "20190326060130"
 branch_labels = None
 depends_on = None
 
@@ -25,7 +25,7 @@ Base = declarative_base()
 
 
 class Exchange(Base):
-    __tablename__ = 'exchanges'
+    __tablename__ = "exchanges"
 
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.Text, nullable=False, index=True)

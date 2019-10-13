@@ -1,35 +1,33 @@
 import logging
 
-from telegram import Update, ReplyKeyboardRemove, ReplyKeyboardMarkup
-from telegram.ext import (
-    CallbackContext,
-    Updater,
-    CommandHandler,
-    MessageHandler,
-    Filters,
-    ConversationHandler,
-    InlineQueryHandler,
-    ChosenInlineResultHandler,
-)
 from sqlalchemy import create_engine
-from suite.database import init_sqlalchemy
-from suite.conf import settings
 
-from app.decorators import register_update
-from app.logic import get_keyboard
-from app.sentry import init_sentry
-from app.translations import init_translations
-
+from app.callbacks import personal_settings, price
 from app.callbacks.currencies import currencies_callback
 from app.callbacks.disclaimers import disclaimers_callback
 from app.callbacks.feedback import feedback_callback, send_feedback_callback
 from app.callbacks.help import help_callback
-from app.callbacks import price
-from app.callbacks import personal_settings
 from app.callbacks.sources import sources_callback
 from app.callbacks.start import start_callback
 from app.callbacks.stop import stop_callback
 from app.callbacks.tutorial import tutorial_callback
+from app.decorators import register_update
+from app.logic import get_keyboard
+from app.sentry import init_sentry
+from app.translations import init_translations
+from suite.conf import settings
+from suite.database import init_sqlalchemy
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
+from telegram.ext import (
+    CallbackContext,
+    ChosenInlineResultHandler,
+    CommandHandler,
+    ConversationHandler,
+    Filters,
+    InlineQueryHandler,
+    MessageHandler,
+    Updater,
+)
 
 
 @register_update
@@ -37,8 +35,11 @@ def cancel_callback(update: Update, context: CallbackContext, chat_info: dict):
     keyboard = get_keyboard(update.message.chat_id)
 
     update.message.reply_text(
-        reply_markup=ReplyKeyboardMarkup(keyboard) if keyboard else ReplyKeyboardRemove(),
-        text='👌')
+        reply_markup=ReplyKeyboardMarkup(keyboard)
+        if keyboard
+        else ReplyKeyboardRemove(),
+        text="👌",
+    )
 
     return ConversationHandler.END
 
@@ -50,7 +51,7 @@ def error_callback(update: Update, context: CallbackContext):
 def main():
     init_sentry()
 
-    db_engine = create_engine(settings.DATABASE['url'])
+    db_engine = create_engine(settings.DATABASE["url"])
     init_sqlalchemy(db_engine)
 
     init_translations()
@@ -61,59 +62,115 @@ def main():
 
     feedback_handler = ConversationHandler(
         entry_points=[CommandHandler("feedback", feedback_callback)],
-        states={
-            1: [MessageHandler(Filters.text, send_feedback_callback)]
-        },
-        fallbacks=[CommandHandler("nothing", cancel_callback)]
+        states={1: [MessageHandler(Filters.text, send_feedback_callback)]},
+        fallbacks=[CommandHandler("nothing", cancel_callback)],
     )
 
     dp.add_handler(feedback_handler)
 
     settings_handler = ConversationHandler(
-        entry_points=[CommandHandler("settings", personal_settings.main.settings_callback)],
+        entry_points=[
+            CommandHandler("settings", personal_settings.main.settings_callback)
+        ],
         states={
             personal_settings.SettingsSteps.main: [
                 MessageHandler(Filters.regex(r"^↩️"), cancel_callback),
-                MessageHandler(Filters.regex(r"^1. "), personal_settings.language.menu_callback),
-                MessageHandler(Filters.regex(r"^2. "), personal_settings.default_currency.menu_callback),
-                MessageHandler(Filters.regex(r"^3. "), personal_settings.default_currency_position.menu_callback),
-                MessageHandler(Filters.regex(r"^4. "), personal_settings.onscreen_menu.menu_callback),
+                MessageHandler(
+                    Filters.regex(r"^1. "), personal_settings.language.menu_callback
+                ),
+                MessageHandler(
+                    Filters.regex(r"^2. "),
+                    personal_settings.default_currency.menu_callback,
+                ),
+                MessageHandler(
+                    Filters.regex(r"^3. "),
+                    personal_settings.default_currency_position.menu_callback,
+                ),
+                MessageHandler(
+                    Filters.regex(r"^4. "),
+                    personal_settings.onscreen_menu.menu_callback,
+                ),
             ],
             personal_settings.SettingsSteps.language: [
-                MessageHandler(Filters.regex(r"^↩️"), personal_settings.main.settings_callback),
+                MessageHandler(
+                    Filters.regex(r"^↩️"), personal_settings.main.settings_callback
+                ),
                 MessageHandler(Filters.text, personal_settings.language.set_callback),
             ],
             personal_settings.SettingsSteps.default_currency: [
-                MessageHandler(Filters.regex(r"^↩️"), personal_settings.main.settings_callback),
-                MessageHandler(Filters.text, personal_settings.default_currency.set_callback),
+                MessageHandler(
+                    Filters.regex(r"^↩️"), personal_settings.main.settings_callback
+                ),
+                MessageHandler(
+                    Filters.text, personal_settings.default_currency.set_callback
+                ),
             ],
             personal_settings.SettingsSteps.default_currency_position: [
-                MessageHandler(Filters.regex(r"^↩️"), personal_settings.main.settings_callback),
-                MessageHandler(Filters.text, personal_settings.default_currency_position.set_command),
+                MessageHandler(
+                    Filters.regex(r"^↩️"), personal_settings.main.settings_callback
+                ),
+                MessageHandler(
+                    Filters.text,
+                    personal_settings.default_currency_position.set_command,
+                ),
             ],
             personal_settings.SettingsSteps.onscreen_menu: [
-                MessageHandler(Filters.regex(r"^↩️"), personal_settings.main.settings_callback),
-                MessageHandler(Filters.regex(r"^1. "), personal_settings.onscreen_menu.visibility_callback),
-                MessageHandler(Filters.regex(r"^2. "), personal_settings.onscreen_menu.size_callback),
-                MessageHandler(Filters.regex(r"^3. "), personal_settings.onscreen_menu.edit_history_callback),
+                MessageHandler(
+                    Filters.regex(r"^↩️"), personal_settings.main.settings_callback
+                ),
+                MessageHandler(
+                    Filters.regex(r"^1. "),
+                    personal_settings.onscreen_menu.visibility_callback,
+                ),
+                MessageHandler(
+                    Filters.regex(r"^2. "),
+                    personal_settings.onscreen_menu.size_callback,
+                ),
+                MessageHandler(
+                    Filters.regex(r"^3. "),
+                    personal_settings.onscreen_menu.edit_history_callback,
+                ),
             ],
             personal_settings.SettingsSteps.onscreen_menu_visibility: [
-                MessageHandler(Filters.regex(r"^↩️"), personal_settings.onscreen_menu.menu_callback),
-                MessageHandler(Filters.regex(r"^1. "), personal_settings.onscreen_menu.visibility_set_true_callback),
-                MessageHandler(Filters.regex(r"^2. "), personal_settings.onscreen_menu.visibility_set_false_callback),
+                MessageHandler(
+                    Filters.regex(r"^↩️"), personal_settings.onscreen_menu.menu_callback
+                ),
+                MessageHandler(
+                    Filters.regex(r"^1. "),
+                    personal_settings.onscreen_menu.visibility_set_true_callback,
+                ),
+                MessageHandler(
+                    Filters.regex(r"^2. "),
+                    personal_settings.onscreen_menu.visibility_set_false_callback,
+                ),
             ],
             personal_settings.SettingsSteps.onscreen_menu_edit_history: [
-                MessageHandler(Filters.regex(r"^↩️"), personal_settings.onscreen_menu.menu_callback),
-                MessageHandler(Filters.regex(r"^🅾️"), personal_settings.onscreen_menu.edit_history_delete_old_callback),
-                MessageHandler(Filters.regex(r"^🆑"), personal_settings.onscreen_menu.edit_history_delete_all_callback),
-                MessageHandler(Filters.regex(r"^❌"), personal_settings.onscreen_menu.edit_history_delete_one_callback),
+                MessageHandler(
+                    Filters.regex(r"^↩️"), personal_settings.onscreen_menu.menu_callback
+                ),
+                MessageHandler(
+                    Filters.regex(r"^🅾️"),
+                    personal_settings.onscreen_menu.edit_history_delete_old_callback,
+                ),
+                MessageHandler(
+                    Filters.regex(r"^🆑"),
+                    personal_settings.onscreen_menu.edit_history_delete_all_callback,
+                ),
+                MessageHandler(
+                    Filters.regex(r"^❌"),
+                    personal_settings.onscreen_menu.edit_history_delete_one_callback,
+                ),
             ],
             personal_settings.SettingsSteps.onscreen_menu_size: [
-                MessageHandler(Filters.regex(r"^↩️"), personal_settings.onscreen_menu.menu_callback),
-                MessageHandler(Filters.text, personal_settings.onscreen_menu.set_size_callback),
+                MessageHandler(
+                    Filters.regex(r"^↩️"), personal_settings.onscreen_menu.menu_callback
+                ),
+                MessageHandler(
+                    Filters.text, personal_settings.onscreen_menu.set_size_callback
+                ),
             ],
         },
-        fallbacks=[CommandHandler("cancel", cancel_callback)]
+        fallbacks=[CommandHandler("cancel", cancel_callback)],
     )
 
     dp.add_handler(settings_handler)
@@ -148,5 +205,5 @@ def main():
     updater.idle()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

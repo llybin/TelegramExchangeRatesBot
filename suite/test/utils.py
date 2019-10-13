@@ -20,6 +20,7 @@ class TestContextDecorator:
     `kwarg_name`: keyword argument passing the return value of enable() if
                   used as a function decorator.
     """
+
     def __init__(self, attr_name=None, kwarg_name=None):
         self.attr_name = attr_name
         self.kwarg_name = kwarg_name
@@ -54,7 +55,7 @@ class TestContextDecorator:
             cls.setUp = setUp
             cls.tearDown = tearDown
             return cls
-        raise TypeError('Can only decorate subclasses of unittest.TestCase')
+        raise TypeError("Can only decorate subclasses of unittest.TestCase")
 
     def decorate_callable(self, func):
         @wraps(func)
@@ -63,6 +64,7 @@ class TestContextDecorator:
                 if self.kwarg_name:
                     kwargs[self.kwarg_name] = context
                 return func(*args, **kwargs)
+
         return inner
 
     def __call__(self, decorated):
@@ -70,7 +72,7 @@ class TestContextDecorator:
             return self.decorate_class(decorated)
         elif callable(decorated):
             return self.decorate_callable(decorated)
-        raise TypeError('Cannot decorate object of type %s' % type(decorated))
+        raise TypeError("Cannot decorate object of type %s" % type(decorated))
 
 
 class override_settings(TestContextDecorator):
@@ -80,6 +82,7 @@ class override_settings(TestContextDecorator):
     with the ``with`` statement. In either event, entering/exiting are called
     before and after, respectively, the function/block is executed.
     """
+
     def __init__(self, **kwargs):
         self.options = kwargs
         super().__init__()
@@ -107,10 +110,12 @@ class override_settings(TestContextDecorator):
 
     def decorate_class(self, cls):
         from suite.test.testcases import SimpleTestCase
+
         if not issubclass(cls, SimpleTestCase):
             raise ValueError(
                 "Only subclasses of Django SimpleTestCase can be decorated "
-                "with override_settings")
+                "with override_settings"
+            )
         self.save_options(cls)
         return cls
 
@@ -120,6 +125,7 @@ class modify_settings(override_settings):
     Like override_settings, but makes it possible to append, prepend, or remove
     items instead of redefining the entire list.
     """
+
     def __init__(self, *args, **kwargs):
         if args:
             # Hack used when instantiating from SimpleTestCase.setUpClass.
@@ -135,8 +141,9 @@ class modify_settings(override_settings):
             test_func._modified_settings = self.operations
         else:
             # Duplicate list to prevent subclasses from altering their parent.
-            test_func._modified_settings = list(
-                test_func._modified_settings) + self.operations
+            test_func._modified_settings = (
+                list(test_func._modified_settings) + self.operations
+            )
 
     def enable(self):
         self.options = {}
@@ -151,11 +158,11 @@ class modify_settings(override_settings):
                 # items my be a single value or an iterable.
                 if isinstance(items, str):
                     items = [items]
-                if action == 'append':
+                if action == "append":
                     value = value + [item for item in items if item not in value]
-                elif action == 'prepend':
+                elif action == "prepend":
                     value = [item for item in items if item not in value] + value
-                elif action == 'remove':
+                elif action == "remove":
                     value = [item for item in value if item not in items]
                 else:
                     raise ValueError("Unsupported action: %s" % action)

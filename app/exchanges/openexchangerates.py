@@ -4,11 +4,17 @@ from typing import Tuple
 
 import requests
 from cached_property import cached_property
-from jsonschema import validate, ValidationError
+from jsonschema import ValidationError, validate
+
 from suite.conf import settings
 
-from .base import Exchange, PairData, Pair, ECurrency
-from .exceptions import PairNotExistsException, APIErrorException, NoTokenException, APIChangedException
+from .base import ECurrency, Exchange, Pair, PairData
+from .exceptions import (
+    APIChangedException,
+    APIErrorException,
+    NoTokenException,
+    PairNotExistsException,
+)
 
 
 class OpenExchangeRatesExchange(Exchange):
@@ -17,7 +23,8 @@ class OpenExchangeRatesExchange(Exchange):
 
     Free Plan provides hourly updates up to 1,000 requests/month.
     """
-    name = 'OpenExchangeRates'
+
+    name = "OpenExchangeRates"
 
     @cached_property
     def _get_data(self) -> dict:
@@ -26,7 +33,8 @@ class OpenExchangeRatesExchange(Exchange):
 
         try:
             response = requests.get(
-                f'http://openexchangerates.org/api/latest.json?app_id={settings.OPENEXCHANGERATES_TOKEN}')
+                f"http://openexchangerates.org/api/latest.json?app_id={settings.OPENEXCHANGERATES_TOKEN}"
+            )
             response.raise_for_status()
             data = response.json()
         except (requests.exceptions.RequestException, ValueError) as e:
@@ -40,40 +48,38 @@ class OpenExchangeRatesExchange(Exchange):
                     "timestamp": {"type": "number"},
                     "rates": {
                         "type": "object",
-                        "patternProperties": {
-                            "^.*$": {"type": "number"},
-                        },
-                        "not": {"required": [""]}
+                        "patternProperties": {"^.*$": {"type": "number"}},
+                        "not": {"required": [""]},
                     },
                 },
-                "required": [
-                    "base",
-                    "timestamp",
-                    "rates",
-                ]
+                "required": ["base", "timestamp", "rates"],
             }
             validate(data, schema)
         except ValidationError as e:
             raise APIErrorException(e)
 
-        if data['base'] != 'USD':
-            raise APIChangedException('Base currency is not USD')
+        if data["base"] != "USD":
+            raise APIChangedException("Base currency is not USD")
 
         return data
 
     @cached_property
     def list_pairs(self) -> Tuple[Pair]:
-        currencies = self._get_data['rates'].keys()
-        base_currency = self._get_data['base'].upper()
+        currencies = self._get_data["rates"].keys()
+        base_currency = self._get_data["base"].upper()
 
-        return tuple(Pair(ECurrency(base_currency), ECurrency(x.upper())) for x in currencies)
+        return tuple(
+            Pair(ECurrency(base_currency), ECurrency(x.upper())) for x in currencies
+        )
 
     @cached_property
     def list_currencies(self) -> Tuple[ECurrency]:
-        currencies = self._get_data['rates'].keys()
-        base_currency = self._get_data['base'].upper()
+        currencies = self._get_data["rates"].keys()
+        base_currency = self._get_data["base"].upper()
 
-        return (ECurrency(base_currency),) + tuple(ECurrency(x.upper()) for x in currencies)
+        return (ECurrency(base_currency),) + tuple(
+            ECurrency(x.upper()) for x in currencies
+        )
 
     def get_pair_info(self, pair: Pair) -> PairData:
         if not self.is_pair_exists(pair):
@@ -81,6 +87,6 @@ class OpenExchangeRatesExchange(Exchange):
 
         return PairData(
             pair=pair,
-            rate=Decimal(str(self._get_data['rates'][pair.to_currency.code])),
-            last_trade_at=datetime.fromtimestamp(self._get_data['timestamp'])
+            rate=Decimal(str(self._get_data["rates"][pair.to_currency.code])),
+            last_trade_at=datetime.fromtimestamp(self._get_data["timestamp"]),
         )

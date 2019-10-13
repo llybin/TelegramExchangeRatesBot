@@ -14,8 +14,9 @@ class KeyboardArrowsTest(unittest.TestCase):
                 [1, 2, 3, 4, 5],
                 [6, 7, 8, 9, 10],
                 [11, 12, 13, 14, 15],
-                [16, 17, 18, 19, '▶']
-            ])
+                [16, 17, 18, 19, "▶"],
+            ],
+        )
 
     def test_ok(self):
         self.assertEqual(
@@ -24,8 +25,9 @@ class KeyboardArrowsTest(unittest.TestCase):
                 [1, 2, 3, 4, 5],
                 [6, 7, 8, 9, 10],
                 [11, 12, 13, 14, 15],
-                [16, 17, 18, 19, '▶']
-            ])
+                [16, 17, 18, 19, "▶"],
+            ],
+        )
 
         self.assertEqual(
             KeyboardArrows(self.data, offset=19).show(),
@@ -33,8 +35,9 @@ class KeyboardArrowsTest(unittest.TestCase):
                 [20, 21, 22, 23, 24],
                 [25, 26, 27, 28, 29],
                 [30, 31, 32, 33, 34],
-                ['◀', 35, 36, 37, '▶']
-            ])
+                ["◀", 35, 36, 37, "▶"],
+            ],
+        )
 
         self.assertEqual(
             KeyboardArrows(self.data, offset=37).show(),
@@ -42,8 +45,9 @@ class KeyboardArrowsTest(unittest.TestCase):
                 [38, 39, 40, 41, 42],
                 [43, 44, 45, 46, 47],
                 [48, 49, 50, 51, 52],
-                ['◀', 53, 54, 55, ' ']
-            ])
+                ["◀", 53, 54, 55, " "],
+            ],
+        )
 
     # def test_empty_data_ok(self):
     #     self.assertEqual(
@@ -73,8 +77,9 @@ class KeyboardArrowsTest(unittest.TestCase):
                 [1, 2, 3, 4, 5],
                 [6, 7, 8, 9, 10],
                 [11, 12, 13, 14, 15],
-                [16, 17, 18, 19, '▶']
-            ])
+                [16, 17, 18, 19, "▶"],
+            ],
+        )
 
         k.next()
 
@@ -84,8 +89,9 @@ class KeyboardArrowsTest(unittest.TestCase):
                 [20, 21, 22, 23, 24],
                 [25, 26, 27, 28, 29],
                 [30, 31, 32, 33, 34],
-                ['◀', 35, 36, 37, '▶']
-            ])
+                ["◀", 35, 36, 37, "▶"],
+            ],
+        )
 
         k.prev()
 
@@ -95,8 +101,9 @@ class KeyboardArrowsTest(unittest.TestCase):
                 [1, 2, 3, 4, 5],
                 [6, 7, 8, 9, 10],
                 [11, 12, 13, 14, 15],
-                [16, 17, 18, 19, '▶']
-            ])
+                [16, 17, 18, 19, "▶"],
+            ],
+        )
 
         k.prev()
 
@@ -106,8 +113,9 @@ class KeyboardArrowsTest(unittest.TestCase):
                 [1, 2, 3, 4, 5],
                 [6, 7, 8, 9, 10],
                 [11, 12, 13, 14, 15],
-                [16, 17, 18, 19, '▶']
-            ])
+                [16, 17, 18, 19, "▶"],
+            ],
+        )
 
         k.next()
 
@@ -117,8 +125,9 @@ class KeyboardArrowsTest(unittest.TestCase):
                 [20, 21, 22, 23, 24],
                 [25, 26, 27, 28, 29],
                 [30, 31, 32, 33, 34],
-                ['◀', 35, 36, 37, '▶']
-            ])
+                ["◀", 35, 36, 37, "▶"],
+            ],
+        )
 
         k.next()
 
@@ -128,8 +137,9 @@ class KeyboardArrowsTest(unittest.TestCase):
                 [38, 39, 40, 41, 42],
                 [43, 44, 45, 46, 47],
                 [48, 49, 50, 51, 52],
-                ['◀', 53, 54, 55, ' ']
-            ])
+                ["◀", 53, 54, 55, " "],
+            ],
+        )
 
         # ?
         # k.next()
@@ -161,10 +171,11 @@ class KeyboardArrowsTest(unittest.TestCase):
             KeyboardArrows(data).show(),
             [
                 [1, 2, 3, 4, 5],
-                [6, ' ', ' ', ' ', ' '],
-                [' ', ' ', ' ', ' ', ' '],
-                [' ', ' ', ' ', ' ', ' ']
-            ])
+                [6, " ", " ", " ", " "],
+                [" ", " ", " ", " ", " "],
+                [" ", " ", " ", " ", " "],
+            ],
+        )
 
     def test_minus_page_ok(self):
         self.assertEqual(
@@ -173,43 +184,32 @@ class KeyboardArrowsTest(unittest.TestCase):
                 [1, 2, 3, 4, 5],
                 [6, 7, 8, 9, 10],
                 [11, 12, 13, 14, 15],
-                [16, 17, 18, 19, '▶']
-            ])
+                [16, 17, 18, 19, "▶"],
+            ],
+        )
 
     def test_over_page_ok(self):
         self.assertEqual(
             KeyboardArrows(self.data, offset=55).show(),
             [
-                [' ', ' ', ' ', ' ', ' '],
-                [' ', ' ', ' ', ' ', ' '],
-                [' ', ' ', ' ', ' ', ' '],
-                ['◀', ' ', ' ', ' ', ' ']
-            ])
+                [" ", " ", " ", " ", " "],
+                [" ", " ", " ", " ", " "],
+                [" ", " ", " ", " ", " "],
+                ["◀", " ", " ", " ", " "],
+            ],
+        )
 
 
 class KeyboardSimpleCleverTest(unittest.TestCase):
     def test_1(self):
-        self.assertEqual(
-            KeyboardSimpleClever([1]).show(),
-            [
-                [1, ' ', ' '],
-            ])
+        self.assertEqual(KeyboardSimpleClever([1]).show(), [[1, " ", " "]])
 
     def test_4(self):
         data = list(range(1, 5))
-        self.assertEqual(
-            KeyboardSimpleClever(data).show(),
-            [
-                [1, 2, 3],
-                [4, ' ', ' '],
-            ])
+        self.assertEqual(KeyboardSimpleClever(data).show(), [[1, 2, 3], [4, " ", " "]])
 
     def test_9(self):
         data = list(range(1, 10))
         self.assertEqual(
-            KeyboardSimpleClever(data).show(),
-            [
-                [1, 2, 3],
-                [4, 5, 6],
-                [7, 8, 9],
-            ])
+            KeyboardSimpleClever(data).show(), [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+        )

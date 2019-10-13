@@ -3,23 +3,31 @@ import logging
 from typing import Type
 
 from sqlalchemy.orm.exc import NoResultFound
-from suite.database import Session
 
-from app.exchanges.base import PairData
 from app.exceptions import CurrencyNotSupportedException
-from app.models import Rate, Currency
+from app.exchanges.base import PairData
+from app.models import Currency, Rate
+from suite.database import Session
 
 
 def import_module(name: str) -> Type:
-    components = name.rsplit('.', 1)
+    components = name.rsplit(".", 1)
     return getattr(importlib.import_module(components[0]), components[1])
 
 
 def rate_from_pair_data(pair_data: PairData, exchange_id: int) -> Rate:
     db_session = Session()
     try:
-        from_currency = db_session.query(Currency).filter_by(is_active=True, code=pair_data.pair.from_currency).one()
-        to_currency = db_session.query(Currency).filter_by(is_active=True, code=pair_data.pair.to_currency).one()
+        from_currency = (
+            db_session.query(Currency)
+            .filter_by(is_active=True, code=pair_data.pair.from_currency)
+            .one()
+        )
+        to_currency = (
+            db_session.query(Currency)
+            .filter_by(is_active=True, code=pair_data.pair.to_currency)
+            .one()
+        )
     except NoResultFound:
         raise CurrencyNotSupportedException(pair_data.pair)
 
@@ -37,26 +45,46 @@ def rate_from_pair_data(pair_data: PairData, exchange_id: int) -> Rate:
 
 def fill_rate_open(new_rate: Rate, current_rate: Rate or None) -> Rate:
     if new_rate.rate_open:
-        logging.debug('rate_open provided by exchange: %d, pair: %d-%d',
-                      new_rate.exchange_id, new_rate.from_currency.id, new_rate.to_currency.id)
+        logging.debug(
+            "rate_open provided by exchange: %d, pair: %d-%d",
+            new_rate.exchange_id,
+            new_rate.from_currency.id,
+            new_rate.to_currency.id,
+        )
         return new_rate
 
     if not current_rate:
         if new_rate.last_trade_at.hour == 0:
             new_rate.rate_open = new_rate.rate
-            logging.info('Set new rate_open for exchange: %d, pair: %d-%d',
-                         new_rate.exchange_id, new_rate.from_currency.id, new_rate.to_currency.id)
+            logging.info(
+                "Set new rate_open for exchange: %d, pair: %d-%d",
+                new_rate.exchange_id,
+                new_rate.from_currency.id,
+                new_rate.to_currency.id,
+            )
     else:
         if new_rate.last_trade_at.date() == current_rate.last_trade_at.date():
             new_rate.rate_open = current_rate.rate_open
-            logging.debug('Set existed rate_open for exchange: %d, pair: %d-%d',
-                          new_rate.exchange_id, new_rate.from_currency.id, new_rate.to_currency.id)
+            logging.debug(
+                "Set existed rate_open for exchange: %d, pair: %d-%d",
+                new_rate.exchange_id,
+                new_rate.from_currency.id,
+                new_rate.to_currency.id,
+            )
         elif new_rate.last_trade_at.hour == 0:
             new_rate.rate_open = new_rate.rate
-            logging.info('Set new rate_open for exchange: %d, pair: %d-%d',
-                         new_rate.exchange_id, new_rate.from_currency.id, new_rate.to_currency.id)
+            logging.info(
+                "Set new rate_open for exchange: %d, pair: %d-%d",
+                new_rate.exchange_id,
+                new_rate.from_currency.id,
+                new_rate.to_currency.id,
+            )
         else:
-            logging.info('Reset rate_open for exchange: %d, pair: %d-%d',
-                         new_rate.exchange_id, new_rate.from_currency.id, new_rate.to_currency.id)
+            logging.info(
+                "Reset rate_open for exchange: %d, pair: %d-%d",
+                new_rate.exchange_id,
+                new_rate.from_currency.id,
+                new_rate.to_currency.id,
+            )
 
     return new_rate

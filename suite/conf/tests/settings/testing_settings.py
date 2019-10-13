@@ -1,3 +1,3 @@
 from .base_settings import *
 
-NAME = 'Lybin'
+NAME = "Lybin"

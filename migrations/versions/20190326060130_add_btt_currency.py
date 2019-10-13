@@ -5,15 +5,14 @@ Revises: 20190324223003
 Create Date: 2019-03-26 06:01:30.627169
 
 """
-from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.orm.session import Session
+from alembic import op
 from sqlalchemy.ext.declarative import declarative_base
-
+from sqlalchemy.orm.session import Session
 
 # revision identifiers, used by Alembic.
-revision = '20190326060130'
-down_revision = '20190324223003'
+revision = "20190326060130"
+down_revision = "20190324223003"
 branch_labels = None
 depends_on = None
 
@@ -26,7 +25,8 @@ class Currency(Base):
 
     See: migrations/versions/20190306193447_currencies_chat_request_foreigns.py
     """
-    __tablename__ = 'currencies'
+
+    __tablename__ = "currencies"
 
     id = sa.Column(sa.Integer, primary_key=True)
     code = sa.Column(sa.Text, unique=True, nullable=False)
@@ -37,7 +37,7 @@ class Currency(Base):
 
 def upgrade():
     session = Session(bind=op.get_bind())
-    session.add(Currency(code='BTT', name='BitTorrent', is_active=True, is_crypto=True))
+    session.add(Currency(code="BTT", name="BitTorrent", is_active=True, is_crypto=True))
     session.flush()
 
 

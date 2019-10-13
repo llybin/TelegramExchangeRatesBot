@@ -8,17 +8,17 @@ class KeyboardArrows(object):
         self.height = height
         self.width = width
         self.page_max = height * width
-        self.be = ' '
-        self.bl = '◀'
-        self.br = '▶'
+        self.be = " "
+        self.bl = "◀"
+        self.br = "▶"
 
     def prev(self):
         self.offset -= self.page_max
-        self.offset += (self.__left_button_available() + self.__right_button_available())
+        self.offset += self.__left_button_available() + self.__right_button_available()
         self.offset = max(self.offset, 0)
 
     def next(self):
-        self.offset -= (self.__left_button_available() + self.__right_button_available())
+        self.offset -= self.__left_button_available() + self.__right_button_available()
         self.offset += self.page_max
 
     def __left_button_available(self):
@@ -32,7 +32,7 @@ class KeyboardArrows(object):
         left_button = self.__left_button_available()
 
         limit_data = self.page_max - (right_button + left_button)
-        data_page = self.data[self.offset:self.offset + limit_data]
+        data_page = self.data[self.offset : self.offset + limit_data]
 
         data_page += [self.be] * (limit_data - len(data_page))
 
@@ -44,7 +44,7 @@ class KeyboardArrows(object):
 
         keyboard = []
         for i in range(0, len(data_page), self.width):
-            keyboard.append(data_page[i:i + self.width])
+            keyboard.append(data_page[i : i + self.width])
 
         return keyboard
 
@@ -54,7 +54,7 @@ class KeyboardSimpleClever(object):
         self.data = data
         self.width = width
         self.height = height
-        self.be = ' '
+        self.be = " "
 
     def show(self):
         if not self.height:
@@ -65,6 +65,6 @@ class KeyboardSimpleClever(object):
 
         keyboard = []
         for i in range(0, len(self.data), self.width):
-            keyboard.append(self.data[i:i + self.width])
+            keyboard.append(self.data[i : i + self.width])
 
         return keyboard

@@ -5,10 +5,10 @@ from typing import Tuple
 
 import requests
 from cached_property import cached_property
-from jsonschema import validate, ValidationError
+from jsonschema import ValidationError, validate
 
-from .base import Exchange, PairData, Pair, ECurrency
-from .exceptions import PairNotExistsException, APIErrorException
+from .base import ECurrency, Exchange, Pair, PairData
+from .exceptions import APIErrorException, PairNotExistsException
 
 MAPPING_CURRENCIES = {
     "dollar": "USD",
@@ -39,12 +39,15 @@ class SpTodayExchange(Exchange):
     https://sp-today.com/ticker-news/cur.json
     https://sp-today.com/fcur/fcur2.json
     """
-    name = 'sp-today'
+
+    name = "sp-today"
 
     @cached_property
     def _get_data(self) -> dict:
         try:
-            response = requests.get('http://www.sp-today.com/ticker-news/aleppo_cur.json')
+            response = requests.get(
+                "http://www.sp-today.com/ticker-news/aleppo_cur.json"
+            )
             response.raise_for_status()
             data = response.json()
         except (requests.exceptions.RequestException, ValueError) as e:
@@ -61,12 +64,8 @@ class SpTodayExchange(Exchange):
                         "sell_price": {"type": "string"},
                         "buy_price": {"type": "string"},
                     },
-                    "required": [
-                        "name",
-                        "sell_price",
-                        "buy_price",
-                    ]
-                }
+                    "required": ["name", "sell_price", "buy_price"],
+                },
             }
             validate(data, schema)
         except ValidationError as e:
@@ -74,14 +73,17 @@ class SpTodayExchange(Exchange):
 
         result = {}
         for x in data:
-            if x['name'] not in MAPPING_CURRENCIES:
-                logging.warning('New currency added: %s', x['name'])
+            if x["name"] not in MAPPING_CURRENCIES:
+                logging.warning("New currency added: %s", x["name"])
                 continue
 
-            result[Pair(ECurrency(MAPPING_CURRENCIES[x['name']]), ECurrency('SYP'))] = x
+            result[Pair(ECurrency(MAPPING_CURRENCIES[x["name"]]), ECurrency("SYP"))] = x
 
         if len(result) != len(MAPPING_CURRENCIES):
-            logging.warning('Currencies were deleted: %s', set(MAPPING_CURRENCIES.keys() - set(result.keys())))
+            logging.warning(
+                "Currencies were deleted: %s",
+                set(MAPPING_CURRENCIES.keys() - set(result.keys())),
+            )
 
         return result
 
@@ -105,10 +107,8 @@ class SpTodayExchange(Exchange):
 
         pair_data = self._get_data[pair]
 
-        mid = (Decimal(pair_data['sell_price']) + Decimal(pair_data['buy_price'])) / Decimal('2')
+        mid = (
+            Decimal(pair_data["sell_price"]) + Decimal(pair_data["buy_price"])
+        ) / Decimal("2")
 
-        return PairData(
-            pair=pair,
-            rate=mid,
-            last_trade_at=datetime.utcnow(),
-        )
+        return PairData(pair=pair, rate=mid, last_trade_at=datetime.utcnow())

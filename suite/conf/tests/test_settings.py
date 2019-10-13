@@ -9,13 +9,13 @@ class SettingsTest(unittest.TestCase):
 
     def tearDown(self):
         try:
-            del sys.modules['suite']
-            del sys.modules['suite.conf']
-            del sys.modules['suite.conf.exceptions']
-            del sys.modules['suite.conf.global_settings']
-            del sys.modules['suite.conf.tests']
-            del sys.modules['suite.conf.tests.base_settings']
-            del sys.modules['suite.conf.tests.testing_settings']
+            del sys.modules["suite"]
+            del sys.modules["suite.conf"]
+            del sys.modules["suite.conf.exceptions"]
+            del sys.modules["suite.conf.global_settings"]
+            del sys.modules["suite.conf.tests"]
+            del sys.modules["suite.conf.tests.base_settings"]
+            del sys.modules["suite.conf.tests.testing_settings"]
 
         except KeyError:
             pass
@@ -27,7 +27,9 @@ class SettingsTest(unittest.TestCase):
         os.environ["SETTINGS_MODULE"] = "suite.conf.tests.settings.base_settings"
 
         self.assertIsNotNone(settings.NAME)
-        self.assertEqual(os.environ.get("SETTINGS_MODULE"), "suite.conf.tests.settings.base_settings")
+        self.assertEqual(
+            os.environ.get("SETTINGS_MODULE"), "suite.conf.tests.settings.base_settings"
+        )
         self.assertEqual(settings.NAME, NAME)
         self.assertTrue(settings.configured)
 
@@ -37,7 +39,10 @@ class SettingsTest(unittest.TestCase):
 
         os.environ["SETTINGS_MODULE"] = "suite.conf.tests.settings.testing_settings"
 
-        self.assertEqual(os.environ.get("SETTINGS_MODULE"), "suite.conf.tests.settings.testing_settings")
+        self.assertEqual(
+            os.environ.get("SETTINGS_MODULE"),
+            "suite.conf.tests.settings.testing_settings",
+        )
         self.assertIsNotNone(settings.NAME)
         self.assertEqual(settings.NAME, NAME)
         self.assertTrue(settings.configured)

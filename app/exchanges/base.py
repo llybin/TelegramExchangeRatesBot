@@ -16,7 +16,7 @@ class Pair(NamedTuple):
     to_currency: ECurrency
 
     def __str__(self):
-        return f'{self.from_currency}-{self.to_currency}'
+        return f"{self.from_currency}-{self.to_currency}"
 
 
 class PairData(NamedTuple):
@@ -36,7 +36,7 @@ def reverse_amount(rate: Decimal) -> Decimal or None:
     if not rate:
         return rate
 
-    return Decimal('1') / rate
+    return Decimal("1") / rate
 
 
 def reverse_pair_data(pair_data: PairData) -> PairData:

@@ -1,6 +1,5 @@
-from suite.test.testcases import SimpleTestCase
-
 from app.queries import get_all_currency_codes
+from suite.test.testcases import SimpleTestCase
 
 
 class GetAllCurrenciesTest(SimpleTestCase):

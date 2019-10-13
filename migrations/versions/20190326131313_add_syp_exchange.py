@@ -5,17 +5,16 @@ Revises: 20190326083625
 Create Date: 2019-03-26 13:13:13.581001
 
 """
-from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.orm.session import Session
+from alembic import op
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm.session import Session
 
 from app.exchanges import SpTodayExchange
 
-
 # revision identifiers, used by Alembic.
-revision = '20190326131313'
-down_revision = '20190326083625'
+revision = "20190326131313"
+down_revision = "20190326083625"
 branch_labels = None
 depends_on = None
 
@@ -24,7 +23,7 @@ Base = declarative_base()
 
 
 class Exchange(Base):
-    __tablename__ = 'exchanges'
+    __tablename__ = "exchanges"
 
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.Text, nullable=False, index=True)

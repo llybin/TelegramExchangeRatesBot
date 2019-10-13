@@ -7,8 +7,8 @@ from app.translations import transform_locale
 
 class DirectionWriting(object):
     UNKNOWN = None
-    LEFT2RIGHT = 'LEFT2RIGHT'
-    RIGHT2LEFT = 'RIGHT2LEFT'
+    LEFT2RIGHT = "LEFT2RIGHT"
+    RIGHT2LEFT = "RIGHT2LEFT"
 
 
 class PriceRequest(NamedTuple):
@@ -26,7 +26,14 @@ class Parser(ABC):
     default_currency_position: bool
     locale: str
 
-    def __init__(self, text: str, chat_id: int, locale: str, default_currency: str, default_currency_position: bool):
+    def __init__(
+        self,
+        text: str,
+        chat_id: int,
+        locale: str,
+        default_currency: str,
+        default_currency_position: bool,
+    ):
         self.text = text
         self.chat_id = chat_id
         self.default_currency = default_currency

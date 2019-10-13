@@ -7,7 +7,7 @@ Based on Django Test:
 import sys
 import unittest
 
-from suite.test.utils import override_settings, modify_settings
+from suite.test.utils import modify_settings, override_settings
 
 
 class SimpleTestCase(unittest.TestCase):
@@ -30,12 +30,12 @@ class SimpleTestCase(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        if hasattr(cls, '_cls_modified_context'):
+        if hasattr(cls, "_cls_modified_context"):
             cls._cls_modified_context.disable()
-            delattr(cls, '_cls_modified_context')
-        if hasattr(cls, '_cls_overridden_context'):
+            delattr(cls, "_cls_modified_context")
+        if hasattr(cls, "_cls_overridden_context"):
             cls._cls_overridden_context.disable()
-            delattr(cls, '_cls_overridden_context')
+            delattr(cls, "_cls_overridden_context")
         super().tearDownClass()
 
     def __call__(self, result=None):
@@ -45,9 +45,8 @@ class SimpleTestCase(unittest.TestCase):
         include a call to super().setUp().
         """
         testMethod = getattr(self, self._testMethodName)
-        skipped = (
-            getattr(self.__class__, "__unittest_skip__", False) or
-            getattr(testMethod, "__unittest_skip__", False)
+        skipped = getattr(self.__class__, "__unittest_skip__", False) or getattr(
+            testMethod, "__unittest_skip__", False
         )
 
         if not skipped:

@@ -5,15 +5,14 @@ Revises: 20190321212933
 Create Date: 2019-03-24 22:30:03.772439
 
 """
-from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.orm.session import Session
+from alembic import op
 from sqlalchemy.ext.declarative import declarative_base
-
+from sqlalchemy.orm.session import Session
 
 # revision identifiers, used by Alembic.
-revision = '20190324223003'
-down_revision = '20190321212933'
+revision = "20190324223003"
+down_revision = "20190321212933"
 branch_labels = None
 depends_on = None
 
@@ -21,27 +20,31 @@ Base = declarative_base()
 
 
 class Chat(Base):
-    __tablename__ = 'chats'
+    __tablename__ = "chats"
 
     id = sa.Column(sa.BigInteger, primary_key=True, autoincrement=False)
-    locale = sa.Column(sa.Text, default='en', nullable=False)
+    locale = sa.Column(sa.Text, default="en", nullable=False)
     created_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), nullable=False)
-    modified_at = sa.Column(sa.TIMESTAMP, server_default=sa.func.now(), onupdate=sa.func.now(), nullable=False)
+    modified_at = sa.Column(
+        sa.TIMESTAMP,
+        server_default=sa.func.now(),
+        onupdate=sa.func.now(),
+        nullable=False,
+    )
 
 
 def upgrade():
     session = Session(bind=op.get_bind())
     # I know prefer write SQL for big data, lazy :P and can migrate without downtime
     for x in session.query(Chat).yield_per(1000):
-        language = x.locale.lower().replace('_', '-')
-        if language == 'zh':
-            language = 'zh-hant'
-        if language == 'zh-cn':
-            language = 'zh-hans'
-        session.query(Chat).filter_by(id=x.id).update({
-            'locale': language,
-            'modified_at': Chat.modified_at
-        })
+        language = x.locale.lower().replace("_", "-")
+        if language == "zh":
+            language = "zh-hant"
+        if language == "zh-cn":
+            language = "zh-hans"
+        session.query(Chat).filter_by(id=x.id).update(
+            {"locale": language, "modified_at": Chat.modified_at}
+        )
 
     session.flush()
 

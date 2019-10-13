@@ -1,6 +1,6 @@
+from suite.conf import settings
 from suite.test.testcases import SimpleTestCase
 from suite.test.utils import override_settings
-from suite.conf import settings
 
 
 @override_settings(VAR_OVERRIDE=5555)

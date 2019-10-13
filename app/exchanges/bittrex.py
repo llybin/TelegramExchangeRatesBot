@@ -5,11 +5,12 @@ from typing import Tuple
 
 import requests
 from cached_property import cached_property
-from jsonschema import validate, ValidationError
+from jsonschema import ValidationError, validate
 
-from .base import Exchange, PairData, Pair, ECurrency
-from .exceptions import PairNotExistsException, APIErrorException, APIChangedException
 from app.queries import get_all_currency_codes
+
+from .base import ECurrency, Exchange, Pair, PairData
+from .exceptions import APIChangedException, APIErrorException, PairNotExistsException
 
 
 class BittrexExchange(Exchange):
@@ -19,12 +20,15 @@ class BittrexExchange(Exchange):
     Maximum of 60 API calls per minute.
     Calls after the limit will fail, with the limit resetting at the start of the next minute.
     """
-    name = 'Bittrex'
+
+    name = "Bittrex"
 
     @cached_property
     def _get_data(self) -> dict:
         try:
-            response = requests.get('https://api.bittrex.com/api/v1.1/public/getmarketsummaries')
+            response = requests.get(
+                "https://api.bittrex.com/api/v1.1/public/getmarketsummaries"
+            )
             response.raise_for_status()
             data = response.json()
         except (requests.exceptions.RequestException, ValueError) as e:
@@ -56,14 +60,11 @@ class BittrexExchange(Exchange):
                                 "Bid",
                                 "Ask",
                                 "PrevDay",
-                            ]
-                        }
+                            ],
+                        },
                     },
                 },
-                "required": [
-                    "success",
-                    "result",
-                ]
+                "required": ["success", "result"],
             }
             validate(data, schema)
         except ValidationError as e:
@@ -71,16 +72,19 @@ class BittrexExchange(Exchange):
 
         result = {}
         all_currency_codes = get_all_currency_codes()
-        for x in data['result']:
+        for x in data["result"]:
             # reverse
-            to_currency, from_currency = x['MarketName'].upper().split('-')
+            to_currency, from_currency = x["MarketName"].upper().split("-")
 
-            if not x['Bid'] or not x['Ask']:
-                if to_currency in all_currency_codes and from_currency in all_currency_codes:
-                    logging.warning('Bittrex no Bid Ask: %s', x)
+            if not x["Bid"] or not x["Ask"]:
+                if (
+                    to_currency in all_currency_codes
+                    and from_currency in all_currency_codes
+                ):
+                    logging.warning("Bittrex no Bid Ask: %s", x)
                 continue
 
-            del x['MarketName']
+            del x["MarketName"]
             result[Pair(ECurrency(from_currency), ECurrency(to_currency))] = x
 
         return result
@@ -105,21 +109,23 @@ class BittrexExchange(Exchange):
 
         pair_data = self._get_data[pair]
 
-        mid = (Decimal(str(pair_data['Bid'])) + Decimal(str(pair_data['Ask']))) / Decimal('2')
+        mid = (
+            Decimal(str(pair_data["Bid"])) + Decimal(str(pair_data["Ask"]))
+        ) / Decimal("2")
 
         try:
-            ts_without_ms = pair_data['TimeStamp'].split('.')[0]
+            ts_without_ms = pair_data["TimeStamp"].split(".")[0]
             last_trade_at = datetime.strptime(ts_without_ms, "%Y-%m-%dT%H:%M:%S")
         except ValueError:
-            raise APIChangedException('TimeStamp format.')
+            raise APIChangedException("TimeStamp format.")
 
-        if pair_data['Low'] and pair_data['High']:
-            low24h = Decimal(str(pair_data['Low']))
-            high24h = Decimal(str(pair_data['High']))
+        if pair_data["Low"] and pair_data["High"]:
+            low24h = Decimal(str(pair_data["Low"]))
+            high24h = Decimal(str(pair_data["High"]))
         else:
             low24h = high24h = None
 
-        rate_open = Decimal(str(pair_data['PrevDay'])) if pair_data['PrevDay'] else None
+        rate_open = Decimal(str(pair_data["PrevDay"])) if pair_data["PrevDay"] else None
 
         return PairData(
             pair=pair,

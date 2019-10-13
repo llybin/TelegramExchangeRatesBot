@@ -1,6 +1,5 @@
-from suite.test.testcases import SimpleTestCase
-
 from app.tasks import PairData
+from suite.test.testcases import SimpleTestCase
 
 
 class TasksTest(SimpleTestCase):

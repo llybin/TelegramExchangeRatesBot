@@ -4,11 +4,11 @@ from typing import Tuple
 
 import requests
 from cached_property import cached_property
-from jsonschema import validate, ValidationError
+from jsonschema import ValidationError, validate
 from ratelimit import limits, sleep_and_retry
 
-from .base import Exchange, PairData, Pair, ECurrency
-from .exceptions import PairNotExistsException, APIErrorException, APIChangedException
+from .base import ECurrency, Exchange, Pair, PairData
+from .exceptions import APIChangedException, APIErrorException, PairNotExistsException
 
 
 class BitfinexExchange(Exchange):
@@ -19,22 +19,20 @@ class BitfinexExchange(Exchange):
     to a specific REST API endpoint e.g., /ticker, the requesting IP address will be blocked
     for 10-60 seconds on that endpoint and the JSON response {"error": "ERR_RATE_LIMIT"} will be returned.
     """
-    name = 'Bitfinex'
+
+    name = "Bitfinex"
 
     @cached_property
     def _get_pairs(self) -> tuple:
         try:
-            response = requests.get('https://api.bitfinex.com/v1/symbols')
+            response = requests.get("https://api.bitfinex.com/v1/symbols")
             response.raise_for_status()
             pairs = response.json()
         except (requests.exceptions.RequestException, ValueError) as e:
             raise APIErrorException(e)
 
         try:
-            schema = {
-                "type": "array",
-                "items": {"type": "string"}
-            }
+            schema = {"type": "array", "items": {"type": "string"}}
             validate(pairs, schema)
         except ValidationError as e:
             raise APIErrorException(e)
@@ -48,8 +46,8 @@ class BitfinexExchange(Exchange):
         for x in self._get_pairs:
             x = x.upper()
 
-            if ':' in x:
-                from_currency, to_currency = x.split(':')
+            if ":" in x:
+                from_currency, to_currency = x.split(":")
             else:
                 from_currency, to_currency = x[:3], x[3:]
 
@@ -73,10 +71,12 @@ class BitfinexExchange(Exchange):
         if not self.is_pair_exists(pair):
             raise PairNotExistsException(pair)
 
-        request_pair = f'{pair.from_currency}{pair.to_currency}'.lower()
+        request_pair = f"{pair.from_currency}{pair.to_currency}".lower()
 
         try:
-            response = requests.get(f'https://api.bitfinex.com/v1/pubticker/{request_pair}')
+            response = requests.get(
+                f"https://api.bitfinex.com/v1/pubticker/{request_pair}"
+            )
             response.raise_for_status()
             data = response.json()
         except (requests.exceptions.RequestException, ValueError) as e:
@@ -91,22 +91,17 @@ class BitfinexExchange(Exchange):
                     "high": {"type": "string"},
                     "timestamp": {"type": "string"},
                 },
-                "required": [
-                    "mid",
-                    "low",
-                    "high",
-                    "timestamp",
-                ]
+                "required": ["mid", "low", "high", "timestamp"],
             }
             validate(data, schema)
         except ValidationError as e:
             raise APIErrorException(e)
 
         try:
-            rate = Decimal(data['mid'])
-            low = Decimal(data['low'])
-            high = Decimal(data['high'])
-            last_trade_at = float(data['timestamp'])
+            rate = Decimal(data["mid"])
+            low = Decimal(data["low"])
+            high = Decimal(data["high"])
+            last_trade_at = float(data["timestamp"])
         except (DecimalException, ValueError) as e:
             raise APIErrorException(e)
 
@@ -115,5 +110,5 @@ class BitfinexExchange(Exchange):
             rate=rate,
             low24h=low,
             high24h=high,
-            last_trade_at=datetime.fromtimestamp(last_trade_at)
+            last_trade_at=datetime.fromtimestamp(last_trade_at),
         )

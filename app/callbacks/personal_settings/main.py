@@ -1,9 +1,8 @@
 from gettext import gettext
 
+from app.decorators import chat_language, register_update
 from telegram import ReplyKeyboardMarkup, Update
 from telegram.ext import CallbackContext
-
-from app.decorators import register_update, chat_language
 
 
 class SettingsSteps(object):
@@ -19,19 +18,24 @@ class SettingsSteps(object):
 
 def main_menu(update: Update, chat_info: dict, _: gettext):
     update.message.reply_text(
-        reply_markup=ReplyKeyboardMarkup([
-            ['1. ' + _("Language")],
-            ['2. ' + _("Default currency")],
-            ['3. ' + _("Default currency position")],
-            ['4. ' + _("On-screen menu below")],
-            ['↩️'],
-        ]),
-        text=_('What do you want to set up?'))
+        reply_markup=ReplyKeyboardMarkup(
+            [
+                ["1. " + _("Language")],
+                ["2. " + _("Default currency")],
+                ["3. " + _("Default currency position")],
+                ["4. " + _("On-screen menu below")],
+                ["↩️"],
+            ]
+        ),
+        text=_("What do you want to set up?"),
+    )
 
 
 @register_update
 @chat_language
-def settings_callback(update: Update, context: CallbackContext, chat_info: dict, _: gettext):
+def settings_callback(
+    update: Update, context: CallbackContext, chat_info: dict, _: gettext
+):
     chat_id = update.message.chat_id
 
     if chat_id < 0:

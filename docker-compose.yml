@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    image: postgres:11.2
+    image: postgres:10
     hostname: db
     ports:
       - "5432:5432"
@@ -9,7 +9,7 @@ services:
       - postgresql_data:/var/lib/postgresql/data
 
   redis:
-    image: redis:5.0.3-alpine
+    image: redis:latest
     hostname: redis
     volumes:
       - redis_data:/data

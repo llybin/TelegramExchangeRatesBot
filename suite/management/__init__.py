@@ -1,9 +1,9 @@
 import click
 
 from .commands.db import db
+from .commands.newsletter import newsletter
 from .commands.start import start
 from .commands.test import test
-from .commands.newsletter import newsletter
 
 
 @click.group()

@@ -5,23 +5,25 @@ from typing import Tuple
 
 import requests
 from cached_property import cached_property
-from jsonschema import validate, ValidationError
+from jsonschema import ValidationError, validate
 
-from .base import Exchange, PairData, Pair, ECurrency
-from .exceptions import PairNotExistsException, APIErrorException
 from app.queries import get_all_currency_codes
+
+from .base import ECurrency, Exchange, Pair, PairData
+from .exceptions import APIErrorException, PairNotExistsException
 
 
 class BitkubExchange(Exchange):
     """
     https://github.com/bitkub/bitkub-official-api-docs
     """
-    name = '[bitkub.com](https://www.bitkub.com/signup?ref=64572)'
+
+    name = "[bitkub.com](https://www.bitkub.com/signup?ref=64572)"
 
     @cached_property
     def _get_data(self) -> dict:
         try:
-            response = requests.get('https://api.bitkub.com/api/market/ticker')
+            response = requests.get("https://api.bitkub.com/api/market/ticker")
             response.raise_for_status()
             data = response.json()
         except (requests.exceptions.RequestException, ValueError) as e:
@@ -46,9 +48,9 @@ class BitkubExchange(Exchange):
                             "isFrozen",
                             "low24hr",
                             "high24hr",
-                        ]
+                        ],
                     },
-                    "not": {"required": ["error", ""]}
+                    "not": {"required": ["error", ""]},
                 },
             }
             validate(data, schema)
@@ -58,16 +60,19 @@ class BitkubExchange(Exchange):
         result = {}
         all_currency_codes = get_all_currency_codes()
         for currencies, info in data.items():
-            if info['isFrozen']:
-                logging.info('Bitkub isFrozen: %s', currencies)
+            if info["isFrozen"]:
+                logging.info("Bitkub isFrozen: %s", currencies)
                 continue
 
             # reverse
-            to_currency, from_currency = currencies.split('_')
+            to_currency, from_currency = currencies.split("_")
 
-            if not info['lowestAsk'] or not info['highestBid']:
-                if to_currency in all_currency_codes and from_currency in all_currency_codes:
-                    logging.info('Bitkub no Bid Ask: %s', info)
+            if not info["lowestAsk"] or not info["highestBid"]:
+                if (
+                    to_currency in all_currency_codes
+                    and from_currency in all_currency_codes
+                ):
+                    logging.info("Bitkub no Bid Ask: %s", info)
                 continue
 
             result[Pair(ECurrency(from_currency), ECurrency(to_currency))] = info
@@ -94,11 +99,13 @@ class BitkubExchange(Exchange):
 
         pair_data = self._get_data[pair]
 
-        mid = (Decimal(str(pair_data['lowestAsk'])) + Decimal(str(pair_data['highestBid']))) / Decimal('2')
+        mid = (
+            Decimal(str(pair_data["lowestAsk"])) + Decimal(str(pair_data["highestBid"]))
+        ) / Decimal("2")
 
-        if pair_data['low24hr'] and pair_data['high24hr']:
-            low24h = Decimal(str(pair_data['low24hr']))
-            high24h = Decimal(str(pair_data['high24hr']))
+        if pair_data["low24hr"] and pair_data["high24hr"]:
+            low24h = Decimal(str(pair_data["low24hr"]))
+            high24h = Decimal(str(pair_data["high24hr"]))
         else:
             low24h = high24h = None
 
