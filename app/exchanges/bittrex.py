@@ -84,7 +84,7 @@ class BittrexExchange(Exchange):
                     to_currency in all_currency_codes
                     and from_currency in all_currency_codes
                 ):
-                    logging.warning("Bittrex no Bid Ask: %s", x)
+                    logging.info("Bittrex no Bid Ask: %s", x)
                 continue
 
             del x["MarketName"]
