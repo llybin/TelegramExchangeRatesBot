@@ -8,11 +8,10 @@ import re
 from babel.core import Locale
 
 from app.models import ChatRequests
+from app.parsers.base import DirectionWriting, Parser, PriceRequest
+from app.parsers.exceptions import WrongFormatException
+from app.parsers.regex_parser import parse_amount
 from suite.database import Session
-
-from .base import DirectionWriting, Parser, PriceRequest
-from .exceptions import WrongFormatException
-from .regex_parser import parse_amount
 
 # len("123,456,789,012.123456789012") == 28
 AMOUNT_PATTERN = r"^[\d\.,\'\s]{1,28}$"

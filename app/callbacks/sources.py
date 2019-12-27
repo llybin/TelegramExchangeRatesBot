@@ -1,6 +1,7 @@
-from app.decorators import register_update
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, ConversationHandler
+
+from app.decorators import register_update
 
 
 @register_update

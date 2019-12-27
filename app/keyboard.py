@@ -1,4 +1,4 @@
-import math
+from math import ceil
 
 
 class KeyboardArrows(object):
@@ -58,7 +58,7 @@ class KeyboardSimpleClever(object):
 
     def show(self):
         if not self.height:
-            self.height = int(math.ceil(len(self.data) / self.width))
+            self.height = int(ceil(len(self.data) / self.width))
 
         data_page = self.data
         data_page += [self.be] * (self.height * self.width - len(self.data))

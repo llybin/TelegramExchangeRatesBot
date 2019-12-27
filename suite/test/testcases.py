@@ -5,12 +5,12 @@ Based on Django Test:
 """
 
 import sys
-import unittest
+from unittest import TestCase
 
 from suite.test.utils import modify_settings, override_settings
 
 
-class SimpleTestCase(unittest.TestCase):
+class SimpleTestCase(TestCase):
 
     # The class we'll use for the test client self.client.
     # Can be overridden in derived classes.

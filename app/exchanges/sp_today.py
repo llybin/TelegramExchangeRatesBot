@@ -7,8 +7,8 @@ import requests
 from cached_property import cached_property
 from jsonschema import ValidationError, validate
 
-from .base import ECurrency, Exchange, Pair, PairData
-from .exceptions import APIErrorException, PairNotExistsException
+from app.exchanges.base import ECurrency, Exchange, Pair, PairData
+from app.exchanges.exceptions import APIErrorException, PairNotExistsException
 
 MAPPING_CURRENCIES = {
     "dollar": "USD",

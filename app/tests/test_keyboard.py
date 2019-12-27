@@ -1,9 +1,9 @@
-import unittest
+from unittest import TestCase
 
 from app.keyboard import KeyboardArrows, KeyboardSimpleClever
 
 
-class KeyboardArrowsTest(unittest.TestCase):
+class KeyboardArrowsTest(TestCase):
     def setUp(self):
         self.data = list(range(1, 56))
 
@@ -200,7 +200,7 @@ class KeyboardArrowsTest(unittest.TestCase):
         )
 
 
-class KeyboardSimpleCleverTest(unittest.TestCase):
+class KeyboardSimpleCleverTest(TestCase):
     def test_1(self):
         self.assertEqual(KeyboardSimpleClever([1]).show(), [[1, " ", " "]])
 

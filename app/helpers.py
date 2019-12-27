@@ -1,5 +1,5 @@
-import importlib
 import logging
+from importlib import import_module
 from typing import Type
 
 from sqlalchemy.orm.exc import NoResultFound
@@ -10,9 +10,9 @@ from app.models import Currency, Rate
 from suite.database import Session
 
 
-def import_module(name: str) -> Type:
+def import_app_module(name: str) -> Type:
     components = name.rsplit(".", 1)
-    return getattr(importlib.import_module(components[0]), components[1])
+    return getattr(import_module(components[0]), components[1])
 
 
 def rate_from_pair_data(pair_data: PairData, exchange_id: int) -> Rate:

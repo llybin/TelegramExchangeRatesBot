@@ -25,10 +25,9 @@ from babel.core import Locale
 from babel.numbers import get_decimal_symbol, get_group_symbol
 
 from app.constants import BIGGEST_VALUE
+from app.parsers.base import DirectionWriting, Parser, PriceRequest
+from app.parsers.exceptions import UnknownCurrencyException, WrongFormatException
 from app.queries import get_all_currency_codes
-
-from .base import DirectionWriting, Parser, PriceRequest
-from .exceptions import UnknownCurrencyException, WrongFormatException
 
 CURRENCY_SEPARATORS_LIST = (r"\s", " to ", " in ", "=", " = ")
 CURRENCY_SEPARATORS_STR = "|".join(CURRENCY_SEPARATORS_LIST)

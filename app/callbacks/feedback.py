@@ -1,10 +1,11 @@
 from gettext import gettext
 
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
+from telegram.ext import CallbackContext, ConversationHandler
+
 from app.decorators import chat_language, register_update
 from app.logic import get_keyboard
 from app.tasks import send_feedback
-from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
-from telegram.ext import CallbackContext, ConversationHandler
 
 
 @register_update

@@ -5,12 +5,11 @@ import sqlalchemy as sa
 from sqlalchemy import orm
 
 from app.constants import BIGGEST_VALUE
+from app.converter.base import PriceRequestResult
+from app.converter.exceptions import NoRatesException, OverflowException
 from app.models import Currency, Exchange, Rate
 from app.parsers.base import PriceRequest
 from suite.database import Session
-
-from .base import PriceRequestResult
-from .exceptions import NoRatesException, OverflowException
 
 
 def convert(price_request: PriceRequest) -> PriceRequestResult:
@@ -56,33 +55,37 @@ def convert(price_request: PriceRequest) -> PriceRequestResult:
         )
 
     else:
-        Rate0 = orm.aliased(Rate)
-        Rate1 = orm.aliased(Rate)
-        Exchange0 = orm.aliased(Exchange)
-        Exchange1 = orm.aliased(Exchange)
+        rate0_model = orm.aliased(Rate)
+        rate1_model = orm.aliased(Rate)
+        exchange0_model = orm.aliased(Exchange)
+        exchange1_model = orm.aliased(Exchange)
 
         rate_obj = (
             Session.query(
-                Rate0, Rate1, (Exchange0.weight + Exchange1.weight).label("w")
+                rate0_model,
+                rate1_model,
+                (exchange0_model.weight + exchange1_model.weight).label("w"),
             )
             .filter_by(from_currency=from_currency)
             .join(
-                Rate1,
+                rate1_model,
                 sa.and_(
-                    Rate1.from_currency_id == Rate0.to_currency_id,
-                    Rate1.to_currency == to_currency,
+                    rate1_model.from_currency_id == rate0_model.to_currency_id,
+                    rate1_model.to_currency == to_currency,
                 ),
             )
             .join(
-                Exchange0,
+                exchange0_model,
                 sa.and_(
-                    Exchange0.id == Rate0.exchange_id, Exchange0.is_active == sa.true()
+                    exchange0_model.id == rate0_model.exchange_id,
+                    exchange0_model.is_active == sa.true(),
                 ),
             )
             .join(
-                Exchange1,
+                exchange1_model,
                 sa.and_(
-                    Exchange1.id == Rate1.exchange_id, Exchange1.is_active == sa.true()
+                    exchange1_model.id == rate1_model.exchange_id,
+                    exchange1_model.is_active == sa.true(),
                 ),
             )
             .order_by(sa.desc("w"))

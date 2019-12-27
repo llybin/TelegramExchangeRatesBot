@@ -1,10 +1,11 @@
 import logging
 from decimal import Decimal
 
-from sqlalchemy import false, true
-
-import telegram
 import transaction
+from sqlalchemy import false, true
+from telegram import Bot, ParseMode
+from telegram.error import RetryAfter, TimedOut, Unauthorized
+
 from app.celery import celery_app
 from app.converter.converter import PriceRequestResult, convert
 from app.formatter.formatter import NotifyFormatPriceRequestResult
@@ -13,8 +14,6 @@ from app.parsers.base import PriceRequest
 from app.translations import get_translations
 from suite.conf import settings
 from suite.database import Session
-from telegram import ParseMode
-from telegram.error import RetryAfter, TimedOut, Unauthorized
 
 
 def is_triggered(
@@ -95,7 +94,7 @@ def send_notification(self, chat_id: int, text: str) -> None:
     https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once
     The API will not allow more than ~30 messages to different users per second
     """
-    bot = telegram.Bot(settings.BOT_TOKEN)
+    bot = Bot(settings.BOT_TOKEN)
 
     try:
         bot.send_message(

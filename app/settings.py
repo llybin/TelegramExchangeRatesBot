@@ -1,7 +1,6 @@
 import os
 
 from celery.schedules import crontab
-
 from kombu import Queue
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

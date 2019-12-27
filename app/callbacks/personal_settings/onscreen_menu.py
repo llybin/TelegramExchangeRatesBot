@@ -1,6 +1,9 @@
 from gettext import gettext
 
 import transaction
+from telegram import ParseMode, ReplyKeyboardMarkup, Update
+from telegram.ext import CallbackContext
+
 from app.callbacks.personal_settings.main import SettingsSteps
 from app.decorators import chat_language, register_update
 from app.keyboard import KeyboardSimpleClever
@@ -8,8 +11,6 @@ from app.logic import get_keyboard
 from app.models import Chat, ChatRequests, Currency
 from app.queries import get_keyboard_size, have_last_request
 from suite.database import Session
-from telegram import ParseMode, ReplyKeyboardMarkup, Update
-from telegram.ext import CallbackContext
 
 
 def onscreen_menu(update: Update, chat_info: dict, _: gettext):

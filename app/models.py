@@ -3,10 +3,9 @@ import enum
 import sqlalchemy as sa
 from sqlalchemy import orm
 
+from app.constants import decimal_precision, decimal_scale
 from suite.conf import settings
 from suite.database import BaseObject
-
-from .constants import decimal_precision, decimal_scale
 
 
 class Chat(BaseObject):

@@ -2,6 +2,15 @@ import logging
 from datetime import datetime
 from gettext import gettext
 
+from telegram import (
+    InlineQueryResultArticle,
+    InputTextMessageContent,
+    ParseMode,
+    ReplyKeyboardMarkup,
+    Update,
+)
+from telegram.ext import CallbackContext, ConversationHandler
+
 from app.converter.converter import convert
 from app.converter.exceptions import ConverterException, NoRatesException
 from app.decorators import chat_language, register_update
@@ -16,14 +25,6 @@ from app.parsers.exceptions import ValidationException
 from app.queries import get_last_request
 from app.tasks import update_chat_request, write_request_log
 from suite.conf import settings
-from telegram import (
-    InlineQueryResultArticle,
-    InputTextMessageContent,
-    ParseMode,
-    ReplyKeyboardMarkup,
-    Update,
-)
-from telegram.ext import CallbackContext, ConversationHandler
 
 
 def price(update: Update, text: str, chat_info: dict, _: gettext):

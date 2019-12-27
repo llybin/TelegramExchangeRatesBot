@@ -1,9 +1,10 @@
 from gettext import gettext
 
-from app.decorators import chat_language, register_update
-from app.logic import get_keyboard
 from telegram import ParseMode, ReplyKeyboardMarkup, Update
 from telegram.ext import CallbackContext, ConversationHandler
+
+from app.decorators import chat_language, register_update
+from app.logic import get_keyboard
 
 
 def tutorial(update, _):

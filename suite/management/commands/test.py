@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestLoader, TextTestRunner
 
 import click
 from sqlalchemy import create_engine
@@ -12,7 +12,7 @@ from suite.management.commands.db import alembic_cfg, command_migrate
 @click.command(help="Runs tests.")
 @click.argument("tests_path", required=False)
 def test(tests_path=None):
-    loader = unittest.TestLoader()
+    loader = TestLoader()
     if tests_path:
         try:
             tests = loader.loadTestsFromName(tests_path)
@@ -23,7 +23,7 @@ def test(tests_path=None):
     else:
         tests = loader.discover(".")
 
-    test_runner = unittest.TextTestRunner(verbosity=2)
+    test_runner = TextTestRunner(verbosity=2)
 
     settings.SENTRY_URL = None
     settings.BOT_TOKEN = None
@@ -45,13 +45,14 @@ def test(tests_path=None):
 
     create_database(db_engine.url)
 
-    result = None
     try:
         click.echo("Migrating DB...")
         command_migrate("head")
 
         click.echo("Running tests...")
         result = test_runner.run(tests)
+    except Exception:
+        result = None
     finally:
         click.echo("Deleting DB...")
         drop_database(db_engine.url)

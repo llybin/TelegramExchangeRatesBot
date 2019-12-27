@@ -1,15 +1,15 @@
 import logging
 from functools import wraps
 
-from sqlalchemy.exc import IntegrityError
-
 import transaction
+from sqlalchemy.exc import IntegrityError
+from telegram import Update
+from telegram.ext import CallbackContext
+
 from app.models import Chat
 from app.translations import get_translations
 from suite.conf import settings
 from suite.database import Session
-from telegram import Update
-from telegram.ext import CallbackContext
 
 
 def register_update(func):

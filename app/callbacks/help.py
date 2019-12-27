@@ -1,8 +1,9 @@
 from gettext import gettext
 
-from app.decorators import chat_language, register_update
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, ConversationHandler
+
+from app.decorators import chat_language, register_update
 
 
 @register_update

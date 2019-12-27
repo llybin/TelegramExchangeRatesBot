@@ -1,15 +1,14 @@
-import unittest
 from decimal import Decimal
+from unittest import TestCase
 from unittest.mock import patch
 
+from app.parsers.base import DirectionWriting, PriceRequest
+from app.parsers.exceptions import ValidationException
+from app.parsers.regex_parser import RegexParser, parse_amount
 from app.queries import get_all_currency_codes
 
-from ..base import DirectionWriting, PriceRequest
-from ..exceptions import ValidationException
-from ..regex_parser import RegexParser, parse_amount
 
-
-class RegexParserTest(unittest.TestCase):
+class RegexParserTest(TestCase):
     @patch(
         "app.parsers.regex_parser.get_all_currency_codes",
         return_value=["USD", "RUB", "EUR", "BURST", "SC"],
@@ -409,7 +408,7 @@ class RegexParserTest(unittest.TestCase):
                 self.assertEqual(pr.to_currency, cur1, f"{cur0}{cur1}")
 
 
-class ParseAmountTest(unittest.TestCase):
+class ParseAmountTest(TestCase):
     @patch(
         "app.parsers.regex_parser.get_all_currency_codes",
         return_value=["USD", "RUB", "EUR", "BURST", "SC"],

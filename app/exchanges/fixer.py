@@ -6,15 +6,14 @@ import requests
 from cached_property import cached_property
 from jsonschema import ValidationError, validate
 
-from suite.conf import settings
-
-from .base import ECurrency, Exchange, Pair, PairData
-from .exceptions import (
+from app.exchanges.base import ECurrency, Exchange, Pair, PairData
+from app.exchanges.exceptions import (
     APIChangedException,
     APIErrorException,
     NoTokenException,
     PairNotExistsException,
 )
+from suite.conf import settings
 
 
 class FixerExchange(Exchange):

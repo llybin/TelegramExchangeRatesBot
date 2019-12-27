@@ -7,10 +7,13 @@ import requests
 from cached_property import cached_property
 from jsonschema import ValidationError, validate
 
+from app.exchanges.base import ECurrency, Exchange, Pair, PairData
+from app.exchanges.exceptions import (
+    APIChangedException,
+    APIErrorException,
+    PairNotExistsException,
+)
 from app.queries import get_all_currency_codes
-
-from .base import ECurrency, Exchange, Pair, PairData
-from .exceptions import APIChangedException, APIErrorException, PairNotExistsException
 
 
 class BittrexExchange(Exchange):

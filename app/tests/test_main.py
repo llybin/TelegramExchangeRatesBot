@@ -1,6 +1,7 @@
+from telegram import Update
+
 from app.main import error_callback
 from suite.test.testcases import SimpleTestCase
-from telegram import Update
 
 
 class MainTest(SimpleTestCase):

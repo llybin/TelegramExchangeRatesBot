@@ -1,4 +1,4 @@
-from .regex_parser import RegexParser
+from app.parsers.regex_parser import RegexParser
 
 REPLACES = (
     ("GOLD", "XAU"),

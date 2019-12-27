@@ -7,8 +7,8 @@ from cached_property import cached_property
 from jsonschema import ValidationError, validate
 from ratelimit import limits, sleep_and_retry
 
-from .base import ECurrency, Exchange, Pair, PairData
-from .exceptions import APIChangedException, APIErrorException, PairNotExistsException
+from app.exchanges.base import ECurrency, Exchange, Pair, PairData
+from app.exchanges.exceptions import APIErrorException, PairNotExistsException
 
 
 class BitfinexExchange(Exchange):

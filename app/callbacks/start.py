@@ -1,15 +1,15 @@
 from gettext import gettext
 
-from sqlalchemy.sql import true
-
 import transaction
+from sqlalchemy.sql import true
+from telegram import ReplyKeyboardMarkup, Update
+from telegram.ext import CallbackContext, ConversationHandler
+
 from app.callbacks.tutorial import tutorial
 from app.decorators import chat_language, register_update
 from app.logic import get_keyboard
 from app.models import Chat
 from suite.database import Session
-from telegram import ReplyKeyboardMarkup, Update
-from telegram.ext import CallbackContext, ConversationHandler
 
 
 @register_update

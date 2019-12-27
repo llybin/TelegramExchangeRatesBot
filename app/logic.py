@@ -1,4 +1,4 @@
-from app.helpers import import_module
+from app.helpers import import_app_module
 from app.keyboard import KeyboardSimpleClever
 from app.models import Chat
 from app.parsers.base import PriceRequest
@@ -31,7 +31,7 @@ def get_keyboard(chat_id: int, symbol="") -> list or None:
         return None
 
 
-PARSERS = [import_module(parser_path) for parser_path in settings.BOT_PARSERS]
+PARSERS = [import_app_module(parser_path) for parser_path in settings.BOT_PARSERS]
 
 
 def start_parse(

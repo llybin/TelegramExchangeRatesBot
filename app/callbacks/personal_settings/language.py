@@ -1,6 +1,9 @@
 from gettext import gettext
 
 import transaction
+from telegram import ParseMode, ReplyKeyboardMarkup, Update
+from telegram.ext import CallbackContext
+
 from app.callbacks.personal_settings.main import SettingsSteps, main_menu
 from app.decorators import chat_language, register_update
 from app.keyboard import KeyboardSimpleClever
@@ -8,8 +11,6 @@ from app.models import Chat
 from app.translations import get_translations
 from suite.conf import settings
 from suite.database import Session
-from telegram import ParseMode, ReplyKeyboardMarkup, Update
-from telegram.ext import CallbackContext
 
 LANGUAGES_LIST = sorted(settings.LANGUAGES_NAME.keys())
 LOCALE_NAME = {v: k for k, v in settings.LANGUAGES_NAME.items()}

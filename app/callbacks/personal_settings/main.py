@@ -1,8 +1,9 @@
 from gettext import gettext
 
-from app.decorators import chat_language, register_update
 from telegram import ReplyKeyboardMarkup, Update
 from telegram.ext import CallbackContext
+
+from app.decorators import chat_language, register_update
 
 
 class SettingsSteps(object):

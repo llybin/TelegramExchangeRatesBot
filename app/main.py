@@ -1,6 +1,17 @@
 import logging
 
 from sqlalchemy import create_engine
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
+from telegram.ext import (
+    CallbackContext,
+    ChosenInlineResultHandler,
+    CommandHandler,
+    ConversationHandler,
+    Filters,
+    InlineQueryHandler,
+    MessageHandler,
+    Updater,
+)
 
 from app.callbacks import personal_settings, price
 from app.callbacks.currencies import currencies_callback
@@ -17,17 +28,6 @@ from app.sentry import init_sentry
 from app.translations import init_translations
 from suite.conf import settings
 from suite.database import init_sqlalchemy
-from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
-from telegram.ext import (
-    CallbackContext,
-    ChosenInlineResultHandler,
-    CommandHandler,
-    ConversationHandler,
-    Filters,
-    InlineQueryHandler,
-    MessageHandler,
-    Updater,
-)
 
 
 @register_update

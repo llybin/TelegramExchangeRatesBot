@@ -1,9 +1,9 @@
 import os
 import sys
-import unittest
+from unittest import TestCase
 
 
-class SettingsTest(unittest.TestCase):
+class SettingsTest(TestCase):
     def setUp(self):
         self.tearDown()
 

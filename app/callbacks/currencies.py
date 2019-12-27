@@ -1,7 +1,8 @@
-from app.decorators import register_update
-from app.queries import get_all_currencies
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, ConversationHandler
+
+from app.decorators import register_update
+from app.queries import get_all_currencies
 
 
 @register_update

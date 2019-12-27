@@ -1,18 +1,18 @@
 from datetime import datetime
 from decimal import Decimal
 
+from freezegun import freeze_time
+
 from app.constants import decimal_scale
 from app.converter.base import PriceRequestResult
-from app.parsers.base import DirectionWriting, PriceRequest
-from freezegun import freeze_time
-from suite.test.testcases import SimpleTestCase
-
-from ..formatter import (
+from app.formatter.formatter import (
     FormatPriceRequestResult,
     InlineFormatPriceRequestResult,
     NotifyFormatPriceRequestResult,
     clever_round,
 )
+from app.parsers.base import DirectionWriting, PriceRequest
+from suite.test.testcases import SimpleTestCase
 
 
 class CleverRoundTest(SimpleTestCase):

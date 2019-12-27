@@ -1,13 +1,13 @@
 from gettext import gettext
 
-from sqlalchemy.sql import false, true
-
 import transaction
+from sqlalchemy.sql import false, true
+from telegram import Update
+from telegram.ext import CallbackContext, ConversationHandler
+
 from app.decorators import chat_language, register_update
 from app.models import Chat, Notification
 from suite.database import Session
-from telegram import Update
-from telegram.ext import CallbackContext, ConversationHandler
 
 
 @register_update

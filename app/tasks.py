@@ -1,18 +1,18 @@
 import logging
 from datetime import datetime, timedelta
 
+import transaction
 from celery_once import QueueOnce
 from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.orm.exc import NoResultFound
+from telegram import Bot
 
-import transaction
 from app.celery import celery_app
-from app.exchanges.base import Pair, PairData, reverse_pair_data
-from app.helpers import fill_rate_open, import_module, rate_from_pair_data
+from app.exchanges.base import PairData, reverse_pair_data
+from app.helpers import fill_rate_open, import_app_module, rate_from_pair_data
 from app.models import ChatRequests, Currency, Exchange, Rate, RequestsLog
 from suite.conf import settings
 from suite.database import Session
-from telegram import Bot
 
 
 # @celery_app.task(base=QueueOnce, queue='exchanges')
@@ -20,7 +20,7 @@ from telegram import Bot
 def exchange_updater(exchange_class: str) -> None:
     db_session = Session()
 
-    exchange = import_module(exchange_class)()
+    exchange = import_app_module(exchange_class)()
     try:
         exchange_obj = db_session.query(Exchange).filter_by(name=exchange.name).one()
         if not exchange_obj.is_active:

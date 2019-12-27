@@ -1,9 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
 
-from suite.test.testcases import SimpleTestCase
-
-from ..base import (
+from app.exchanges.base import (
     ECurrency,
     Pair,
     PairData,
@@ -11,6 +9,7 @@ from ..base import (
     reverse_pair,
     reverse_pair_data,
 )
+from suite.test.testcases import SimpleTestCase
 
 
 class ReverseFunctionsTest(SimpleTestCase):
