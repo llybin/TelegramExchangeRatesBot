@@ -82,6 +82,7 @@ def exchange_updater(exchange_class: str) -> None:
                 pair.from_currency.code,
                 pair.to_currency.code,
             )
+            continue
 
         save_rate(pair_data)
         if not exchange.included_reversed_pairs:
