@@ -3,13 +3,11 @@ FROM python:3.8.1-alpine
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apk update && apk upgrade && apk add --no-cache bash
-
 WORKDIR /app
 
-COPY wait-for-it.sh ./
+COPY . .
 
-COPY Pipfile Pipfile.lock ./
+RUN apk update && apk upgrade && apk add --no-cache bash
 
 RUN set -ex \
     && apk update \
@@ -33,7 +31,5 @@ RUN set -ex \
     )" \
     && apk add --virtual .python-rundeps $runDeps \
     && apk del .build-deps
-
-COPY . .
 
 CMD ["python manage.py start"]
