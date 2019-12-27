@@ -3,6 +3,8 @@ FROM python:3.8.1-alpine
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+RUN apk update && apk upgrade && apk add --no-cache bash
+
 WORKDIR /app
 
 COPY wait-for-it.sh ./
