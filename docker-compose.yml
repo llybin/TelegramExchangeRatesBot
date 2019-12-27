@@ -22,7 +22,7 @@ services:
     tty: true
     command: ["./wait-for-it.sh", "db:5432", "--", "./docker-entrypoint.sh"]
     volumes:
-      - .:/code
+      - .:/app
     env_file:
       - .env
     depends_on:
@@ -35,7 +35,7 @@ services:
       dockerfile: Dockerfile
     command: ["celery", "-A", "app.celery", "worker", "-l", "info"]
     volumes:
-      - .:/code
+      - .:/app
     env_file:
       - .env
     depends_on:
@@ -48,7 +48,7 @@ services:
       dockerfile: Dockerfile
     command: ["celery", "-A", "app.celery", "beat", "-l", "info"]
     volumes:
-      - .:/code
+      - .:/app
     env_file:
       - .env
     depends_on:
