@@ -72,6 +72,17 @@ def exchange_updater(exchange_class: str) -> None:
                 db_session.add(new_rate)
 
         pair_data = exchange.get_pair_info(pair)
+
+        current_time = datetime.utcnow()
+        week_ago = current_time - timedelta(days=7)
+        if pair_data.last_trade_at < week_ago:
+            logging.debug(
+                "Rate expired exchange: %s, pair: %s-%s",
+                exchange.name,
+                pair.from_currency.code,
+                pair.to_currency.code,
+            )
+
         save_rate(pair_data)
         if not exchange.included_reversed_pairs:
             reversed_pair_data = reverse_pair_data(pair_data)
@@ -88,8 +99,8 @@ def exchange_updater(exchange_class: str) -> None:
 def delete_expired_rates() -> None:
     db_session = Session()
     current_time = datetime.utcnow()
-    day_ago = current_time - timedelta(days=1)
-    rates = db_session.query(Rate).filter(Rate.last_trade_at < day_ago)
+    week_ago = current_time - timedelta(days=7)
+    rates = db_session.query(Rate).filter(Rate.last_trade_at < week_ago)
     for r in rates:
         logging.warning(
             "Rate expired exchange: %s, pair: %s-%s",
