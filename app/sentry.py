@@ -3,6 +3,9 @@ import logging
 import sentry_sdk
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
+from sentry_sdk.integrations.redis import RedisIntegration
+from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+from sentry_sdk.integrations.tornado import TornadoIntegration
 
 from suite.conf import settings
 
@@ -31,5 +34,11 @@ def init_sentry():
         sentry_sdk.init(
             dsn=settings.SENTRY_URL,
             before_send=before_send,
-            integrations=[CeleryIntegration(), sentry_logging],
+            integrations=[
+                CeleryIntegration(),
+                sentry_logging,
+                TornadoIntegration(),
+                RedisIntegration(),
+                SqlalchemyIntegration(),
+            ],
         )
