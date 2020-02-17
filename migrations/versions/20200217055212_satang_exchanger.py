@@ -33,6 +33,7 @@ class Exchange(Base):
 def upgrade():
     session = Session(bind=op.get_bind())
     session.add(Exchange(name=SatangExchange.name, is_active=True, weight=17))
+    session.flush()
 
 
 def downgrade():
