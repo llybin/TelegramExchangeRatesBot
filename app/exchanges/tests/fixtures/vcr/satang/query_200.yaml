@@ -1,0 +1,57 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.22.0
+    method: GET
+    uri: https://api.tdax.com/api/orderbook-tickers/
+  response:
+    body:
+      string: '{"BCH_THB":{"bid":{"price":"11900","amount":"0.005042016806722689"},"ask":{"price":"15349.9999","amount":"2"}},"BNB_THB":{"bid":{"price":"710","amount":"74.99"},"ask":{"price":"750","amount":"0.61"}},"BTC_THB":{"bid":{"price":"304600","amount":"0.05"},"ask":{"price":"304999","amount":"0.1478813007255761492"}},"DOGE_THB":{"bid":{"price":"0.08659999","amount":"0.873122133108"},"ask":{"price":"0.093","amount":"6360.8188057652711"}},"ETH_THB":{"bid":{"price":"7503.00000001","amount":"3"},"ask":{"price":"8000","amount":"2.6788"}},"JFIN_THB":{"bid":{"price":"1.41000001","amount":"14.184397062522006"},"ask":{"price":"1.62","amount":"1611.09"}},"LTC_THB":{"bid":{"price":"2005.0001","amount":"3"},"ask":{"price":"2400","amount":"0.98"}},"USDT_THB":{"bid":{"price":"30.8000002","amount":"4975.63"},"ask":{"price":"31.19899999","amount":"9584.379819312275152"}},"XLM_THB":{"bid":{"price":"2.2","amount":"0.4090909090905"},"ask":{"price":"2.3888799","amount":"6000"}},"XRP_THB":{"bid":{"price":"8.57001","amount":"2000"},"ask":{"price":"8.9999999","amount":"6000"}},"XZC_THB":{"bid":{"price":"190","amount":"0.15"},"ask":{"price":"213.57","amount":"84.51"}}}
+
+        '
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-New-Access-Token,X-New-Secret,X-RateLimit-Limit,X-RateLimit-Remaining,X-RateLimit-Reset
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 566592896b96c8d3-BKK
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Mon, 17 Feb 2020 06:05:56 GMT
+      Expect-CT:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Set-Cookie:
+      - __cfduid=d6d208edf046f96031bcfe39c4f96a6a71581919556; expires=Wed, 18-Mar-20
+        06:05:56 GMT; path=/; domain=.tdax.com; HttpOnly; SameSite=Lax; Secure
+      Strict-Transport-Security:
+      - max-age=0
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      content-length:
+      - '1156'
+    status:
+      code: 200
+      message: OK
+version: 1

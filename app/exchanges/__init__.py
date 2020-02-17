@@ -3,6 +3,7 @@ from .bitkub import BitkubExchange
 from .bittrex import BittrexExchange
 from .fixer import FixerExchange
 from .openexchangerates import OpenExchangeRatesExchange
+from .satang import SatangExchange
 from .sp_today import SpTodayExchange
 
 __all__ = [
@@ -12,4 +13,5 @@ __all__ = [
     "FixerExchange",
     "BitkubExchange",
     "SpTodayExchange",
+    "SatangExchange",
 ]
