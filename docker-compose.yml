@@ -31,7 +31,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: ["celery", "-A", "app.celery", "worker", "-l", "info"]
+    command: ["celery", "-A", "app.celery", "worker", "-l", "info", "-c", "2"]
     volumes:
       - .:/app
     env_file:
