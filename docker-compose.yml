@@ -1,13 +1,13 @@
 version: '3'
 services:
   db:
-    image: postgres:10.11-alpine
+    image: postgres:10.11
     hostname: db
     volumes:
       - postgresql_data:/var/lib/postgresql/data
 
   redis:
-    image: redis:5.0.7-alpine
+    image: redis:5.0.7
     hostname: redis
     volumes:
       - redis_data:/data
@@ -18,11 +18,14 @@ services:
       dockerfile: Dockerfile
     stdin_open: true
     tty: true
-    command: ["./wait-for-it.sh", "db:5432", "--", "./docker-entrypoint.sh"]
     volumes:
       - .:/app
     env_file:
       - .env
+    environment:
+      APP_MIGRATE: "on"
+      APP_COMPILE_LOCALE: "on"
+      START_APP: "on"
     depends_on:
       - db
       - redis
@@ -36,6 +39,8 @@ services:
       - .:/app
     env_file:
       - .env
+    environment:
+      APP_COMPILE_LOCALE: "on"
     depends_on:
       - db
       - redis

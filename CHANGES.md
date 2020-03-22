@@ -1,5 +1,9 @@
 # CHANGES
 
+## 1.6
+*   Added [satang.pro](https://satang.pro/signup?referral=STZ3EEU2)
+*   Docker adjustments
+
 ## 1.5
 *   bumped python packages
 *   removed [bx.in.th](https://bx.in.th/ref/s9c3HU/) exchanger, reason: closed

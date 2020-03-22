@@ -35,7 +35,7 @@ insert_final_newline = false
 indent_style = tab
 
 # Batch files use tabs for indentation
-[*.bat]
+[{*.bat,*.sh,Dockerfile}]
 indent_style = tab
 
 [docs/**.txt]
