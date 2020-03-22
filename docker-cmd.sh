@@ -17,3 +17,5 @@ if [ "$START_APP" = "on" ]; then
 	echo "Starting server"
 	python manage.py start
 fi
+
+# TODO: for celery $APP_COMPILE_LOCALE not called now
