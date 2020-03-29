@@ -20,7 +20,7 @@ click = "==7.1.1"
 "dogpile.cache" = "==0.9.0"
 jsonschema = "==3.2.0"
 psycopg2-binary = "==2.8.4"
-python-telegram-bot = "==12.4.2"
+python-telegram-bot = "==12.5"
 ratelimit = "==2.2.1"
 requests = {version = "==2.23.0", extras = ["socks"]}
 sentry-sdk = "==0.14.3"

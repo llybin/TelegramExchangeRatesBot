@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9d9c1f3d21a27a36ffec61fb434fdc44f7b6f8e33ee6a8bc6eb83e1cff23ad1a"
+            "sha256": "61d6d3d4f32b9b738751957d9db8346f011fa239d133144ce468535180ec3d31"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -302,9 +302,9 @@
         },
         "pyrsistent": {
             "hashes": [
-                "sha256:cdc7b5e3ed77bed61270a47d35434a30617b9becdf2478af76ad2c6ade307280"
+                "sha256:28669905fe725965daa16184933676547c5bb40a5153055a8dee2a4bd7933ad3"
             ],
-            "version": "==0.15.7"
+            "version": "==0.16.0"
         },
         "pysocks": {
             "hashes": [
@@ -331,11 +331,11 @@
         },
         "python-telegram-bot": {
             "hashes": [
-                "sha256:0a97cbca638f949582b4ee326170d2f8d7f4bf559a4e511132bb2203623e04ad",
-                "sha256:d3cffd020af4094d07c11783f875e5c682072ba7f5bc21ce89ff0222f4e6d742"
+                "sha256:4796f794cd55d2d77dbd242cd2e4081c0664384ec4fbdb046501f9d32619560a",
+                "sha256:f330c8ce72e167e048a92cd9996d8752b77d260f938664c2aec1ca753fe1118c"
             ],
             "index": "pypi",
-            "version": "==12.4.2"
+            "version": "==12.5"
         },
         "pytz": {
             "hashes": [
