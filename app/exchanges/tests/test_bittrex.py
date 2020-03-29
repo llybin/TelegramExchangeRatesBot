@@ -17,7 +17,10 @@ my_vcr = VCR(
 
 class BittrexTest(SimpleTestCase):
     def test_name(self):
-        self.assertEqual(BittrexExchange.name, "Bittrex")
+        self.assertEqual(
+            BittrexExchange.name,
+            "[bittrex.com](https://bittrex.com/Account/Register?referralCode=YIV-CNI-13Q)",
+        )
 
     @my_vcr.use_cassette("query_200.yaml")
     def test_list_currencies(self):

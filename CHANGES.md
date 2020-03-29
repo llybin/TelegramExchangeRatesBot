@@ -3,6 +3,7 @@
 ## 1.6
 *   Added [satang.pro](https://satang.pro/signup?referral=STZ3EEU2)
 *   Docker adjustments
+*   Referral: [bittrex.com](https://bittrex.com/Account/Register?referralCode=YIV-CNI-13Q)
 
 ## 1.5
 *   bumped python packages

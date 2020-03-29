@@ -24,7 +24,9 @@ class BittrexExchange(Exchange):
     Calls after the limit will fail, with the limit resetting at the start of the next minute.
     """
 
-    name = "Bittrex"
+    name = (
+        "[bittrex.com](https://bittrex.com/Account/Register?referralCode=YIV-CNI-13Q)"
+    )
 
     @cached_property
     def _get_data(self) -> dict:
