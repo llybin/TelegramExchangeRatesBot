@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    image: postgres:10.14
+    image: postgres:10.11
     hostname: db
     restart: always
     volumes:
