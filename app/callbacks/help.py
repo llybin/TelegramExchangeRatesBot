@@ -39,11 +39,6 @@ def help_callback(
         "trans_link": "https://poeditor.com/join/project/LLu8AztSPb"
     }
 
-    text_to += "\n\n"
-    text_to += (
-        "🍕🍺 [patreon.com/ExchangeRatesBot](https://www.patreon.com/ExchangeRatesBot)"
-    )
-
     update.message.reply_text(
         disable_web_page_preview=True, parse_mode=ParseMode.MARKDOWN, text=text_to
     )
