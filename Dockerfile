@@ -1,4 +1,4 @@
-FROM python:3.8.2-slim-buster
+FROM python:3.8.5-slim-buster
 
 ARG UID=1000
 ARG GID=1000
@@ -22,7 +22,7 @@ ENV APP_ENV=${APP_ENV} \
 	# https://github.com/jwilder/dockerize
 	DOCKERIZE_VERSION=v0.6.1 \
 	# https://github.com/pypa/pipenv
-	PKG_PIPENV_VERSION=2018.11.26
+	PKG_PIPENV_VERSION=2020.8.13
 
 # Create user and group for running app
 RUN groupadd -r -g $GID app && useradd --no-log-init -r -u $UID -g app app

@@ -1,14 +1,14 @@
 version: '3'
 services:
   db:
-    image: postgres:10.11
+    image: postgres:10.14
     hostname: db
     restart: always
     volumes:
       - postgresql_data:/var/lib/postgresql/data
 
   redis:
-    image: redis:5.0.8
+    image: redis:6.0.5
     hostname: redis
     restart: always
     volumes:
