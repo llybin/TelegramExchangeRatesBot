@@ -60,6 +60,8 @@ def main():
 
     dp = updater.dispatcher
 
+    dp.add_handler(CommandHandler("nothing", cancel_callback))
+
     feedback_handler = ConversationHandler(
         entry_points=[CommandHandler("feedback", feedback_callback)],
         states={1: [MessageHandler(Filters.text, send_feedback_callback)]},
