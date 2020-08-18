@@ -100,8 +100,8 @@ def exchange_updater(exchange_class: str) -> None:
 def delete_expired_rates() -> None:
     db_session = Session()
     current_time = datetime.utcnow()
-    week_ago = current_time - timedelta(days=7)
-    rates = db_session.query(Rate).filter(Rate.last_trade_at < week_ago)
+    two_days_ago = current_time - timedelta(days=2)
+    rates = db_session.query(Rate).filter(Rate.last_trade_at < two_days_ago)
     for r in rates:
         logging.warning(
             "Rate expired exchange: %s, pair: %s-%s",

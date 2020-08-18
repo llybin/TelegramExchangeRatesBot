@@ -10,34 +10,10 @@ from jsonschema import ValidationError, validate
 from app.exchanges.base import ECurrency, Exchange, Pair, PairData
 from app.exchanges.exceptions import APIErrorException, PairNotExistsException
 
-MAPPING_CURRENCIES = {
-    "dollar": "USD",
-    "euro": "EUR",
-    "tl": "TRY",
-    "eg": "EGP",
-    "sa": "SAR",
-    "jd": "JOD",
-    "ed": "AED",
-    "qar": "QAR",
-    "bhd": "BHD",
-    "lyd": "LYD",
-    "kd": "KWD",
-    "omr": "OMR",
-    "uk": "GBP",
-    "sek": "SEK",
-    "cad": "CAD",
-    "nok": "NOK",
-    "dkk": "DKK",
-}
-
 
 class SpTodayExchange(Exchange):
     """
     https://www.sp-today.com
-
-    https://www.sp-today.com/ticker-news/aleppo_cur.json
-    https://sp-today.com/ticker-news/cur.json
-    https://sp-today.com/fcur/fcur2.json
     """
 
     name = "sp-today"
@@ -45,26 +21,23 @@ class SpTodayExchange(Exchange):
     @cached_property
     def _get_data(self) -> dict:
         try:
-            response = requests.get(
-                "http://www.sp-today.com/ticker-news/aleppo_cur.json"
-            )
+            response = requests.get("https://sp-today.com/app_api/cur_aleppo.json")
             response.raise_for_status()
             data = response.json()
         except (requests.exceptions.RequestException, ValueError) as e:
             raise APIErrorException(e)
 
         try:
-            # TODO: check and bitfinex also array
             schema = {
                 "type": "array",
                 "items": {
                     "type": "object",
                     "properties": {
                         "name": {"type": "string"},
-                        "sell_price": {"type": "string"},
-                        "buy_price": {"type": "string"},
+                        "bid": {"type": "string"},
+                        "ask": {"type": "string"},
                     },
-                    "required": ["name", "sell_price", "buy_price"],
+                    "required": ["name", "bid", "ask"],
                 },
             }
             validate(data, schema)
@@ -73,17 +46,7 @@ class SpTodayExchange(Exchange):
 
         result = {}
         for x in data:
-            if x["name"] not in MAPPING_CURRENCIES:
-                logging.warning("New currency added: %s", x["name"])
-                continue
-
-            result[Pair(ECurrency(MAPPING_CURRENCIES[x["name"]]), ECurrency("SYP"))] = x
-
-        if len(result) != len(MAPPING_CURRENCIES):
-            logging.warning(
-                "Currencies were deleted: %s",
-                set(MAPPING_CURRENCIES.keys() - set(result.keys())),
-            )
+            result[Pair(ECurrency(x["name"]), ECurrency("SYP"))] = x
 
         return result
 
@@ -107,8 +70,6 @@ class SpTodayExchange(Exchange):
 
         pair_data = self._get_data[pair]
 
-        mid = (
-            Decimal(pair_data["sell_price"]) + Decimal(pair_data["buy_price"])
-        ) / Decimal("2")
+        mid = (Decimal(pair_data["ask"]) + Decimal(pair_data["bid"])) / Decimal("2")
 
         return PairData(pair=pair, rate=mid, last_trade_at=datetime.utcnow())

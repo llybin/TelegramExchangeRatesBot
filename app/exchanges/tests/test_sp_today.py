@@ -70,7 +70,7 @@ class SpTodayExchangeTest(SimpleTestCase):
             SpTodayExchange().get_pair_info(pair),
             PairData(
                 pair=pair,
-                rate=Decimal("550"),
+                rate=Decimal("2105"),
                 rate_open=None,
                 last_trade_at=datetime(2019, 3, 17, 22, 14, 15, 0),
             ),

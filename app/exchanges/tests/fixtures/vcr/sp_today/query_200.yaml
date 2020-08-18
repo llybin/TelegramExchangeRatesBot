@@ -9,59 +9,39 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.21.0
+      - python-requests/2.24.0
     method: GET
-    uri: http://www.sp-today.com/ticker-news/aleppo_cur.json
+    uri: https://sp-today.com/app_api/cur_aleppo.json
   response:
     body:
-      string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body\
-        \ bgcolor=\"white\">\r\n<center><h1>301 Moved Permanently</h1></center>\r\n\
-        <hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
-    headers:
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '178'
-      Content-Type:
-      - text/html
-      Date:
-      - Tue, 26 Mar 2019 12:52:06 GMT
-      Location:
-      - https://sp-today.com/ticker-news/aleppo_cur.json
-      Server:
-      - nginx
-      X-Cache:
-      - MISS from cag
-    status:
-      code: 301
-      message: Moved Permanently
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      User-Agent:
-      - python-requests/2.21.0
-    method: GET
-    uri: https://sp-today.com/ticker-news/aleppo_cur.json
-  response:
-    body:
-      string: '[{"name":"dollar","sell_price":"549","buy_price":"551","arrow":"1"},{"name":"euro","sell_price":"619","buy_price":"623","arrow":"1"},{"name":"tl","sell_price":"98","buy_price":"99","arrow":"0"},{"name":"eg","sell_price":"31","buy_price":"32","arrow":"0"},{"name":"sa","sell_price":"144","buy_price":"147","arrow":"1"},{"name":"jd","sell_price":"769","buy_price":"777","arrow":"1"},{"name":"ed","sell_price":"147","buy_price":"150","arrow":"1"},{"name":"qar","sell_price":"149","buy_price":"151","arrow":"1"},{"name":"bhd","sell_price":"1446","buy_price":"1462","arrow":"1"},{"name":"lyd","sell_price":"395","buy_price":"399","arrow":"1"},{"name":"kd","sell_price":"1799","buy_price":"1816","arrow":"1"},{"name":"omr","sell_price":"1416","buy_price":"1431","arrow":"1"},{"name":"uk","sell_price":"718","buy_price":"727","arrow":"1"},{"name":"sek","sell_price":"58","buy_price":"60","arrow":"1"},{"name":"cad","sell_price":"406","buy_price":"411","arrow":"1"},{"name":"nok","sell_price":"63","buy_price":"65","arrow":"1"},{"name":"dkk","sell_price":"82","buy_price":"83","arrow":"0"}]'
+      string: '[{"name":"USD","ask":"2080","bid":"2130","arrow":"1","ar_name":"\u062f\u0648\u0644\u0627\u0631
+        \u0623\u0645\u0631\u064a\u0643\u064a","icon":"us.png","change":"60","change_percentage":"2.90"},{"name":"EUR","ask":"2478","bid":"2542","arrow":"1","ar_name":"\u064a\u0648\u0631\u0648","icon":"euro.png","change":"90","change_percentage":"3.67"},{"name":"TRY","ask":"281","bid":"290","arrow":"1","ar_name":"\u0644\u064a\u0631\u0629
+        \u062a\u0631\u0643\u064a\u0629","icon":"tr.png","change":"10","change_percentage":"3.57"},{"name":"EGP","ask":"129","bid":"134","arrow":"1","ar_name":"\u062c\u0646\u064a\u0647
+        \u0645\u0635\u0631\u064a","icon":"eg.png","change":"4","change_percentage":"3.08"},{"name":"SAR","ask":"552","bid":"568","arrow":"1","ar_name":"\u0631\u064a\u0627\u0644
+        \u0633\u0639\u0648\u062f\u064a","icon":"sa.png","change":"15","change_percentage":"2.71"},{"name":"JOD","ask":"2937","bid":"3016","arrow":"1","ar_name":"\u062f\u064a\u0646\u0627\u0631
+        \u0623\u0631\u062f\u0646\u064a","icon":"jo.png","change":"86","change_percentage":"2.94"},{"name":"AED","ask":"563","bid":"580","arrow":"1","ar_name":"\u062f\u0631\u0647\u0645
+        \u0625\u0645\u0627\u0631\u0627\u062a\u064a","icon":"ae.png","change":"16","change_percentage":"2.84"},{"name":"QAR","ask":"568","bid":"585","arrow":"1","ar_name":"\u0631\u064a\u0627\u0644
+        \u0642\u0637\u0631\u064a","icon":"qar.png","change":"16","change_percentage":"2.81"},{"name":"BHD","ask":"5538","bid":"5691","arrow":"1","ar_name":"\u062f\u064a\u0646\u0627\u0631
+        \u0628\u062d\u0631\u064a\u0646\u064a","icon":"bh.png","change":"172","change_percentage":"3.12"},{"name":"LYD","ask":"1536","bid":"1578","arrow":"1","ar_name":"\u062f\u064a\u0646\u0627\u0631
+        \u0644\u064a\u0628\u064a ","icon":"libya.png","change":"33","change_percentage":"2.14"},{"name":"KWD","ask":"6801","bid":"6990","arrow":"1","ar_name":"\u062f\u064a\u0646\u0627\u0631
+        \u0643\u0648\u064a\u062a\u064a","icon":"kw.png","change":"209","change_percentage":"3.08"},{"name":"OMR","ask":"5397","bid":"5547","arrow":"1","ar_name":"\u0631\u064a\u0627\u0644
+        \u0639\u0645\u0627\u0646\u064a","icon":"omr.png","change":"146","change_percentage":"2.70"},{"name":"GBP","ask":"2741","bid":"2817","arrow":"1","ar_name":"\u062c\u0646\u064a\u0647
+        \u0627\u0633\u062a\u0631\u0644\u064a\u0646\u064a","icon":"gb.png","change":"105","change_percentage":"3.87"},{"name":"SEK","ask":"238","bid":"246","arrow":"1","ar_name":"\u0643\u0631\u0648\u0646
+        \u0633\u0648\u064a\u062f\u064a","icon":"sweden.png","change":"8","change_percentage":"3.36"},{"name":"CAD","ask":"1570","bid":"1616","arrow":"1","ar_name":"\u062f\u0648\u0644\u0627\u0631
+        \u0643\u0646\u062f\u064a","icon":"cad.png","change":"52","change_percentage":"3.32"},{"name":"NOK","ask":"232","bid":"241","arrow":"1","ar_name":"\u0643\u0631\u0648\u0646
+        \u0646\u0631\u0648\u064a\u062c\u064a","icon":"nok.png","change":"8","change_percentage":"3.43"},{"name":"DKK","ask":"330","bid":"341","arrow":"1","ar_name":"\u0643\u0631\u0648\u0646
+        \u062f\u064a\u0646\u0645\u0627\u0631\u0643\u064a","icon":"dkk.png","change":"12","change_percentage":"3.65"}]'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Tue, 26 Mar 2019 12:52:07 GMT
+      - Tue, 18 Aug 2020 19:12:43 GMT
       ETag:
-      - W/"5c99f14f-43a"
+      - W/"5f3be84c-c02"
       Last-Modified:
-      - Tue, 26 Mar 2019 09:30:55 GMT
+      - Tue, 18 Aug 2020 14:40:12 GMT
       Server:
       - nginx
       Transfer-Encoding:
@@ -69,7 +49,7 @@ interactions:
       Vary:
       - Accept-Encoding
       content-length:
-      - '1082'
+      - '3074'
     status:
       code: 200
       message: OK
