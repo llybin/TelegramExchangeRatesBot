@@ -39,6 +39,14 @@ def help_callback(
         "trans_link": "https://poeditor.com/join/project/LLu8AztSPb"
     }
 
+    text_to += "\n\n"
+    text_to += (
+        "Donations, bot is free and online since 01 July 2015:\n"
+        "BTC: bc1q2efcwfs7f9pzncj5qv7xxrmntvempup6tr9vgg\n"
+        "ETH: 0xAC8bA41C8BeB07398512A893e1f72E6B95D06694\n"
+        "LTC: ltc1qqashju57hag8rppwu6u424ctyewp0ck6k7qyut"
+    )
+
     update.message.reply_text(
         disable_web_page_preview=True, parse_mode=ParseMode.MARKDOWN, text=text_to
     )
