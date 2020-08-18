@@ -3,12 +3,14 @@ services:
   db:
     image: postgres:10.11
     hostname: db
+    restart: always
     volumes:
       - postgresql_data:/var/lib/postgresql/data
 
   redis:
     image: redis:5.0.8
     hostname: redis
+    restart: always
     volumes:
       - redis_data:/data
 
@@ -18,6 +20,7 @@ services:
       dockerfile: Dockerfile
     stdin_open: true
     tty: true
+    restart: always
     volumes:
       - .:/app
     env_file:
@@ -34,6 +37,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    restart: always
     command: ["celery", "-A", "app.celery", "worker", "-l", "info", "-c", "2"]
     volumes:
       - .:/app
@@ -49,7 +53,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: ["celery", "-A", "app.celery", "beat", "-l", "info"]
+    command: ["celery", "-A", "app.celery", "beat", "-l", "info", "-s", "/tmp/celerybeat-schedule.db", "--pidfile", "/tmp/celeryd.pid"]
     volumes:
       - .:/app
     env_file:
