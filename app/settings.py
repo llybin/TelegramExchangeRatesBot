@@ -177,3 +177,13 @@ LOGGING = {
     "root": {"level": "INFO", "handlers": ["console"]},
     "loggers": {"sqlalchemy.engine": {"level": "WARNING", "handlers": ["console"]}},
 }
+
+DONATION_WALLETS = {
+    "BCH": "1CGQTqv3tzLCj4pmUJEyH2GatcXZjwoTpA",
+    "BTC": "bc1q2efcwfs7f9pzncj5qv7xxrmntvempup6tr9vgg",
+    "ETH": "0xAC8bA41C8BeB07398512A893e1f72E6B95D06694",
+    "LTC": "ltc1qqashju57hag8rppwu6u424ctyewp0ck6k7qyut",
+    "XRP": "rD9uCagFYMhJZtmnedDfJwCLP8jqH1Juw",
+    "BURST": "BURST-BTKF-8WT9-L98N-98JH2",
+}
+DONATION_FREQUENCY = int(os.environ.get("DONATION_FREQUENCY", 5))

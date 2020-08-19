@@ -1,31 +1,13 @@
 from decimal import ROUND_HALF_UP, Decimal
+from random import choice, randrange
 
-from babel.numbers import (
-    NumberPattern,
-    format_decimal,
-    get_decimal_quantum,
-    get_decimal_symbol,
-)
+from babel.numbers import format_decimal, get_decimal_quantum, get_decimal_symbol
 
 from app import constants
 from app.converter.base import PriceRequestResult
 from app.parsers.base import DirectionWriting
 from app.translations import transform_locale
-
-
-# monkey patching fix very small values
-# https://github.com/python-babel/babel/issues/636
-def _quantize_value(self, value, locale, frac_prec):
-    quantum = get_decimal_quantum(frac_prec[1])
-    rounded = value.quantize(quantum)
-    a, sep, b = "{:f}".format(rounded).partition(".")
-    number = self._format_int(
-        a, self.int_prec[0], self.int_prec[1], locale
-    ) + self._format_frac(b or "0", locale, frac_prec)
-    return number
-
-
-NumberPattern._quantize_value = _quantize_value
+from suite.conf import settings
 
 
 def clever_round(number: Decimal, ndigits: int) -> Decimal:
@@ -182,6 +164,10 @@ class FormatPriceRequestResult(object):
         else:
             return f"{from_amount} *{from_currency}* = {result_amount} *{to_currency}*"
 
+    @staticmethod
+    def format_donations(currency):
+        return f"/donate{currency} {choice(constants.DONATION_EMOJIS)}"
+
     def get(self) -> str:
         msg_list = []
 
@@ -199,6 +185,14 @@ class FormatPriceRequestResult(object):
 
         msg_list.append(self.format_last_trade_at())
         msg_list.append(self.format_exchanges())
+
+        if randrange(settings.DONATION_FREQUENCY) == 0:
+            from_currency = self.prr.price_request.currency
+            to_currency = self.prr.price_request.to_currency
+            if from_currency in settings.DONATION_WALLETS:
+                msg_list.append(self.format_donations(from_currency))
+            elif to_currency in settings.DONATION_WALLETS:
+                msg_list.append(self.format_donations(to_currency))
 
         return "\n".join(msg_list)
 

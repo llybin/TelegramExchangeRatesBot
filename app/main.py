@@ -16,6 +16,7 @@ from telegram.ext import (
 from app.callbacks import personal_settings, price
 from app.callbacks.currencies import currencies_callback
 from app.callbacks.disclaimers import disclaimers_callback
+from app.callbacks.donate import donate_callback
 from app.callbacks.feedback import feedback_callback, send_feedback_callback
 from app.callbacks.help import help_callback
 from app.callbacks.sources import sources_callback
@@ -187,6 +188,8 @@ def main():
     dp.add_handler(CommandHandler("stop", stop_callback))
     dp.add_handler(CommandHandler("sources", sources_callback))
     dp.add_handler(CommandHandler("tutorial", tutorial_callback))
+
+    dp.add_handler(MessageHandler(Filters.regex(r"^/donate"), donate_callback))
 
     dp.add_handler(MessageHandler(Filters.regex(r"^/"), price.on_slash_callback))
 
