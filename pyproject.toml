@@ -1,0 +1,66 @@
+[tool.poetry]
+name = "telegramexchangeratesbot"
+version = "1.5.3"
+description = "Telegram bot actual exchange rates for travel, work and daily life."
+authors = ["Lev Lybin <lev.lybin@gmail.com>"]
+license = "GPL-3.0"
+homepage = "https://telegram.me/ExchangeRatesBot"
+repository = "https://github.com/llybin/TelegramExchangeRatesBot"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+alembic = "1.4.2"
+beautifulsoup4 = "4.9.1"
+babel = "2.8.0"
+cached-property = "1.5.1"
+celery = {version = "4.4.7", extras = ["redis"]}
+celery-once = "3.0.1"
+click = "7.1.2"
+"dogpile.cache" = "1.0.2"
+jsonschema = "3.2.0"
+psycopg2-binary = "2.8.5"
+python-telegram-bot = "12.8"
+ratelimit = "2.2.1"
+requests = {version = "2.24.0", extras = ["socks"]}
+sentry-sdk = "0.16.5"
+sqlalchemy = "1.3.19"
+sqlalchemy-utils = "0.36.8"
+"zope.sqlalchemy" = "1.3"
+
+[tool.poetry.dev-dependencies]
+iso4217 = "1.6.20180829"
+vcrpy = "^4.1.0"
+freezegun = "^0.3.15"
+coverage = "^5.2.1"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
+[tool.isort]
+combine_as_imports = true
+default_section = "THIRDPARTY"
+line_length = 88
+use_parentheses = true
+include_trailing_comma = true
+multi_line_output = 3
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+    \.eggs
+    | \.git
+    | \.mypy_cache
+    | \.pytest_cache
+    | \.venv
+    | __pycache__
+    | _build
+    | build
+    | dist
+  )/
+)
+'''

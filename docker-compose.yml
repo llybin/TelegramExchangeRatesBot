@@ -27,7 +27,6 @@ services:
       - .env
     environment:
       APP_MIGRATE: "on"
-      APP_COMPILE_LOCALE: "on"
       START_APP: "on"
     depends_on:
       - db
@@ -43,8 +42,6 @@ services:
       - .:/app
     env_file:
       - .env
-    environment:
-      APP_COMPILE_LOCALE: "on"
     depends_on:
       - db
       - redis

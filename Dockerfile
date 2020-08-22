@@ -2,14 +2,10 @@ FROM python:3.8.5-slim-buster
 
 ARG UID=1000
 ARG GID=1000
-ARG APP_ENV=DEV
 ARG APP_MIGRATE=off
-ARG APP_COMPILE_LOCALE=off
 ARG START_APP=off
 
-ENV APP_ENV=${APP_ENV} \
-	APP_MIGRATE=${APP_MIGRATE} \
-	APP_COMPILE_LOCALE=${APP_COMPILE_LOCALE} \
+ENV APP_MIGRATE=${APP_MIGRATE} \
 	START_APP=${START_APP} \
 	# https://docs.python.org/3.8/using/cmdline.html
 	PYTHONFAULTHANDLER=1 \
@@ -21,8 +17,8 @@ ENV APP_ENV=${APP_ENV} \
 	PIP_DEFAULT_TIMEOUT=100 \
 	# https://github.com/jwilder/dockerize
 	DOCKERIZE_VERSION=v0.6.1 \
-	# https://github.com/pypa/pipenv
-	PKG_PIPENV_VERSION=2020.8.13
+	# https://github.com/python-poetry/poetry
+	POETRY_VERSION=1.0.10
 
 # Create user and group for running app
 RUN groupadd -r -g $GID app && useradd --no-log-init -r -u $UID -g app app
@@ -41,7 +37,7 @@ RUN chmod +x "/docker-entrypoint.sh" \
 
 # Copy only requirements, to cache them in docker layer
 WORKDIR /pysetup
-COPY ./Pipfile.lock ./Pipfile /pysetup/
+COPY ./poetry.lock ./pyproject.toml /pysetup/
 
 # Building system and app dependencies
 RUN set -ex \
@@ -52,8 +48,9 @@ RUN set -ex \
 	&& wget -nv "https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
 	&& tar -C /usr/local/bin -xzvf "dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
 	&& rm "dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
-	&& pip install "pipenv==$PKG_PIPENV_VERSION" \
-	&& pipenv install --system --deploy $(test "$APP_ENV" != "PROD" && echo "--dev") \
+	&& pip install "poetry==$POETRY_VERSION" \
+	&& poetry config virtualenvs.create false \
+	&& poetry install --no-interaction --no-ansi \
 	&& apt-mark auto '.*' > /dev/null \
 	&& apt-mark manual $savedAptMark \
 	&& find /usr/local -type f -executable -not \( -name '*tkinter*' \) -exec ldd '{}' ';' \
@@ -71,6 +68,8 @@ RUN set -ex \
 USER app
 COPY --chown=app:app . /app
 WORKDIR /app
+
+RUN pybabel compile -d locale
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/docker-entrypoint.sh"]
 CMD ["/docker-cmd.sh"]

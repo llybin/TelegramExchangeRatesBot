@@ -14,11 +14,17 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+    - name: set up env
+      run: cp .env.default .env
+    - name: docker-compose pull
+      run: docker-compose pull
+    - uses: satackey/action-docker-layer-caching@v0.0.8
+    - name: docker-compose build
+      run: docker-compose build --build-arg UID="$UID"
+    - name: docker-compose up services
+      run: docker-compose up -d db redis
     - name: Test
       run: |
-        cp .env.default .env
-        docker-compose build --build-arg APP_ENV=tests --build-arg UID="$UID"
-        docker-compose up -d db redis
         docker-compose run service pybabel compile -d locale
         docker-compose run service coverage run ./manage.py test
         docker-compose run service coverage report
