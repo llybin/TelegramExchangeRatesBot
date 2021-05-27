@@ -10,15 +10,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.8
+    - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: 3.9
     - name: set up env
       run: cp .env.default .env
     - name: docker-compose pull
       run: docker-compose pull
-    - uses: satackey/action-docker-layer-caching@v0.0.8
+    - uses: satackey/action-docker-layer-caching@v0.0.11
     - name: docker-compose build
       run: docker-compose build --build-arg UID="$UID"
     - name: docker-compose up services
