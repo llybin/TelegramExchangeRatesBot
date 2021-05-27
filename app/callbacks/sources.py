@@ -16,7 +16,7 @@ https://bitfinex.com - 15min (API limits😭)
 [https://satang.pro](https://satang.pro/signup?referral=STZ3EEU2) - 1min
 [https://bitkub.com](https://www.bitkub.com/signup?ref=64572) - 1min
 https://sp-today.com - Aleppo - 60min
-https://fixer.io - 60min
+https://fixer.io - 3hour
 https://openexchangerates.org - 60min""",
     )
 

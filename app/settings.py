@@ -73,7 +73,7 @@ CELERYBEAT_SCHEDULE = {
     },
     "exchange_updater_FixerExchange": {
         "task": "app.tasks.exchange_updater",
-        "schedule": crontab(minute=1, hour="*/1"),
+        "schedule": crontab(minute=1, hour="*/3"),
         "args": ("app.exchanges.FixerExchange",),
         "options": {"time_limit": 60, "once": {"timeout": 60}},
     },
